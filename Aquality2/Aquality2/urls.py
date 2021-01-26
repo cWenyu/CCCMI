@@ -15,8 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from ai_model.urls import urlpatterns
 
 urlpatterns = [
     path('aquality_server/', include('aquality_server.urls')),
-    path('admin/', admin.site.urls)
+    urlpatterns[0],
+    path('admin/', admin.site.urls),
+
 ]

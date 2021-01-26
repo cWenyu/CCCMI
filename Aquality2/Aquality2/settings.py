@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 from decouple import config
+
 # import os
 
 # if os.name == 'nt':
@@ -24,7 +25,7 @@ from decouple import config
 #     os.environ['GDAL_DATA'] = OSGEO4W + r"\share\gdal"
 #     os.environ['PROJ_LIB'] = OSGEO4W + r"\share\proj"
 #     os.environ['PATH'] = OSGEO4W + r"\bin;" + os.environ['PATH']
-    
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -34,8 +35,7 @@ DEBUG = config('DEBUG')
 # Raises django's ImproperlyConfigured exception if SECRET_KEY not in os.environ
 SECRET_KEY = config('SECRET_KEY')
 
-ALLOWED_HOSTS = ["127.0.0.1","aquality-server.eba-rxqnbumy.eu-west-1.elasticbeanstalk.com"]
-
+ALLOWED_HOSTS = ["127.0.0.1", "aquality-server.eba-rxqnbumy.eu-west-1.elasticbeanstalk.com"]
 
 # Application definition
 
@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'aquality_server.apps.AqualityServerConfig',
+    'ai_model.apps.AiModelConfig',
     'django_filters',
     'rest_framework'
 ]
@@ -81,21 +82,19 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'Aquality2.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
-'default': {
-    'ENGINE': 'django.db.backends.postgresql',
-    'NAME': config('DATABASE_NAME'),
-    'USER': config('DATABASE_USERNAME'),
-    'PASSWORD': config('DATABASE_PASSWORD'),
-    'HOST':config('DATABASE_HOST'),
-    'PORT':config('DATABASE_PORT')
-  }
-  }
-
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': config('DATABASE_NAME'),
+        'USER': config('DATABASE_USERNAME'),
+        'PASSWORD': config('DATABASE_PASSWORD'),
+        'HOST': config('DATABASE_HOST'),
+        'PORT': config('DATABASE_PORT')
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -115,7 +114,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
@@ -129,7 +127,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
@@ -137,3 +134,4 @@ STATIC_URL = '/static/'
 STATIC_ROOT = 'static'
 
 REST_FRAMEWORK = {}
+
