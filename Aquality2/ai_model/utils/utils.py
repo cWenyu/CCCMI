@@ -184,7 +184,7 @@ def create_json_object(boxes, class_names):
 # image processing and returns detection results, request type POST
 def process_image_post(api_request):
     # gets image from POST which is encoded into base64 string
-    base64_data = api_request.POST.get("image64", None).split(',', 1)[1]
+    base64_data = api_request.POST.get("image64", None)
     # decodes image64 and gives byte data
     data = b64decode(base64_data)
     # read the entire image byte gives bytes needed and put into array

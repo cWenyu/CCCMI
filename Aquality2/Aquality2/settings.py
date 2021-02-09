@@ -36,7 +36,7 @@ DEBUG = config('DEBUG')
 SECRET_KEY = config('SECRET_KEY')
 
 
-ALLOWED_HOSTS = ["127.0.0.1","aquality-server.eba-rxqnbumy.eu-west-1.elasticbeanstalk.com","cccmi-aquality.tk", "34.105.213.183"]
+ALLOWED_HOSTS = ["aquality2.nw.r.appspot.com","127.0.0.1","aquality-server.eba-rxqnbumy.eu-west-1.elasticbeanstalk.com","cccmi-aquality.tk"]
 
 # Application definition
 
@@ -86,7 +86,10 @@ WSGI_APPLICATION = 'Aquality2.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'tempDB'
+        'HOST': config('DATABASE_HOST'),
+        'USER': config('DATABASE_USERNAME'),
+        'PASSWORD': config('DATABASE_PASSWORD'),
+        'NAME': config('DATABASE_NAME')
     }
 }
 
