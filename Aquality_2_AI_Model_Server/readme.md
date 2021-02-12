@@ -1,7 +1,7 @@
 # Overview Of Application
 This is the backend server for AI Model using YOLOv3, Django framework and Google Cloud Platform (GCP) as server 
 
-##AI Model Progress: 
+## AI Model Progress: 
 * Model works on group 1 mayflies
 * Processes image from both image file and base64 image
 * Gives back name of insect, confidence and predicted count
@@ -9,7 +9,7 @@ This is the backend server for AI Model using YOLOv3, Django framework and Googl
 * Uses custom weights to detect images
 * yolov3.cfg set to work for group 1 only
 
-##Server
+## Server
 * Allows for large requests
 * Using highest instance_class: F4_1G for higher storage
 
@@ -30,8 +30,6 @@ run the code
 ```
 pip install -r requirements.txt
 ```
-
-##################### Librasy 
 # Configuration for .env File
 
 djangorestframework-gis
