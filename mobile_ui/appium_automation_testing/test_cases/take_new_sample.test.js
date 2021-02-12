@@ -43,7 +43,7 @@ describe('Testing search river screen', () => {
 
   it('should show empty locate text input before locate icon is clicked', async => {
     expect($('~' + testVariables.searchRiverLocateInput).getText()).to.equal(
-      'Location name or Coordinates',
+      'River Name or Coordinates',
     );
   });
 
@@ -269,7 +269,7 @@ describe('Testing tabs with screens', () => {
     expect(
       $('~' + testVariables.insectScreenSelectedTitle).getText(),
       'selected insects title should be displayed',
-    ).to.equal('Selected :');
+    ).to.equal('Insects Selected');
 
     expect(
       $$('~' + testVariables.insectScreenSelectedInsects),
