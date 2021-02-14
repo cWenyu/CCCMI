@@ -85,6 +85,7 @@ const testVariables = {
 
   //result page
   resultPageContainer: 'resultPageContainer',
+  resultPageDoneButton: 'resultPageDoneButton',
 };
 
 module.exports = testVariables;
