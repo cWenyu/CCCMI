@@ -128,7 +128,6 @@ const selectInsect1 = ({navigation}) => {
       showToast(todo.insect_name);
     } else {
       alert('Error: duplicate insect detected.');
-      // showToast('error: duplicated')
       return;
     }
   };

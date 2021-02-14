@@ -6,6 +6,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import testVariables from '../appium_automation_testing/test_variables';
 import AsyncStorage from '@react-native-community/async-storage';
 import Icon from "react-native-vector-icons/dist/MaterialCommunityIcons";
+import axios from 'axios';
 
 const InsectScreen = ({navigation, route}) => {
   const {colors} = useTheme();
@@ -76,11 +77,37 @@ const InsectScreen = ({navigation, route}) => {
     try {
       const jsonValue = JSON.stringify(value);
       await AsyncStorage.setItem('selected_insect', jsonValue);
-      console.log('stored data: ' + jsonValue);
+      console.log('stored insect_list: ' + jsonValue);
     } catch (e) {
       // saving error
     }
   };
+
+  const storeData2 = async value => {
+    try {
+      const jsonValue = JSON.stringify(value);
+      await AsyncStorage.setItem('analysed_insect', jsonValue);
+      console.log('stored analysed_insect: ' + jsonValue);
+    } catch (e) {
+      // saving error
+    }
+  };
+
+  const getScore = async () => {
+    try {
+      let response = await axios.post(
+        'https://cccmi-aquality.tk/aquality_server/insect_score/score',
+        {
+          data_get: data,
+          insect_list: insectList,
+        },
+      );
+      console.log(response);
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
   const renderAnalysedInsect = () => {
     if (analysedInsect.length > 0) {
       console.log('analysed insect list:' + analysedInsect);
@@ -121,6 +148,8 @@ const InsectScreen = ({navigation, route}) => {
           </View>,
         );
       });
+
+      storeData2(analysedInsect)
       return comp;
     }
   };

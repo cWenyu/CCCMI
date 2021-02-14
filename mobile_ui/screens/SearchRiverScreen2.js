@@ -1,11 +1,8 @@
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
-import {ListItem, Button, Text} from 'react-native-elements';
+import {ListItem, Button} from 'react-native-elements';
 import {useTheme} from '@react-navigation/native';
-import LinearGradient from 'react-native-linear-gradient';
 import testVariables from '../appium_automation_testing/test_variables';
-import {FlatList} from 'react-native-gesture-handler';
-import {List} from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
 
 const SearchRiverScreen2 = ({navigation, route}) => {
@@ -30,7 +27,7 @@ const SearchRiverScreen2 = ({navigation, route}) => {
     try {
       const jsonValue = JSON.stringify(value);
       await AsyncStorage.setItem('river', jsonValue);
-      console.log('stored data: ' + jsonValue);
+      // console.log('stored data: ' + jsonValue);
     } catch (e) {
       // saving error
     }
