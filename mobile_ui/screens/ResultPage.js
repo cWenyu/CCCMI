@@ -389,6 +389,8 @@ const resultPage = ({navigation, route}) => {
         {analysedInsect && renderAnalysedInsect()}
 
         <Button
+          accessibilityLabel={testVariables.resultPageDoneButton}
+          testID={testVariables.resultPageDoneButton}
           title="Done"
           titleProps={{}}
           titleStyle={{marginHorizontal: 22, fontSize: 16}}

@@ -14,12 +14,15 @@ import {
 import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { AuthContext } from '../components/context';
+import axios from 'axios';
+
 export function DrawerContent(props) {
   const paperTheme = useTheme();
   const { signOut, toggleTheme } = React.useContext(AuthContext);
 
   const [data, setData] = React.useState({
     username: '',
+    email: '',
   });
 
   const getData = async () => {
@@ -30,8 +33,32 @@ export function DrawerContent(props) {
     });
   }
 
+  const getEmail = async (userName) => {
+      try {
+        var bodyFormData = new FormData();
+        bodyFormData.append('username', userName);
+
+        let response = await axios({
+          method: 'post',
+          url:
+            'https://cccmi-aquality.tk/aquality_server/useraccount/userdetail',
+          data: bodyFormData,
+          headers: {'Content-Type': 'multipart/form-data'},
+        });
+        if (response && response.data) {
+            setData({
+              ...data,
+              email: response.data.user_email,
+            });
+        }
+      } catch (e) {
+        console.error(e);
+      }
+  };
+
   useEffect(() => {
     getData();
+    getEmail(data.username);
   }, []);
 
   return (
@@ -50,7 +77,7 @@ export function DrawerContent(props) {
               <View style={{ marginLeft: 15, flexDirection: 'column' }}>
 
                 <Title style={styles.title}>{data.username}</Title>
-                <Caption style={styles.caption}></Caption>
+                <Caption style={styles.caption}>{data.email}</Caption>
               </View>
             </View>
 

@@ -338,4 +338,21 @@ describe('Testing tabs with screens', () => {
       'should display new sampling results',
     ).to.be.true;
   });
+
+  it('should submit sampling and go back to home screen', () => {
+    driver.pause(1000);
+    driver.execute('mobile: scroll', {
+      strategy: 'accessibility id',
+      selector: '~resultPageDoneButton',
+    });
+    const resultPageDoneButton = $('~' + testVariables.resultPageDoneButton);
+    expect(resultPageDoneButton.isDisplayed(), 'should display Done Button').to
+      .be.true;
+    resultPageDoneButton.click();
+    $('~' + testVariables.homeScreenContainer).waitForDisplayed(10000, false);
+    expect(
+      $('~' + testVariables.homeScreenContainer).isDisplayed(),
+      'should go back to home screen',
+    ).to.be.true;
+  });
 });
