@@ -6,7 +6,7 @@ import {useTheme} from '@react-navigation/native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
 import * as Animatable from 'react-native-animatable';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 import testVariables from '../appium_automation_testing/test_variables';
 
 const ArduinoScreen = ({navigation}) => {
@@ -76,7 +76,7 @@ const ArduinoScreen = ({navigation}) => {
     } else {
       try {
         let response = await axios.get(
-          'http://cccmi-aquality.tk/aquality_server/data',
+          'https://cccmi-aquality.tk/aquality_server/data',
           {
             params: {
               arduino_id: data.arduinoId,
@@ -91,7 +91,7 @@ const ArduinoScreen = ({navigation}) => {
               notEmptyDeviceId: true,
             });
             //save response to async storage
-            storeData(response.data[0]);        
+            storeData(response.data[0]);
             navigation.navigate('ArduinoScreen2', response.data[0]);
           }
         } else {
@@ -120,7 +120,7 @@ const ArduinoScreen = ({navigation}) => {
           accessibilityLabel={testVariables.arduinoScreenIDTextInput}
           testID={testVariables.arduinoScreenIDTextInput}
           placeholder="Insert Device ID here."
-          placeholderTextColor= {colors.text} 
+          placeholderTextColor={colors.text}
           style={styles.input}
           onChangeText={val => {
             textInputChange(val);
@@ -132,7 +132,7 @@ const ArduinoScreen = ({navigation}) => {
           name="magnify"
           backgroundColor="transparent"
           size={20}
-          color= {colors.text}
+          color={colors.text}
           onPress={() => {
             checkDeviceId();
           }}

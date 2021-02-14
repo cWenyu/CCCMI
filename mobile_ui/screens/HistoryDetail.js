@@ -8,7 +8,7 @@ const HistoryDetail = ({route}) => {
   const {colors} = useTheme();
   const {item} = route.params;
   const [insectsList, setInsectsList] = useState([]);
-  const url = 'http://cccmi-aquality.tk/aquality_server/sampledetail';
+  const url = 'https://cccmi-aquality.tk/aquality_server/sampledetail';
   var bodyFormData = new FormData();
   bodyFormData.append('sample_id', item.sample_id);
 
@@ -50,7 +50,7 @@ const HistoryDetail = ({route}) => {
       backgroundColor: 'rgba(0, 147, 135, 0.7)',
       color: 'white',
       height: 40,
-      width: "100%",
+      width: '100%',
       marginBottom: 15,
       marginTop: 1,
     },
@@ -112,7 +112,9 @@ const HistoryDetail = ({route}) => {
           insectsList.map(item => {
             return (
               <View style={styles.insectContainer}>
-                <Text style={styles.textStyle}>{item.sample_record_insect}</Text>
+                <Text style={styles.textStyle}>
+                  {item.sample_record_insect}
+                </Text>
                 <Text style={styles.textStyle}>{item.insect_number}</Text>
               </View>
             );

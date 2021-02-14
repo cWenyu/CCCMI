@@ -318,24 +318,24 @@ describe('Testing tabs with screens', () => {
     ).to.be.true;
   });
 
-  // it('should show sampling results', () => {
-  //   driver.pause(1000);
-  //   $('~' + testVariables.cancelButton).click();
-  //   driver.back();
+  it('should show sampling results', () => {
+    driver.pause(1000);
+    $('~' + testVariables.cancelButton).click();
+    driver.back();
 
-  //   $('~' + testVariables.insectScreenContainer).waitForDisplayed(10000, false);
+    $('~' + testVariables.insectScreenContainer).waitForDisplayed(10000, false);
 
-  //   expect(
-  //     $('~' + testVariables.showResultIcon).isDisplayed(),
-  //     'should display √ icon',
-  //   ).to.be.true;
+    expect(
+      $('~' + testVariables.showResultIcon).isDisplayed(),
+      'should display √ icon',
+    ).to.be.true;
 
-  //   $('~' + testVariables.showResultIcon).click();
+    $('~' + testVariables.showResultIcon).click();
 
-  //   $('~' + testVariables.resultPageContainer).waitForDisplayed(10000, false);
-  //   expect(
-  //     $('~' + testVariables.resultPageContainer).isDisplayed(),
-  //     'should display new sampling results',
-  //   ).to.be.true;
-  // });
+    $('~' + testVariables.resultPageContainer).waitForDisplayed(10000, false);
+    expect(
+      $('~' + testVariables.resultPageContainer).isDisplayed(),
+      'should display new sampling results',
+    ).to.be.true;
+  });
 });

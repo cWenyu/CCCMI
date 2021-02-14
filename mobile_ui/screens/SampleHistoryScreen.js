@@ -16,7 +16,7 @@ import {useTheme} from '@react-navigation/native';
 let riverNameList = [];
 let dateList = [];
 let historyData = [];
-let url = 'http://cccmi-aquality.tk/aquality_server/samplerecord/?username=';
+let url = 'https://cccmi-aquality.tk/aquality_server/samplerecord/?username=';
 
 /**
  * @param {*} {navigation}

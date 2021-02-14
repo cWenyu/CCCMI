@@ -39,7 +39,7 @@ const ArduinoScreen2 = ({route}) => {
   const getData = async () => {
     try {
       let response = await axios.get(
-        'http://cccmi-aquality.tk/aquality_server/data',
+        'https://cccmi-aquality.tk/aquality_server/data',
         {
           params: {
             arduino_id: data.arduinoId,

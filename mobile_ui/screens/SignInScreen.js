@@ -70,7 +70,7 @@ const SignInScreen = ({navigation}) => {
         let response = await axios({
           method: 'post',
           url:
-            'http://aquality-server.eba-rxqnbumy.eu-west-1.elasticbeanstalk.com/aquality_server/useraccount/loginauth',
+            'https://cccmi-aquality.tk/aquality_server/useraccount/loginauth',
           data: bodyFormData,
           headers: {'Content-Type': 'multipart/form-data'},
         });

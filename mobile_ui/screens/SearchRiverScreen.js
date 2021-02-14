@@ -1,19 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, TextInput, PermissionsAndroid, ScrollView } from 'react-native';
-import { Button } from 'react-native-elements';
+import React, {useState, useEffect} from 'react';
+import {
+  View,
+  StyleSheet,
+  TextInput,
+  PermissionsAndroid,
+  ScrollView,
+} from 'react-native';
+import {Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { Text } from 'react-native-elements';
-import { useTheme } from '@react-navigation/native';
+import {Text} from 'react-native-elements';
+import {useTheme} from '@react-navigation/native';
 import testVariables from '../appium_automation_testing/test_variables';
 import LinearGradient from 'react-native-linear-gradient';
 import GetLocation from 'react-native-get-location';
-import { FlatList } from 'react-native-gesture-handler';
-import { color } from 'react-native-reanimated';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import {FlatList} from 'react-native-gesture-handler';
+import {color} from 'react-native-reanimated';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
-const riverURL = 'http://cccmi-aquality.tk/aquality_server/rivers/';
+const riverURL = 'https://cccmi-aquality.tk/aquality_server/rivers/';
 
-const SearchRiverScreen = ({ navigation }) => {
+const SearchRiverScreen = ({navigation}) => {
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => {
     !isEnabled && getOneTimeLocation();
@@ -88,11 +94,11 @@ const SearchRiverScreen = ({ navigation }) => {
         const currentLatitude = JSON.stringify(position.latitude);
 
         //Setting Longitude state
-        setLocation({ latitude: currentLatitude, longitude: currentLongitude });
+        setLocation({latitude: currentLatitude, longitude: currentLongitude});
         setSearchInput(currentLatitude + ',' + currentLongitude);
       })
       .catch(error => {
-        setLocationStatus({ locationStatus: error.message });
+        setLocationStatus({locationStatus: error.message});
       });
   };
 
@@ -108,21 +114,20 @@ const SearchRiverScreen = ({ navigation }) => {
             key={el.river_id}
             title={el.river_name.toString()}
             onPress={() =>
-              navigation.navigate('SearchRiverScreen2', { data: el })
+              navigation.navigate('SearchRiverScreen2', {data: el})
             }
-            buttonStyle={{ width: 270, height: 50, backgroundColor: "#02ab9e" }}
-            containerStyle={{ margin: 5, alignItems: "center", marginTop: 20 }}
+            buttonStyle={{width: 270, height: 50, backgroundColor: '#02ab9e'}}
+            containerStyle={{margin: 5, alignItems: 'center', marginTop: 20}}
             disabledStyle={{
               borderWidth: 2,
-              borderColor: "#00F"
+              borderColor: '#00F',
             }}
-            disabledTitleStyle={{ color: "#00F" }}
+            disabledTitleStyle={{color: '#00F'}}
             linearGradientProps={null}
-            loadingProps={{ animating: true }}
+            loadingProps={{animating: true}}
             loadingStyle={{}}
-
             titleProps={{}}
-            titleStyle={{ marginHorizontal: 22, fontSize: 18 }}
+            titleStyle={{marginHorizontal: 22, fontSize: 18}}
           />,
         );
       });
@@ -149,7 +154,7 @@ const SearchRiverScreen = ({ navigation }) => {
   /**
    *Styles
    */
-  const { colors } = useTheme();
+  const {colors} = useTheme();
   const styles = StyleSheet.create({
     container: {
       flex: 1,
@@ -217,7 +222,7 @@ const SearchRiverScreen = ({ navigation }) => {
           testID={testVariables.searchRiverLocateInput}
           style={styles.input}
           placeholder="River Name or Coordinates"
-          placeholderTextColor= {colors.text} 
+          placeholderTextColor={colors.text}
           underlineColorAndroid="transparent"
           value={isEnabled ? searchInput : textInput}
           onChangeText={text => setTextInput(text)}

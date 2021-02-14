@@ -1,15 +1,15 @@
-import React, { useEffect, useState, Component } from 'react';
-import { View, StyleSheet, Text, Image, Modal, ToastAndroid } from 'react-native';
-import { Button } from 'react-native-elements';
-import { ScrollView, TextInput } from 'react-native-gesture-handler';
+import React, {useEffect, useState, Component} from 'react';
+import {View, StyleSheet, Text, Image, Modal, ToastAndroid} from 'react-native';
+import {Button} from 'react-native-elements';
+import {ScrollView, TextInput} from 'react-native-gesture-handler';
 import axios from 'axios';
 import {useTheme} from '@react-navigation/native';
 import {IconButton, Colors} from 'react-native-paper';
 import testVariables from '../appium_automation_testing/test_variables';
 
-const selectInsect1 = ({ navigation }) => {
+const selectInsect1 = ({navigation}) => {
   const [insectList, setInsectList] = useState([]);
-  const { colors } = useTheme();
+  const {colors} = useTheme();
   const [selectedInsectList, setSelectedInsectList] = useState([]);
 
   const [selectedInsect, setSelectedInsect] = useState({
@@ -32,7 +32,7 @@ const selectInsect1 = ({ navigation }) => {
     tinyLogo: {
       width: 80,
       height: 80,
-      borderRadius:3,
+      borderRadius: 3,
     },
     container: {
       flexDirection: 'row',
@@ -97,7 +97,6 @@ const selectInsect1 = ({ navigation }) => {
       marginBottom: 30,
     },
   });
-  
 
   const showToast = val => {
     ToastAndroid.show(val + ' has been added.', ToastAndroid.SHORT);
@@ -141,7 +140,7 @@ const selectInsect1 = ({ navigation }) => {
   const getInsect = async () => {
     try {
       let response = await axios.get(
-        'http://cccmi-aquality.tk/aquality_server/insect',
+        'https://cccmi-aquality.tk/aquality_server/insect',
       );
       setInsectList(response.data);
     } catch (e) {
@@ -150,7 +149,7 @@ const selectInsect1 = ({ navigation }) => {
   };
 
   const handleSubmit = () => {
-    navigation.navigate('Insect', { post: selectedInsectList });
+    navigation.navigate('Insect', {post: selectedInsectList});
   };
 
   return (
@@ -187,19 +186,19 @@ const selectInsect1 = ({ navigation }) => {
               }}
               title="ADD"
               titleProps={{}}
-              titleStyle={{ fontSize: 18 }}
+              titleStyle={{fontSize: 18}}
               buttonStyle={{
                 width: 65,
                 marginRight: 10,
-                backgroundColor: "#625D52"
+                backgroundColor: '#625D52',
               }}
               disabledStyle={{
                 borderWidth: 2,
-                borderColor: "#00F"
+                borderColor: '#00F',
               }}
-              disabledTitleStyle={{ color: "#00F" }}
+              disabledTitleStyle={{color: '#00F'}}
               linearGradientProps={null}
-              loadingProps={{ animating: true }}
+              loadingProps={{animating: true}}
               loadingStyle={{}}
             />
           </View>
@@ -219,7 +218,7 @@ const selectInsect1 = ({ navigation }) => {
         testID={testVariables.submitInsectsAmountButton}
         title="Done"
         titleProps={{}}
-        titleStyle={{ marginHorizontal: 22, fontSize: 16 }}
+        titleStyle={{marginHorizontal: 22, fontSize: 16}}
         buttonStyle={styles.submitButton}
         onPress={() => handleSubmit()}
       />
@@ -227,7 +226,7 @@ const selectInsect1 = ({ navigation }) => {
       <Modal
         animationType="slide"
         visible={modalVisible}
-        onRequestClose={() => { }}>
+        onRequestClose={() => {}}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <Image
@@ -236,15 +235,17 @@ const selectInsect1 = ({ navigation }) => {
                 uri: image,
               }}
             />
-            <Text style={{color: colors.text, fontSize: 18}}>{actionTriggered}</Text>
+            <Text style={{color: colors.text, fontSize: 18}}>
+              {actionTriggered}
+            </Text>
             <Text style={{color: colors.text}}>{description}</Text>
-            <View  style={styles.searchSection}>
+            <View style={styles.searchSection}>
               <TextInput
                 accessibilityLabel={testVariables.groupAmountInput}
                 testID={testVariables.groupAmountInput}
                 placeholder="Insect Amount"
                 style={styles.input}
-                placeholderTextColor= {colors.text}
+                placeholderTextColor={colors.text}
                 onChangeText={val => setSelectedAmount(val)}
                 keyboardType="numeric"
               />
@@ -277,4 +278,3 @@ const selectInsect1 = ({ navigation }) => {
 };
 
 export default selectInsect1;
-
