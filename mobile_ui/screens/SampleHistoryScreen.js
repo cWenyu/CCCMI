@@ -12,6 +12,7 @@ import testVariables from '../appium_automation_testing/test_variables';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useTheme} from '@react-navigation/native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 let riverNameList = [];
 let dateList = [];
@@ -25,7 +26,7 @@ let url = 'https://cccmi-aquality.tk/aquality_server/samplerecord/?username=';
  */
 const SampleHistoryScreen = ({navigation}) => {
   const {colors} = useTheme();
-  const userName = 'kobe24';
+  // const [userName, setUserName] = useState('');
   const [isLoading, setLoading] = useState(true);
   const [filterType, setFilterType] = useState('All');
   const [data, setData] = useState([]);
@@ -116,21 +117,29 @@ const SampleHistoryScreen = ({navigation}) => {
    * @description life hook
    */
   useEffect(() => {
-    fetch(url + userName)
-      .then(response => {
-        if (response.status === 200) {
-          return response.json();
-        }
-        throw new Error('Network response was not ok.');
-      })
-      .then(json => {
-        historyData = json;
-      })
-      .then(() => convertDate())
-      .then(() => setValues())
-      .then(() => setLoading(false))
-      .catch(error => alert(error));
+    getUserName().then(userName => {
+      fetch(url + userName)
+        .then(response => {
+          if (response.status === 200) {
+            return response.json();
+          }
+          throw new Error('Network response was not ok.');
+        })
+        .then(json => {
+          historyData = json;
+        })
+        .then(() => convertDate())
+        .then(() => setValues())
+        .then(() => setLoading(false))
+        .catch(error => alert(error));
+    });
   }, []);
+
+  const getUserName = async () => {
+    console.log('getUserName');
+    let username = await AsyncStorage.getItem('username');
+    return username;
+  };
 
   const checkThemeForSearch = async () => {
     if (colors.background === '#333333') {
