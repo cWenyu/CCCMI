@@ -23,20 +23,7 @@ const resultPage = ({navigation, route}) => {
   });
   const [insectList, setInsectList] = useState([]);
   const [username, setUsername] = useState('');
-  const test = async () => {
-    try {
-      let response = await axios.post(
-        'https://cccmi-aquality.tk/aquality_server/samplesave',
-        {
-          data_get: '',
-          insect_list: '',
-        },
-      );
-      // console.log(response)
-    } catch (e) {
-      console.error(e);
-    }
-  };
+  const [insectScore, setInsectScore] = useState()
 
   const styles = StyleSheet.create({
     container: {
@@ -89,18 +76,22 @@ const resultPage = ({navigation, route}) => {
 
   const setDataForPost = () => {
     setData({
-      sample_score: '0',
+      sample_score: insectScore,
       sample_user: username,
       sample_ph: arduino.ph,
       sample_tmp: arduino.temp,
       sample_river_id: river.river_id,
     });
     // set insect (selected + analysed)
-    setInsectList(selectedInsect);
-    setInsectList({...insectList}, analysedInsect);
+    // setInsectList(selectedInsect);
+    // setInsectList({...insectList}, analysedInsect);
+    let array3 = selectedInsect.concat(analysedInsect);
+    setInsectList(array3);
   };
 
   const handleFinish = () => {
+    setDataForPost();
+    postData();
     navigation.navigate('Home');
   };
 
@@ -117,7 +108,6 @@ const resultPage = ({navigation, route}) => {
     try {
       const jsonValue = await AsyncStorage.getItem('arduino');
       return jsonValue != null ? setArduino(JSON.parse(jsonValue)) : null;
-      console.log(arduino);
     } catch (e) {
       // error reading value
     }
@@ -145,7 +135,7 @@ const resultPage = ({navigation, route}) => {
     }
   };
 
-  const getUserId = async () => {
+  const getUsername = async () => {
     try {
       const username = await AsyncStorage.getItem('username');
       setUsername(username);
@@ -154,27 +144,14 @@ const resultPage = ({navigation, route}) => {
     }
   };
 
-  // const getUserId = async () => {
-
-  //   try {
-  //     const username = await AsyncStorage.getItem('username');
-  //     var bodyFormData = new FormData();
-  //     bodyFormData.append('username', username);
-  //     let response = await axios({
-  //       method: 'post',
-  //       url: 'https://cccmi-aquality.tk/aquality_server/useraccount/userdetail',
-  //       data: bodyFormData,
-  //       headers: {'Content-Type': 'multipart/form-data'},
-  //     });
-
-  //     if (response) {
-  //       console.log(JSON.stringify(response));
-  //       setUsername(response.data.user_id)
-  //     }
-  //   } catch (e) {
-  //     console.error(e);
-  //   }
-  // };
+  const getScore = async () => {
+    try {
+      const score = await AsyncStorage.getItem('insect_score');
+      setInsectScore(score);
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   const renderRiver = () => {
     return (
@@ -182,6 +159,8 @@ const resultPage = ({navigation, route}) => {
         accessibilityLabel={testVariables.resultPageContainer}
         testID={testVariables.resultPageContainer}>
         <Text style={styles.sectionHeader}>River</Text>
+        {/* <Text>score: {insectScore}</Text>
+        <Text>username: {username}</Text> */}
         <ListItem bottomDivider containerStyle={styles.listContainer}>
           <ListItem.Content>
             <ListItem.Subtitle style={styles.title}>
@@ -360,6 +339,7 @@ const resultPage = ({navigation, route}) => {
               }}>
               {item.count}
             </Text>
+              
           </View>,
         );
       });
@@ -372,16 +352,17 @@ const resultPage = ({navigation, route}) => {
     getArduinoData();
     getSelectedInsectData();
     getAnalysedInsectData();
-    getUserId();
+    getUsername();
+    getScore();
     // setDataForPost();
   }, []);
 
   return (
     <View>
       <ScrollView>
-        <Button title="postData" onPress={() => postData()} />
-        <Button title="setDataForPost" onPress={() => setDataForPost()} />
-        {/* <Button title="getUserId" onPress={() => getUserId()} /> */}
+        {/* <Button title="postData" onPress={() => postData()} />
+        <Button title="setDataForPost" onPress={() => setDataForPost()} /> */}
+        
 
         {river && renderRiver()}
         {arduino && renderArduino()}
@@ -398,6 +379,7 @@ const resultPage = ({navigation, route}) => {
           onPress={() => handleFinish()}
         />
       </ScrollView>
+      
     </View>
   );
 };
