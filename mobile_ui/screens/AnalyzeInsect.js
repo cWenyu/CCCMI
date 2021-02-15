@@ -176,7 +176,7 @@ const AnalyzeScreen = ({ navigation }) => {
   const handleConfirm = () => {
     const insect = {
       insect_name: detectedInsect,
-      count: count,
+      amount: count,
       image: image,
     };
     insectList.push(insect);

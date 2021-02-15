@@ -221,7 +221,7 @@ const InsectScreen = ({navigation, route}) => {
                 textAlign: 'center',
                 color: colors.text,
               }}>
-              {item.count}
+              {item.amount}
             </Text>
           </View>,
         );

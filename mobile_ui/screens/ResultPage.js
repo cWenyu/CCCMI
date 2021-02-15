@@ -60,6 +60,7 @@ const resultPage = ({navigation, route}) => {
   });
 
   const postData = async () => {
+    
     try {
       let response = await axios.post(
         'https://cccmi-aquality.tk/aquality_server/samplesave',
@@ -69,12 +70,28 @@ const resultPage = ({navigation, route}) => {
         },
       );
       console.log(response);
+      console.log('data posted')
     } catch (e) {
       console.error(e);
     }
   };
 
+  const clearData = async() => {
+    try {
+      console.log('clearing data...')
+      const clear1 = await AsyncStorage.removeItem('river');
+      const clear2 = await AsyncStorage.removeItem('arduino');
+      const clear3 = await AsyncStorage.removeItem('selected_insect');
+      const clear4 = await AsyncStorage.removeItem('analysed_insect');
+      const clear5 = await AsyncStorage.removeItem('insect_score');
+      console.log('data cleared')
+    } catch (e) {
+      // error reading value
+    }
+  }
+
   const setDataForPost = () => {
+    console.log('setting up data for upload')
     setData({
       sample_score: insectScore,
       sample_user: username,
@@ -83,16 +100,17 @@ const resultPage = ({navigation, route}) => {
       sample_river_id: river.river_id,
     });
     // set insect (selected + analysed)
-    // setInsectList(selectedInsect);
-    // setInsectList({...insectList}, analysedInsect);
     let array3 = selectedInsect.concat(analysedInsect);
     setInsectList(array3);
+    console.log('finish setting data');
+    console.log('data' + data)
   };
 
   const handleFinish = () => {
     setDataForPost();
     postData();
     navigation.navigate('Home');
+    // clearData();
   };
 
   const getRiverData = async () => {
@@ -337,7 +355,7 @@ const resultPage = ({navigation, route}) => {
                 textAlign: 'center',
                 color: colors.text,
               }}>
-              {item.count}
+              {item.amount}
             </Text>
               
           </View>,
@@ -360,8 +378,8 @@ const resultPage = ({navigation, route}) => {
   return (
     <View>
       <ScrollView>
-        {/* <Button title="postData" onPress={() => postData()} />
-        <Button title="setDataForPost" onPress={() => setDataForPost()} /> */}
+        <Button title="postData" onPress={() => postData()} />
+        <Button title="setDataForPost" onPress={() => setDataForPost()} />
         
 
         {river && renderRiver()}
