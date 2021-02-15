@@ -49,31 +49,8 @@ export function DrawerContent(props) {
     }
   };
 
-  const getEmail = async userName => {
-    try {
-      var bodyFormData = new FormData();
-      bodyFormData.append('username', userName);
-
-      let response = await axios({
-        method: 'post',
-        url: 'https://cccmi-aquality.tk/aquality_server/useraccount/userdetail',
-        data: bodyFormData,
-        headers: {'Content-Type': 'multipart/form-data'},
-      });
-      if (response && response.data) {
-        setData({
-          ...data,
-          email: response.data.user_email,
-        });
-      }
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
   useEffect(() => {
     getData();
-    // getEmail(data.username);
   }, []);
 
   return (
