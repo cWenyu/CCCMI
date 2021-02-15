@@ -7,12 +7,15 @@ import axios from 'axios';
 
 const ArduinoScreen2 = ({route}) => {
   const {colors} = useTheme();
-  const {arduino_id, temp, ph} = route.params;
+  const {arduino_id, temp, ph, longitude, latitude, date_captured} = route.params;
 
   const [data, setData] = React.useState({
     arduinoId: JSON.stringify(arduino_id),
     temp: JSON.stringify(temp),
     ph: JSON.stringify(ph),
+    longitude: JSON.stringify(longitude),
+    latitude: JSON.stringify(latitude),
+    date: JSON.stringify(date_captured),
   });
 
   const styles = StyleSheet.create({
@@ -50,7 +53,11 @@ const ArduinoScreen2 = ({route}) => {
         ...data,
         temp: response.data[0].temp,
         ph: response.data[0].ph,
+        longitude: response.data[0].longitude,
+        latitude: response.data[0].latitude,
+        date: response.data[0].date_captured,
       });
+      console.log(response.data[0].ph);
       console.log('print things');
     } catch (e) {
       console.error(e);
@@ -91,6 +98,42 @@ const ArduinoScreen2 = ({route}) => {
             testID={testVariables.arduinoConnectScreenPHValue}
             style={styles.title}>
             {data.ph}
+          </Text>
+        </ListItem.Content>
+      </ListItem>
+      <ListItem bottomDivider containerStyle={styles.listContainer}>
+        <ListItem.Content>
+          <ListItem.Subtitle style={styles.title}>Latitude</ListItem.Subtitle>
+          <Text
+            style={styles.title}>
+            {data.latitude}
+          </Text>
+        </ListItem.Content>
+      </ListItem>
+      <ListItem bottomDivider containerStyle={styles.listContainer}>
+        <ListItem.Content>
+          <ListItem.Subtitle style={styles.title}>Longitude</ListItem.Subtitle>
+          <Text
+            style={styles.title}>
+            {data.longitude}
+          </Text>
+        </ListItem.Content>
+      </ListItem>
+      <ListItem bottomDivider containerStyle={styles.listContainer}>
+        <ListItem.Content>
+          <ListItem.Subtitle style={styles.title}>Date Captured</ListItem.Subtitle>
+          <Text
+            style={styles.title}>
+            Date{' '}
+              {data.date.substring(
+                0,
+                data.date.indexOf('T'),
+              )}{' '}
+              | Time{' '}
+              {data.date.substring(
+                data.date.indexOf('T') + 1,
+                16,
+              )}
           </Text>
         </ListItem.Content>
       </ListItem>
