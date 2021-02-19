@@ -20,6 +20,7 @@ useraccount = [
     path('useraccount/delete', views.del_user, name='del_user'),
     path('useraccount/checkname', views.if_username_exist, name='checkName'),
     path('useraccount/checkemail', views.if_email_exist, name='checkEmail'),
+    path('useraccount/userdetail',views.getUserDetail,name='userDetail'),
     path('insect_score/score', views.calculate_score_insect, name='get_score'),
 ]
 

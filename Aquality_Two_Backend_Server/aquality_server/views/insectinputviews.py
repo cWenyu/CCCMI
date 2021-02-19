@@ -22,7 +22,7 @@ def storeRecordResult(request):
         sample_detail = data['data_get']
         if request.method =="POST":
             try:
-                user = User.objects.get(id=sample_detail['sample_user'])
+                user = User.objects.get(username=sample_detail['sample_user'])
                 river = River.objects.get(river_id = sample_detail['sample_river_id'])
                 record_save = SampleRecord.objects.create(
                     sample_score = sample_detail['sample_score'],
@@ -33,11 +33,11 @@ def storeRecordResult(request):
                 )
                 record_save_id = record_save.sample_id
                 for insect in data['insect_list']:
-                    insect_to_save = Insect.objects.get(insect_name = insect['sample_record_insect'])
+                    insect_to_save = Insect.objects.get(insect_name = insect['insect_name'])
                     SampleRecordInsectDetail.objects.create(
                         sample_record_data = record_save,
                         sample_record_insect = insect_to_save,
-                        insect_number = insect['insect_number']
+                        insect_number = insect['amount']
                     )
                 
                 return JsonResponse({

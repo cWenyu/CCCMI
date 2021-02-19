@@ -31,6 +31,33 @@ def checkUser(request):
             'message': 'Wrong Username Or Password'
         })
 
+@csrf_exempt
+def getUserDetail(request):
+    username_in = request.POST['username']
+    userGet = User.objects.get(username=username_in)
+    if userGet is not None:
+        user_account = User_Account.objects.filter(user=userGet)[0]
+        return JsonResponse({
+            'user_id': userGet.id,
+            'user_username': userGet.username,
+            'date_joined': userGet.date_joined,
+            'user_first_name': userGet.first_name,
+            'user_last_name': userGet.last_name,
+            'user_email': userGet.email,
+            'user_group': user_account.user_group,
+            'user_profic': str(user_account.profile_pic),
+            'user_dob': user_account.date_of_birth,
+            'user_occupation': user_account.occupation,
+            'user_bio': user_account.bio
+        })
+    else:
+        return JsonResponse({
+            'status': 'Invalid Login',
+            'message': 'Wrong Username Or Password'
+        })
+
+
+
 
 @csrf_exempt
 def registerPage(request):
