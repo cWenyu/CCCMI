@@ -55,7 +55,7 @@ const resultPage = ({navigation, route}) => {
       borderWidth: 2,
       borderColor: '#44ad55',
       backgroundColor: '#3fa24f',
-      marginTop: 15,
+      // marginTop: 15,
     },
   });
 
@@ -102,8 +102,9 @@ const resultPage = ({navigation, route}) => {
     // set insect (selected + analysed)
     let array3 = selectedInsect.concat(analysedInsect);
     setInsectList(array3);
+    console.log('insects: ' + JSON.stringify(insectList))
     console.log('finish setting data');
-    console.log('data' + data)
+    console.log('data' + JSON.stringify(data))
   };
 
   const handleFinish = () => {
@@ -266,6 +267,14 @@ const resultPage = ({navigation, route}) => {
         <ListItem bottomDivider containerStyle={styles.listContainer}>
           <ListItem.Content>
             <ListItem.Subtitle style={styles.title}>
+              Coordinates (Long, Lat)
+            </ListItem.Subtitle>
+            <Text style={styles.title}>{arduino.longitude}, {arduino.latitude}</Text>
+          </ListItem.Content>
+        </ListItem>
+        <ListItem bottomDivider containerStyle={styles.listContainer}>
+          <ListItem.Content>
+            <ListItem.Subtitle style={styles.title}>
               Date Captured
             </ListItem.Subtitle>
             <Text style={styles.title}>
@@ -336,7 +345,7 @@ const resultPage = ({navigation, route}) => {
             <Image
               style={styles.tinyLogo}
               source={{
-                uri: item.image,
+                uri: item.insect_image,
               }}
             />
             <Text
@@ -378,7 +387,7 @@ const resultPage = ({navigation, route}) => {
   return (
     <View>
       <ScrollView>
-        <Button title="postData" onPress={() => postData()} />
+        {/* <Button title="postData" onPress={() => postData()} /> */}
         <Button title="setDataForPost" onPress={() => setDataForPost()} />
         
 
@@ -387,15 +396,17 @@ const resultPage = ({navigation, route}) => {
         {selectedInsect && renderSelectedInsect()}
         {analysedInsect && renderAnalysedInsect()}
 
+        
         <Button
           accessibilityLabel={testVariables.resultPageDoneButton}
           testID={testVariables.resultPageDoneButton}
-          title="Done"
+          title="Finish Sampling"
           titleProps={{}}
           titleStyle={{marginHorizontal: 22, fontSize: 16}}
           buttonStyle={styles.submitButton}
           onPress={() => handleFinish()}
         />
+        
       </ScrollView>
       
     </View>

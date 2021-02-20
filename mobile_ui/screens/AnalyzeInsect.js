@@ -176,8 +176,8 @@ const AnalyzeScreen = ({ navigation }) => {
   const handleConfirm = () => {
     const insect = {
       insect_name: detectedInsect,
-      amount: count,
-      image: image,
+      amount: count.toString(),
+      insect_image: image,
     };
     insectList.push(insect);
     setModalVisible(!modalVisible);
@@ -199,7 +199,7 @@ const AnalyzeScreen = ({ navigation }) => {
             <Image
               style={styles.tinyLogo}
               source={{
-                uri: item.image,
+                uri: item.insect_image,
               }}
             />
             <Text
@@ -218,7 +218,7 @@ const AnalyzeScreen = ({ navigation }) => {
                 textAlign: 'center',
                 color: colors.text,
               }}>
-              {item.count}
+              {item.amount}
             </Text>
           </View>,
         );

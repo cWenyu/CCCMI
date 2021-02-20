@@ -26,7 +26,7 @@ const HistoryDetail = ({route}) => {
         }
         throw new Error('Network response was not ok.');
       })
-      .then(json => setInsectsList(json.insect_list))
+      .then(json => {setInsectsList(json.insect_list);console.log(json)})
       .catch(error => console.error('Error:', error));
   }, []);
 
@@ -36,6 +36,7 @@ const HistoryDetail = ({route}) => {
       justifyContent: 'space-between',
       alignItems: 'center',
       marginBottom: 3,
+      paddingHorizontal: 10
     },
     title: {
       color: colors.text,
@@ -56,7 +57,8 @@ const HistoryDetail = ({route}) => {
     },
     textStyle: {
       color: colors.text,
-      textAlign: 'center',
+      // textAlign: 'center',
+      fontSize: 15,
       backgroundColor: colors.background,
     },
   });
@@ -71,6 +73,12 @@ const HistoryDetail = ({route}) => {
       accessibilityLabel={testVariables.historyDetailContainer}
       testID={testVariables.historyDetailContainer}>
       <ScrollView>
+      <ListItem bottomDivider containerStyle={styles.listContainer}>
+          <ListItem.Content>
+            <ListItem.Subtitle style={styles.title}>Sample taken date</ListItem.Subtitle>
+            <Text style={styles.title}>{item.newDate}</Text>
+          </ListItem.Content>
+        </ListItem>
         <ListItem bottomDivider containerStyle={styles.listContainer}>
           <ListItem.Content>
             <ListItem.Subtitle style={styles.title}>
@@ -79,12 +87,42 @@ const HistoryDetail = ({route}) => {
             <Text style={styles.title}>{item.sample_score}</Text>
           </ListItem.Content>
         </ListItem>
+        
+        
+        <Text style={styles.sectionHeader}>River</Text>
         <ListItem bottomDivider containerStyle={styles.listContainer}>
           <ListItem.Content>
-            <ListItem.Subtitle style={styles.title}>Date</ListItem.Subtitle>
-            <Text style={styles.title}>{item.newDate}</Text>
+            <ListItem.Subtitle style={styles.title}>
+              River Name
+            </ListItem.Subtitle>
+            <Text style={styles.title}>{item.sample_river.river_name}</Text>
           </ListItem.Content>
         </ListItem>
+        <ListItem bottomDivider containerStyle={styles.listContainer}>
+          <ListItem.Content>
+            <ListItem.Subtitle style={styles.title}>
+              Coordinates (Latitude, Longtitude)
+            </ListItem.Subtitle>
+            <Text style={styles.title}>{item.sample_river.latitude}, {item.sample_river.longitude}</Text>
+          </ListItem.Content>
+        </ListItem>
+        <ListItem bottomDivider containerStyle={styles.listContainer}>
+          <ListItem.Content>
+            <ListItem.Subtitle style={styles.title}>
+              River Code
+            </ListItem.Subtitle>
+            <Text style={styles.title}>{item.sample_river.river_code}</Text>
+          </ListItem.Content>
+        </ListItem>
+        <ListItem bottomDivider containerStyle={styles.listContainer}>
+          <ListItem.Content>
+            <ListItem.Subtitle style={styles.title}>
+              Local Authority
+            </ListItem.Subtitle>
+            <Text style={styles.title}>{item.sample_river.local_authority}</Text>
+          </ListItem.Content>
+        </ListItem>
+        <Text style={styles.sectionHeader}>Sensors</Text>
         <ListItem bottomDivider containerStyle={styles.listContainer}>
           <ListItem.Content>
             <ListItem.Subtitle style={styles.title}>Water pH</ListItem.Subtitle>
@@ -97,14 +135,6 @@ const HistoryDetail = ({route}) => {
               Water Temperature
             </ListItem.Subtitle>
             <Text style={styles.title}>{item.sample_tmp}</Text>
-          </ListItem.Content>
-        </ListItem>
-        <ListItem bottomDivider containerStyle={styles.listContainer}>
-          <ListItem.Content>
-            <ListItem.Subtitle style={styles.title}>
-              Sample taken by
-            </ListItem.Subtitle>
-            <Text style={styles.title}>{item.sample_user}</Text>
           </ListItem.Content>
         </ListItem>
         <Text style={styles.sectionHeader}>Insects</Text>

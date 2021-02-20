@@ -36,7 +36,8 @@ const InsectScreen = ({navigation, route}) => {
       width: 80,
       height: 80,
       borderRadius: 3,
-    },centeredView: {
+    },
+    centeredView: {
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
@@ -67,6 +68,14 @@ const InsectScreen = ({navigation, route}) => {
     setAllInsect([]);
     if (insectList.length > 0) {
       insectList.map(item => {
+        allInsect.push({
+          insect_name: item.insect_name,
+          amount: parseInt(item.amount),
+        });
+      });
+    }
+    if (analysedInsect.length > 0) {
+      analysedInsect.map(item => {
         allInsect.push({
           insect_name: item.insect_name,
           amount: parseInt(item.amount),
@@ -176,7 +185,7 @@ const InsectScreen = ({navigation, route}) => {
     }
   };
 
-  const saveScore = async (value) => {
+  const saveScore = async value => {
     try {
       const jsonValue = JSON.stringify(value);
       await AsyncStorage.setItem('insect_score', jsonValue);
@@ -184,7 +193,7 @@ const InsectScreen = ({navigation, route}) => {
     } catch (e) {
       // saving error
     }
-  }
+  };
 
   const renderAnalysedInsect = () => {
     if (analysedInsect.length > 0) {
@@ -202,7 +211,7 @@ const InsectScreen = ({navigation, route}) => {
             <Image
               style={styles.tinyLogo}
               source={{
-                uri: item.image,
+                uri: item.insect_image,
               }}
             />
             <Text
@@ -229,6 +238,25 @@ const InsectScreen = ({navigation, route}) => {
 
       storeData2(analysedInsect);
       return comp;
+    }
+  };
+
+  const renderGetScoreButton = () => {
+    if (analysedInsect.length > 0 || insectList.length > 0) {
+      return (
+        <View style={{alignSelf: 'center', paddingVertical: 10}}>
+          <Button
+          title="Get Score"
+          onPress={() => {
+            getScore();
+            setModalVisible(true);
+          }}
+          titleStyle={{marginHorizontal: 22, fontSize: 18}}
+          buttonStyle={{width: 200, height: 50, backgroundColor: '#610D00'}}
+        />
+        </View>
+        
+      );
     }
   };
 
@@ -295,15 +323,13 @@ const InsectScreen = ({navigation, route}) => {
         loadingStyle={{}}
       />
 
-      <Button title="submit to get score" onPress={() => {getScore();setModalVisible(true);}} />
-
       <Modal
         animationType="slide"
         visible={modalVisible}
         onRequestClose={() => {}}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text>{score}</Text>
+            <Text>Score: {score}</Text>
 
             <IconButton
               accessibilityLabel={testVariables.cancelAddAmountIcon}
@@ -320,6 +346,7 @@ const InsectScreen = ({navigation, route}) => {
       <ScrollView>
         {renderSelectedInsect()}
         {renderAnalysedInsect()}
+        {renderGetScoreButton()}
       </ScrollView>
     </View>
   );

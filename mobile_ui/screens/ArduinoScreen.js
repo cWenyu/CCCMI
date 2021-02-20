@@ -92,6 +92,7 @@ const ArduinoScreen = ({navigation}) => {
             });
             //save response to async storage
             storeData(response.data[0]);
+            console.log(response.data[0])
             navigation.navigate('ArduinoScreen2', response.data[0]);
           }
         } else {
