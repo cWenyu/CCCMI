@@ -114,7 +114,7 @@ const SearchRiverScreen2 = ({navigation, route}) => {
         testID={testVariables.riverDetailChooseRiverButton}
         title="Choose this river"
         onPress={() => {
-          navigation.navigate('MainTabScreen');
+          navigation.navigate('ArduinoScreen');
           storeData(route.params.data);
         }}
         buttonStyle={{ width: 360, height: 50, backgroundColor: "#02ab9e" }}

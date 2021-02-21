@@ -148,7 +148,7 @@ const selectInsect1 = ({navigation}) => {
   };
 
   const handleSubmit = () => {
-    navigation.navigate('Insect', {post: selectedInsectList});
+    navigation.navigate('InsectScreen', {post: selectedInsectList});
   };
 
   return (

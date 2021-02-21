@@ -2,7 +2,7 @@ import React from 'react';
 import {useEffect} from 'react';
 import {useState} from 'react';
 import {useTheme} from '@react-navigation/native';
-import {Text, View, Image, StyleSheet, ScrollView} from 'react-native';
+import {Text, View, Image, StyleSheet, ScrollView, Alert} from 'react-native';
 import {Button, colors, ListItem} from 'react-native-elements';
 import AsyncStorage from '@react-native-community/async-storage';
 import testVariables from '../appium_automation_testing/test_variables';
@@ -171,6 +171,21 @@ const resultPage = ({navigation, route}) => {
       console.error(e);
     }
   };
+
+  const createTwoButtonAlert = () =>
+    Alert.alert(
+      "",
+      "Are you sure to finish this sample?",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        { text: "Yes", onPress: () => handleFinish() }
+      ],
+      { cancelable: true}
+    );
 
   const renderRiver = () => {
     return (
@@ -404,7 +419,7 @@ const resultPage = ({navigation, route}) => {
           titleProps={{}}
           titleStyle={{marginHorizontal: 22, fontSize: 16}}
           buttonStyle={styles.submitButton}
-          onPress={() => handleFinish()}
+          onPress={() => createTwoButtonAlert()}
         />
         
       </ScrollView>

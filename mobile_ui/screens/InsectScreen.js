@@ -62,6 +62,9 @@ const InsectScreen = ({navigation, route}) => {
       width: 300,
       height: 'auto',
     },
+    title: {
+      paddingTop: 20,
+    },
   });
 
   const setallinsect = () => {
@@ -246,16 +249,15 @@ const InsectScreen = ({navigation, route}) => {
       return (
         <View style={{alignSelf: 'center', paddingVertical: 10}}>
           <Button
-          title="Get Score"
-          onPress={() => {
-            getScore();
-            setModalVisible(true);
-          }}
-          titleStyle={{marginHorizontal: 22, fontSize: 18}}
-          buttonStyle={{width: 200, height: 50, backgroundColor: '#610D00'}}
-        />
+            title="Get Score"
+            onPress={() => {
+              getScore();
+              setModalVisible(true);
+            }}
+            titleStyle={{marginHorizontal: 22, fontSize: 18}}
+            buttonStyle={{width: 200, height: 50, backgroundColor: '#610D00'}}
+          />
         </View>
-        
       );
     }
   };
@@ -275,6 +277,9 @@ const InsectScreen = ({navigation, route}) => {
       style={styles.container}
       accessibilityLabel={testVariables.insectScreenContainer}
       testID={testVariables.insectScreenContainer}>
+      <Text h4 h4Style={styles.title}>
+        Insert insects found
+      </Text>
       <Button
         title="Select Insect"
         onPress={() => navigation.navigate('selectInsect1')}
@@ -329,7 +334,7 @@ const InsectScreen = ({navigation, route}) => {
         onRequestClose={() => {}}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text>Score: {score}</Text>
+            <Text>You got the sample score of </Text><Text style={{fontWeight: 'bold'}}>{score} points</Text>
 
             <IconButton
               accessibilityLabel={testVariables.cancelAddAmountIcon}
@@ -348,6 +353,15 @@ const InsectScreen = ({navigation, route}) => {
         {renderAnalysedInsect()}
         {renderGetScoreButton()}
       </ScrollView>
+
+      <Button
+        title="thats it"
+        onPress={() => {
+          getScore();
+          setModalVisible(true);
+          navigation.navigate('ResultPage');
+        }}
+      />
     </View>
   );
 };

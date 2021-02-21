@@ -30,6 +30,10 @@ import ArduinoScreen from './screens/ArduinoScreen';
 import ArduinoScreen2 from './screens/ArduinoScreen2';
 import SearchRiverScreen from './screens/SearchRiverScreen';
 import SearchRiverScreen2 from './screens/SearchRiverScreen2';
+import InsectScreen from './screens/InsectScreen';
+import selectInsect1 from './screens/selectInsect1';
+import AnalyzeInsect from './screens/AnalyzeInsect';
+import ResultPage from './screens/ResultPage';
 import uploadImage from './screens/uploadImage';
 import {AuthContext} from './components/context';
 
@@ -285,6 +289,76 @@ const App = () => {
     </HomeStack.Navigator>
   );
 
+  const TakeSampleStack = createStackNavigator();
+  const TakeSampleStackScreen = ({navigation}) => (
+    <TakeSampleStack.Navigator>
+
+      <TakeSampleStack.Screen 
+      name="SearchRiverScreen"
+      component={SearchRiverScreen}
+      options={{
+        title: 'Step 1'
+      }}>
+      </TakeSampleStack.Screen>
+
+      <TakeSampleStack.Screen 
+      name="SearchRiverScreen2"
+      component={SearchRiverScreen2}
+      options={{
+        title: ''
+      }}>
+      </TakeSampleStack.Screen>
+
+      <TakeSampleStack.Screen 
+      name="ArduinoScreen"
+      component={ArduinoScreen}
+      options={{
+        title: 'Step 2'
+      }}>
+      </TakeSampleStack.Screen>
+
+      <TakeSampleStack.Screen 
+      name="ArduinoScreen2"
+      component={ArduinoScreen2}
+      options={{
+        title: ''
+      }}>
+      </TakeSampleStack.Screen>
+
+      <TakeSampleStack.Screen 
+      name="InsectScreen"
+      component={InsectScreen}
+      options={{
+        title: 'Step 3'
+      }}>
+      </TakeSampleStack.Screen>
+
+      <TakeSampleStack.Screen 
+      name="selectInsect1"
+      component={selectInsect1}
+      options={{
+        title: ''
+      }}>
+      </TakeSampleStack.Screen>
+
+      <TakeSampleStack.Screen 
+      name="AnalyzeInsect"
+      component={AnalyzeInsect}
+      options={{
+        title: 'AnalyzeInsect'
+      }}>
+      </TakeSampleStack.Screen>
+
+      <TakeSampleStack.Screen 
+      name="ResultPage"
+      component={ResultPage}
+      options={{
+        title: 'Review'
+      }}>
+      </TakeSampleStack.Screen>
+    </TakeSampleStack.Navigator>
+  );
+
   return (
     <PaperProvider theme={theme}>
       <AuthContext.Provider value={authContext}>
@@ -293,6 +367,7 @@ const App = () => {
             <Drawer.Navigator
               drawerContent={props => <DrawerContent {...props} />}>
               <Drawer.Screen name="HomeScreen" component={HomeStackScreen} />
+              <Drawer.Screen name="TakeSampleScreen" component={TakeSampleStackScreen} />
               <Drawer.Screen name="SupportScreen" component={SupportScreen} />
               <Drawer.Screen name="SettingsScreen" component={SettingsScreen} />
               <Drawer.Screen name="MainTabScreen" component={MainTabScreen} />

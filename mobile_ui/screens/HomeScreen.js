@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet, StatusBar} from 'react-native';
+import {View, StyleSheet, StatusBar, Alert} from 'react-native';
 import {Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
 import {useTheme} from '@react-navigation/native';
@@ -9,6 +9,21 @@ const HomeScreen = ({navigation}) => {
   const {colors} = useTheme();
 
   const theme = useTheme();
+
+  const createTwoButtonAlert = () =>
+    Alert.alert(
+      "Take Sample",
+      "Start taking sample?",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        { text: "Yes", onPress: () => navigation.navigate('TakeSampleScreen') }
+      ],
+      { cancelable: true}
+    );
 
   return (
     <View
@@ -57,6 +72,10 @@ const HomeScreen = ({navigation}) => {
         titleProps={{}}
         titleStyle={{marginHorizontal: 22, fontSize: 18}}
       />
+
+      {/* <Button title='new take sample' onPress={() => navigation.navigate('TakeSampleScreen')}/> */}
+      <Button title='new take sample' onPress={() => createTwoButtonAlert()} />
+
     </View>
   );
 };

@@ -200,7 +200,7 @@ const SearchRiverScreen = ({navigation}) => {
       testID={testVariables.searchRiverScreenContainer}>
       {/* <Text>SearchRiver Screen</Text> */}
       <Text h4 h4Style={styles.title}>
-        River you want to sample from
+        Select river for the sample
       </Text>
 
       <View style={styles.searchSection}>

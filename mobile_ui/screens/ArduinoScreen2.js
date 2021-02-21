@@ -1,11 +1,11 @@
 import testVariables from '../appium_automation_testing/test_variables';
 import React from 'react';
-import {View, StyleSheet, Text} from 'react-native';
+import {View, StyleSheet, Text, Button} from 'react-native';
 import {useFocusEffect, useTheme} from '@react-navigation/native';
 import {ListItem} from 'react-native-elements';
 import axios from 'axios';
 
-const ArduinoScreen2 = ({route}) => {
+const ArduinoScreen2 = ({navigation, route}) => {
   const {colors} = useTheme();
   const {arduino_id, temp, ph, longitude, latitude, date_captured} = route.params;
 
@@ -137,6 +137,8 @@ const ArduinoScreen2 = ({route}) => {
           </Text>
         </ListItem.Content>
       </ListItem>
+
+      <Button title='Connect to this device' onPress={() => navigation.navigate('InsectScreen')}/>
     </View>
   );
 };
