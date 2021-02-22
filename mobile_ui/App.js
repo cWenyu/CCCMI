@@ -37,7 +37,7 @@ import RootStackScreen from './screens/RootStackScreen';
 
 import AsyncStorage from '@react-native-community/async-storage';
 import HomeScreen from './screens/HomeScreen';
-
+import OnboardingScreen from './screens/OnboardingScreen';
 import testVariables from './appium_automation_testing/test_variables';
 import SampleHistoryScreen from './screens/SampleHistoryScreen';
 import HistoryDetail from './screens/HistoryDetail';
@@ -194,6 +194,13 @@ const App = () => {
               onPress={() => navigation.openDrawer()}
             />
           ),
+        }}
+      />
+      <HomeStack.Screen
+        name="OnboardingScreen"
+        component={OnboardingScreen}
+        options={{
+          title: 'IntroSlider'
         }}
       />
       {/* add screen here */}
