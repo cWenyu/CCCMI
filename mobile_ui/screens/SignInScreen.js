@@ -101,7 +101,7 @@ const SignInScreen = ({navigation}) => {
       testID={testVariables.signScreenContainer}>
       <StatusBar backgroundColor="#009387" barStyle="light-content" />
       <View style={styles.header}>
-        <Text style={styles.text_header}>Welcome!</Text>
+        <Text style={styles.text_header}>Sign In</Text>
       </View>
       <Animatable.View
         animation="fadeInUpBig"
@@ -219,7 +219,7 @@ const SignInScreen = ({navigation}) => {
             </LinearGradient>
           </TouchableOpacity>
 
-          <TouchableOpacity
+          {/* <TouchableOpacity
             onPress={() => navigation.navigate('SignUpScreen')}
             style={[
               styles.signIn,
@@ -238,7 +238,7 @@ const SignInScreen = ({navigation}) => {
               ]}>
               Sign Up
             </Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </Animatable.View>
     </View>
