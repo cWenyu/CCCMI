@@ -28,6 +28,7 @@ import SupportScreen from './screens/SupportScreen';
 import SettingsScreen from './screens/SettingsScreen';
 import ArduinoScreen from './screens/ArduinoScreen';
 import ArduinoScreen2 from './screens/ArduinoScreen2';
+import SurveyPage from './screens/SurveyPage';
 import SearchRiverScreen from './screens/SearchRiverScreen';
 import SearchRiverScreen2 from './screens/SearchRiverScreen2';
 import InsectScreen from './screens/InsectScreen';
@@ -292,70 +293,68 @@ const App = () => {
   const TakeSampleStack = createStackNavigator();
   const TakeSampleStackScreen = ({navigation}) => (
     <TakeSampleStack.Navigator>
+      <TakeSampleStack.Screen name="SurveyPage" component={SurveyPage} />
 
-      <TakeSampleStack.Screen 
-      name="SearchRiverScreen"
-      component={SearchRiverScreen}
-      options={{
-        title: 'Step 1'
-      }}>
-      </TakeSampleStack.Screen>
+      <TakeSampleStack.Screen
+        name="SearchRiverScreen"
+        component={SearchRiverScreen}
+      />
 
-      <TakeSampleStack.Screen 
-      name="SearchRiverScreen2"
-      component={SearchRiverScreen2}
-      options={{
-        title: ''
-      }}>
-      </TakeSampleStack.Screen>
+      <TakeSampleStack.Screen
+        name="SearchRiverScreen2"
+        component={SearchRiverScreen2}
+        options={{
+          title: '',
+        }}
+      />
 
-      <TakeSampleStack.Screen 
-      name="ArduinoScreen"
-      component={ArduinoScreen}
-      options={{
-        title: 'Step 2'
-      }}>
-      </TakeSampleStack.Screen>
+      <TakeSampleStack.Screen
+        name="ArduinoScreen"
+        component={ArduinoScreen}
+        options={{
+          title: '',
+        }}
+      />
 
-      <TakeSampleStack.Screen 
-      name="ArduinoScreen2"
-      component={ArduinoScreen2}
-      options={{
-        title: ''
-      }}>
-      </TakeSampleStack.Screen>
+      <TakeSampleStack.Screen
+        name="ArduinoScreen2"
+        component={ArduinoScreen2}
+        options={{
+          title: '',
+        }}
+      />
 
-      <TakeSampleStack.Screen 
-      name="InsectScreen"
-      component={InsectScreen}
-      options={{
-        title: 'Step 3'
-      }}>
-      </TakeSampleStack.Screen>
+      <TakeSampleStack.Screen
+        name="InsectScreen"
+        component={InsectScreen}
+        options={{
+          title: '',
+        }}
+      />
 
-      <TakeSampleStack.Screen 
-      name="selectInsect1"
-      component={selectInsect1}
-      options={{
-        title: ''
-      }}>
-      </TakeSampleStack.Screen>
+      <TakeSampleStack.Screen
+        name="selectInsect1"
+        component={selectInsect1}
+        options={{
+          title: '',
+        }}
+      />
 
-      <TakeSampleStack.Screen 
-      name="AnalyzeInsect"
-      component={AnalyzeInsect}
-      options={{
-        title: 'AnalyzeInsect'
-      }}>
-      </TakeSampleStack.Screen>
+      <TakeSampleStack.Screen
+        name="AnalyzeInsect"
+        component={AnalyzeInsect}
+        options={{
+          title: 'AnalyzeInsect',
+        }}
+      />
 
-      <TakeSampleStack.Screen 
-      name="ResultPage"
-      component={ResultPage}
-      options={{
-        title: 'Review'
-      }}>
-      </TakeSampleStack.Screen>
+      <TakeSampleStack.Screen
+        name="ResultPage"
+        component={ResultPage}
+        options={{
+          title: 'Review',
+        }}
+      />
     </TakeSampleStack.Navigator>
   );
 
@@ -367,7 +366,10 @@ const App = () => {
             <Drawer.Navigator
               drawerContent={props => <DrawerContent {...props} />}>
               <Drawer.Screen name="HomeScreen" component={HomeStackScreen} />
-              <Drawer.Screen name="TakeSampleScreen" component={TakeSampleStackScreen} />
+              <Drawer.Screen
+                name="TakeSampleScreen"
+                component={TakeSampleStackScreen}
+              />
               <Drawer.Screen name="SupportScreen" component={SupportScreen} />
               <Drawer.Screen name="SettingsScreen" component={SettingsScreen} />
               <Drawer.Screen name="MainTabScreen" component={MainTabScreen} />
