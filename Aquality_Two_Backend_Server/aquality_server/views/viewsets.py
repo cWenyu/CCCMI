@@ -58,31 +58,31 @@ class InsectViewSet(viewsets.ModelViewSet):
             return Insect.objects.all().order_by('insect_id')
 
 
-class AccountUserViewSet(viewsets.ModelViewSet):
-    queryset = Login_Account.objects.all().order_by('account_id')
-    serializer_class = LoginAccountSerializer
+# class AccountUserViewSet(viewsets.ModelViewSet):
+#     queryset = Login_Account.objects.all().order_by('account_id')
+#     serializer_class = LoginAccountSerializer
 
-    def create(self, request):
-        if request.method == 'POST':
-            saveSerialize = self.serializer_class(data=request.data)
-            if saveSerialize.is_valid():
-                saveSerialize.save()
-                return Response(saveSerialize.data, status=status.HTTP_201_CREATED)
-        return Response({
-            'status': 'Bad request',
-            'message': 'Account could not be created with received data.'
-        }, status=status.HTTP_400_BAD_REQUEST)
+#     def create(self, request):
+#         if request.method == 'POST':
+#             saveSerialize = self.serializer_class(data=request.data)
+#             if saveSerialize.is_valid():
+#                 saveSerialize.save()
+#                 return Response(saveSerialize.data, status=status.HTTP_201_CREATED)
+#         return Response({
+#             'status': 'Bad request',
+#             'message': 'Account could not be created with received data.'
+#         }, status=status.HTTP_400_BAD_REQUEST)
 
-    def get_queryset(self):
-        return Login_Account.objects.all().order_by('account_id')
+#     def get_queryset(self):
+#         return Login_Account.objects.all().order_by('account_id')
 
-    def destroy(self, request, *args, **kwargs):
-        try:
-            instance = self.get_object()
-            self.perform_destroy(instance)
-        except status.HTTP_400_BAD_REQUEST:
-            pass
-        return Response(status=status.HTTP_204_NO_CONTENT)
+#     def destroy(self, request, *args, **kwargs):
+#         try:
+#             instance = self.get_object()
+#             self.perform_destroy(instance)
+#         except status.HTTP_400_BAD_REQUEST:
+#             pass
+#         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class SampleRecordViewSet(viewsets.ModelViewSet):
@@ -110,3 +110,4 @@ class SampleRecordInsectViewSet(viewsets.ModelViewSet):
             sample_record = SampleRecord.objects.get(sample_id = sample_id_get)
             return SampleRecordInsectDetail.objects.filter(sample_record_data = sample_record)
         return SampleRecordInsectDetail.objects.all()
+    
