@@ -21,6 +21,8 @@ class User_Account(models.Model):
     date_of_birth = models.DateTimeField(default=None, blank=True, null=True)
     occupation = models.CharField(max_length = 200, null =True)
     bio = models.TextField(null=True)
+    term_condition_accept_state = models.BooleanField(default=False)
+    safety_guide_accept_state = models.BooleanField(default=False)
     
 #River Models
 class River(models.Model):
