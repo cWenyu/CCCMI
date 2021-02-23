@@ -23,7 +23,9 @@ def checkUser(request):
             'user_profic': str(user_account.profile_pic),
             'user_dob': user_account.date_of_birth,
             'user_occupation': user_account.occupation,
-            'user_bio': user_account.bio
+            'user_bio': user_account.bio,
+            'user_term_condition_accept_state': user_account.term_condition_accept_state,
+            'user_safety_guide_accept_state': user_account.safety_guide_accept_state
         })
     else:
         return JsonResponse({
@@ -48,16 +50,15 @@ def getUserDetail(request):
             'user_profic': str(user_account.profile_pic),
             'user_dob': user_account.date_of_birth,
             'user_occupation': user_account.occupation,
-            'user_bio': user_account.bio
+            'user_bio': user_account.bio,
+            'user_term_condition_accept_state': user_account.term_condition_accept_state,
+            'user_safety_guide_accept_state': user_account.safety_guide_accept_state
         })
     else:
         return JsonResponse({
             'status': 'Invalid Login',
             'message': 'Wrong Username Or Password'
         })
-
-
-
 
 @csrf_exempt
 def registerPage(request):
@@ -99,7 +100,6 @@ def del_user(request):
             'status': 'Error Occur',
             'error': str(e)
         })
-
 
 @csrf_exempt
 def if_username_exist(request):
@@ -150,4 +150,54 @@ def if_email_exist(request):
             'status':'Email Not Exist'
         })     
     except Exception as e: 
+        return HttpResponse(e)
+
+@csrf_exempt
+def turn_true_term(request):
+    try:
+        user_id = request.POST['user_id']
+        if(user_id is not None):
+            u = User.objects.get(id=user_id)
+            if u is None:
+                return JsonResponse({
+                    'status_code':400,
+                    'status':'User Does Not Exist'
+                })
+            else:
+                User_Account.objects.filter(user=u).update(term_condition_accept_state=True)
+                return JsonResponse({
+                    'status_code':202,
+                    'status':'Term & Condition State Updated'
+                })    
+    except User.DoesNotExist:
+        return JsonResponse ({
+            'status_code':400,
+            'status':'User Does Not Exist'
+        })
+    except Exception as e:
+        return HttpResponse(e)
+    
+@csrf_exempt
+def turn_safety_term(request):
+    try:
+        user_id = request.POST['user_id']
+        if(user_id is not None):
+            u = User.objects.get(id=user_id)
+            if u is None:
+                return JsonResponse({
+                    'status_code':400,
+                    'status':'User Does Not Exist'
+                })
+            else:
+                User_Account.objects.filter(user=u).update(safety_guide_accept_state=True)
+                return JsonResponse({
+                    'status_code':202,
+                    'status':'Safety Guide State Updated'
+                })                
+    except User.DoesNotExist:
+        return JsonResponse ({
+            'status_code':400,
+            'status':'User Does Not Exist'
+        })
+    except Exception as e:
         return HttpResponse(e)

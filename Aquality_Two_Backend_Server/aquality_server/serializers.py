@@ -27,15 +27,16 @@ class DataSerializerWithDate(serializers.HyperlinkedModelSerializer):
         model = Data
         fields = ("data_id","arduino_id","latitude","longitude","ph","temp","date_captured")
                 
-class LoginAccountSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Login_Account
-        fields = ("account_id","username","email","password")
+# class LoginAccountSerializer(serializers.HyperlinkedModelSerializer):
+#     class Meta:
+#         model = Login_Account
+#         fields = ("account_id","username","email","password")
 
 class UserAccountSerializer(serializers.HyperlinkedModelSerializer):
+    user = serializers.PrimaryKeyRelatedField(read_only=True)
     class Meta:
         model = User_Account
-        fields = ("user_group","user","occupation","bio","profile_pic","date_of_birth")
+        fields = ("user_group","user","occupation","bio","profile_pic","date_of_birth","term_condition_accept_state","safety_guide_accept_state")
       
 class InsectSerializer(serializers.HyperlinkedModelSerializer):
     insect_group = serializers.PrimaryKeyRelatedField(read_only = True)    
