@@ -118,7 +118,7 @@ export function DrawerContent(props) {
             />
             <DrawerItem
               icon={({color, size}) => (
-                <Icon name="security" color={color} size={size} />
+                <Icon name="file-document" color={color} size={size} />
               )}
               label="Safety Guide"
               onPress={() => {
