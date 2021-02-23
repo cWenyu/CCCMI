@@ -17,6 +17,7 @@ const survey = [
     questionType: 'SelectionGroup',
     questionText:
       '1/21\nPrincipal Type of Substratum Sampled:\n\nCobble/ Large Stones?',
+      questionId: 'a',
     questionSettings: {
       maxMultiSelect: 1,
       minMultiSelect: 1,
@@ -45,6 +46,7 @@ const survey = [
     questionType: 'SelectionGroup',
     questionText:
       '2/21\nPrincipal Type of Substratum Sampled:\n\nGravel?',
+      questionId: 'b',
     questionSettings: {
       maxMultiSelect: 1,
       minMultiSelect: 1,
@@ -73,6 +75,7 @@ const survey = [
     questionType: 'SelectionGroup',
     questionText:
       '3/21\nPrincipal Type of Substratum Sampled:\n\nSand?',
+      questionId: 'c',
     questionSettings: {
       maxMultiSelect: 1,
       minMultiSelect: 1,
@@ -101,6 +104,7 @@ const survey = [
     questionType: 'SelectionGroup',
     questionText:
       '4/21\nPrincipal Type of Substratum Sampled:\n\nSilt or Mud?',
+      questionId: 'd',
     questionSettings: {
       maxMultiSelect: 1,
       minMultiSelect: 1,
@@ -129,6 +133,7 @@ const survey = [
     questionType: 'SelectionGroup',
     questionText:
       '5/21\nDegree of Siltation:\n\n(Is silt released when you take a kick sample?)',
+      questionId: 'e',
     questionSettings: {
       maxMultiSelect: 1,
       minMultiSelect: 1,
@@ -157,6 +162,7 @@ const survey = [
     questionType: 'SelectionGroup',
     questionText:
       '6/21\nDepth of Mud on Bottom:',
+      questionId: 'f',
     questionSettings: {
       maxMultiSelect: 1,
       minMultiSelect: 1,
@@ -189,6 +195,7 @@ const survey = [
     questionType: 'SelectionGroup',
     questionText:
       '7/21\nDo Cattle or other Farm Animals have access to the stream?',
+      questionId: 'g',
     questionSettings: {
       maxMultiSelect: 1,
       minMultiSelect: 1,
@@ -212,6 +219,7 @@ const survey = [
   {
     questionType: 'TextInput',
     questionText: '8/21\nDo Cattle or other Farm Animals have access to the stream? \n\nComment',
+    questionId: 'h',
     placeholderText: 'Please leave comment...',
   },
   {
@@ -246,6 +254,7 @@ const survey = [
     questionType: 'SelectionGroup',
     questionText:
       '10/21\nWhich of these describe the land next to the stream bank?\n\nTillage Crops?',
+      questionId: 'i',
     questionSettings: {
       maxMultiSelect: 1,
       minMultiSelect: 1,
@@ -274,6 +283,7 @@ const survey = [
     questionType: 'SelectionGroup',
     questionText:
       '11/21\nWhich of these describe the land next to the stream bank?\n\nUrban?',
+      questionId: 'j',
     questionSettings: {
       maxMultiSelect: 1,
       minMultiSelect: 1,
@@ -302,6 +312,7 @@ const survey = [
     questionType: 'SelectionGroup',
     questionText:
       '12/21\nWhich of these describe the land next to the stream bank?\n\nForest?',
+      questionId: 'k',
     questionSettings: {
       maxMultiSelect: 1,
       minMultiSelect: 1,
@@ -330,6 +341,7 @@ const survey = [
     questionType: 'SelectionGroup',
     questionText:
       '13/21\nWhich of these describe the land next to the stream bank?\n\nBog/Heath/Moorland?',
+      questionId: 'l',
     questionSettings: {
       maxMultiSelect: 1,
       minMultiSelect: 1,
@@ -358,6 +370,7 @@ const survey = [
     questionType: 'SelectionGroup',
     questionText:
       '14/21\nWater Clarity',
+      questionId: 'm',
     questionSettings: {
       maxMultiSelect: 1,
       minMultiSelect: 1,
@@ -382,6 +395,7 @@ const survey = [
     questionType: 'SelectionGroup',
     questionText:
       '15/21\nCan you see any rubbish in the stream?',
+      questionId: 'n',
     questionSettings: {
       maxMultiSelect: 1,
       minMultiSelect: 1,
@@ -410,6 +424,7 @@ const survey = [
     questionType: 'SelectionGroup',
     questionText:
       '16/21\nWater Velocity',
+      questionId: 'o',
     questionSettings: {
       maxMultiSelect: 1,
       minMultiSelect: 1,
@@ -434,6 +449,7 @@ const survey = [
     questionType: 'SelectionGroup',
     questionText:
       '17/21\nRiffle Glide Pool?',
+      questionId: 'p',
     questionSettings: {
       maxMultiSelect: 1,
       minMultiSelect: 1,
@@ -458,6 +474,7 @@ const survey = [
     questionType: 'SelectionGroup',
     questionText:
       '18/21\nSelect the Best Matches for Your Stream Site.\n\nUrban/Suburban:',
+      questionId: 'q',
     questionSettings: {
       maxMultiSelect: 1,
       minMultiSelect: 1,
@@ -482,6 +499,7 @@ const survey = [
     questionType: 'SelectionGroup',
     questionText:
       '19/21\nSelect the Best Matches for Your Stream Site.\n\nNative Woodland or Moorland:',
+      questionId: 'r',
     questionSettings: {
       maxMultiSelect: 1,
       minMultiSelect: 1,
@@ -506,6 +524,7 @@ const survey = [
     questionType: 'SelectionGroup',
     questionText:
       '20/21\nSelect the Best Matches for Your Stream Site.\n\nPresence of Trees:',
+      questionId: 's',
     questionSettings: {
       maxMultiSelect: 1,
       minMultiSelect: 1,
@@ -530,6 +549,7 @@ const survey = [
     questionType: 'SelectionGroup',
     questionText:
       '21/21\nSelect the Best Matches for Your Stream Site.\n\nGrassland and Crops:',
+      questionId: 't',
     questionSettings: {
       maxMultiSelect: 1,
       minMultiSelect: 1,
@@ -765,7 +785,7 @@ export default class SurveyScreen extends Component {
     // Convert from an array to a proper object. This won't work if you have duplicate questionIds
     const answersAsObj = {};
     for (const elem of infoQuestionsRemoved) { answersAsObj[elem.questionId] = elem.value; }
-
+      console.log(answersAsObj);
     this.props.navigation.navigate('SearchRiverScreen', { surveyAnswers: answersAsObj });
   }
 
@@ -774,19 +794,19 @@ export default class SurveyScreen extends Component {
    *  user's answers. From updating a 'correct answers' counter to exiting out of an onboarding flow if the user is 
    *  is restricted (age, geo-fencing) from your app.
    */
-  // onAnswerSubmitted(answer) {
-  //   this.setState({ answersSoFar: JSON.stringify(this.surveyRef.getAnswers(), 2) });
-  //   switch (answer.questionId) {
-  //     case 'favoriteColor': {
-  //       if (COLORS.includes(answer.value.toLowerCase())) {
-  //         this.setState({ backgroundColor: answer.value.toLowerCase() });
-  //       }
-  //       break;
-  //     }
-  //     default:
-  //       break;
-  //   }
-  // }
+  onAnswerSubmitted(answer) {
+    this.setState({ answersSoFar: JSON.stringify(this.surveyRef.getAnswers(), 2) });
+    switch (answer.questionId) {
+      case 'favoriteColor': {
+        if (COLORS.includes(answer.value.toLowerCase())) {
+          this.setState({ backgroundColor: answer.value.toLowerCase() });
+        }
+        break;
+      }
+      default:
+        break;
+    }
+  }
 
   renderPreviousButton(onPress, enabled) {
     return (
