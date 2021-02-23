@@ -23,7 +23,9 @@ def checkUser(request):
             'user_profic': str(user_account.profile_pic),
             'user_dob': user_account.date_of_birth,
             'user_occupation': user_account.occupation,
-            'user_bio': user_account.bio
+            'user_bio': user_account.bio,
+            'user_term_condition_accept_state': user_account.term_condition_accept_state,
+            'user_safety_guide_accept_state': user_account.safety_guide_accept_state
         })
     else:
         return JsonResponse({
