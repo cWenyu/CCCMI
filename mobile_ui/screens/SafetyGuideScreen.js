@@ -2,24 +2,23 @@ import React from 'react';
 import {View, Text, Button, StyleSheet} from 'react-native';
 
 import {useTheme} from '@react-navigation/native';
+import GuideContent from '../components/safetyGuide';
+import {ScrollView} from 'react-native-gesture-handler';
 
-const SupportScreen = () => {
+const SafetyGuideScreen = () => {
   const {colors} = useTheme();
 
   return (
     <View style={styles.container}>
-      <Text style={{color: colors.text}}>Support Screen</Text>
-      <Button title="Click Here" onPress={() => alert('Button Clicked!')} />
+      <GuideContent />
     </View>
   );
 };
 
-export default SupportScreen;
+export default SafetyGuideScreen;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 });

@@ -118,11 +118,11 @@ export function DrawerContent(props) {
             />
             <DrawerItem
               icon={({color, size}) => (
-                <Icon name="account-check-outline" color={color} size={size} />
+                <Icon name="security" color={color} size={size} />
               )}
-              label="Support"
+              label="Safety Guide"
               onPress={() => {
-                props.navigation.navigate('SupportScreen');
+                props.navigation.navigate('SafetyGuideScreen');
               }}
             />
           </Drawer.Section>
