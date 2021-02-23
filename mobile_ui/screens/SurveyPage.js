@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Button, ScrollView, Text, TextInput, View } from 'react-native';
 import { SimpleSurvey } from 'react-native-simple-survey';
+import { SurveyComponent } from '../components/SurveyComponent';
 import { COLORS } from '../components/validColors';
 
 const GREEN = 'rgba(141,196,63,1)';
@@ -17,7 +18,7 @@ const survey = [
     questionType: 'SelectionGroup',
     questionText:
       '1/21\nPrincipal Type of Substratum Sampled:\n\nCobble/ Large Stones?',
-      questionId: 'a',
+    questionId: 'a',
     questionSettings: {
       maxMultiSelect: 1,
       minMultiSelect: 1,
@@ -46,7 +47,7 @@ const survey = [
     questionType: 'SelectionGroup',
     questionText:
       '2/21\nPrincipal Type of Substratum Sampled:\n\nGravel?',
-      questionId: 'b',
+    questionId: 'b',
     questionSettings: {
       maxMultiSelect: 1,
       minMultiSelect: 1,
@@ -75,7 +76,7 @@ const survey = [
     questionType: 'SelectionGroup',
     questionText:
       '3/21\nPrincipal Type of Substratum Sampled:\n\nSand?',
-      questionId: 'c',
+    questionId: 'c',
     questionSettings: {
       maxMultiSelect: 1,
       minMultiSelect: 1,
@@ -570,6 +571,9 @@ const survey = [
       }
     ]
   },
+
+
+  // __________________
   // {
   //   questionType: 'NumericInput',
   //   questionText: 'It also supports numeric input. Enter your favorite number here!',
@@ -751,6 +755,8 @@ export default class SurveyScreen extends Component {
   constructor(props) {
     super(props);
     this.state = { backgroundColor: BGCOLOR, answersSoFar: '' };
+    this.baseState = this.state;
+    this.onNavigateBack = this.onNavigateBack.bind(this);
   }
 
   onSurveyFinished(answers) {
@@ -785,8 +791,9 @@ export default class SurveyScreen extends Component {
     // Convert from an array to a proper object. This won't work if you have duplicate questionIds
     const answersAsObj = {};
     for (const elem of infoQuestionsRemoved) { answersAsObj[elem.questionId] = elem.value; }
-      console.log(answersAsObj);
+    this.setState(this.baseState)
     this.props.navigation.navigate('SearchRiverScreen', { surveyAnswers: answersAsObj });
+    
   }
 
   /**
@@ -853,7 +860,7 @@ export default class SurveyScreen extends Component {
     return (
       <View
         key={`selection_button_view_${index}`}
-        style={{ alignSelf:'center', width:'85%', marginTop: 5, marginBottom: 5, justifyContent: 'flex-start' }}
+        style={{ alignSelf: 'center', width: '85%', marginTop: 5, marginBottom: 5, justifyContent: 'flex-start' }}
       >
         <Button
           title={data.optionText}
@@ -916,11 +923,15 @@ export default class SurveyScreen extends Component {
     );
   }
 
+  onNavigateBack(){
+    this.props.navigation.navigate('Home');
+  }
   render() {
     return (
       <View style={[styles.background, { backgroundColor: this.state.backgroundColor }]}>
         <View style={styles.container}>
-          <SimpleSurvey
+          <SurveyComponent
+            key={'survey'}
             ref={(s) => { this.surveyRef = s; }}
             survey={survey}
             renderSelector={this.renderButton.bind(this)}
@@ -936,6 +947,7 @@ export default class SurveyScreen extends Component {
             renderTextInput={this.renderTextBox}
             renderNumericInput={this.renderNumericInput}
             renderInfo={this.renderInfoText}
+            onNavigateBack={this.onNavigateBack}
           />
 
         </View>

@@ -20,6 +20,7 @@ import {Colors} from 'react-native/Libraries/NewAppScreen';
 const riverURL = 'https://cccmi-aquality.tk/aquality_server/rivers/';
 
 const SearchRiverScreen = ({navigation}) => {
+  
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => {
     !isEnabled && getOneTimeLocation();
