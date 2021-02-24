@@ -19,7 +19,7 @@ import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 const riverURL = 'https://cccmi-aquality.tk/aquality_server/rivers/';
 
-const SearchRiverScreen = ({navigation}) => {
+const SearchRiverScreen = ({navigation, route}) => {
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => {
     !isEnabled && getOneTimeLocation();
@@ -41,7 +41,11 @@ const SearchRiverScreen = ({navigation}) => {
       requestLocationPermission();
       setSearchInput(searchInput);
     }
-  });
+    if(route.params?.sampleData) {
+
+      console.log('(search river)sample data: ' + JSON.stringify(route.params.sampleData));
+    }
+  }, [route.params?.sampleData]);
 
   /**
    * @function requestLocationPermission
@@ -114,7 +118,7 @@ const SearchRiverScreen = ({navigation}) => {
             key={el.river_id}
             title={el.river_name.toString()}
             onPress={() =>
-              navigation.navigate('SearchRiverScreen2', {data: el})
+              navigation.navigate('SearchRiverScreen2', {data: el, sampleData: JSON.stringify(route.params.sampleData)})
             }
             buttonStyle={{width: 270, height: 50, backgroundColor: '#02ab9e'}}
             containerStyle={{margin: 5, alignItems: 'center', marginTop: 20}}
@@ -198,7 +202,6 @@ const SearchRiverScreen = ({navigation}) => {
       style={styles.container}
       accessibilityLabel={testVariables.searchRiverScreenContainer}
       testID={testVariables.searchRiverScreenContainer}>
-      {/* <Text>SearchRiver Screen</Text> */}
       <Text h4 h4Style={styles.title}>
         Select river for the sample
       </Text>

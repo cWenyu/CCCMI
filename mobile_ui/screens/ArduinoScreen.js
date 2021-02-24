@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, StyleSheet, TextInput} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Text} from 'react-native-elements';
@@ -9,7 +9,17 @@ import * as Animatable from 'react-native-animatable';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import testVariables from '../appium_automation_testing/test_variables';
 
-const ArduinoScreen = ({navigation}) => {
+
+const ArduinoScreen = ({navigation, route}) => {
+let sampleData = [];
+
+  React.useEffect(()=>{
+    if(route.params?.sampleData) {
+      sampleData = route.params.sampleData;
+      console.log('(arduino screen)sampleData:' + route.params.sampleData);
+    }
+  }, [route.params?.surveyAnswers])
+
   const [data, setData] = React.useState({
     arduinoId: '',
     notValidDeviceId: true,

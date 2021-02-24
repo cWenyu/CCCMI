@@ -47,7 +47,7 @@ const HomeScreen = ({navigation}) => {
         iconContainerStyle={{background: '#000'}}
         loadingProps={{animating: true}}
         loadingStyle={{}}
-        onPress={() => navigation.navigate('SearchRiverScreen')}
+        onPress={() => navigation.navigate('TakeSampleScreen')}
         title="Take Sample"
         titleProps={{}}
         titleStyle={{marginHorizontal: 22, fontSize: 18}}
@@ -72,10 +72,6 @@ const HomeScreen = ({navigation}) => {
         titleProps={{}}
         titleStyle={{marginHorizontal: 22, fontSize: 18}}
       />
-
-      {/* <Button title='new take sample' onPress={() => navigation.navigate('TakeSampleScreen')}/> */}
-      <Button title='new take sample' onPress={() => createTwoButtonAlert()} />
-
     </View>
   );
 };

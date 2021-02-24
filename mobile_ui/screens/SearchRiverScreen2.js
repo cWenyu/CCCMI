@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {ListItem, Button} from 'react-native-elements';
 import {useTheme} from '@react-navigation/native';
@@ -7,6 +7,8 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 const SearchRiverScreen2 = ({navigation, route}) => {
   const {colors} = useTheme();
+  const [sampleData, setSampleData] = useState([]);
+
   const styles = StyleSheet.create({
     container: {
       flex: 1,
@@ -22,6 +24,13 @@ const SearchRiverScreen2 = ({navigation, route}) => {
       textAlign: 'center',
     },
   });
+
+  React.useEffect(()=>{
+    if(route.params?.sampleData) {
+      setSampleData(route.params.sampleData);
+      console.log('(search river 2 )sample data: ' + sampleData);
+    }
+  }, [route.params?.sampleData])
 
   const storeData = async value => {
     try {
@@ -114,8 +123,11 @@ const SearchRiverScreen2 = ({navigation, route}) => {
         testID={testVariables.riverDetailChooseRiverButton}
         title="Choose this river"
         onPress={() => {
-          navigation.navigate('ArduinoScreen');
-          storeData(route.params.data);
+          setSampleData([...sampleData, JSON.stringify(route.params.data)])
+          // sampleData.push({"river": JSON.stringify(route.params.data)}) //here
+          navigation.navigate('ArduinoScreen', {sampleData: sampleData});
+          console.log('riverdata:' + JSON.stringify(route.params.data))
+          // storeData(route.params.data);
         }}
         buttonStyle={{ width: 360, height: 50, backgroundColor: "#02ab9e" }}
           containerStyle={{ margin: 5, alignItems: "center", marginTop: 20 }}
