@@ -118,7 +118,7 @@ const SearchRiverScreen = ({navigation, route}) => {
             key={el.river_id}
             title={el.river_name.toString()}
             onPress={() =>
-              navigation.navigate('SearchRiverScreen2', {data: el, sampleData: JSON.stringify(route.params.sampleData)})
+              navigation.navigate('SearchRiverScreen2', {data: el, sampleData: route.params.sampleData[0]})
             }
             buttonStyle={{width: 270, height: 50, backgroundColor: '#02ab9e'}}
             containerStyle={{margin: 5, alignItems: 'center', marginTop: 20}}

@@ -27,8 +27,7 @@ const SearchRiverScreen2 = ({navigation, route}) => {
 
   React.useEffect(()=>{
     if(route.params?.sampleData) {
-      setSampleData(route.params.sampleData);
-      console.log('(search river 2 )sample data: ' + sampleData);
+      console.log(JSON.stringify(route.params));
     }
   }, [route.params?.sampleData])
 
@@ -123,10 +122,8 @@ const SearchRiverScreen2 = ({navigation, route}) => {
         testID={testVariables.riverDetailChooseRiverButton}
         title="Choose this river"
         onPress={() => {
-          setSampleData([...sampleData, JSON.stringify(route.params.data)])
           // sampleData.push({"river": JSON.stringify(route.params.data)}) //here
-          navigation.navigate('ArduinoScreen', {sampleData: sampleData});
-          console.log('riverdata:' + JSON.stringify(route.params.data))
+          navigation.navigate('ArduinoScreen', route.params);
           // storeData(route.params.data);
         }}
         buttonStyle={{ width: 360, height: 50, backgroundColor: "#02ab9e" }}

@@ -11,14 +11,13 @@ import testVariables from '../appium_automation_testing/test_variables';
 
 
 const ArduinoScreen = ({navigation, route}) => {
-let sampleData = [];
+
 
   React.useEffect(()=>{
-    if(route.params?.sampleData) {
-      sampleData = route.params.sampleData;
-      console.log('(arduino screen)sampleData:' + route.params.sampleData);
+    if(route.params) {
+      console.log('(arduino screen)sampleData:' +JSON.stringify(route.params));
     }
-  }, [route.params?.surveyAnswers])
+  }, [route.params])
 
   const [data, setData] = React.useState({
     arduinoId: '',
