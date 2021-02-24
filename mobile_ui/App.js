@@ -24,7 +24,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {DrawerContent} from './screens/DrawerContent';
 import Icon from 'react-native-vector-icons/Ionicons';
 import MainTabScreen from './screens/MainTabScreen';
-import SupportScreen from './screens/SupportScreen';
+import SafetyGuideScreen from './screens/SafetyGuideScreen';
 import SettingsScreen from './screens/SettingsScreen';
 import ArduinoScreen from './screens/ArduinoScreen';
 import ArduinoScreen2 from './screens/ArduinoScreen2';
@@ -293,7 +293,10 @@ const App = () => {
             <Drawer.Navigator
               drawerContent={props => <DrawerContent {...props} />}>
               <Drawer.Screen name="HomeScreen" component={HomeStackScreen} />
-              <Drawer.Screen name="SupportScreen" component={SupportScreen} />
+              <Drawer.Screen
+                name="SafetyGuideScreen"
+                component={SafetyGuideScreen}
+              />
               <Drawer.Screen name="SettingsScreen" component={SettingsScreen} />
               <Drawer.Screen name="MainTabScreen" component={MainTabScreen} />
             </Drawer.Navigator>

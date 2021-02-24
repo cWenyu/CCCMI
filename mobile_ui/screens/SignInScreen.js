@@ -76,9 +76,17 @@ const SignInScreen = ({navigation}) => {
         });
 
         if (response && response.data && response.data.status) {
-          console.log(JSON.stringify(response.data));
+          // console.log(JSON.stringify(response.data));
           if (response.data.status === 'Login Success') {
             await AsyncStorage.setItem('username', response.data.user_username);
+            await AsyncStorage.setItem(
+              'userState',
+              response.data.user_safety_guide_accept_state.toString(),
+            );
+            await AsyncStorage.setItem(
+              'userID',
+              response.data.user_id.toString(),
+            );
             signIn(response.data.user_username);
           } else {
             setData({
