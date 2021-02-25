@@ -20,6 +20,7 @@ from django.conf import settings
 
 urlpatterns = [
     path('aquality_server/', include('aquality_server.urls')),
+    path('aquality_admin/',include('aquality_admin.urls')),
     path('admin/', admin.site.urls)
 ]
 

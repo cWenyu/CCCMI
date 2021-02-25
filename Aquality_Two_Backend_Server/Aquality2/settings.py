@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'aquality_server.apps.AqualityServerConfig',
+    'aquality_admin.apps.AqualityAdminConfig',
     'django_filters',
     'rest_framework',
     'storages'
