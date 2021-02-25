@@ -14,6 +14,7 @@ def checkUser(request):
         user_account = User_Account.objects.filter(user=userGet)[0]
         return JsonResponse({
             'status': 'Login Success',
+            'user_id':userGet.id,
             'user_username': userGet.username,
             'date_joined': userGet.date_joined,
             'user_first_name': userGet.first_name,
