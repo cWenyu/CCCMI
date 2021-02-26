@@ -12,7 +12,7 @@ const BUTTONCOLOR = 'rgba(2, 171, 158,1)';
 const survey = [
   {
     questionType: 'Info',
-    questionText: 'Finish survey to take new sample.'
+    questionText: 'Start survey for river surroundings.'
   },
   {
     questionType: 'SelectionGroup',
@@ -43,64 +43,64 @@ const survey = [
       },
     ]
   },
-  // {
-  //   questionType: 'SelectionGroup',
-  //   questionText:
-  //     '2/21\nPrincipal Type of Substratum Sampled:\n\nGravel?',
-  //   questionId: 'b',
-  //   questionSettings: {
-  //     maxMultiSelect: 1,
-  //     minMultiSelect: 1,
-  //     autoAdvance: true,
-  //   },
-  //   options: [
-  //     {
-  //       optionText: 'None',
-  //       value: 'none'
-  //     },
-  //     {
-  //       optionText: 'Present',
-  //       value: 'present'
-  //     },
-  //     {
-  //       optionText: 'Moderate',
-  //       value: 'moderate'
-  //     },
-  //     {
-  //       optionText: 'Dominant',
-  //       value: 'dominant'
-  //     },
-  //   ]
-  // },
-  // {
-  //   questionType: 'SelectionGroup',
-  //   questionText:
-  //     '3/21\nPrincipal Type of Substratum Sampled:\n\nSand?',
-  //   questionId: 'c',
-  //   questionSettings: {
-  //     maxMultiSelect: 1,
-  //     minMultiSelect: 1,
-  //     autoAdvance: true,
-  //   },
-  //   options: [
-  //     {
-  //       optionText: 'None',
-  //       value: 'none'
-  //     },
-  //     {
-  //       optionText: 'Present',
-  //       value: 'present'
-  //     },
-  //     {
-  //       optionText: 'Moderate',
-  //       value: 'moderate'
-  //     },
-  //     {
-  //       optionText: 'Dominant',
-  //       value: 'dominant'
-  //     },
-  //   ]
-  // },
+  {
+    questionType: 'SelectionGroup',
+    questionText:
+      '2/21\nPrincipal Type of Substratum Sampled:\n\nGravel?',
+    questionId: 'b',
+    questionSettings: {
+      maxMultiSelect: 1,
+      minMultiSelect: 1,
+      autoAdvance: true,
+    },
+    options: [
+      {
+        optionText: 'None',
+        value: 'none'
+      },
+      {
+        optionText: 'Present',
+        value: 'present'
+      },
+      {
+        optionText: 'Moderate',
+        value: 'moderate'
+      },
+      {
+        optionText: 'Dominant',
+        value: 'dominant'
+      },
+    ]
+  },
+  {
+    questionType: 'SelectionGroup',
+    questionText:
+      '3/21\nPrincipal Type of Substratum Sampled:\n\nSand?',
+    questionId: 'c',
+    questionSettings: {
+      maxMultiSelect: 1,
+      minMultiSelect: 1,
+      autoAdvance: true,
+    },
+    options: [
+      {
+        optionText: 'None',
+        value: 'none'
+      },
+      {
+        optionText: 'Present',
+        value: 'present'
+      },
+      {
+        optionText: 'Moderate',
+        value: 'moderate'
+      },
+      {
+        optionText: 'Dominant',
+        value: 'dominant'
+      },
+    ]
+  },
   // {
   //   questionType: 'SelectionGroup',
   //   questionText:
@@ -733,7 +733,7 @@ const survey = [
   // },
   {
     questionType: 'Info',
-    questionText: 'Tap finish to take new sample.'
+    questionText: 'Finish survey?'
   },
 ];
 

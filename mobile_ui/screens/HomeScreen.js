@@ -72,6 +72,7 @@ const HomeScreen = ({navigation}) => {
         titleProps={{}}
         titleStyle={{marginHorizontal: 22, fontSize: 18}}
       />
+     
     </View>
   );
 };
