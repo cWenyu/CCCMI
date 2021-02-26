@@ -229,7 +229,7 @@ const AnalyzeScreen = ({ navigation }) => {
 
   const handleSave = () => {
     navigation.navigate('InsectScreen', {
-      insect: insectList,
+      aiInsect: insectList,
     });
   };
 

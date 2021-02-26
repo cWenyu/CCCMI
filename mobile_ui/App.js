@@ -48,6 +48,8 @@ import testVariables from './appium_automation_testing/test_variables';
 import SampleHistoryScreen from './screens/SampleHistoryScreen';
 import HistoryDetail from './screens/HistoryDetail';
 import HistoryList from './screens/HistoryList';
+import { Provider } from 'react-redux'
+import store from './components/reduxStore'
 
 const Drawer = createDrawerNavigator();
 
@@ -392,7 +394,7 @@ const App = () => {
       <TakeSampleStack.Screen
         name="selectInsect1"
         component={selectInsect1}
-options={{
+        options={{
           title: 'selectInsect1',
           headerStyle: {
             backgroundColor: '#009387',
@@ -437,27 +439,29 @@ options={{
   );
 
   return (
-    <PaperProvider theme={theme}>
-      <AuthContext.Provider value={authContext}>
-        <NavigationContainer theme={theme}>
-          {loginState.username !== null ? (
-            <Drawer.Navigator
-              drawerContent={props => <DrawerContent {...props} />}>
-              <Drawer.Screen name="HomeScreen" component={HomeStackScreen} />
-              <Drawer.Screen
-                name="TakeSampleScreen"
-                component={TakeSampleStackScreen}
-              />
-              <Drawer.Screen name="SupportScreen" component={SupportScreen} />
-              <Drawer.Screen name="SettingsScreen" component={SettingsScreen} />
-              <Drawer.Screen name="MainTabScreen" component={MainTabScreen} />
-            </Drawer.Navigator>
-          ) : (
-              <RootStackScreen />
-            )}
-        </NavigationContainer>
-      </AuthContext.Provider>
-    </PaperProvider>
+    <Provider store={store}>
+      <PaperProvider theme={theme}>
+        <AuthContext.Provider value={authContext}>
+          <NavigationContainer theme={theme}>
+            {loginState.username !== null ? (
+              <Drawer.Navigator
+                drawerContent={props => <DrawerContent {...props} />}>
+                <Drawer.Screen name="HomeScreen" component={HomeStackScreen} />
+                <Drawer.Screen
+                  name="TakeSampleScreen"
+                  component={TakeSampleStackScreen}
+                />
+                <Drawer.Screen name="SupportScreen" component={SupportScreen} />
+                <Drawer.Screen name="SettingsScreen" component={SettingsScreen} />
+                <Drawer.Screen name="MainTabScreen" component={MainTabScreen} />
+              </Drawer.Navigator>
+            ) : (
+                <RootStackScreen />
+              )}
+          </NavigationContainer>
+        </AuthContext.Provider>
+      </PaperProvider>
+    </Provider>
   );
 };
 

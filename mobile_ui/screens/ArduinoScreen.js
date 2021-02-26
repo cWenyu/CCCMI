@@ -1,21 +1,22 @@
-import React, {useState} from 'react';
-import {View, StyleSheet, TextInput} from 'react-native';
+import React, { useState } from 'react';
+import { View, StyleSheet, TextInput } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {Text} from 'react-native-elements';
-import {useTheme} from '@react-navigation/native';
+import { Text } from 'react-native-elements';
+import { useTheme } from '@react-navigation/native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
 import * as Animatable from 'react-native-animatable';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 import testVariables from '../appium_automation_testing/test_variables';
+import { Button } from 'react-native-elements';
 
 
-const ArduinoScreen = ({navigation, route}) => {
+const ArduinoScreen = ({ navigation, route }) => {
 
 
-  React.useEffect(()=>{
-    if(route.params) {
-      console.log('(arduino screen)sampleData:' +JSON.stringify(route.params));
+  React.useEffect(() => {
+    if (route.params) {
+      console.log(JSON.stringify(route.params));
     }
   }, [route.params])
 
@@ -30,7 +31,7 @@ const ArduinoScreen = ({navigation, route}) => {
       arduinoId: val,
     });
   };
-  const {colors} = useTheme();
+  const { colors } = useTheme();
   const styles = StyleSheet.create({
     container: {
       flex: 1,
@@ -46,24 +47,33 @@ const ArduinoScreen = ({navigation, route}) => {
       flexDirection: 'row',
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: colors.background,
+      backgroundColor: colors.border,
       marginBottom: 30,
+      height: 85,
+      borderRadius: 8,
+      width: '95%',
     },
     input: {
       flex: 1,
       paddingTop: 10,
-      marginLeft: 10,
+      marginLeft: 13,
+      marginRight:13,
       paddingBottom: 10,
-      paddingLeft: 0,
+      paddingLeft: 8,
       backgroundColor: colors.background,
       color: colors.text,
       borderBottomColor: colors.text,
-      borderBottomWidth: 1,
+      borderRadius: 5,
     },
     errorMsg: {
       color: '#FF0000',
       fontSize: 14,
+      marginBottom: 20,
     },
+    searchIcon: {
+      marginLeft: 3,
+      paddingRight: 0,
+    }
   });
 
   const storeData = async value => {
@@ -101,8 +111,7 @@ const ArduinoScreen = ({navigation, route}) => {
             });
             //save response to async storage
             storeData(response.data[0]);
-            console.log(response.data[0])
-            navigation.navigate('ArduinoScreen2', response.data[0]);
+            navigation.navigate('ArduinoScreen2', route.params);
           }
         } else {
           setData({
@@ -123,28 +132,17 @@ const ArduinoScreen = ({navigation, route}) => {
       accessibilityLabel={testVariables.arduinoScreenContainer}
       testID={testVariables.arduinoScreenContainer}>
       <Text h4 h4Style={styles.title}>
-        Connect to sensor device
+        Have a sensor device?
       </Text>
       <View style={styles.searchSection}>
         <TextInput
           accessibilityLabel={testVariables.arduinoScreenIDTextInput}
           testID={testVariables.arduinoScreenIDTextInput}
-          placeholder="Insert Device ID here."
+          placeholder="Insert your Device ID"
           placeholderTextColor={colors.text}
           style={styles.input}
           onChangeText={val => {
             textInputChange(val);
-          }}
-        />
-        <Icon.Button
-          accessibilityLabel={testVariables.arduinoScreenSearchIconButton}
-          testID={testVariables.arduinoScreenSearchIconButton}
-          name="magnify"
-          backgroundColor="transparent"
-          size={20}
-          color={colors.text}
-          onPress={() => {
-            checkDeviceId();
           }}
         />
       </View>
@@ -158,7 +156,41 @@ const ArduinoScreen = ({navigation, route}) => {
           <Text style={styles.errorMsg}>Device with device ID not found.</Text>
         </Animatable.View>
       )}
-      {/* <Button title="Turn On Bluetooth" type="outline" /> */}
+      <Button
+        title="Search Your Device"
+        onPress={() => {
+          checkDeviceId();
+        }}
+        buttonStyle={{ width: 250, height: 50, backgroundColor: "#02ab9e", borderRadius: 5, }}
+        containerStyle={{ margin: 5, alignItems: "center", marginTop: 55 }}
+        disabledStyle={{
+          borderWidth: 2,
+          borderColor: "#00F"
+        }}
+        disabledTitleStyle={{ color: "#00F" }}
+        linearGradientProps={null}
+        loadingProps={{ animating: true }}
+        loadingStyle={{}}
+        titleProps={{}}
+        titleStyle={{ marginHorizontal: 22, fontSize: 18 }}
+      />
+      <Button
+        buttonStyle={{ width: 95, height: 35, backgroundColor: '#303030' }}
+        containerStyle={{ margin: 5, alignItems: 'center', marginTop: 32 }}
+        disabledStyle={{
+          borderWidth: 2,
+          borderColor: '#00F',
+        }}
+        disabledTitleStyle={{ color: '#00F' }}
+        linearGradientProps={null}
+
+        loadingProps={{ animating: true }}
+        loadingStyle={{}}
+        onPress={() => navigation.navigate('InsectScreen', route.params)}
+        title="skip"
+        titleProps={{}}
+        titleStyle={{ marginHorizontal: 22, fontSize: 18 }}
+      />
     </View>
   );
 };

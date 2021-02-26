@@ -11,7 +11,6 @@ const selectInsect1 = ({navigation}) => {
   const [insectList, setInsectList] = useState([]);
   const {colors} = useTheme();
   const [selectedInsectList, setSelectedInsectList] = useState([]);
-
   const [selectedInsect, setSelectedInsect] = useState({
     insect_name: '',
     amount: null,
@@ -112,7 +111,7 @@ const selectInsect1 = ({navigation}) => {
     newSelectedInsect.amount = selecTedAmount;
     newSelectedInsect.insect_image = imageName;
     setSelectedInsect(newSelectedInsect);
-    console.log('new insect:' + newSelectedInsect);
+    console.log('new selected insect:' + JSON.stringify(newSelectedInsect));
     handleUpdate(newSelectedInsect);
     setSelectedAmount('');
   };
@@ -148,7 +147,7 @@ const selectInsect1 = ({navigation}) => {
   };
 
   const handleSubmit = () => {
-    navigation.navigate('InsectScreen', {post: selectedInsectList});
+    navigation.navigate('InsectScreen', {selectedInsect: selectedInsectList});
   };
 
   return (

@@ -263,14 +263,17 @@ const InsectScreen = ({navigation, route}) => {
   };
 
   useEffect(() => {
-    if (route.params?.post) {
-      setInsectList(route.params.post);
+    if (route.params?.selectedInsect) {
+      setInsectList(route.params.selectedInsect);
     }
-    if (route.params?.insect) {
-      setAnalysedInsect(route.params.insect);
+    if (route.params?.aiInsect) {
+      setAnalysedInsect(route.params.aiInsect);
+    }
+    if(route.params) {
+      console.log(JSON.stringify(route.params));
     }
     // setallinsect();
-  }, [route.params?.post, route.params?.insect]);
+  }, [route.params?.selectedInsect, route.params?.aiInsect]);
 
   return (
     <View

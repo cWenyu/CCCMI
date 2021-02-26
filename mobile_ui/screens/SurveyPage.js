@@ -1,8 +1,12 @@
-import React, { Component, useState } from 'react';
-import { StyleSheet, Button, ScrollView, Text, TextInput, View } from 'react-native';
-import { SimpleSurvey } from 'react-native-simple-survey';
-import { SurveyComponent } from '../components/SurveyComponent';
+import React, { Component } from 'react';
+import { Alert } from 'react-native';
+import { StyleSheet, Button, Text, TextInput, View, BackHandler } from 'react-native';
+import SurveyComponent from '../components/SurveyComponent';
 import { COLORS } from '../components/validColors';
+import { connect } from 'react-redux'
+import { resetSurveyForm } from '../components/reduxStore'
+
+
 
 const GREEN = 'rgba(141,196,63,1)';
 const CHOSENBUTTON = 'rgba(0,204,188,1)';
@@ -217,12 +221,12 @@ const survey = [
   //     }
   //   ]
   // },
-  // {
-  //   questionType: 'TextInput',
-  //   questionText: '8/21\nDo Cattle or other Farm Animals have access to the stream? \n\nComment',
-  //   questionId: 'h',
-  //   placeholderText: 'Please leave comment...',
-  // },
+  {
+    questionType: 'TextInput',
+    questionText: '8/21\nDo Cattle or other Farm Animals have access to the stream? \n\nComment',
+    questionId: 'h',
+    placeholderText: 'Please leave comment...',
+  },
   // {
   //   questionType: 'SelectionGroup',
   //   questionText:
@@ -309,35 +313,35 @@ const survey = [
   //     }
   //   ]
   // },
-  // {
-  //   questionType: 'SelectionGroup',
-  //   questionText:
-  //     '12/21\nWhich of these describe the land next to the stream bank?\n\nForest?',
-  //     questionId: 'k',
-  //   questionSettings: {
-  //     maxMultiSelect: 1,
-  //     minMultiSelect: 1,
-  //     autoAdvance: true,
-  //   },
-  //   options: [
-  //     {
-  //       optionText: 'Present',
-  //       value: 'present'
-  //     },
-  //     {
-  //       optionText: 'Moderate',
-  //       value: 'moderate'
-  //     },
-  //     {
-  //       optionText: 'Abundant',
-  //       value: 'abundant'
-  //     },
-  //     {
-  //       optionText: 'Other',
-  //       value: 'other'
-  //     }
-  //   ]
-  // },
+  {
+    questionType: 'SelectionGroup',
+    questionText:
+      '12/21\nWhich of these describe the land next to the stream bank?\n\nForest?',
+    questionId: 'k',
+    questionSettings: {
+      maxMultiSelect: 1,
+      minMultiSelect: 1,
+      autoAdvance: true,
+    },
+    options: [
+      {
+        optionText: 'Present',
+        value: 'present'
+      },
+      {
+        optionText: 'Moderate',
+        value: 'moderate'
+      },
+      {
+        optionText: 'Abundant',
+        value: 'abundant'
+      },
+      {
+        optionText: 'Other',
+        value: 'other'
+      }
+    ]
+  },
   // {
   //   questionType: 'SelectionGroup',
   //   questionText:
@@ -737,7 +741,7 @@ const survey = [
   },
 ];
 
-export default class SurveyScreen extends Component {
+class SurveyScreen extends Component {
   static navigationOptions = () => {
     return {
       headerStyle: {
@@ -753,14 +757,67 @@ export default class SurveyScreen extends Component {
     };
   }
 
+
+
   constructor(props) {
     super(props);
     this.state = { backgroundColor: BGCOLOR, answersSoFar: '' };
     this.baseState = this.state;
     this.onNavigateBack = this.onNavigateBack.bind(this);
+    this.backAction = this.backAction.bind(this);
+    props.resetSurveyForm();
   }
 
-  
+
+  backAction = () => {
+    if (!this.props.navigation.isFocused()) {
+      // The screen is not focused, so don't do anything
+      // return false;
+      Alert.alert("Hold on!", "Go back to Home will not save your proccess of taking sample.", [
+        {
+          text: "Cancel",
+          onPress: () => null,
+          style: "cancel"
+        },
+        {
+          text: "BACK", onPress: () => {
+            this.props.resetSurveyForm();
+            this.props.navigation.popToTop();
+            this.props.navigation.navigate('HomeScreen');
+          }
+        }
+      ]);
+    } else {
+      Alert.alert("Hold on!", "Go back to Home will not save your proccess of taking sample.", [
+        {
+          text: "Cancel",
+          onPress: () => null,
+          style: "cancel"
+        },
+        {
+          text: "BACK", onPress: () => {
+            this.props.resetSurveyForm();
+            this.props.navigation.navigate('HomeScreen');
+          }
+        }
+      ]);
+    }
+    return true;
+
+  };
+
+  componentDidMount() {
+    this.backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      this.backAction
+    );
+  }
+
+  componentWillUnmount() {
+    this.backHandler.remove();
+  }
+
+
 
   onSurveyFinished(answers) {
     /** 
@@ -789,18 +846,18 @@ export default class SurveyScreen extends Component {
      *  separate NPM package, react-native-selection-group, which has additional features such as multi-selection.
      */
 
-    let sampleData = [];
+    let surveyData = [];
     const infoQuestionsRemoved = [...answers];
 
     // Convert from an array to a proper object. This won't work if you have duplicate questionIds
     const answersAsObj = {};
     for (const elem of infoQuestionsRemoved) { answersAsObj[elem.questionId] = elem.value; }
-      sampleData.push({"survey": answersAsObj});
-          this.props.navigation.navigate('SearchRiverScreen', { sampleData: sampleData });
+    surveyData.push({ "survey": answersAsObj });
+    this.props.navigation.navigate('SearchRiverScreen', { surveyData: surveyData });
 
     // this.setState(this.baseState)
     // this.props.navigation.navigate('SearchRiverScreen', { surveyAnswers: answersAsObj });
-    
+
 
   }
 
@@ -931,8 +988,8 @@ export default class SurveyScreen extends Component {
     );
   }
 
-  onNavigateBack(){
-    this.props.navigation.navigate('Home');
+  onNavigateBack() {
+    this.props.navigation.goBack();
   }
   render() {
     return (
@@ -1064,3 +1121,10 @@ const styles = StyleSheet.create({
     marginLeft: 10
   },
 });
+
+
+const mapDispatchToProps = { resetSurveyForm }
+export default connect(
+  null,
+  mapDispatchToProps
+)(SurveyScreen)

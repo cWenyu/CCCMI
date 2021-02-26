@@ -53,7 +53,7 @@ const SearchRiverScreen2 = ({navigation, route}) => {
               River Name
             </ListItem.Subtitle>
             <ListItem.Title style={styles.title}>
-              {route.params.data.river_name}
+              {route.params.riverData.river_name}
             </ListItem.Title>
           </ListItem.Content>
         </ListItem>
@@ -61,7 +61,7 @@ const SearchRiverScreen2 = ({navigation, route}) => {
           <ListItem.Content>
             <ListItem.Subtitle style={styles.title}>Latitude</ListItem.Subtitle>
             <ListItem.Title style={styles.title}>
-              {route.params.data.latitude}
+              {route.params.riverData.latitude}
             </ListItem.Title>
           </ListItem.Content>
         </ListItem>
@@ -71,7 +71,7 @@ const SearchRiverScreen2 = ({navigation, route}) => {
               Longitude
             </ListItem.Subtitle>
             <ListItem.Title style={styles.title}>
-              {route.params.data.longitude}
+              {route.params.riverData.longitude}
             </ListItem.Title>
           </ListItem.Content>
         </ListItem>
@@ -81,7 +81,7 @@ const SearchRiverScreen2 = ({navigation, route}) => {
               River Catchments
             </ListItem.Subtitle>
             <ListItem.Title style={styles.title}>
-              {route.params.data.river_catchments}
+              {route.params.riverData.river_catchments}
             </ListItem.Title>
           </ListItem.Content>
         </ListItem>
@@ -91,7 +91,7 @@ const SearchRiverScreen2 = ({navigation, route}) => {
               River Code
             </ListItem.Subtitle>
             <ListItem.Title style={styles.title}>
-              {route.params.data.river_code}
+              {route.params.riverData.river_code}
             </ListItem.Title>
           </ListItem.Content>
         </ListItem>
@@ -101,7 +101,7 @@ const SearchRiverScreen2 = ({navigation, route}) => {
               Local Authority
             </ListItem.Subtitle>
             <ListItem.Title style={styles.title}>
-              {route.params.data.local_authority}
+              {route.params.riverData.local_authority}
             </ListItem.Title>
           </ListItem.Content>
         </ListItem>
@@ -112,7 +112,7 @@ const SearchRiverScreen2 = ({navigation, route}) => {
               Transboundary
             </ListItem.Subtitle>
             <ListItem.Title style={styles.title}>
-              {route.params.data.transboundary}
+              {route.params.riverData.transboundary}
             </ListItem.Title>
           </ListItem.Content>
         </ListItem>
@@ -126,8 +126,8 @@ const SearchRiverScreen2 = ({navigation, route}) => {
           navigation.navigate('ArduinoScreen', route.params);
           // storeData(route.params.data);
         }}
-        buttonStyle={{ width: 360, height: 50, backgroundColor: "#02ab9e" }}
-          containerStyle={{ margin: 5, alignItems: "center", marginTop: 20 }}
+        buttonStyle={{ width: 360, height: 50, backgroundColor: "#02ab9e", borderRadius: 5, }}
+          containerStyle={{ margin: 5, alignItems: "center", marginTop: 35 }}
           disabledStyle={{
             borderWidth: 2,
             borderColor: "#00F"
