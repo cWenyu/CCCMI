@@ -5,6 +5,9 @@ import SurveyComponent from '../components/SurveyComponent';
 import { COLORS } from '../components/validColors';
 import { connect } from 'react-redux'
 import { resetSurveyForm } from '../components/reduxStore'
+
+
+
 const GREEN = 'rgba(141,196,63,1)';
 const CHOSENBUTTON = 'rgba(0,204,188,1)';
 const BGCOLOR = 'rgba(255, 255, 255, 1)';

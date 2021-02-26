@@ -152,7 +152,6 @@ class SurveyComponent extends Component {
                         // Remove empty answers, coming from info screens.
                         const filteredAnswers = answers.filter(n => n);
                         this.props.onSurveyFinished(filteredAnswers);
-                        this.props.resetSurveyForm();
                     }
                 }, enabled));
         }
