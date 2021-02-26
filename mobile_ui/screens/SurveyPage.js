@@ -843,14 +843,14 @@ class SurveyScreen extends Component {
      *  separate NPM package, react-native-selection-group, which has additional features such as multi-selection.
      */
 
-    let sampleData = [];
+    let surveyData = [];
     const infoQuestionsRemoved = [...answers];
 
     // Convert from an array to a proper object. This won't work if you have duplicate questionIds
     const answersAsObj = {};
     for (const elem of infoQuestionsRemoved) { answersAsObj[elem.questionId] = elem.value; }
-    sampleData.push({ "survey": answersAsObj });
-    this.props.navigation.navigate('SearchRiverScreen', { sampleData: sampleData });
+    surveyData.push({ "survey": answersAsObj });
+    this.props.navigation.navigate('SearchRiverScreen', { surveyData: surveyData });
 
     // this.setState(this.baseState)
     // this.props.navigation.navigate('SearchRiverScreen', { surveyAnswers: answersAsObj });
