@@ -175,7 +175,7 @@ const SearchRiverScreen = ({ navigation, route }) => {
       flexDirection: 'row',
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: "#ebebeb",
+      backgroundColor: colors.border,
       marginBottom: 30,
       height: 85,
       borderRadius: 8,
