@@ -1,0 +1,61 @@
+{% load static %}
+<link
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css"
+  rel="stylesheet"
+  integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl"
+  crossorigin="anonymous"
+/>
+<script
+  src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+  crossorigin="anonymous"
+></script>
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{% static 'aquality_admin/styles/login.css' %}"
+/>
+{% block title%} {% endblock %} {% block content %}
+<div class="content-section">
+  <div class="container" id="blankspace"><br /><br /><br /></div>
+  <div class="container">
+    <div class="row">
+      <h1 class="text-center">Aquality V2.0 Admin Login</h1>
+      <div class="login-wrap">
+        <form method="POST" class="form-group">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label class="required form-label" for="id_username">Username:</label>
+            <input
+              type="text"
+              name="username"
+              autofocus
+              autocapitalize="none"
+              autocomplete="username"
+              maxlength="150"
+              required
+              id="id_username"
+              class="form-control"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label class="required form-label" for="id_password">Password:</label>
+            <input
+              type="password"
+              name="password"
+              autocomplete="current-password"
+              required
+              class="form-control"
+              id="id_password"
+            />
+            <input type="hidden" name="next" value="/aquality_admin/index">
+          </div>
+          
+          <button type="submit" class="btn btn-success">Login</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
