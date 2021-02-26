@@ -2,15 +2,20 @@ import React, { Component } from 'react';
 import {
     View,
     ViewPropTypes,
-    BackHandler
 } from 'react-native';
 import PropTypes from 'prop-types';
 
 import SelectionGroup, { SelectionHandler } from 'react-native-selection-group';
-import { ThemeConsumer } from 'react-native-elements';
-import { Alert } from 'react-native';
+import {
+    resetSurveyForm, 
+    updateSelectionHandlers,
+    updateQIndex,
+    updateAnswers
+} from './reduxStore';
+import { connect } from 'react-redux'
 
-export class SurveyComponent extends Component {
+
+class SurveyComponent extends Component {
     static propTypes = {
         survey: PropTypes.arrayOf(
             PropTypes.shape({
@@ -39,48 +44,27 @@ export class SurveyComponent extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { currentQuestionIndex: 0, answers: [] };
+        this.props = props;
+        // this.state = { currentQuestionIndex: 0, answers: [] };
         this.updateAnswer.bind(this);
-        this.selectionHandlers = [];
+        // this.selectionHandlers = [];
     }
 
-    backAction = () => {
-        Alert.alert("Hold on!", "Are you sure you want to go back?", [
-          {
-            text: "Cancel",
-            onPress: () => null,
-            style: "cancel"
-          },
-          { text: "YES", onPress: () => { this.reset();this.props.onNavigateBack(); }}
-        ]);
-        return true;
-      };
-
-      
-      componentDidMount() {
-        BackHandler.addEventListener("hardwareBackPress", this.backAction);
-      }
-    
-      componentWillUnmount() {
-        BackHandler.removeEventListener("hardwareBackPress", this.backAction);
-      }
-    
 
     getAnswers() {
-        const filteredAnswers = this.state.answers.filter(n => n);
+        const filteredAnswers = this.props.surveyForm.answers.filter(n => n);
         return filteredAnswers;
     }
 
     // This function returns true if all the condition have been met for a multiple selection question.
     validateMultipleSelectionSurveyAnswers() {
-        const { currentQuestionIndex, answers } = this.state;
+        const { currentQuestionIndex, answers } = this.props.surveyForm;
         if (!this.props.survey[currentQuestionIndex].questionType === 'MultipleSelectionGroup') {
             throw new Error(
                 'validateMultipleSelectionSurveyAnswers was asked to validate a non MultipleSelectionGroup item'
             );
         }
 
-        let maxMultiSelect = 1;
         let minMultiSelect = 1;
         if (this.props.survey[currentQuestionIndex].questionSettings.maxMultiSelect) {
             maxMultiSelect = Number(this.props.survey[currentQuestionIndex].questionSettings.maxMultiSelect);
@@ -98,16 +82,17 @@ export class SurveyComponent extends Component {
     }
 
     updateAnswer(answerForCurrentQuestion) {
-        const { answers } = this.state;
-        answers[this.state.currentQuestionIndex] = answerForCurrentQuestion;
-        this.setState({ answers });
+        const { answers } = this.props.surveyForm;
+        answers[this.props.surveyForm.currentQuestionIndex] = answerForCurrentQuestion;
+        // this.setState({ answers });
+        this.props.updateAnswers(answers)
     }
 
     // Do what the next or finished button normally do.
     autoAdvance() {
-        const { answers } = this.state;
+        const { answers } = this.props.surveyForm;
         const { survey } = this.props;
-        let { currentQuestionIndex } = this.state;
+        let { currentQuestionIndex } = this.props.surveyForm;
         if (survey[currentQuestionIndex].questionType === 'MultipleSelectionGroup'
             && !this.validateMultipleSelectionSurveyAnswers()) {
             return;
@@ -127,25 +112,26 @@ export class SurveyComponent extends Component {
                 this.props.onAnswerSubmitted(answers[currentQuestionIndex]);
             }
             currentQuestionIndex++;
-            this.setState({ currentQuestionIndex });
+            this.props.updateQIndex(currentQuestionIndex);
+            // this.setState({ currentQuestionIndex });
         }
     }
 
     renderPreviousButton() {
         if (!this.props.renderPrevious) return;
-        let { currentQuestionIndex } = this.state;
+        let { currentQuestionIndex } = this.props.surveyForm;
         return (
             this.props.renderPrevious(() => {
                 currentQuestionIndex--;
-                this.setState({ currentQuestionIndex });
+                this.props.updateQIndex(currentQuestionIndex);
             }, (currentQuestionIndex !== 0)
             ));
     }
 
     renderFinishOrNextButton() {
-        const { answers } = this.state;
+        const { answers } = this.props.surveyForm;
         const { survey } = this.props;
-        let { currentQuestionIndex } = this.state;
+        let { currentQuestionIndex } = this.props.surveyForm;
 
         let enabled = false;
 
@@ -165,8 +151,8 @@ export class SurveyComponent extends Component {
                     if (this.props.onSurveyFinished) {
                         // Remove empty answers, coming from info screens.
                         const filteredAnswers = answers.filter(n => n);
-                        setTimeout(() => this.reset(), 0);
                         this.props.onSurveyFinished(filteredAnswers);
+                        this.props.resetSurveyForm();
                     }
                 }, enabled));
         }
@@ -177,7 +163,7 @@ export class SurveyComponent extends Component {
                     this.props.onAnswerSubmitted(answers[currentQuestionIndex]);
                 }
                 currentQuestionIndex++;
-                this.setState({ currentQuestionIndex });
+                this.props.updateQIndex(currentQuestionIndex);
             }, enabled)
         );
     }
@@ -217,19 +203,20 @@ export class SurveyComponent extends Component {
         }
     }
 
-    reset() {
-        this.setState({ currentQuestionIndex: 0, answers: [] })
-        this.selectionHandlers = []
+    // reset() {
+    //     this.setState({ currentQuestionIndex: 0, answers: [] })
+    //     this.selectionHandlers = []
 
-    }
+    // }
     renderSelectionGroup() {
         const { survey, renderSelector, selectionGroupContainerStyle, containerStyle } = this.props;
-        const { currentQuestionIndex } = this.state;
+        const { currentQuestionIndex } = this.props.surveyForm;
         const autoAdvanceThisQuestion = Boolean(this.props.survey[currentQuestionIndex].questionSettings && this.props.survey[currentQuestionIndex].questionSettings.autoAdvance);
         this.validateSelectionGroupSettings(this.props.survey[currentQuestionIndex].questionSettings, currentQuestionIndex);
-        if (!this.selectionHandlers[currentQuestionIndex]) {
+        if (!this.props.surveyForm.selectionHandlers[currentQuestionIndex]) {
             if (!this.props.survey[currentQuestionIndex].questionSettings) {
-                this.selectionHandlers[currentQuestionIndex] = new SelectionHandler({ maxMultiSelect: 1, allowDeselect: true });
+                this.props.updateSelectionHandlers(currentQuestionIndex, new SelectionHandler({ maxMultiSelect: 1, allowDeselect: true }))
+                // this.selectionHandlers[currentQuestionIndex] = new SelectionHandler({ maxMultiSelect: 1, allowDeselect: true });
             } else {
                 const { allowDeselect, defaultSelection } = this.props.survey[currentQuestionIndex].questionSettings;
 
@@ -244,7 +231,9 @@ export class SurveyComponent extends Component {
                 options.allowDeselect = allowDeselect === undefined || allowDeselect === true;
                 options.defaultSelection = defaultSelection !== undefined ? defaultSelection : null;
 
-                this.selectionHandlers[currentQuestionIndex] = new SelectionHandler(options);
+                this.props.updateSelectionHandlers(currentQuestionIndex, new SelectionHandler(options))
+
+                // this.selectionHandlers[currentQuestionIndex] = new SelectionHandler(options);
 
                 if (typeof options.defaultSelection === 'number') {
                     // Set timeout is used here to avoid updateAnswer's call to setState.
@@ -261,9 +250,9 @@ export class SurveyComponent extends Component {
                 {this.props.renderQuestionText ?
                     this.props.renderQuestionText(this.props.survey[currentQuestionIndex].questionText) : null}
                 <SelectionGroup
-                    onPress={this.selectionHandlers[currentQuestionIndex].selectionHandler}
+                    onPress={this.props.surveyForm.selectionHandlers[currentQuestionIndex].selectionHandler}
                     items={survey[currentQuestionIndex].options}
-                    isSelected={this.selectionHandlers[currentQuestionIndex].isSelected}
+                    isSelected={this.props.surveyForm.selectionHandlers[currentQuestionIndex].isSelected}
                     renderContent={renderSelector}
                     containerStyle={selectionGroupContainerStyle}
                     onItemSelected={(item) => {
@@ -287,7 +276,7 @@ export class SurveyComponent extends Component {
 
     renderMultipleSelectionGroup() {
         const { survey, renderSelector, selectionGroupContainerStyle, containerStyle } = this.props;
-        const { currentQuestionIndex } = this.state;
+        const { currentQuestionIndex } = this.props.surveyForm;
         const { allowDeselect, defaultSelection, autoAdvance: autoAdvanceThisQuestion } =
             this.props.survey[currentQuestionIndex].questionSettings;
         const multiSelectMax = Number(this.props.survey[currentQuestionIndex].questionSettings.maxMultiSelect);
@@ -296,7 +285,7 @@ export class SurveyComponent extends Component {
         }
         this.validateSelectionGroupSettings(this.props.survey[currentQuestionIndex].questionSettings);
 
-        if (!this.selectionHandlers[currentQuestionIndex]) {
+        if (!this.props.surveyForm.selectionHandlers[currentQuestionIndex]) {
             if (this.props.survey[currentQuestionIndex].questionSettings.maxMultiSelect) {
                 if (defaultSelection !== undefined && !Array.isArray(defaultSelection)) {
                     throw new Error(
@@ -307,7 +296,8 @@ export class SurveyComponent extends Component {
                 options.maxMultiSelect = multiSelectMax;
                 options.allowDeselect = allowDeselect === undefined || allowDeselect === true;
                 options.defaultSelection = defaultSelection !== undefined ? defaultSelection : null;
-                this.selectionHandlers[currentQuestionIndex] = new SelectionHandler(options);
+                // this.selectionHandlers[currentQuestionIndex] = new SelectionHandler(options);
+                this.props.updateSelectionHandlers(currentQuestionIndex, new SelectionHandler(options))
 
                 if (Array.isArray(options.defaultSelection)) {
                     // Set timeout is used here to avoid updateAnswer's call to setState.
@@ -324,10 +314,10 @@ export class SurveyComponent extends Component {
                 {this.props.renderQuestionText ?
                     this.props.renderQuestionText(this.props.survey[currentQuestionIndex].questionText) : null}
                 <SelectionGroup
-                    onPress={this.selectionHandlers[currentQuestionIndex].selectionHandler}
+                    onPress={this.props.surveyForm.selectionHandlers[currentQuestionIndex].selectionHandler}
                     items={survey[currentQuestionIndex].options}
-                    isSelected={this.selectionHandlers[currentQuestionIndex].isSelected}
-                    getAllSelectedItemIndexes={this.selectionHandlers[currentQuestionIndex].getAllSelectedItemIndexes}
+                    isSelected={this.props.surveyForm.selectionHandlers[currentQuestionIndex].isSelected}
+                    getAllSelectedItemIndexes={this.props.surveyForm.selectionHandlers[currentQuestionIndex].getAllSelectedItemIndexes}
                     renderContent={renderSelector}
                     containerStyle={selectionGroupContainerStyle}
                     onItemSelected={(item, allSelectedItems) => {
@@ -351,8 +341,8 @@ export class SurveyComponent extends Component {
 
     renderNumeric() {
         const { survey, renderNumericInput, containerStyle } = this.props;
-        const currentQuestionIndex = this.state.currentQuestionIndex;
-        const answers = this.state.answers;
+        const currentQuestionIndex = this.props.surveyForm.currentQuestionIndex;
+        const answers = this.props.surveyForm.answers;
         const { questionText, questionId, placeholderText = null, defaultValue = '' } = survey[currentQuestionIndex];
 
         if (answers[currentQuestionIndex] === undefined && (defaultValue || defaultValue === 0) && Number.isInteger(parseInt(`${defaultValue}`, 10))) {
@@ -392,8 +382,8 @@ export class SurveyComponent extends Component {
 
     renderTextInputElement() {
         const { survey, renderTextInput, containerStyle } = this.props;
-        const currentQuestionIndex = this.state.currentQuestionIndex;
-        const answers = this.state.answers;
+        const currentQuestionIndex = this.props.surveyForm.currentQuestionIndex;
+        const answers = this.props.surveyForm.answers;
         const { questionText, questionId, placeholderText = null, defaultValue } = survey[currentQuestionIndex];
         if (answers[currentQuestionIndex] === undefined && defaultValue) {
             setTimeout(() => this.updateAnswer({
@@ -420,7 +410,7 @@ export class SurveyComponent extends Component {
     }
 
     renderInfo() {
-        const currentQuestionIndex = this.state.currentQuestionIndex;
+        const currentQuestionIndex = this.props.surveyForm.currentQuestionIndex;
         const { survey, renderInfo, containerStyle } = this.props;
         const { questionText } = survey[currentQuestionIndex];
 
@@ -434,7 +424,7 @@ export class SurveyComponent extends Component {
 
     render() {
         const { survey } = this.props;
-        const currentQuestion = this.state.currentQuestionIndex;
+        const currentQuestion = this.props.surveyForm.currentQuestionIndex;
         switch (survey[currentQuestion].questionType) {
             case 'SelectionGroup': return this.renderSelectionGroup();
             case 'MultipleSelectionGroup': return this.renderMultipleSelectionGroup();
@@ -445,3 +435,17 @@ export class SurveyComponent extends Component {
         }
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        surveyForm: state.surveyForm,
+        
+    }
+}
+
+
+const mapDispatchToProps = { resetSurveyForm, updateSelectionHandlers, updateQIndex, updateAnswers }
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(SurveyComponent)

@@ -5,6 +5,8 @@ import {
   TextInput,
   PermissionsAndroid,
   ScrollView,
+  BackHandler,
+  Alert ,
 } from 'react-native';
 import {Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -45,6 +47,26 @@ const SearchRiverScreen = ({navigation, route}) => {
 
       console.log('(search river)sample data: ' + JSON.stringify(route.params.sampleData));
     }
+
+    // const backAction = () => {
+    //   Alert.alert("Hold on!", "Are you sure you want to go back?", [
+    //     {
+    //       text: "Cancel",
+    //       onPress: () => null,
+    //       style: "cancel"
+    //     },
+    //     { text: "YES", onPress: () => navigation.navigate('HomeScreen') }
+    //   ]);
+    //   return true;
+    // };
+
+    // const backHandler = BackHandler.addEventListener(
+    //   "hardwareBackPress",
+    //   backAction
+    // );
+    
+    // return () => backHandler.remove();
+
   }, [route.params?.sampleData]);
 
   /**
