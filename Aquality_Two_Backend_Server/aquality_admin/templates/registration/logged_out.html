@@ -1,4 +1,11 @@
-{% block title%} {% endblock %} {% block content %}
-<h1>Logout Ok </h1>
+{% extends "aquality_admin/base.html" %}
 
+{% block title %} 
+Logout Page
+{% endblock %} 
+{% block content %}
+<div class="container">
+<h1>Logout Ok </h1>
+<a href="/aquality_admin/login/">Back to Login Page</a>
+</div>
 {%endblock%}
