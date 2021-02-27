@@ -7,12 +7,13 @@ import PropTypes from 'prop-types';
 
 import SelectionGroup, { SelectionHandler } from 'react-native-selection-group';
 import {
-    resetSurveyForm, 
+    resetSurveyForm,
     updateSelectionHandlers,
     updateQIndex,
     updateAnswers
 } from './reduxStore';
 import { connect } from 'react-redux'
+import { useTheme } from '@react-navigation/native';
 
 
 class SurveyComponent extends Component {
@@ -30,6 +31,7 @@ class SurveyComponent extends Component {
         ).isRequired,
         onAnswerSubmitted: PropTypes.func,
         onSurveyFinished: PropTypes.func,
+        onSurveyStart: PropTypes.func,
         renderSelector: PropTypes.func,
         renderTextInput: PropTypes.func,
         selectionGroupContainerStyle: ViewPropTypes.style,
@@ -120,12 +122,20 @@ class SurveyComponent extends Component {
     renderPreviousButton() {
         if (!this.props.renderPrevious) return;
         let { currentQuestionIndex } = this.props.surveyForm;
-        return (
-            this.props.renderPrevious(() => {
-                currentQuestionIndex--;
-                this.props.updateQIndex(currentQuestionIndex);
-            }, (currentQuestionIndex !== 0)
-            ));
+        if (currentQuestionIndex === 0) {
+            return (
+                this.props.renderPrevious(() => {
+                    this.props.onSurveyStart();
+                }, (currentQuestionIndex !== -1)
+                ));
+        } else {
+            return (
+                this.props.renderPrevious(() => {
+                    currentQuestionIndex--;
+                    this.props.updateQIndex(currentQuestionIndex);
+                }, (currentQuestionIndex !== -1)
+                ));
+        }
     }
 
     renderFinishOrNextButton() {
@@ -160,6 +170,7 @@ class SurveyComponent extends Component {
             this.props.renderNext(() => {
                 if (this.props.onAnswerSubmitted && answers[currentQuestionIndex]) {
                     this.props.onAnswerSubmitted(answers[currentQuestionIndex]);
+
                 }
                 currentQuestionIndex++;
                 this.props.updateQIndex(currentQuestionIndex);
@@ -341,7 +352,7 @@ class SurveyComponent extends Component {
     renderNumeric() {
         const { survey, renderNumericInput, containerStyle } = this.props;
         const currentQuestionIndex = this.props.surveyForm.currentQuestionIndex;
-        const answers = this.props.surveyForm.answers;
+        const answers = this.props.surveyForm.answers;action
         const { questionText, questionId, placeholderText = null, defaultValue = '' } = survey[currentQuestionIndex];
 
         if (answers[currentQuestionIndex] === undefined && (defaultValue || defaultValue === 0) && Number.isInteger(parseInt(`${defaultValue}`, 10))) {
@@ -422,6 +433,7 @@ class SurveyComponent extends Component {
     }
 
     render() {
+        // const { theme } = this.props;
         const { survey } = this.props;
         const currentQuestion = this.props.surveyForm.currentQuestionIndex;
         switch (survey[currentQuestion].questionType) {
@@ -432,19 +444,27 @@ class SurveyComponent extends Component {
             case 'Info': return this.renderInfo();
             default: return <View />;
         }
+
     }
 }
+
+
 
 const mapStateToProps = (state) => {
     return {
         surveyForm: state.surveyForm,
-        
     }
 }
 
 
 const mapDispatchToProps = { resetSurveyForm, updateSelectionHandlers, updateQIndex, updateAnswers }
-export default connect(
+const ReduxSurveyComponent = connect(
     mapStateToProps,
     mapDispatchToProps
 )(SurveyComponent)
+
+export default function (props) {
+    const theme = useTheme();
+
+    return <ReduxSurveyComponent {...props} theme={theme} />;
+}

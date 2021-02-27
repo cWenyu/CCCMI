@@ -7,7 +7,7 @@
  */
 
 import React, { useEffect } from 'react';
-import { View, ActivityIndicator } from 'react-native';
+import { View, ActivityIndicator, Button } from 'react-native';
 import {
   NavigationContainer,
   DefaultTheme as NavigationDefaultTheme,
@@ -37,18 +37,16 @@ import AnalyzeInsect from './screens/AnalyzeInsect';
 import ResultPage from './screens/ResultPage';
 import uploadImage from './screens/uploadImage';
 import { AuthContext } from './components/context';
-
 import RootStackScreen from './screens/RootStackScreen';
-
 import AsyncStorage from '@react-native-community/async-storage';
 import HomeScreen from './screens/HomeScreen';
-
 import testVariables from './appium_automation_testing/test_variables';
 import SampleHistoryScreen from './screens/SampleHistoryScreen';
 import HistoryDetail from './screens/HistoryDetail';
 import HistoryList from './screens/HistoryList';
 import { Provider } from 'react-redux'
 import store from './components/reduxStore'
+import { connect } from 'react-redux'
 
 const Drawer = createDrawerNavigator();
 
@@ -307,6 +305,14 @@ const App = () => {
           headerTitleStyle: {
             fontWeight: 'bold',
           },
+         headerRight: () => (
+            <Icon.Button
+              name="ios-home"
+              size={25}
+              backgroundColor="#009387"
+              onPress={() => navigation.navigate('HomeScreen')}
+            />
+          ),
         }}
       />
 
@@ -460,3 +466,4 @@ const App = () => {
 };
 
 export default App;
+

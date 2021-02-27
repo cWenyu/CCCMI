@@ -64,6 +64,7 @@ const InsectScreen = ({navigation, route}) => {
     },
     title: {
       paddingTop: 20,
+      color: colors.text
     },
   });
 

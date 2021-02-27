@@ -5,8 +5,7 @@ import SurveyComponent from '../components/SurveyComponent';
 import { COLORS } from '../components/validColors';
 import { connect } from 'react-redux'
 import { resetSurveyForm } from '../components/reduxStore'
-
-
+import { useTheme } from '@react-navigation/native';
 
 const GREEN = 'rgba(141,196,63,1)';
 const CHOSENBUTTON = 'rgba(0,204,188,1)';
@@ -861,6 +860,10 @@ class SurveyScreen extends Component {
 
   }
 
+  onSurveyStart() {
+    this.props.navigation.navigate('HomeScreen');
+  }
+
   /**
    *  After each answer is submitted this function is called. Here you can take additional steps in response to the 
    *  user's answers. From updating a 'correct answers' counter to exiting out of an onboarding flow if the user is 
@@ -941,7 +944,7 @@ class SurveyScreen extends Component {
   renderQuestionText(questionText) {
     return (
       <View style={{ marginLeft: 10, marginRight: 10 }}>
-        <Text numLines={1} style={styles.questionText}>{questionText}</Text>
+        <Text numLines={1} style={[styles.questionText, { color: this.props.theme.colors.text }]}>{questionText}</Text>
       </View>
     );
   }
@@ -950,10 +953,9 @@ class SurveyScreen extends Component {
     return (
       <View>
         <TextInput
-          style={styles.textBox}
+          style={[styles.textBox, { color: this.props.theme.colors.text }]}
           onChangeText={text => onChange(text)}
           numberOfLines={1}
-          underlineColorAndroid={'white'}
           placeholder={placeholder}
           placeholderTextColor={'rgba(184,184,184,1)'}
           value={value}
@@ -968,7 +970,7 @@ class SurveyScreen extends Component {
 
   renderNumericInput(onChange, value, placeholder, onBlur) {
     return (<TextInput
-      style={styles.numericInput}
+      style={[styles.numericInput, { color: this.props.theme.colors.text }]}
       onChangeText={text => { onChange(text); }}
       underlineColorAndroid={'white'}
       placeholderTextColor={'rgba(184,184,184,1)'}
@@ -983,7 +985,7 @@ class SurveyScreen extends Component {
   renderInfoText(infoText) {
     return (
       <View style={{ marginLeft: 10, marginRight: 10 }}>
-        <Text style={styles.infoText}>{infoText}</Text>
+        <Text style={[styles.infoText, { color: this.props.theme.colors.text }]}>{infoText}</Text>
       </View>
     );
   }
@@ -993,26 +995,28 @@ class SurveyScreen extends Component {
   }
   render() {
     return (
-      <View style={[styles.background, { backgroundColor: this.state.backgroundColor }]}>
+      <View style={[styles.background, { backgroundColor: this.props.theme.colors.backgroundColor }]}>
         <View style={styles.container}>
-          <SurveyComponent
+          <SurveyComponent 
             key={'survey'}
             ref={(s) => { this.surveyRef = s; }}
             survey={survey}
             renderSelector={this.renderButton.bind(this)}
-            containerStyle={styles.surveyContainer}
-            selectionGroupContainerStyle={styles.selectionGroupContainer}
+            containerStyle={[styles.surveyContainer, { backgroundColor: this.props.theme.colors.border }]}
+            selectionGroupContainerStyle={[styles.selectionGroupContainer, { backgroundColor: this.props.theme.colors.border }]}
             navButtonContainerStyle={{ flexDirection: 'row', justifyContent: 'space-around' }}
             renderPrevious={this.renderPreviousButton.bind(this)}
             renderNext={this.renderNextButton.bind(this)}
             renderFinished={this.renderFinishedButton.bind(this)}
-            renderQuestionText={this.renderQuestionText}
+            renderQuestionText={this.renderQuestionText.bind(this)}
             onSurveyFinished={(answers) => this.onSurveyFinished(answers)}
+            onSurveyStart={this.onSurveyStart.bind(this)}
             //onAnswerSubmitted={(answer) => this.onAnswerSubmitted(answer)}
-            renderTextInput={this.renderTextBox}
-            renderNumericInput={this.renderNumericInput}
-            renderInfo={this.renderInfoText}
+            renderTextInput={this.renderTextBox.bind(this)}
+            renderNumericInput={this.renderNumericInput.bind(this)}
+            renderInfo={this.renderInfoText.bind(this)}
             onNavigateBack={this.onNavigateBack}
+            theme={this.color}
           />
 
         </View>
@@ -1028,8 +1032,6 @@ const styles = StyleSheet.create({
     width: '90%',
     alignItems: 'stretch',
     justifyContent: 'center',
-
-
     borderRadius: 10,
     flex: 1,
   },
@@ -1066,8 +1068,6 @@ const styles = StyleSheet.create({
     margin: 10,
     fontSize: 20,
     color: 'white',
-
-
     width: 'auto'
   },
   answers: {
@@ -1097,9 +1097,7 @@ const styles = StyleSheet.create({
   textBox: {
     borderWidth: 1,
     borderColor: 'rgba(204,204,204,1)',
-    backgroundColor: 'white',
     borderRadius: 10,
-
     padding: 10,
     textAlignVertical: 'top',
     marginLeft: 10,
@@ -1124,7 +1122,31 @@ const styles = StyleSheet.create({
 
 
 const mapDispatchToProps = { resetSurveyForm }
-export default connect(
+const ReduxSurveyForm = connect(
   null,
   mapDispatchToProps
 )(SurveyScreen)
+
+export default function (props) {
+
+  const theme = useTheme();
+  var MyTheme = {
+    ...useTheme,
+    colors: {
+
+      border: 'rgb(60, 60, 60)',
+      text: 'rgb(250, 250, 250)'
+    },
+  };
+  if (!theme.dark) {
+    MyTheme = {
+      ...useTheme,
+      colors: {
+        background: 'rgb(255, 255, 255)',
+        border: 'rgb(244, 244, 244)',
+      },
+    };
+  }
+
+  return <ReduxSurveyForm {...props} theme={MyTheme} />;
+}
