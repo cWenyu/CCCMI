@@ -7,5 +7,17 @@
   background: #f8f8f8;
   border-radius: 4px;
 }
+nav{
+  margin-bottom: 5em;
+}
+#site-wrapper {
+  padding-bottom: 4em;
+  padding-top: 4em;
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: auto;
+  margin-top: auto;
+}
 
 .form-group.last { margin-bottom:0px; }

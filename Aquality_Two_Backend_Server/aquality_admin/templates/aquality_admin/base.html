@@ -8,7 +8,7 @@
     <link
       rel="icon"
       type="image/png"
-      href="{{ STATIC_URL }}images/favicon.ico"
+      href="{% static 'aquality_admin/images/favicon.ico' %}"
     />
     {% endblock head_favicon %} 
     {% block head_meta %} 
@@ -40,26 +40,28 @@
   <body>
     {# Navigation Menu #}
     <header>
-      <div
-        class="navbar navbar-default navbar-static-top 
-        {% block nav-style %}
-        {% endblock %}"
-      >
-        <div class="container p-none">
-          <div class="navbar-header">
-            <a class="navbar-brand" href="/">Aquality V2.0</a>
-          </div>
-        </div>
-      </div>
+    {% block header%}
+      <nav class="navbar navbar-light bg-light">
+        <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'aquality_admin:indexPage' %}">
+      <img src="{% static 'aquality_admin/images/aqualityv2.svg' %}" alt="" width="240" height="120" class="d-inline-block align-top">
+    </a>
+    {% block sidenav %}
+    {% endblock sidenav%}
+  </div>
+</nav>
+    {% endblock header%}
     </header>
     {# The Document Body #}
-    <div id="site-wrapper">
+    <main>
+    <div id="site-wrapper" class='bg-info h-25'>
       {% block content %}
       if you see this, something is wrong! 
       {% endblock content %}
     </div>
+    </main>
     {# The Footer #}
-    <div class="footer">
+    <div class="footer mt-auto py-3 bg-light fixed-bottom">
       <div class="container">
         <p>Copyright CCCMI</p>
       </div>
