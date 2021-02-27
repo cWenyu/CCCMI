@@ -7,7 +7,7 @@
  */
 
 import React, { useEffect } from 'react';
-import { View, ActivityIndicator, Button } from 'react-native';
+import { View, ActivityIndicator, Button, Alert } from 'react-native';
 import {
   NavigationContainer,
   DefaultTheme as NavigationDefaultTheme,
@@ -46,7 +46,15 @@ import HistoryDetail from './screens/HistoryDetail';
 import HistoryList from './screens/HistoryList';
 import { Provider } from 'react-redux'
 import store from './components/reduxStore'
-import { connect } from 'react-redux'
+import {
+  resetSurveyForm,
+  updateSelectionHandlers,
+  updateQIndex,
+  updateAnswers
+} from './components/reduxStore';
+import { useDispatch } from "react-redux";
+import { StackActions } from '@react-navigation/native';
+
 
 const Drawer = createDrawerNavigator();
 
@@ -122,8 +130,6 @@ const App = () => {
   const authContext = React.useMemo(
     () => ({
       signIn: async userName => {
-        // setUserToken('fgkj');
-        // setIsLoading(false);
         try {
           await AsyncStorage.setItem('username', userName);
           dispatch({ type: 'LOGIN', userName: userName });
@@ -291,152 +297,289 @@ const App = () => {
   );
 
   const TakeSampleStack = createStackNavigator();
-  const TakeSampleStackScreen = ({ navigation }) => (
-    <TakeSampleStack.Navigator>
-      <TakeSampleStack.Screen
-        name="SurveyPage"
-        component={SurveyPage}
-        options={{
-          title: 'The Survey',
-          headerStyle: {
-            backgroundColor: '#009387',
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },
-         headerRight: () => (
-            <Icon.Button
-              name="ios-home"
-              size={25}
-              backgroundColor="#009387"
-              onPress={() => navigation.navigate('HomeScreen')}
-            />
-          ),
-        }}
-      />
+  const TakeSampleStackScreen = ({ navigation }) => {
 
-      <TakeSampleStack.Screen
-        name="SearchRiverScreen"
-        component={SearchRiverScreen}
-        options={{
-          title: 'Search River',
-          headerStyle: {
-            backgroundColor: '#009387',
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },
-        }}
-      />
+    const dispatch = useDispatch();
 
-      <TakeSampleStack.Screen
-        name="SearchRiverScreen2"
-        component={SearchRiverScreen2}
-        options={{
-          title: 'SearchRiverScreen2',
-          headerStyle: {
-            backgroundColor: '#009387',
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },
-        }}
-      />
+    return (
+      <TakeSampleStack.Navigator>
+        <TakeSampleStack.Screen
+          name="SurveyPage"
+          component={SurveyPage}
+          options={{
+            title: 'The Survey',
+            headerStyle: {
+              backgroundColor: '#009387',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+            headerRight: () => (
+              <Icon.Button
+                name="ios-home"
+                size={25}
+                backgroundColor="#009387"
+                onPress={() =>
+                  Alert.alert("Hold on!", "Go back to Home will not save your proccess of taking sample.", [
+                    {
+                      text: "Cancel",
+                      onPress: () => null,
+                      style: "cancel"
+                    },
+                    {
+                      text: "BACK", onPress: () => {
+                        dispatch(resetSurveyForm());
+                        navigation.navigate('TakeSampleScreen', {
+                          screen: 'SurveyPage'
+                        });
+                        navigation.navigate('Home')
+                      }
+                    }
+                  ])
+                }
+              />
+            ),
+          }}
+        />
 
-      <TakeSampleStack.Screen
-        name="ArduinoScreen"
-        component={ArduinoScreen}
-        options={{
-          title: 'ArduinoScreen',
-          headerStyle: {
-            backgroundColor: '#009387',
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },
-        }}
-      />
+        <TakeSampleStack.Screen
+          name="SearchRiverScreen"
+          component={SearchRiverScreen}
+          options={{
+            title: 'Search River',
+            headerStyle: {
+              backgroundColor: '#009387',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+            headerRight: () => (
+              <Icon.Button
+                name="ios-home"
+                size={25}
+                backgroundColor="#009387"
+                onPress={() =>
+                  Alert.alert("Hold on!", "Go back to Home will not save your proccess of taking sample.", [
+                    {
+                      text: "Cancel",
+                      onPress: () => null,
+                      style: "cancel"
+                    },
+                    {
+                      text: "BACK", onPress: () => {
+                        dispatch(resetSurveyForm());
+                        navigation.navigate('SurveyPage');
+                        navigation.navigate('HomeScreen')
+                      }
+                    }
+                  ])
+                }
+              />
+            ),
+          }}
+        />
 
-      <TakeSampleStack.Screen
-        name="ArduinoScreen2"
-        component={ArduinoScreen2}
-        options={{
-          title: 'ArduinoScreen2',
-          headerStyle: {
-            backgroundColor: '#009387',
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },
-        }}
-      />
+        <TakeSampleStack.Screen
+          name="SearchRiverScreen2"
+          component={SearchRiverScreen2}
+          options={{
+            title: 'SearchRiverScreen2',
+            headerStyle: {
+              backgroundColor: '#009387',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+            headerRight: () => (
+              <Icon.Button
+                name="ios-home"
+                size={25}
+                backgroundColor="#009387"
+                onPress={() =>
+                  Alert.alert("Hold on!", "Go back to Home will not save your proccess of taking sample.", [
+                    {
+                      text: "Cancel",
+                      onPress: () => null,
+                      style: "cancel"
+                    },
+                    {
+                      text: "BACK", onPress: () => {
+                        dispatch(resetSurveyForm());
+                        navigation.navigate('SurveyPage');
+                        navigation.navigate('HomeScreen')
+                      }
+                    }
+                  ])
+                }
+              />
+            ),
+          }}
+        />
 
-      <TakeSampleStack.Screen
-        name="InsectScreen"
-        component={InsectScreen}
-        options={{
-          title: 'InsectScreen',
-          headerStyle: {
-            backgroundColor: '#009387',
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },
-        }}
-      />
+        <TakeSampleStack.Screen
+          name="ArduinoScreen"
+          component={ArduinoScreen}
+          options={{
+            title: 'ArduinoScreen',
+            headerStyle: {
+              backgroundColor: '#009387',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+            headerRight: () => (
+              <Icon.Button
+                name="ios-home"
+                size={25}
+                backgroundColor="#009387"
+                onPress={() =>
+                  Alert.alert("Hold on!", "Go back to Home will not save your proccess of taking sample.", [
+                    {
+                      text: "Cancel",
+                      onPress: () => null,
+                      style: "cancel"
+                    },
+                    {
+                      text: "BACK", onPress: () => {
+                        dispatch(resetSurveyForm());
+                        navigation.navigate('SurveyPage');
+                        navigation.navigate('HomeScreen')
+                      }
+                    }
+                  ])
+                }
+              />
+            ),
+          }}
+        />
 
-      <TakeSampleStack.Screen
-        name="selectInsect1"
-        component={selectInsect1}
-        options={{
-          title: 'selectInsect1',
-          headerStyle: {
-            backgroundColor: '#009387',
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },
-        }}
-      />
+        <TakeSampleStack.Screen
+          name="ArduinoScreen2"
+          component={ArduinoScreen2}
+          options={{
+            title: 'ArduinoScreen2',
+            headerStyle: {
+              backgroundColor: '#009387',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+            headerRight: () => (
+              <Icon.Button
+                name="ios-home"
+                size={25}
+                backgroundColor="#009387"
+                onPress={() =>
+                  Alert.alert("Hold on!", "Go back to Home will not save your proccess of taking sample.", [
+                    {
+                      text: "Cancel",
+                      onPress: () => null,
+                      style: "cancel"
+                    },
+                    {
+                      text: "BACK", onPress: () => {
+                        dispatch(resetSurveyForm());
+                        navigation.navigate('SurveyPage');
+                        navigation.navigate('HomeScreen')
+                      }
+                    }
+                  ])
+                }
+              />
+            ),
+          }}
+        />
 
-      <TakeSampleStack.Screen
-        name="AnalyzeInsect"
-        component={AnalyzeInsect}
-        options={{
-          title: 'AnalyzeInsect',
-          headerStyle: {
-            backgroundColor: '#009387',
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },
-        }}
-      />
+        <TakeSampleStack.Screen
+          name="InsectScreen"
+          component={InsectScreen}
+          options={{
+            title: 'InsectScreen',
+            headerStyle: {
+              backgroundColor: '#009387',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+            headerRight: () => (
+              <Icon.Button
+                name="ios-home"
+                size={25}
+                backgroundColor="#009387"
+                onPress={() =>
+                  Alert.alert("Hold on!", "Go back to Home will not save your proccess of taking sample.", [
+                    {
+                      text: "Cancel",
+                      onPress: () => null,
+                      style: "cancel"
+                    },
+                    {
+                      text: "BACK", onPress: () => {
+                        dispatch(resetSurveyForm());
+                        navigation.navigate('SurveyPage');
+                        navigation.navigate('HomeScreen')
+                      }
+                    }
+                  ])
+                }
+              />
+            ),
+          }}
+        />
 
-      <TakeSampleStack.Screen
-        name="ResultPage"
-        component={ResultPage}
-        options={{
-          title: 'Review',
-          headerStyle: {
-            backgroundColor: '#009387',
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },
-        }}
-      />
-    </TakeSampleStack.Navigator>
-  );
+        <TakeSampleStack.Screen
+          name="selectInsect1"
+          component={selectInsect1}
+          options={{
+            title: 'selectInsect1',
+            headerStyle: {
+              backgroundColor: '#009387',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}
+        />
+
+        <TakeSampleStack.Screen
+          name="AnalyzeInsect"
+          component={AnalyzeInsect}
+          options={{
+            title: 'AnalyzeInsect',
+            headerStyle: {
+              backgroundColor: '#009387',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}
+        />
+
+        <TakeSampleStack.Screen
+          name="ResultPage"
+          component={ResultPage}
+          options={{
+            title: 'Review',
+            headerStyle: {
+              backgroundColor: '#009387',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}
+        />
+      </TakeSampleStack.Navigator>
+    )
+  };
 
   return (
     <Provider store={store}>
