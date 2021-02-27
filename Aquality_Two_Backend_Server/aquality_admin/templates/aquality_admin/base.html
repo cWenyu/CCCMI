@@ -35,6 +35,8 @@
     {% block head_css_page %}
     {% endblock head_css_page %} 
     {% endblock head_css %}
+    {% block head_js %}
+    {% endblock head_js %}
   </head>
 
   <body>
@@ -46,26 +48,33 @@
         <a class="navbar-brand" href="{% url 'aquality_admin:indexPage' %}">
       <img src="{% static 'aquality_admin/images/aqualityv2.svg' %}" alt="" width="240" height="120" class="d-inline-block align-top">
     </a>
-    {% block sidenav %}
+    {% if request.user.is_authenticated%}
+    <div id="user-tools">
+    Welcome,
+      <strong>{{request.user.username }}</strong>
+    {% block sidenav%}
     {% endblock sidenav%}
+    <a href="/aquality_admin/logout/">Log out</a>
+    </div>
+    {% endif %}
   </div>
 </nav>
     {% endblock header%}
     </header>
     {# The Document Body #}
     <main>
-    <div id="site-wrapper" class='bg-info h-25'>
+    <div id="site-wrapper" class='h-25'>
       {% block content %}
       if you see this, something is wrong! 
       {% endblock content %}
     </div>
     </main>
     {# The Footer #}
-    <div class="footer mt-auto py-3 bg-light fixed-bottom">
+    <footer class="footer mt-auto py-3 bg-light fixed-bottom">
       <div class="container">
         <p>Copyright CCCMI</p>
       </div>
-    </div>
+    </footer>
   </body>
   {# Set of blocks that can be used to display JavaScript files #} 
   {% block footer_javascript %} {% block footer_javascript_site %}

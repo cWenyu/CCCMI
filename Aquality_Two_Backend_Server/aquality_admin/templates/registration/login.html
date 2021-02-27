@@ -6,7 +6,6 @@
   type="text/css"
   href="{% static 'aquality_admin/css/login.css' %}"
 />
-
 {% endblock head_css_section %} 
 {% block title%}Login Page {% endblock %} 
 {% block content %}
@@ -15,9 +14,9 @@
   <div class="container">
     <div class="row">
       <h1 class="text-center">Aquality V2.0 Admin Login</h1>
-      <div class="login-wrap">
+      <div class="login-wrap bg-info">
         {% if form.errors %}
-        <p class='text-center'>Your username and password didn't match. Please try again.</p>
+        <p class='text-center bg-warning'>Your username and password didn't match. Please try again.</p>
         {% endif %}
         <form method="POST" class="form-group">
           {% csrf_token %}
