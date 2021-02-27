@@ -21,7 +21,6 @@
   <div class="main shifted" id="main">
     <div class="content">
      <div id="map"></div>
-    
     </div>
   </div>
 </div>
@@ -29,7 +28,7 @@
 
 {% block footer_javascript_section %}
     <script
-      src="https://maps.googleapis.com/maps/api/js?key={{map_api}}&callback=initMap&libraries=&v=weekly"
+      src="https://maps.googleapis.com/maps/api/js?key={{map_api}}&callback=initMap&libraries=visualization"
       async
     ></script>
 {% endblock footer_javascript_section %}
