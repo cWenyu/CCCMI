@@ -9,6 +9,7 @@ import * as Animatable from 'react-native-animatable';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import testVariables from '../appium_automation_testing/test_variables';
 import { Button } from 'react-native-elements';
+import { color } from 'react-native-reanimated';
 
 
 const ArduinoScreen = ({ navigation, route }) => {
@@ -17,6 +18,7 @@ const ArduinoScreen = ({ navigation, route }) => {
   React.useEffect(() => {
     if (route.params) {
       console.log(JSON.stringify(route.params));
+      console.log(colors);
     }
   }, [route.params])
 
@@ -175,7 +177,7 @@ const ArduinoScreen = ({ navigation, route }) => {
         titleStyle={{ marginHorizontal: 22, fontSize: 18 }}
       />
       <Button
-        buttonStyle={{ width: 95, height: 35, backgroundColor: '#303030' }}
+        buttonStyle={{ width: 95, height: 35, backgroundColor: colors.backdrop }}
         containerStyle={{ margin: 5, alignItems: 'center', marginTop: 32 }}
         disabledStyle={{
           borderWidth: 2,

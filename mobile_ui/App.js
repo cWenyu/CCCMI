@@ -292,6 +292,7 @@ const App = () => {
           headerTitleStyle: {
             fontWeight: 'bold',
           },
+
         }}
       />
     </HomeStack.Navigator>
@@ -307,6 +308,16 @@ const App = () => {
         <TakeSampleStack.Screen
           name='OnboardingScreen2'
           component={OnboardingScreen2}
+          options={{
+            title: 'Introduction of Taking Sample',
+            headerStyle: {
+              backgroundColor: '#009387',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            }
+          }}
         />
 
         <TakeSampleStack.Screen
