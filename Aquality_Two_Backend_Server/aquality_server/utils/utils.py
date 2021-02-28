@@ -26,6 +26,18 @@ def count_score_by_insect(dict_of_insect):
     num_of_type4, total4 = calculate_type_and_relative_abundance(dict_for_insect_group_4)
     num_of_type5, total5 = calculate_type_and_relative_abundance(dict_for_insect_group_5)
 
+    result = build_json_return(num_of_type1, total1, num_of_type2, total2, num_of_type3, total3, num_of_type4, total4,
+                               total5)
+    return result
+
+
+def build_json_return(num_of_type1, total1, num_of_type2, total2, num_of_type3, total3, num_of_type4, total4, total5):
+    result = {"group_1_score": calculate_group_1(num_of_type1, total1),
+              "group_2_score": calculate_group_2(num_of_type2, total2),
+              "group_3_score": calculate_group_3(num_of_type3, total3),
+              "group_4_score": calculate_group_4(num_of_type4, total4),
+              "group_5_score": calculate_group_5(total5)}
+
     total = 0
     total += calculate_group_1(num_of_type1, total1)
     total += calculate_group_2(num_of_type2, total2)
@@ -33,7 +45,7 @@ def count_score_by_insect(dict_of_insect):
     total += calculate_group_4(num_of_type4, total4)
     total += calculate_group_5(total5)
 
-    result["score"] = total
+    result["total_score"] = total
 
     return result
 
