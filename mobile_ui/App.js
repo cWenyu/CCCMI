@@ -35,6 +35,7 @@ import InsectScreen from './screens/InsectScreen';
 import selectInsect1 from './screens/selectInsect1';
 import AnalyzeInsect from './screens/AnalyzeInsect';
 import ResultPage from './screens/ResultPage';
+import OnboardingScreen2 from './screens/OnboardingScreen2'
 import uploadImage from './screens/uploadImage';
 import { AuthContext } from './components/context';
 import RootStackScreen from './screens/RootStackScreen';
@@ -303,6 +304,11 @@ const App = () => {
 
     return (
       <TakeSampleStack.Navigator>
+        <TakeSampleStack.Screen
+          name='OnboardingScreen2'
+          component={OnboardingScreen2}
+        />
+
         <TakeSampleStack.Screen
           name="SurveyPage"
           component={SurveyPage}
