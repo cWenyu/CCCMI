@@ -16,7 +16,7 @@ const OnboardingScreen2 = ({navigation}) => {
     },
     {
       backgroundColor: '#bdd6db',
-      image: <Image source={require('../assets/searchriver.gif')} style={{height:500, width: 250, marginTop: -150}}/>,
+      image: <Image source={require('../assets/searchriver.gif')} style={{height:300, width: 250, paddingTop: -150}}/>,
       title: 'Step 2',
       subtitle: 'Search sampling river by name or current location.',
     },
@@ -28,7 +28,7 @@ const OnboardingScreen2 = ({navigation}) => {
     },
     {
       backgroundColor: '#7ad0f5',
-      image: <Image source={require('../assets/selectinsect.gif')} style={{height: 500, width: '100%', marginTop: -150, resizeMode: 'contain'}}/>,
+      image: <Image source={require('../assets/selectinsect.gif')} style={{height: 400, width: '100%', marginTop: -150, resizeMode: 'contain'}}/>,
       title: 'Step 4',
       subtitle: 'Pick insects found by river.',
     },
@@ -36,7 +36,7 @@ const OnboardingScreen2 = ({navigation}) => {
         backgroundColor: '#7ad0f5',
         image: <Image source={require('../assets/recognizeinsect.gif')} style={{height: 400, width: '100%', marginTop: -200}}/>,
         // title: 'Step 5',
-        subtitle: 'Or analyse insects that you don\t know',
+        subtitle: 'Or analyse insects that you don\'t know with our AI recognition model.',
       },
   ]}
 />
