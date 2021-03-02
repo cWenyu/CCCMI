@@ -225,7 +225,7 @@ const App = () => {
           ),
         }}
       />
-      <HomeStack.Screen
+      {/* <HomeStack.Screen
         name="SurroundingsPhotoScreen"
         component={SurroundingsPhotoScreen}
         options={{
@@ -251,7 +251,7 @@ const App = () => {
             fontWeight: 'bold',
           },
         }}
-      />
+      /> */}
       <HomeStack.Screen
         name="HistoryDetail"
         component={HistoryDetail}
@@ -271,20 +271,6 @@ const App = () => {
         component={HistoryList}
         options={{
           title: 'History List',
-          headerStyle: {
-            backgroundColor: '#009387',
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },
-        }}
-      />
-      <HomeStack.Screen
-        name="SurveyPhotos"
-        component={SurroundingsPhotoScreen}
-        options={{
-          title: 'Search River',
           headerStyle: {
             backgroundColor: '#009387',
           },
@@ -388,6 +374,21 @@ const App = () => {
                 }
               />
             ),
+          }}
+        />
+
+        <TakeSampleStack.Screen
+          name="SurroundingsPhotoScreen"
+          component={SurroundingsPhotoScreen}
+          options={{
+            title: 'Record Surroundings',
+            headerStyle: {
+              backgroundColor: '#009387',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
           }}
         />
 
