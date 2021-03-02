@@ -5,7 +5,7 @@
  * @format
  * @flow
  */
-
+// import Icon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
 import React, {useEffect} from 'react';
 import {View, ActivityIndicator, Button, Alert} from 'react-native';
 import {
@@ -47,6 +47,7 @@ import HistoryDetail from './screens/HistoryDetail';
 import HistoryList from './screens/HistoryList';
 import {Provider} from 'react-redux';
 import store from './components/reduxStore';
+
 import {
   resetSurveyForm,
   updateSelectionHandlers,
@@ -228,7 +229,15 @@ const App = () => {
         name="SurroundingsPhotoScreen"
         component={SurroundingsPhotoScreen}
         options={{
-          title: 'Record Surroundings',
+          title: 'Sample Surroundings',
+          headerRight: () => (
+            <Icon.Button
+              name="information-circle-outline"
+              size={25}
+              backgroundColor="#009387"
+              onPress={() => alert('Take photos of the surroundings of sample site.')}
+            />
+          ),
           headerStyle: {
             backgroundColor: '#009387',
           },
