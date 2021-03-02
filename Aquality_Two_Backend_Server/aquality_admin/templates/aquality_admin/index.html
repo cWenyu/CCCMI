@@ -2,19 +2,13 @@
 {% load static %}
 {% block title%} Home{% endblock %} 
 
-{% block sidenav%}
-<div id="user-tools">
-      Welcome,
-      <strong>tunjing998</strong>
-      <a href="/aquality_admin/logout/">Log out</a>
-    </div>
-{% endblock sidenav%}
+
 {% block content %}
 
 <div id="container">
   <div class="main shifted" id="main">
-    <div class="content">
-      <div id="footer"></div>
+    <div class="content"> 
+    <a href="{% url 'aquality_admin:mapPage' %}">Activity Map</a>
     </div>
   </div>
 </div>

@@ -1,0 +1,34 @@
+{% extends 'aquality_admin/base.html'%} 
+{% load static %}
+{% block head_css_section %}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{% static 'aquality_admin/css/maps.css' %}"
+/>
+{% endblock head_css_section %} 
+{% block head_js %}    
+    <script src="{% static 'aquality_admin/js/maps.js' %}"></script>
+    <script src="https://unpkg.com/@googlemaps/markerclustererplus/dist/index.min.js"></script>
+{% endblock head_js%}
+{% block title%} Activity Map
+{% endblock %} 
+
+
+{% block content %}
+
+<div id="container">
+  <div class="main shifted" id="main">
+    <div class="content">
+     <div id="map"></div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block footer_javascript_section %}
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key={{map_api}}&callback=initMap&libraries=visualization"
+      async
+    ></script>
+{% endblock footer_javascript_section %}
