@@ -1,0 +1,63 @@
+{% extends 'aquality_admin/base.html'%}
+{% load static %}
+{% block head_css_section %}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{% static 'aquality_admin/css/login.css' %}"
+/>
+
+{% endblock head_css_section %} 
+{% block title%} {% endblock %} 
+{% block content %}
+
+<div class="content-section" id='loginWillOver'>
+  <div class="container">
+    <div class="row">
+      <h1 class="text-center">Aquality V2.0 Admin Login</h1>
+      <div class="login-wrap">
+        {% if form.errors %}
+        <p class='text-center'>Your username and password didn't match. Please try again.</p>
+        {% endif %}
+        <form method="POST" class="form-group">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label class="required form-label" for="id_username"
+              >Username:</label
+            >
+            <input
+              type="text"
+              name="username"
+              autofocus
+              autocapitalize="none"
+              autocomplete="username"
+              maxlength="150"
+              required
+              id="id_username"
+              class="form-control"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label class="required form-label" for="id_password"
+              >Password:</label
+            >
+            <input
+              type="password"
+              name="password"
+              autocomplete="current-password"
+              required
+              class="form-control"
+              id="id_password"
+            />
+            <input type="hidden" name="next" value="/aquality_admin/index" />
+          </div>
+
+          <button type="submit" class="btn btn-success">Login</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+</div>
+{% endblock %}

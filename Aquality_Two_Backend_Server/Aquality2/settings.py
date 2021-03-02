@@ -28,17 +28,18 @@ ALLOWED_HOSTS = ["127.0.0.1","aquality-server.eba-rxqnbumy.eu-west-1.elasticbean
 
 # Application definition
 
-INSTALLED_APPS = [
+INSTALLED_APPS = [    
+    'aquality_server.apps.AqualityServerConfig',
+    'aquality_admin.apps.AqualityAdminConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'aquality_server.apps.AqualityServerConfig',
     'django_filters',
     'rest_framework',
-    'storages'
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -119,6 +120,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
+GOOGLE_MAPS_API_KEY = config('GOOGLEMAP_APIKEY')
+
 AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
 AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
@@ -132,6 +135,10 @@ STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
 
 STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 DEFAULT_FILE_STORAGE = 'Aquality2.storage_backends.MediaStorage'
+
+# STATIC_ROOT = 'static'
+# STATIC_URL = '/static/'
+
 MEDIA_ROOT = 'media'
 MEDIA_URL = '/media/'
 
