@@ -310,7 +310,7 @@ const SurroundingsPhotoScreen = ({navigation}) => {
         loadingProps={{animating: true}}
         loadingStyle={{}}
         onPress={() => requestCameraPermission()}
-        title="Take Picture"
+        title="Upload Image"
         titleStyle={{marginHorizontal: 22, fontSize: 18}}
       />
 
