@@ -6,7 +6,6 @@ from rest_framework import status
 from aquality_server.filter import *
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import viewsets
-from django.db.models import Q
 
 
 class DataViewSet(viewsets.ModelViewSet):
