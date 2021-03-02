@@ -18,7 +18,6 @@ const ArduinoScreen = ({ navigation, route }) => {
   React.useEffect(() => {
     if (route.params) {
       console.log(JSON.stringify(route.params));
-      console.log(colors);
     }
   }, [route.params])
 
