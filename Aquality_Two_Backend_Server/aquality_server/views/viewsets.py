@@ -1,13 +1,17 @@
+from datetime import datetime
+
 from ..serializers import *
 from rest_framework.response import Response
 from rest_framework import status
 from aquality_server.filter import *
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import viewsets
+from django.db.models import Q
+
 
 class DataViewSet(viewsets.ModelViewSet):
     queryset = Data.objects.all()
-    serializer_class = DataSerializerWithDate
+    serializer_class = all_data_serializer_with_date
     serializer_class_save = DataSerializer
 
     def create(self, request):
@@ -37,6 +41,17 @@ class DataViewSet(viewsets.ModelViewSet):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+class all_data_viewset(viewsets.ModelViewSet):
+    queryset = Data.objects.all()
+    serializer_class = all_data_serializer_with_date
+
+    def get_queryset(self):
+        # return Data.objects.all().order_by('river_id')
+        pnt = getLocationPoint(self.request)
+        # return Data.objects.filter(location__distance_lt=(pnt,D(m=10000)))
+        return getNearbyListHardware(pnt)
+
+
 class RiverViewSet(viewsets.ModelViewSet):
     queryset = River.objects.all().order_by('river_id')
     serializer_class = RiverSerializer
@@ -47,12 +62,13 @@ class RiverViewSet(viewsets.ModelViewSet):
         # return River.objects.filter(location__distance_lt=(pnt,D(m=10000)))
         return getNearbyList(pnt)
 
+
 class InsectViewSet(viewsets.ModelViewSet):
     queryset = Insect.objects.all().order_by('insect_id')
     serializer_class = InsectSerializer
 
     def get_queryset(self):
-        if (self.request.query_params.get('group')):
+        if self.request.query_params.get('group'):
             return Insect.objects.filter(insect_group=self.request.query_params.get('group')).order_by('insect_id')
         else:
             return Insect.objects.all().order_by('insect_id')
@@ -88,26 +104,28 @@ class InsectViewSet(viewsets.ModelViewSet):
 class SampleRecordViewSet(viewsets.ModelViewSet):
     queryset = SampleRecord.objects.all()
     serializer_class = SampleRecordDataSerializer
+
     def get_queryset(self):
-        if(self.request.query_params.get('username')):
+        if (self.request.query_params.get('username')):
             username_get = self.request.GET['username']
             user_get = User.objects.get(username=username_get)
-            if(self.request.query_params.get('rivername')):
+            if (self.request.query_params.get('rivername')):
                 river_name = self.request.GET['rivername']
                 river_get = River.objects.get(river_name=river_name)
-                return SampleRecord.objects.filter(sample_user=user_get,sample_river=river_get)
+                return SampleRecord.objects.filter(sample_user=user_get, sample_river=river_get)
             else:
-                return SampleRecord.objects.filter(sample_user = user_get)
+                return SampleRecord.objects.filter(sample_user=user_get)
         else:
             return SampleRecord.objects.none()
+
 
 class SampleRecordInsectViewSet(viewsets.ModelViewSet):
     queryset = SampleRecordInsectDetail.objects.all()
     serializer_class = SampleRecordInsectDetailSerializer
+
     def get_queryset(self):
-        if(self.request.query_params.get('sample_id')):
+        if (self.request.query_params.get('sample_id')):
             sample_id_get = self.request.GET('sample_id')
-            sample_record = SampleRecord.objects.get(sample_id = sample_id_get)
-            return SampleRecordInsectDetail.objects.filter(sample_record_data = sample_record)
+            sample_record = SampleRecord.objects.get(sample_id=sample_id_get)
+            return SampleRecordInsectDetail.objects.filter(sample_record_data=sample_record)
         return SampleRecordInsectDetail.objects.all()
-    
