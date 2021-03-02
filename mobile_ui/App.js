@@ -235,7 +235,12 @@ const App = () => {
               name="information-circle-outline"
               size={25}
               backgroundColor="#009387"
-              onPress={() => alert('Take photos of the surroundings of sample site.')}
+              onPress={() =>
+                Alert.alert(
+                  'What to do?',
+                  'Upload images of the surroundings of sample site here.',
+                )
+              }
             />
           ),
           headerStyle: {
