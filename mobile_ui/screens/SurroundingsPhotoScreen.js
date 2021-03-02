@@ -4,11 +4,11 @@ import {
   Text,
   StyleSheet,
   PermissionsAndroid,
-  ScrollView,
-  TextInput,
   TouchableOpacity,
   FlatList,
   Modal,
+  useWindowDimensions,
+  Alert,
 } from 'react-native';
 import {useTheme} from '@react-navigation/native';
 import {Button} from 'react-native-elements';
@@ -16,13 +16,25 @@ import Icon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
 import FastImage from 'react-native-fast-image';
 import {Colors, Button as PaperBtn} from 'react-native-paper';
 import ImagePicker from 'react-native-image-crop-picker';
-import {useNavigation} from '@react-navigation/native';
 import AsyncStorage from '@react-native-community/async-storage';
 
-export default function SurroundingsPhotoScreen() {
+const SurroundingsPhotoScreen = ({navigation}) => {
+  const {colors} = useTheme();
   const [dataSource, setDataSource] = useState([]);
   const [image, setImage] = useState({url: '', index: 0});
   const [modalVisibleStatus, setModalVisibleStatus] = useState(false);
+  const [buttonStyle, setButtonStyle] = useState({
+    flex: 1,
+    margin: null,
+    marginTop: null,
+    height: HEIGHT,
+    alignItems: 'center',
+    justifyContent: 'center',
+  });
+
+  const windowWidth = useWindowDimensions().width;
+  const HEIGHT = useWindowDimensions() * 0.9;
+  const FOOTER_PADDING = windowWidth * 0.1;
 
   const styles = StyleSheet.create({
     container: {
@@ -70,7 +82,80 @@ export default function SurroundingsPhotoScreen() {
       borderColor: '#44ad55',
       backgroundColor: '#3fa24f',
     },
+    takePhotoButton: {
+      flex: buttonStyle.flex,
+      margin: buttonStyle.margin,
+      marginTop: buttonStyle.marginTop,
+      alignItems: buttonStyle.alignItems,
+      justifyContent: buttonStyle.justifyContent,
+    },
   });
+
+  useEffect(() => {
+    getPageIntroVisible().then(res => {
+      // console.log('res useEffect' + res);
+      if (!(res === 'false')) {
+        alertPageInfo();
+      }
+    });
+  }, []);
+
+  const updateButtonStyles = len => {
+    if (len > 0) {
+      setButtonStyle({
+        flex: 0,
+        margin: 5,
+        marginTop: 20,
+        height: null,
+        alignItems: 'center',
+        justifyContent: null,
+      });
+    } else {
+      setButtonStyle({
+        flex: 1,
+        margin: null,
+        marginTop: null,
+        height: HEIGHT,
+        alignItems: 'center',
+        justifyContent: 'center',
+      });
+    }
+  };
+
+  const getPageIntroVisible = async () => {
+    try {
+      const pageIntroModalVisibleResp = await AsyncStorage.getItem(
+        'pageIntroVisible',
+      );
+      return pageIntroModalVisibleResp;
+    } catch (e) {
+      console.log(e);
+      return false;
+    }
+  };
+
+  const alertPageInfo = () => {
+    Alert.alert(
+      'Page Information',
+      'Record surrounding environment by taking photos,' +
+        'you can view the image by clicking it in image gallery then delete it or keep it.',
+      [
+        {
+          text: 'Read it later',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        {
+          text: 'Got it',
+          onPress: () => setPageIntroVisible(),
+        },
+      ],
+    );
+  };
+
+  const setPageIntroVisible = async () => {
+    await AsyncStorage.setItem('pageIntroVisible', 'false');
+  };
 
   const requestCameraPermission = async () => {
     try {
@@ -95,14 +180,13 @@ export default function SurroundingsPhotoScreen() {
       compressImageQuality: 0.7,
     }).then(newImage => {
       setDataSource([...dataSource, newImage.path]);
+      updateButtonStyles(1);
     });
   };
 
   const deleteImage = (index, visible) => {
     dataSource.splice(index, 1);
-    // if (dataSource.length === 0) {
-    //   storeData(currentSurroundingObj.step, 'photo', dataSource);
-    // }
+    updateButtonStyles(dataSource.length);
     setModalVisibleStatus(visible);
   };
 
@@ -181,7 +265,6 @@ export default function SurroundingsPhotoScreen() {
             />
           </View>,
         );
-    // storeData(currentSurroundingObj.step, 'photo', dataSource);
     return type;
   };
 
@@ -189,28 +272,33 @@ export default function SurroundingsPhotoScreen() {
     return (
       <Button
         title="Done"
+        buttonStyle={{paddingHorizontal: FOOTER_PADDING}}
         titleProps={{}}
         titleStyle={{marginHorizontal: 22, fontSize: 16}}
         buttonStyle={styles.submitButton}
-        onPress={() => storePhotoGallery()}
+        onPress={() =>
+          storePhotoGallery().then(navigation.navigate('SearchRiverScreen'))
+        }
       />
     );
   };
 
   const storePhotoGallery = async () => {
-    console.log(dataSource);
-    // await AsyncStorage.setItem(stepInfor, storedDataObjStr);
+    let surveyPhotosObj = {
+      surveyPhotos: dataSource,
+    };
+    await AsyncStorage.setItem('surveyPhotos', JSON.stringify(surveyPhotosObj));
   };
 
   return (
     <View style={styles.container}>
       <Button
-        buttonStyle={{width: 270, height: 50, backgroundColor: '#02ab9e'}}
-        containerStyle={{
-          margin: 5,
-          alignItems: 'center',
-          marginTop: 20,
+        buttonStyle={{
+          width: 270,
+          height: 50,
+          backgroundColor: '#02ab9e',
         }}
+        containerStyle={styles.takePhotoButton}
         disabledStyle={{
           borderWidth: 2,
           borderColor: '#00F',
@@ -230,4 +318,6 @@ export default function SurroundingsPhotoScreen() {
       {dataSource.length > 0 && renderDoneButton()}
     </View>
   );
-}
+};
+
+export default SurroundingsPhotoScreen;
