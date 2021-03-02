@@ -6,22 +6,22 @@
  * @flow
  */
 
-import React, { useEffect } from 'react';
-import { View, ActivityIndicator, Button, Alert } from 'react-native';
+import React, {useEffect} from 'react';
+import {View, ActivityIndicator, Button, Alert} from 'react-native';
 import {
   NavigationContainer,
   DefaultTheme as NavigationDefaultTheme,
   DarkTheme as NavigationDarkTheme,
 } from '@react-navigation/native';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import {createDrawerNavigator} from '@react-navigation/drawer';
 
 import {
   Provider as PaperProvider,
   DefaultTheme as PaperDefaultTheme,
   DarkTheme as PaperDarkTheme,
 } from 'react-native-paper';
-import { createStackNavigator } from '@react-navigation/stack';
-import { DrawerContent } from './screens/DrawerContent';
+import {createStackNavigator} from '@react-navigation/stack';
+import {DrawerContent} from './screens/DrawerContent';
 import Icon from 'react-native-vector-icons/Ionicons';
 import MainTabScreen from './screens/MainTabScreen';
 import SupportScreen from './screens/SupportScreen';
@@ -35,9 +35,9 @@ import InsectScreen from './screens/InsectScreen';
 import selectInsect1 from './screens/selectInsect1';
 import AnalyzeInsect from './screens/AnalyzeInsect';
 import ResultPage from './screens/ResultPage';
-import OnboardingScreen2 from './screens/OnboardingScreen2'
+import OnboardingScreen2 from './screens/OnboardingScreen2';
 import uploadImage from './screens/uploadImage';
-import { AuthContext } from './components/context';
+import {AuthContext} from './components/context';
 import RootStackScreen from './screens/RootStackScreen';
 import AsyncStorage from '@react-native-community/async-storage';
 import HomeScreen from './screens/HomeScreen';
@@ -45,17 +45,17 @@ import testVariables from './appium_automation_testing/test_variables';
 import SampleHistoryScreen from './screens/SampleHistoryScreen';
 import HistoryDetail from './screens/HistoryDetail';
 import HistoryList from './screens/HistoryList';
-import { Provider } from 'react-redux'
-import store from './components/reduxStore'
+import {Provider} from 'react-redux';
+import store from './components/reduxStore';
 import {
   resetSurveyForm,
   updateSelectionHandlers,
   updateQIndex,
-  updateAnswers
+  updateAnswers,
 } from './components/reduxStore';
-import { useDispatch } from "react-redux";
-import { StackActions } from '@react-navigation/native';
-
+import {useDispatch} from 'react-redux';
+import {StackActions} from '@react-navigation/native';
+import SurroundingsPhotoScreen from './screens/SurroundingsPhotoScreen';
 
 const Drawer = createDrawerNavigator();
 
@@ -133,7 +133,7 @@ const App = () => {
       signIn: async userName => {
         try {
           await AsyncStorage.setItem('username', userName);
-          dispatch({ type: 'LOGIN', userName: userName });
+          dispatch({type: 'LOGIN', userName: userName});
         } catch (e) {
           console.log(e);
         }
@@ -144,9 +144,9 @@ const App = () => {
         } catch (e) {
           console.log(e);
         }
-        dispatch({ type: 'LOGOUT' });
+        dispatch({type: 'LOGOUT'});
       },
-      signUp: () => { },
+      signUp: () => {},
       toggleTheme: () => {
         setIsDarkTheme(isDarkTheme => !isDarkTheme);
       },
@@ -164,11 +164,11 @@ const App = () => {
           authContext.signIn(username);
           //TODO: call the endpoint to get user data
         } else {
-          dispatch({ type: 'LOGOUT' });
+          dispatch({type: 'LOGOUT'});
         }
       } catch (e) {
         console.log(e);
-        dispatch({ type: 'LOGOUT' });
+        dispatch({type: 'LOGOUT'});
       }
     };
     getData();
@@ -176,13 +176,13 @@ const App = () => {
 
   if (loginState.isLoading) {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
         <ActivityIndicator size="large" />
       </View>
     );
   }
   const HomeStack = createStackNavigator();
-  const HomeStackScreen = ({ navigation }) => (
+  const HomeStackScreen = ({navigation}) => (
     <HomeStack.Navigator
       screenOptions={{
         headerStyle: {
@@ -225,10 +225,10 @@ const App = () => {
         }}
       />
       <HomeStack.Screen
-        name="SampleHistoryScreen"
-        component={SampleHistoryScreen}
+        name="SurroundingsPhotoScreen"
+        component={SurroundingsPhotoScreen}
         options={{
-          title: 'Search History Samples',
+          title: 'Record Surroundings',
           headerStyle: {
             backgroundColor: '#009387',
           },
@@ -267,6 +267,20 @@ const App = () => {
         }}
       />
       <HomeStack.Screen
+        name="SurveyPhotos"
+        component={SurroundingsPhotoScreen}
+        options={{
+          title: 'Search River',
+          headerStyle: {
+            backgroundColor: '#009387',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        }}
+      />
+      <HomeStack.Screen
         name="SearchRiverScreen"
         component={SearchRiverScreen}
         options={{
@@ -292,21 +306,19 @@ const App = () => {
           headerTitleStyle: {
             fontWeight: 'bold',
           },
-
         }}
       />
     </HomeStack.Navigator>
   );
 
   const TakeSampleStack = createStackNavigator();
-  const TakeSampleStackScreen = ({ navigation }) => {
-
+  const TakeSampleStackScreen = ({navigation}) => {
     const dispatch = useDispatch();
 
     return (
       <TakeSampleStack.Navigator>
         <TakeSampleStack.Screen
-          name='OnboardingScreen2'
+          name="OnboardingScreen2"
           component={OnboardingScreen2}
           options={{
             title: 'Introduction of Taking Sample',
@@ -316,7 +328,7 @@ const App = () => {
             headerTintColor: '#fff',
             headerTitleStyle: {
               fontWeight: 'bold',
-            }
+            },
           }}
         />
 
@@ -338,22 +350,27 @@ const App = () => {
                 size={25}
                 backgroundColor="#009387"
                 onPress={() =>
-                  Alert.alert("Hold on!", "Go back to Home will not save your proccess of taking sample.", [
-                    {
-                      text: "Cancel",
-                      onPress: () => null,
-                      style: "cancel"
-                    },
-                    {
-                      text: "BACK", onPress: () => {
-                        dispatch(resetSurveyForm());
-                        navigation.navigate('TakeSampleScreen', {
-                          screen: 'SurveyPage'
-                        });
-                        navigation.navigate('Home')
-                      }
-                    }
-                  ])
+                  Alert.alert(
+                    'Hold on!',
+                    'Go back to Home will not save your proccess of taking sample.',
+                    [
+                      {
+                        text: 'Cancel',
+                        onPress: () => null,
+                        style: 'cancel',
+                      },
+                      {
+                        text: 'BACK',
+                        onPress: () => {
+                          dispatch(resetSurveyForm());
+                          navigation.navigate('TakeSampleScreen', {
+                            screen: 'SurveyPage',
+                          });
+                          navigation.navigate('Home');
+                        },
+                      },
+                    ],
+                  )
                 }
               />
             ),
@@ -378,20 +395,25 @@ const App = () => {
                 size={25}
                 backgroundColor="#009387"
                 onPress={() =>
-                  Alert.alert("Hold on!", "Go back to Home will not save your proccess of taking sample.", [
-                    {
-                      text: "Cancel",
-                      onPress: () => null,
-                      style: "cancel"
-                    },
-                    {
-                      text: "BACK", onPress: () => {
-                        dispatch(resetSurveyForm());
-                        navigation.navigate('SurveyPage');
-                        navigation.navigate('HomeScreen')
-                      }
-                    }
-                  ])
+                  Alert.alert(
+                    'Hold on!',
+                    'Go back to Home will not save your proccess of taking sample.',
+                    [
+                      {
+                        text: 'Cancel',
+                        onPress: () => null,
+                        style: 'cancel',
+                      },
+                      {
+                        text: 'BACK',
+                        onPress: () => {
+                          dispatch(resetSurveyForm());
+                          navigation.navigate('SurveyPage');
+                          navigation.navigate('HomeScreen');
+                        },
+                      },
+                    ],
+                  )
                 }
               />
             ),
@@ -416,20 +438,25 @@ const App = () => {
                 size={25}
                 backgroundColor="#009387"
                 onPress={() =>
-                  Alert.alert("Hold on!", "Go back to Home will not save your proccess of taking sample.", [
-                    {
-                      text: "Cancel",
-                      onPress: () => null,
-                      style: "cancel"
-                    },
-                    {
-                      text: "BACK", onPress: () => {
-                        dispatch(resetSurveyForm());
-                        navigation.navigate('SurveyPage');
-                        navigation.navigate('HomeScreen')
-                      }
-                    }
-                  ])
+                  Alert.alert(
+                    'Hold on!',
+                    'Go back to Home will not save your proccess of taking sample.',
+                    [
+                      {
+                        text: 'Cancel',
+                        onPress: () => null,
+                        style: 'cancel',
+                      },
+                      {
+                        text: 'BACK',
+                        onPress: () => {
+                          dispatch(resetSurveyForm());
+                          navigation.navigate('SurveyPage');
+                          navigation.navigate('HomeScreen');
+                        },
+                      },
+                    ],
+                  )
                 }
               />
             ),
@@ -454,20 +481,25 @@ const App = () => {
                 size={25}
                 backgroundColor="#009387"
                 onPress={() =>
-                  Alert.alert("Hold on!", "Go back to Home will not save your proccess of taking sample.", [
-                    {
-                      text: "Cancel",
-                      onPress: () => null,
-                      style: "cancel"
-                    },
-                    {
-                      text: "BACK", onPress: () => {
-                        dispatch(resetSurveyForm());
-                        navigation.navigate('SurveyPage');
-                        navigation.navigate('HomeScreen')
-                      }
-                    }
-                  ])
+                  Alert.alert(
+                    'Hold on!',
+                    'Go back to Home will not save your proccess of taking sample.',
+                    [
+                      {
+                        text: 'Cancel',
+                        onPress: () => null,
+                        style: 'cancel',
+                      },
+                      {
+                        text: 'BACK',
+                        onPress: () => {
+                          dispatch(resetSurveyForm());
+                          navigation.navigate('SurveyPage');
+                          navigation.navigate('HomeScreen');
+                        },
+                      },
+                    ],
+                  )
                 }
               />
             ),
@@ -492,20 +524,25 @@ const App = () => {
                 size={25}
                 backgroundColor="#009387"
                 onPress={() =>
-                  Alert.alert("Hold on!", "Go back to Home will not save your proccess of taking sample.", [
-                    {
-                      text: "Cancel",
-                      onPress: () => null,
-                      style: "cancel"
-                    },
-                    {
-                      text: "BACK", onPress: () => {
-                        dispatch(resetSurveyForm());
-                        navigation.navigate('SurveyPage');
-                        navigation.navigate('HomeScreen')
-                      }
-                    }
-                  ])
+                  Alert.alert(
+                    'Hold on!',
+                    'Go back to Home will not save your proccess of taking sample.',
+                    [
+                      {
+                        text: 'Cancel',
+                        onPress: () => null,
+                        style: 'cancel',
+                      },
+                      {
+                        text: 'BACK',
+                        onPress: () => {
+                          dispatch(resetSurveyForm());
+                          navigation.navigate('SurveyPage');
+                          navigation.navigate('HomeScreen');
+                        },
+                      },
+                    ],
+                  )
                 }
               />
             ),
@@ -530,20 +567,25 @@ const App = () => {
                 size={25}
                 backgroundColor="#009387"
                 onPress={() =>
-                  Alert.alert("Hold on!", "Go back to Home will not save your proccess of taking sample.", [
-                    {
-                      text: "Cancel",
-                      onPress: () => null,
-                      style: "cancel"
-                    },
-                    {
-                      text: "BACK", onPress: () => {
-                        dispatch(resetSurveyForm());
-                        navigation.navigate('SurveyPage');
-                        navigation.navigate('HomeScreen')
-                      }
-                    }
-                  ])
+                  Alert.alert(
+                    'Hold on!',
+                    'Go back to Home will not save your proccess of taking sample.',
+                    [
+                      {
+                        text: 'Cancel',
+                        onPress: () => null,
+                        style: 'cancel',
+                      },
+                      {
+                        text: 'BACK',
+                        onPress: () => {
+                          dispatch(resetSurveyForm());
+                          navigation.navigate('SurveyPage');
+                          navigation.navigate('HomeScreen');
+                        },
+                      },
+                    ],
+                  )
                 }
               />
             ),
@@ -595,7 +637,7 @@ const App = () => {
           }}
         />
       </TakeSampleStack.Navigator>
-    )
+    );
   };
 
   return (
@@ -612,12 +654,15 @@ const App = () => {
                   component={TakeSampleStackScreen}
                 />
                 <Drawer.Screen name="SupportScreen" component={SupportScreen} />
-                <Drawer.Screen name="SettingsScreen" component={SettingsScreen} />
+                <Drawer.Screen
+                  name="SettingsScreen"
+                  component={SettingsScreen}
+                />
                 <Drawer.Screen name="MainTabScreen" component={MainTabScreen} />
               </Drawer.Navigator>
             ) : (
-                <RootStackScreen />
-              )}
+              <RootStackScreen />
+            )}
           </NavigationContainer>
         </AuthContext.Provider>
       </PaperProvider>
@@ -626,4 +671,3 @@ const App = () => {
 };
 
 export default App;
-

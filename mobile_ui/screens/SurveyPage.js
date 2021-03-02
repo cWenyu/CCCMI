@@ -1,11 +1,18 @@
-import React, { Component } from 'react';
-import { Alert } from 'react-native';
-import { StyleSheet, Button, Text, TextInput, View, BackHandler } from 'react-native';
+import React, {Component} from 'react';
+import {Alert} from 'react-native';
+import {
+  StyleSheet,
+  Button,
+  Text,
+  TextInput,
+  View,
+  BackHandler,
+} from 'react-native';
 import SurveyComponent from '../components/SurveyComponent';
-import { COLORS } from '../components/validColors';
-import { connect } from 'react-redux'
-import { resetSurveyForm } from '../components/reduxStore'
-import { useTheme } from '@react-navigation/native';
+import {COLORS} from '../components/validColors';
+import {connect} from 'react-redux';
+import {resetSurveyForm} from '../components/reduxStore';
+import {useTheme} from '@react-navigation/native';
 
 const GREEN = 'rgba(141,196,63,1)';
 const CHOSENBUTTON = 'rgba(0,204,188,1)';
@@ -15,7 +22,7 @@ const BUTTONCOLOR = 'rgba(2, 171, 158,1)';
 const survey = [
   {
     questionType: 'Info',
-    questionText: 'Start survey for river surroundings.'
+    questionText: 'Start survey for river surroundings.',
   },
   {
     questionType: 'SelectionGroup',
@@ -30,26 +37,25 @@ const survey = [
     options: [
       {
         optionText: 'None',
-        value: 'none'
+        value: 'none',
       },
       {
         optionText: 'Present',
-        value: 'present'
+        value: 'present',
       },
       {
         optionText: 'Moderate',
-        value: 'moderate'
+        value: 'moderate',
       },
       {
         optionText: 'Dominant',
-        value: 'dominant'
+        value: 'dominant',
       },
-    ]
+    ],
   },
   {
     questionType: 'SelectionGroup',
-    questionText:
-      '2/21\nPrincipal Type of Substratum Sampled:\n\nGravel?',
+    questionText: '2/21\nPrincipal Type of Substratum Sampled:\n\nGravel?',
     questionId: 'b',
     questionSettings: {
       maxMultiSelect: 1,
@@ -59,26 +65,25 @@ const survey = [
     options: [
       {
         optionText: 'None',
-        value: 'none'
+        value: 'none',
       },
       {
         optionText: 'Present',
-        value: 'present'
+        value: 'present',
       },
       {
         optionText: 'Moderate',
-        value: 'moderate'
+        value: 'moderate',
       },
       {
         optionText: 'Dominant',
-        value: 'dominant'
+        value: 'dominant',
       },
-    ]
+    ],
   },
   {
     questionType: 'SelectionGroup',
-    questionText:
-      '3/21\nPrincipal Type of Substratum Sampled:\n\nSand?',
+    questionText: '3/21\nPrincipal Type of Substratum Sampled:\n\nSand?',
     questionId: 'c',
     questionSettings: {
       maxMultiSelect: 1,
@@ -88,21 +93,21 @@ const survey = [
     options: [
       {
         optionText: 'None',
-        value: 'none'
+        value: 'none',
       },
       {
         optionText: 'Present',
-        value: 'present'
+        value: 'present',
       },
       {
         optionText: 'Moderate',
-        value: 'moderate'
+        value: 'moderate',
       },
       {
         optionText: 'Dominant',
-        value: 'dominant'
+        value: 'dominant',
       },
-    ]
+    ],
   },
   // {
   //   questionType: 'SelectionGroup',
@@ -222,7 +227,8 @@ const survey = [
   // },
   {
     questionType: 'TextInput',
-    questionText: '8/21\nDo Cattle or other Farm Animals have access to the stream? \n\nComment',
+    questionText:
+      '8/21\nDo Cattle or other Farm Animals have access to the stream? \n\nComment',
     questionId: 'h',
     placeholderText: 'Please leave comment...',
   },
@@ -325,21 +331,21 @@ const survey = [
     options: [
       {
         optionText: 'Present',
-        value: 'present'
+        value: 'present',
       },
       {
         optionText: 'Moderate',
-        value: 'moderate'
+        value: 'moderate',
       },
       {
         optionText: 'Abundant',
-        value: 'abundant'
+        value: 'abundant',
       },
       {
         optionText: 'Other',
-        value: 'other'
-      }
-    ]
+        value: 'other',
+      },
+    ],
   },
   // {
   //   questionType: 'SelectionGroup',
@@ -575,7 +581,6 @@ const survey = [
   //   ]
   // },
 
-
   // __________________
 
   // {
@@ -736,7 +741,7 @@ const survey = [
   // },
   {
     questionType: 'Info',
-    questionText: 'Finish survey?'
+    questionText: 'Finish survey?',
   },
 ];
 
@@ -752,63 +757,69 @@ class SurveyScreen extends Component {
       headerTitle: 'Sample Survey',
       headerTitleStyle: {
         flex: 1,
-      }
+      },
     };
-  }
-
-
+  };
 
   constructor(props) {
     super(props);
-    this.state = { backgroundColor: BGCOLOR, answersSoFar: '' };
+    this.state = {backgroundColor: BGCOLOR, answersSoFar: ''};
     this.baseState = this.state;
     this.onNavigateBack = this.onNavigateBack.bind(this);
     this.backAction = this.backAction.bind(this);
     props.resetSurveyForm();
   }
 
-
   backAction = () => {
     if (!this.props.navigation.isFocused()) {
       // The screen is not focused, so don't do anything
       // return false;
-      Alert.alert("Hold on!", "Go back to Home will not save your proccess of taking sample.", [
-        {
-          text: "Cancel",
-          onPress: () => null,
-          style: "cancel"
-        },
-        {
-          text: "BACK", onPress: () => {
-            this.props.resetSurveyForm();
-            this.props.navigation.popToTop();
-            this.props.navigation.navigate('HomeScreen');
-          }
-        }
-      ]);
+      Alert.alert(
+        'Hold on!',
+        'Go back to Home will not save your proccess of taking sample.',
+        [
+          {
+            text: 'Cancel',
+            onPress: () => null,
+            style: 'cancel',
+          },
+          {
+            text: 'BACK',
+            onPress: () => {
+              this.props.resetSurveyForm();
+              this.props.navigation.popToTop();
+              this.props.navigation.navigate('HomeScreen');
+            },
+          },
+        ],
+      );
     } else {
-      Alert.alert("Hold on!", "Go back to Home will not save your proccess of taking sample.", [
-        {
-          text: "Cancel",
-          onPress: () => null,
-          style: "cancel"
-        },
-        {
-          text: "BACK", onPress: () => {
-            this.props.resetSurveyForm();
-            this.props.navigation.navigate('HomeScreen');
-          }
-        }
-      ]);
+      Alert.alert(
+        'Hold on!',
+        'Go back to Home will not save your proccess of taking sample.',
+        [
+          {
+            text: 'Cancel',
+            onPress: () => null,
+            style: 'cancel',
+          },
+          {
+            text: 'BACK',
+            onPress: () => {
+              this.props.resetSurveyForm();
+              this.props.navigation.navigate('HomeScreen');
+            },
+          },
+        ],
+      );
     }
     return true;
-
   };
 
   componentDidMount() {
     this.backHandler = BackHandler.addEventListener(
-      "hardwareBackPress",
-      this.backAction
+      'hardwareBackPress',
+      this.backAction,
     );
   }
 
@@ -816,15 +827,13 @@ class SurveyScreen extends Component {
     this.backHandler.remove();
   }
 
-
-
   onSurveyFinished(answers) {
-    /** 
+    /**
      *  By using the spread operator, array entries with no values, such as info questions, are removed.
      *  This is also where a final cleanup of values, making them ready to insert into your DB or pass along
      *  to the rest of your code, can be done.
-     * 
-     *  Answers are returned in an array, of the form 
+     *
+     *  Answers are returned in an array, of the form
      *  [
      *  {questionId: string, value: any},
      *  {questionId: string, value: any},
@@ -832,16 +841,16 @@ class SurveyScreen extends Component {
      *  ]
      *  Questions of type selection group are more flexible, the entirity of the 'options' object is returned
      *  to you.
-     *  
+     *
      *  As an example
-     *  { 
-     *      questionId: "favoritePet", 
-     *      value: { 
+     *  {
+     *      questionId: "favoritePet",
+     *      value: {
      *          optionText: "Dogs",
      *          value: "dog"
      *      }
      *  }
-     *  This flexibility makes SelectionGroup an incredibly powerful component on its own. If needed it is a 
+     *  This flexibility makes SelectionGroup an incredibly powerful component on its own. If needed it is a
      *  separate NPM package, react-native-selection-group, which has additional features such as multi-selection.
      */
 
@@ -850,14 +859,20 @@ class SurveyScreen extends Component {
 
     // Convert from an array to a proper object. This won't work if you have duplicate questionIds
     const answersAsObj = {};
-    for (const elem of infoQuestionsRemoved) { answersAsObj[elem.questionId] = elem.value; }
-    surveyData.push({ "survey": answersAsObj });
-    this.props.navigation.navigate('SearchRiverScreen', { surveyData: surveyData });
+    for (const elem of infoQuestionsRemoved) {
+      answersAsObj[elem.questionId] = elem.value;
+    }
+    surveyData.push({survey: answersAsObj});
+    // this.props.navigation.navigate('SearchRiverScreen', {
+    //   surveyData: surveyData,
+    // });
+    this.props.navigation.navigate('SurroundingsPhotoScreen', {
+      surveyData: surveyData,
+    });
+    // this.props.navigation.navigate('SearchRiverScreen', { surveyData: surveyData });
 
     // this.setState(this.baseState)
     // this.props.navigation.navigate('SearchRiverScreen', { surveyAnswers: answersAsObj });
-
-
   }
 
   onSurveyStart() {
@@ -865,16 +880,18 @@ class SurveyScreen extends Component {
   }
 
   /**
-   *  After each answer is submitted this function is called. Here you can take additional steps in response to the 
-   *  user's answers. From updating a 'correct answers' counter to exiting out of an onboarding flow if the user is 
+   *  After each answer is submitted this function is called. Here you can take additional steps in response to the
+   *  user's answers. From updating a 'correct answers' counter to exiting out of an onboarding flow if the user is
    *  is restricted (age, geo-fencing) from your app.
    */
   onAnswerSubmitted(answer) {
-    this.setState({ answersSoFar: JSON.stringify(this.surveyRef.getAnswers(), 2) });
+    this.setState({
+      answersSoFar: JSON.stringify(this.surveyRef.getAnswers(), 2),
+    });
     switch (answer.questionId) {
       case 'favoriteColor': {
         if (COLORS.includes(answer.value.toLowerCase())) {
-          this.setState({ backgroundColor: answer.value.toLowerCase() });
+          this.setState({backgroundColor: answer.value.toLowerCase()});
         }
         break;
       }
@@ -885,7 +902,8 @@ class SurveyScreen extends Component {
 
   renderPreviousButton(onPress, enabled) {
     return (
-      <View style={{ flexGrow: 1, maxWidth: 100, marginTop: 15, marginBottom: 10 }}>
+      <View
+        style={{flexGrow: 1, maxWidth: 100, marginTop: 15, marginBottom: 10}}>
         <Button
           color={GREEN}
           onPress={onPress}
@@ -899,7 +917,8 @@ class SurveyScreen extends Component {
 
   renderNextButton(onPress, enabled) {
     return (
-      <View style={{ flexGrow: 1, maxWidth: 100, marginTop: 15, marginBottom: 10 }}>
+      <View
+        style={{flexGrow: 1, maxWidth: 100, marginTop: 15, marginBottom: 10}}>
         <Button
           color={GREEN}
           onPress={onPress}
@@ -913,7 +932,8 @@ class SurveyScreen extends Component {
 
   renderFinishedButton(onPress, enabled) {
     return (
-      <View style={{ flexGrow: 1, maxWidth: 100, marginTop: 15, marginBottom: 10 }}>
+      <View
+        style={{flexGrow: 1, maxWidth: 100, marginTop: 15, marginBottom: 10}}>
         <Button
           title={'Finished'}
           onPress={onPress}
@@ -928,13 +948,18 @@ class SurveyScreen extends Component {
     return (
       <View
         key={`selection_button_view_${index}`}
-        style={{ alignSelf: 'center', width: '85%', marginTop: 5, marginBottom: 5, justifyContent: 'flex-start' }}
-      >
+        style={{
+          alignSelf: 'center',
+          width: '85%',
+          marginTop: 5,
+          marginBottom: 5,
+          justifyContent: 'flex-start',
+        }}>
         <Button
           title={data.optionText}
           onPress={onPress}
           color={isSelected ? CHOSENBUTTON : BUTTONCOLOR}
-          style={isSelected ? { fontWeight: 'bold' } : {}}
+          style={isSelected ? {fontWeight: 'bold'} : {}}
           key={`button_${index}`}
         />
       </View>
@@ -943,8 +968,12 @@ class SurveyScreen extends Component {
 
   renderQuestionText(questionText) {
     return (
-      <View style={{ marginLeft: 10, marginRight: 10 }}>
-        <Text numLines={1} style={[styles.questionText, { color: this.props.theme.colors.text }]}>{questionText}</Text>
+      <View style={{marginLeft: 10, marginRight: 10}}>
+        <Text
+          numLines={1}
+          style={[styles.questionText, {color: this.props.theme.colors.text}]}>
+          {questionText}
+        </Text>
       </View>
     );
   }
@@ -953,7 +982,7 @@ class SurveyScreen extends Component {
     return (
       <View>
         <TextInput
-          style={[styles.textBox, { color: this.props.theme.colors.text }]}
+          style={[styles.textBox, {color: this.props.theme.colors.text}]}
           onChangeText={text => onChange(text)}
           numberOfLines={1}
           placeholder={placeholder}
@@ -962,30 +991,36 @@ class SurveyScreen extends Component {
           multiline
           onBlur={onBlur}
           blurOnSubmit
-          returnKeyType='done'
+          returnKeyType="done"
         />
       </View>
     );
   }
 
   renderNumericInput(onChange, value, placeholder, onBlur) {
-    return (<TextInput
-      style={[styles.numericInput, { color: this.props.theme.colors.text }]}
-      onChangeText={text => { onChange(text); }}
-      underlineColorAndroid={'white'}
-      placeholderTextColor={'rgba(184,184,184,1)'}
-      value={String(value)}
-      placeholder={placeholder}
-      keyboardType={'numeric'}
-      onBlur={onBlur}
-      maxLength={3}
-    />);
+    return (
+      <TextInput
+        style={[styles.numericInput, {color: this.props.theme.colors.text}]}
+        onChangeText={text => {
+          onChange(text);
+        }}
+        underlineColorAndroid={'white'}
+        placeholderTextColor={'rgba(184,184,184,1)'}
+        value={String(value)}
+        placeholder={placeholder}
+        keyboardType={'numeric'}
+        onBlur={onBlur}
+        maxLength={3}
+      />
+    );
   }
 
   renderInfoText(infoText) {
     return (
-      <View style={{ marginLeft: 10, marginRight: 10 }}>
-        <Text style={[styles.infoText, { color: this.props.theme.colors.text }]}>{infoText}</Text>
+      <View style={{marginLeft: 10, marginRight: 10}}>
+        <Text style={[styles.infoText, {color: this.props.theme.colors.text}]}>
+          {infoText}
+        </Text>
       </View>
     );
   }
@@ -995,21 +1030,36 @@ class SurveyScreen extends Component {
   }
   render() {
     return (
-      <View style={[styles.background, { backgroundColor: this.props.theme.colors.backgroundColor }]}>
+      <View
+        style={[
+          styles.background,
+          {backgroundColor: this.props.theme.colors.backgroundColor},
+        ]}>
         <View style={styles.container}>
-          <SurveyComponent 
+          <SurveyComponent
             key={'survey'}
-            ref={(s) => { this.surveyRef = s; }}
+            ref={s => {
+              this.surveyRef = s;
+            }}
             survey={survey}
             renderSelector={this.renderButton.bind(this)}
-            containerStyle={[styles.surveyContainer, { backgroundColor: this.props.theme.colors.border }]}
-            selectionGroupContainerStyle={[styles.selectionGroupContainer, { backgroundColor: this.props.theme.colors.border }]}
-            navButtonContainerStyle={{ flexDirection: 'row', justifyContent: 'space-around' }}
+            containerStyle={[
+              styles.surveyContainer,
+              {backgroundColor: this.props.theme.colors.border},
+            ]}
+            selectionGroupContainerStyle={[
+              styles.selectionGroupContainer,
+              {backgroundColor: this.props.theme.colors.border},
+            ]}
+            navButtonContainerStyle={{
+              flexDirection: 'row',
+              justifyContent: 'space-around',
+            }}
             renderPrevious={this.renderPreviousButton.bind(this)}
             renderNext={this.renderNextButton.bind(this)}
             renderFinished={this.renderFinishedButton.bind(this)}
             renderQuestionText={this.renderQuestionText.bind(this)}
-            onSurveyFinished={(answers) => this.onSurveyFinished(answers)}
+            onSurveyFinished={answers => this.onSurveyFinished(answers)}
             onSurveyStart={this.onSurveyStart.bind(this)}
             //onAnswerSubmitted={(answer) => this.onAnswerSubmitted(answer)}
             renderTextInput={this.renderTextBox.bind(this)}
@@ -1018,10 +1068,7 @@ class SurveyScreen extends Component {
             onNavigateBack={this.onNavigateBack}
             theme={this.color}
           />
-
         </View>
-
-
       </View>
     );
   }
@@ -1068,14 +1115,13 @@ const styles = StyleSheet.create({
     margin: 10,
     fontSize: 20,
     color: 'white',
-    width: 'auto'
+    width: 'auto',
   },
   answers: {
     alignSelf: 'center',
     marginBottom: 10,
   },
   navigationButton: {
-
     minHeight: 40,
     backgroundColor: GREEN,
     padding: 0,
@@ -1092,7 +1138,7 @@ const styles = StyleSheet.create({
   },
   questionText: {
     marginBottom: 20,
-    fontSize: 20
+    fontSize: 20,
   },
   textBox: {
     borderWidth: 1,
@@ -1101,7 +1147,7 @@ const styles = StyleSheet.create({
     padding: 10,
     textAlignVertical: 'top',
     marginLeft: 10,
-    marginRight: 10
+    marginRight: 10,
   },
   numericInput: {
     borderWidth: 1,
@@ -1111,31 +1157,28 @@ const styles = StyleSheet.create({
     padding: 10,
     textAlignVertical: 'top',
     marginLeft: 10,
-    marginRight: 10
+    marginRight: 10,
   },
   infoText: {
     marginBottom: 20,
     fontSize: 20,
-    marginLeft: 10
+    marginLeft: 10,
   },
 });
 
-
-const mapDispatchToProps = { resetSurveyForm }
+const mapDispatchToProps = {resetSurveyForm};
 const ReduxSurveyForm = connect(
   null,
-  mapDispatchToProps
-)(SurveyScreen)
+  mapDispatchToProps,
+)(SurveyScreen);
 
-export default function (props) {
-
+export default function(props) {
   const theme = useTheme();
   var MyTheme = {
     ...useTheme,
     colors: {
-
       border: 'rgb(60, 60, 60)',
-      text: 'rgb(250, 250, 250)'
+      text: 'rgb(250, 250, 250)',
     },
   };
   if (!theme.dark) {

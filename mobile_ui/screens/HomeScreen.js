@@ -12,17 +12,17 @@ const HomeScreen = ({navigation}) => {
 
   const createTwoButtonAlert = () =>
     Alert.alert(
-      "Take Sample",
-      "Start taking sample?",
+      'Take Sample',
+      'Start taking sample?',
       [
         {
-          text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel"
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
         },
-        { text: "Yes", onPress: () => navigation.navigate('TakeSampleScreen') }
+        {text: 'Yes', onPress: () => navigation.navigate('TakeSampleScreen')},
       ],
-      { cancelable: true}
+      {cancelable: true},
     );
 
   return (
@@ -72,7 +72,11 @@ const HomeScreen = ({navigation}) => {
         titleProps={{}}
         titleStyle={{marginHorizontal: 22, fontSize: 18}}
       />
-     
+
+      <Button
+        onPress={() => navigation.navigate('SurroundingsPhotoScreen')}
+        title="Take Photo"
+      />
     </View>
   );
 };
