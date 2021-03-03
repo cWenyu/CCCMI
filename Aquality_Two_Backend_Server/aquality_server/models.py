@@ -3,6 +3,7 @@
 # Create your models here.
 from django.db import models
 from django.contrib.auth.models import User
+import json
 
 # Login Account Model
 class Login_Account(models.Model):
@@ -85,6 +86,7 @@ class SampleRecord(models.Model):
     sample_ph = models.FloatField()
     sample_tmp = models.FloatField()
     sample_river = models.ForeignKey(River,on_delete=models.CASCADE)
+    sample_survey = models.JSONField(null=True,encoder=json.JSONEncoder,decoder=json.JSONDecoder)
 
 class SampleRecordInsectDetail(models.Model):
     class Meta:
