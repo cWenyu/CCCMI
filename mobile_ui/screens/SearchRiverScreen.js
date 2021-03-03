@@ -34,7 +34,6 @@ const SearchRiverScreen = ({ navigation, route }) => {
     latitude: undefined,
     longitude: undefined,
   });
-
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -47,9 +46,7 @@ const SearchRiverScreen = ({ navigation, route }) => {
 
       console.log(JSON.stringify(route.params));
     }
-
-
-
+    requestLocationPermission();
   }, [route.params?.sampleData]);
 
   /**
@@ -65,10 +62,10 @@ const SearchRiverScreen = ({ navigation, route }) => {
       try {
         const granted = await PermissionsAndroid.request(
           PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-          {
-            title: 'Location Access Required',
-            message: 'This App needs to Access your location',
-          },
+          // {
+          //   title: 'Location Access Required',
+          //   message: 'This App needs to Access your location',
+          // },
         );
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
           //To Check, If Permission is granted
@@ -105,6 +102,7 @@ const SearchRiverScreen = ({ navigation, route }) => {
         //Setting Longitude state
         setLocation({ latitude: currentLatitude, longitude: currentLongitude });
         setSearchInput(currentLatitude + ',' + currentLongitude);
+        console.log("latitude:"+ JSON.stringify(location));
       })
       .catch(error => {
         setLocationStatus({ locationStatus: error.message });
@@ -123,7 +121,7 @@ const SearchRiverScreen = ({ navigation, route }) => {
             key={el.river_id}
             title={el.river_name.toString()}
             onPress={() =>
-              navigation.navigate('SearchRiverScreen2', { riverData: el, surveyData: route.params.surveyData[0] })
+              navigation.navigate('SearchRiverScreen2', { riverData: el, surveyData: route.params.surveyData[0], currentLocation:location })
             }
             buttonStyle={{ width: 310, height: 55, backgroundColor: '#02ab9e', borderRadius: 5, }}
             containerStyle={{ margin: 5, alignItems: 'center', marginTop: 20 }}
