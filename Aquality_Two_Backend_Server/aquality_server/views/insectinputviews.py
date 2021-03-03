@@ -29,7 +29,8 @@ def storeRecordResult(request):
                     sample_user = user,
                     sample_ph = sample_detail['sample_ph'],
                     sample_tmp = sample_detail['sample_tmp'],
-                    sample_river = river
+                    sample_river = river,
+                    sample_survey = sample_detail['sample_survey']
                 )
                 record_save_id = record_save.sample_id
                 for insect in data['insect_list']:
