@@ -102,7 +102,6 @@ const SearchRiverScreen = ({ navigation, route }) => {
         //Setting Longitude state
         setLocation({ latitude: currentLatitude, longitude: currentLongitude });
         setSearchInput(currentLatitude + ',' + currentLongitude);
-        console.log("latitude:"+ JSON.stringify(location));
       })
       .catch(error => {
         setLocationStatus({ locationStatus: error.message });

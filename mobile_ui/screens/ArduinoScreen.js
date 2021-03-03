@@ -11,22 +11,22 @@ import {
   Dimensions,
   Platform,
 } from "react-native";
-import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
+import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Fontisto from 'react-native-vector-icons/Fontisto';
-import { markers, mapDarkStyle, mapStandardStyle } from '../model/mapData';
+import { mapDarkStyle, mapStandardStyle } from '../model/mapData';
 import { useTheme } from '@react-navigation/native';
-
+import axios from 'axios';
 
 const { width, height } = Dimensions.get("window");
-const CARD_HEIGHT = 220;
+const CARD_HEIGHT = 240;
 const CARD_WIDTH = width * 0.8;
 const SPACING_FOR_CARD_INSET = width * 0.1 - 10;
 
-const ExploreScreen = () => {
+const ArduinoScreen = ({ navigation, route }) => {
   const theme = useTheme();
-
+  let markers = [];
   const styles = StyleSheet.create({
     container: {
       flex: 1,
@@ -174,12 +174,13 @@ const ExploreScreen = () => {
       },
     ],
     region: {
-      latitude: 22.62938671242907,
-      longitude: 88.4354486029795,
+      latitude: parseFloat(route.params.currentLocation.latitude),
+      longitude: parseFloat(route.params.currentLocation.longitude),
       latitudeDelta: 0.04864195044303443,
-      longitudeDelta: 0.040142817690068,
+      longitudeDelta: 0.060142817690068,
     },
   };
+
 
   const [state, setState] = React.useState(initialMapState);
 
@@ -187,6 +188,8 @@ const ExploreScreen = () => {
   let mapAnimation = new Animated.Value(0);
 
   useEffect(() => {
+    getHardwareDataNearby();
+    console.log(JSON.stringify(route.params));
     mapAnimation.addListener(({ value }) => {
       let index = Math.floor(value / CARD_WIDTH + 0.3); // animate 30% away from landing on the next item
       if (index >= state.markers.length) {
@@ -213,7 +216,7 @@ const ExploreScreen = () => {
         }
       }, 10);
     });
-  });
+  }, []);
 
   const interpolations = state.markers.map((marker, index) => {
     const inputRange = [
@@ -246,6 +249,50 @@ const ExploreScreen = () => {
     }
   }
 
+  const getHardwareDataNearby = async () => {
+    try {
+      let response = await axios.get(
+        'https://cccmi-aquality.tk/aquality_server/all_hardware_near',
+        {
+          params: {
+            latitude: route.params.currentLocation.latitude,
+            longitude: route.params.currentLocation.longitude,
+          },
+        },
+      );
+      if (response) {
+        setMarkersArr(response.data);
+      } else {
+        console.log("No hardware online...");
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const setMarkersArr = (arr) => {
+    let arrLength = arr.length;
+    let tempArr = [];
+    for (let i = 0; i < arrLength; i++) {
+      tempArr[i] = {
+        coordinate: {
+          latitude: parseFloat(arr[i].latitude),
+          longitude: parseFloat(arr[i].longitude),
+        },
+        data: {
+          deviceId: arr[i].arduino_id,
+          ph: arr[i].ph,
+          temp: arr[i].temp,
+          date: arr[i].date_captured,
+        }
+      };
+    }
+    setState({
+      ...state,
+      markers: tempArr,
+    })
+  }
+
   const _map = React.useRef(null);
   const _scrollView = React.useRef(null);
 
@@ -258,6 +305,15 @@ const ExploreScreen = () => {
         provider={PROVIDER_GOOGLE}
         customMapStyle={theme.dark ? mapDarkStyle : mapStandardStyle}
       >
+      <Marker
+          coordinate={{
+            latitude: parseFloat(route.params.currentLocation.latitude),
+            longitude: parseFloat(route.params.currentLocation.longitude),
+          }}
+          title="Your Location"
+        >
+          <Image source={require('../assets/pin-person.png')} style={{ height: 45, width: 45 }} />
+        </Marker>
         {state.markers.map((marker, index) => {
           const scaleStyle = {
             transform: [
@@ -316,17 +372,33 @@ const ExploreScreen = () => {
             <View style={styles.textContent}>
               <Text style={styles.cardtitle}>Water Monitoring Hardware</Text>
               <View style={{ flexDirection: 'row' }}>
-                <Text style={styles.cardDescriptionTitle}>Device ID:</Text><Text style={styles.cardDescription}> 5</Text>
+                <Text style={styles.cardDescriptionTitle}>Device ID:</Text><Text style={styles.cardDescription}> {marker.data.deviceId}</Text>
               </View>
               <View style={{ flexDirection: 'row' }}>
-                <Text style={styles.cardDescriptionTitle}>pH Value:</Text><Text style={styles.cardDescription}> 7.1</Text>
+                <Text style={styles.cardDescriptionTitle}>pH Value:</Text><Text style={styles.cardDescription}> {marker.data.ph}</Text>
               </View>
               <View style={{ flexDirection: 'row' }}>
-                <Text style={styles.cardDescriptionTitle}>Temperature:</Text><Text style={styles.cardDescription}> 16.73</Text>
+                <Text style={styles.cardDescriptionTitle}>Temperature:</Text><Text style={styles.cardDescription}> {marker.data.temp}</Text>
               </View>
               <View style={{ flexDirection: 'row' }}>
-                <Text style={styles.cardDescriptionTitle}>Date Captured:</Text><Text style={styles.cardDescription}> 05-03-2021</Text>
+                <Text style={styles.cardDescriptionTitle}>Date:</Text>
+                <Text style={styles.cardDescription}>
+                  {' '}{marker.data.date.substring(
+                    0,
+                    marker.data.date.indexOf('T'),
+                  )}
+                </Text>
               </View>
+              <View style={{ flexDirection: 'row' }}>
+                <Text style={styles.cardDescriptionTitle}>Time:</Text>
+                <Text style={styles.cardDescription}>
+                  {' '}{marker.data.date.substring(
+                    marker.data.date.indexOf('T') + 1,
+                    16,
+                  )}
+                </Text>
+              </View>
+
 
               <View style={styles.button}>
                 <TouchableOpacity
@@ -348,7 +420,7 @@ const ExploreScreen = () => {
   );
 };
 
-export default ExploreScreen;
+export default ArduinoScreen;
 
 
 //-------------------------------------------------
