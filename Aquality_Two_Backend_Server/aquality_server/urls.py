@@ -6,8 +6,10 @@ from django.conf import settings
 router = routers.DefaultRouter()
 router.register(r'rivers', views.RiverViewSet)
 router.register(r'data',views.DataViewSet)
-router.register(r'all_hardware_near',views.all_data_viewset)
+router.register(r'all_hardware_near',views.AllDataViewset)
 router.register(r'insect',views.InsectViewSet)
+router.register(r'user_upload_insect',views.AllInsectUserUploadViewSet)
+router.register(r'river_environment_image',views.RiverEnvironmentImageViewSet)
 router.register(r'samplerecord',views.SampleRecordViewSet)
 router.register(r'recordinsect',views.SampleRecordInsectViewSet)
 #Application Name

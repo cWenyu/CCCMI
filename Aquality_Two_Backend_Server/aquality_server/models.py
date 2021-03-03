@@ -78,6 +78,16 @@ class Insect(models.Model):
     insect_group = models.ForeignKey(InsectGroup,on_delete=models.CASCADE)
     insect_image_path = models.ImageField(upload_to='insect-img',null=True)
 
+
+class AllInsectUserUpload(models.Model):
+    insect_id = models.AutoField(primary_key=True)
+    insect_image_path = models.ImageField(upload_to='user-insect-img',null=True)
+
+
+class RiverEnvironmentImage(models.Model):
+    river_id = models.AutoField(primary_key=True)
+    river_image_path = models.ImageField(upload_to='river-environment-img', null=True)
+
 class SampleRecord(models.Model):
     sample_id = models.AutoField(primary_key = True)
     sample_date = models.DateTimeField(auto_now_add=True)
