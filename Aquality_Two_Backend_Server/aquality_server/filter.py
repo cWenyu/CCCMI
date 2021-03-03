@@ -67,39 +67,39 @@ ORDER BY
 
 
 def getNearbyListHardware(pnt):
-    query = """SELECT 
-    data_id,
-    arduino_id,
-	longitude,
-	latitude,
-	date_captured,
-
-
-	ROUND(
-		6378.138 * 2 * ASIN(
-			SQRT(
-				POW(
-					SIN(
-						(
-							""" + str(pnt[0]) + """ * PI() / 180 - latitude * PI() / 180
-						) / 2
-					),
-					2
-				) + COS(""" + str(pnt[0]) + """ * PI() / 180) * COS(latitude * PI() / 180) * POW(
-					SIN(
-						(
-							""" + str(pnt[1]) + """ * PI() / 180 - 	longitude * PI() / 180
-						) / 2
-					),
-					2
-				)
-			)
-		) * 1000
-	) AS distance
-FROM
-aquality_server_data
-WHERE date_captured BETWEEN NOW() - INTERVAL '15 MINUTES' AND NOW()
-ORDER BY
-	date_captured DESC"""
+    query = """
+    SELECT 
+        DISTINCT ON (arduino_id) arduino_id,
+        data_id,
+        longitude,
+        latitude,
+        date_captured,
+    
+    
+        ROUND(
+            6378.138 * 2 * ASIN(
+                SQRT(
+                    POW(
+                        SIN(
+                            (
+                                """ + str(pnt[0]) + """ * PI() / 180 - latitude * PI() / 180
+                            ) / 2
+                        ),
+                        2
+                    ) + COS(""" + str(pnt[0]) + """ * PI() / 180) * COS(latitude * PI() / 180) * POW(
+                        SIN(
+                            (
+                                """ + str(pnt[1]) + """ * PI() / 180 - 	longitude * PI() / 180
+                            ) / 2
+                        ),
+                        2
+                    )
+                )
+            ) * 1000
+        ) AS distance
+    FROM
+    aquality_server_data
+    WHERE date_captured BETWEEN NOW() - INTERVAL '15 MINUTES' AND NOW()
+    ORDER BY arduino_id, date_captured DESC"""
 
     return Data.objects.raw(query)
