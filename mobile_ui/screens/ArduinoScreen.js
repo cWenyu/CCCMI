@@ -402,7 +402,7 @@ const ArduinoScreen = ({ navigation, route }) => {
 
               <View style={styles.button}>
                 <TouchableOpacity
-                  onPress={() => { }}
+                  onPress={() => { navigation.navigate('InsectScreen',{riverData: route.params.riverData, surveyData: route.params.surveyData, currentLocation: route.params.currentLocation, sensorData: marker.data}) }}
                   style={[styles.signIn, {
                     backgroundColor: '#009387',
                   }]}
