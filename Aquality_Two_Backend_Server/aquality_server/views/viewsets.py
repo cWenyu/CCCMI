@@ -1,16 +1,13 @@
-from datetime import datetime
-
 from ..serializers import *
 from rest_framework.response import Response
 from rest_framework import status
 from aquality_server.filter import *
-from django.views.decorators.csrf import csrf_exempt
 from rest_framework import viewsets
 
 
 class DataViewSet(viewsets.ModelViewSet):
     queryset = Data.objects.all()
-    serializer_class = all_data_serializer_with_date
+    serializer_class = AllDataSerializerWithDate
     serializer_class_save = DataSerializer
 
     def create(self, request):
@@ -25,7 +22,7 @@ class DataViewSet(viewsets.ModelViewSet):
         }, status=status.HTTP_400_BAD_REQUEST)
 
     def get_queryset(self):
-        if (self.request.query_params.get('arduino_id')):
+        if self.request.query_params.get('arduino_id'):
             arduino_id_get = self.request.query_params.get('arduino_id')
             return Data.objects.filter(arduino_id=arduino_id_get).order_by('-date_captured')[0:1]
         else:
@@ -40,9 +37,9 @@ class DataViewSet(viewsets.ModelViewSet):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class all_data_viewset(viewsets.ModelViewSet):
+class AllDataViewset(viewsets.ModelViewSet):
     queryset = Data.objects.all()
-    serializer_class = all_data_serializer_with_date
+    serializer_class = AllDataSerializerWithDate
 
     def get_queryset(self):
         # return Data.objects.all().order_by('river_id')
@@ -105,10 +102,10 @@ class SampleRecordViewSet(viewsets.ModelViewSet):
     serializer_class = SampleRecordDataSerializer
 
     def get_queryset(self):
-        if (self.request.query_params.get('username')):
+        if self.request.query_params.get('username'):
             username_get = self.request.GET['username']
             user_get = User.objects.get(username=username_get)
-            if (self.request.query_params.get('rivername')):
+            if self.request.query_params.get('rivername'):
                 river_name = self.request.GET['rivername']
                 river_get = River.objects.get(river_name=river_name)
                 return SampleRecord.objects.filter(sample_user=user_get, sample_river=river_get)
@@ -123,8 +120,60 @@ class SampleRecordInsectViewSet(viewsets.ModelViewSet):
     serializer_class = SampleRecordInsectDetailSerializer
 
     def get_queryset(self):
-        if (self.request.query_params.get('sample_id')):
+        if self.request.query_params.get('sample_id'):
             sample_id_get = self.request.GET('sample_id')
             sample_record = SampleRecord.objects.get(sample_id=sample_id_get)
             return SampleRecordInsectDetail.objects.filter(sample_record_data=sample_record)
         return SampleRecordInsectDetail.objects.all()
+
+class AllInsectUserUploadViewSet(viewsets.ModelViewSet):
+    queryset = AllInsectUserUpload.objects.all()
+    serializer_class = AllInsectUserUploadSerializer
+
+    def create(self, request):
+        if request.method == 'POST':
+            saveSerialize = self.serializer_class(data=request.data)
+            if saveSerialize.is_valid():
+                saveSerialize.save()
+                return Response(saveSerialize.data, status=status.HTTP_201_CREATED)
+        return Response({
+            'status': 'Bad request',
+            'message': 'Data could not be created with received data.'
+        }, status=status.HTTP_400_BAD_REQUEST)
+
+    def get_queryset(self):
+            return AllInsectUserUpload.objects.all()
+
+    def destroy(self, request, *args, **kwargs):
+        try:
+            instance = self.get_object()
+            self.perform_destroy(instance)
+        except status.HTTP_400_BAD_REQUEST:
+            pass
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+class RiverEnvironmentImageViewSet(viewsets.ModelViewSet):
+    queryset = RiverEnvironmentImage.objects.all()
+    serializer_class = RiverEnvironmentImageSerializer
+
+    def create(self, request):
+        if request.method == 'POST':
+            saveSerialize = self.serializer_class(data=request.data)
+            if saveSerialize.is_valid():
+                saveSerialize.save()
+                return Response(saveSerialize.data, status=status.HTTP_201_CREATED)
+        return Response({
+            'status': 'Bad request',
+            'message': 'Data could not be created with received data.'
+        }, status=status.HTTP_400_BAD_REQUEST)
+
+    def get_queryset(self):
+            return RiverEnvironmentImage.objects.all()
+
+    def destroy(self, request, *args, **kwargs):
+        try:
+            instance = self.get_object()
+            self.perform_destroy(instance)
+        except status.HTTP_400_BAD_REQUEST:
+            pass
+        return Response(status=status.HTTP_204_NO_CONTENT)
