@@ -60,3 +60,7 @@ buck-out/
 
 # appium test reports
 /appium_automation_testing/reports/*
+
+# package.json installed files
+yarn.lock
+package-lock.json
