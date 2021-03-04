@@ -113,7 +113,7 @@ const survey = [
   //   questionType: 'SelectionGroup',
   //   questionText:
   //     '4/21\nPrincipal Type of Substratum Sampled:\n\nSilt or Mud?',
-  //     questionId: 'd',
+  //   questionId: 'pt_silt_mud',
   //   questionSettings: {
   //     maxMultiSelect: 1,
   //     minMultiSelect: 1,
@@ -142,7 +142,7 @@ const survey = [
   //   questionType: 'SelectionGroup',
   //   questionText:
   //     '5/21\nDegree of Siltation:\n\n(Is silt released when you take a kick sample?)',
-  //     questionId: 'e',
+  //   questionId: 'degree_silt',
   //   questionSettings: {
   //     maxMultiSelect: 1,
   //     minMultiSelect: 1,
@@ -171,7 +171,7 @@ const survey = [
   //   questionType: 'SelectionGroup',
   //   questionText:
   //     '6/21\nDepth of Mud on Bottom:',
-  //     questionId: 'f',
+  //   questionId: 'depth_mud',
   //   questionSettings: {
   //     maxMultiSelect: 1,
   //     minMultiSelect: 1,
@@ -204,7 +204,7 @@ const survey = [
   //   questionType: 'SelectionGroup',
   //   questionText:
   //     '7/21\nDo Cattle or other Farm Animals have access to the stream?',
-  //     questionId: 'g',
+  //   questionId: 'farm_animals_selection',
   //   questionSettings: {
   //     maxMultiSelect: 1,
   //     minMultiSelect: 1,
@@ -225,17 +225,17 @@ const survey = [
   //     }
   //   ]
   // },
-  {
-    questionType: 'TextInput',
-    questionText:
-      '8/21\nDo Cattle or other Farm Animals have access to the stream? \n\nComment',
-    questionId: 'h',
-    placeholderText: 'Please leave comment...',
-  },
+  // {
+  //   questionType: 'TextInput',
+  //   questionText: '8/21\nDo Cattle or other Farm Animals have access to the stream? \n\nComment',
+  //   questionId: 'farm_animals_text',
+  //   placeholderText: 'Please leave comment...',
+  // },
   // {
   //   questionType: 'SelectionGroup',
   //   questionText:
   //     '9/21\nWhich of these describe the land next to the stream bank?\n\nGrassland?',
+  //   questionId: 'describe_grassland',
   //   questionSettings: {
   //     maxMultiSelect: 1,
   //     minMultiSelect: 1,
@@ -264,7 +264,7 @@ const survey = [
   //   questionType: 'SelectionGroup',
   //   questionText:
   //     '10/21\nWhich of these describe the land next to the stream bank?\n\nTillage Crops?',
-  //     questionId: 'i',
+  //   questionId: 'describe_tillage_crops',
   //   questionSettings: {
   //     maxMultiSelect: 1,
   //     minMultiSelect: 1,
@@ -293,7 +293,36 @@ const survey = [
   //   questionType: 'SelectionGroup',
   //   questionText:
   //     '11/21\nWhich of these describe the land next to the stream bank?\n\nUrban?',
-  //     questionId: 'j',
+  //   questionId: 'describe_urban',
+  //   questionSettings: {
+  //     maxMultiSelect: 1,
+  //     minMultiSelect: 1,
+  //     autoAdvance: true,
+  //   },
+  //   options: [
+  //     {
+  //       optionText: 'Present',
+  //       value: 'present'
+  //     },
+  //     {
+  //       optionText: 'Moderate',
+  //       value: 'moderate'
+  //     },
+  //     {
+  //       optionText: 'Abundant',
+  //       value: 'abundant'
+  //     },
+  //     {
+  //       optionText: 'Other',
+  //       value: 'other'
+  //     }
+  //   ]
+  // },
+  // {
+  //   questionType: 'SelectionGroup',
+  //   questionText:
+  //     '12/21\nWhich of these describe the land next to the stream bank?\n\nForest?',
+  //   questionId: 'describe_forest',
   //   questionSettings: {
   //     maxMultiSelect: 1,
   //     minMultiSelect: 1,
@@ -351,7 +380,7 @@ const survey = [
   //   questionType: 'SelectionGroup',
   //   questionText:
   //     '13/21\nWhich of these describe the land next to the stream bank?\n\nBog/Heath/Moorland?',
-  //     questionId: 'l',
+  //   questionId: 'describe_bog_heath_moorland',
   //   questionSettings: {
   //     maxMultiSelect: 1,
   //     minMultiSelect: 1,
@@ -380,7 +409,7 @@ const survey = [
   //   questionType: 'SelectionGroup',
   //   questionText:
   //     '14/21\nWater Clarity',
-  //     questionId: 'm',
+  //   questionId: 'water_clarity',
   //   questionSettings: {
   //     maxMultiSelect: 1,
   //     minMultiSelect: 1,
@@ -405,7 +434,7 @@ const survey = [
   //   questionType: 'SelectionGroup',
   //   questionText:
   //     '15/21\nCan you see any rubbish in the stream?',
-  //     questionId: 'n',
+  //   questionId: 'rubish_in_stream',
   //   questionSettings: {
   //     maxMultiSelect: 1,
   //     minMultiSelect: 1,
@@ -434,7 +463,7 @@ const survey = [
   //   questionType: 'SelectionGroup',
   //   questionText:
   //     '16/21\nWater Velocity',
-  //     questionId: 'o',
+  //   questionId: 'water_velocity',
   //   questionSettings: {
   //     maxMultiSelect: 1,
   //     minMultiSelect: 1,
@@ -459,7 +488,7 @@ const survey = [
   //   questionType: 'SelectionGroup',
   //   questionText:
   //     '17/21\nRiffle Glide Pool?',
-  //     questionId: 'p',
+  //   questionId: 'riffle_glide_pool',
   //   questionSettings: {
   //     maxMultiSelect: 1,
   //     minMultiSelect: 1,
@@ -484,7 +513,7 @@ const survey = [
   //   questionType: 'SelectionGroup',
   //   questionText:
   //     '18/21\nSelect the Best Matches for Your Stream Site.\n\nUrban/Suburban:',
-  //     questionId: 'q',
+  //   questionId: 'select_match_urban_suburban',
   //   questionSettings: {
   //     maxMultiSelect: 1,
   //     minMultiSelect: 1,
@@ -509,7 +538,7 @@ const survey = [
   //   questionType: 'SelectionGroup',
   //   questionText:
   //     '19/21\nSelect the Best Matches for Your Stream Site.\n\nNative Woodland or Moorland:',
-  //     questionId: 'r',
+  //   questionId: 'select_match_nativewoodland_moorland',
   //   questionSettings: {
   //     maxMultiSelect: 1,
   //     minMultiSelect: 1,
@@ -534,7 +563,7 @@ const survey = [
   //   questionType: 'SelectionGroup',
   //   questionText:
   //     '20/21\nSelect the Best Matches for Your Stream Site.\n\nPresence of Trees:',
-  //     questionId: 's',
+  //   questionId: 'select_match_presence_trees',
   //   questionSettings: {
   //     maxMultiSelect: 1,
   //     minMultiSelect: 1,
@@ -555,31 +584,31 @@ const survey = [
   //     }
   //   ]
   // },
-  // {
-  //   questionType: 'SelectionGroup',
-  //   questionText:
-  //     '21/21\nSelect the Best Matches for Your Stream Site.\n\nGrassland and Crops:',
-  //     questionId: 't',
-  //   questionSettings: {
-  //     maxMultiSelect: 1,
-  //     minMultiSelect: 1,
-  //     autoAdvance: true,
-  //   },
-  //   options: [
-  //     {
-  //       optionText: 'Present',
-  //       value: 'present'
-  //     },
-  //     {
-  //       optionText: 'Moderate',
-  //       value: 'moderate'
-  //     },
-  //     {
-  //       optionText: 'Abundant',
-  //       value: 'abundant'
-  //     }
-  //   ]
-  // },
+  {
+    questionType: 'SelectionGroup',
+    questionText:
+      '21/21\nSelect the Best Matches for Your Stream Site.\n\nGrassland and Crops:',
+    questionId: 'select_match_grassland_crops',
+    questionSettings: {
+      maxMultiSelect: 1,
+      minMultiSelect: 1,
+      autoAdvance: true,
+    },
+    options: [
+      {
+        optionText: 'Present',
+        value: 'present'
+      },
+      {
+        optionText: 'Moderate',
+        value: 'moderate'
+      },
+      {
+        optionText: 'Abundant',
+        value: 'abundant'
+      }
+    ]
+  },
 
   // __________________
 

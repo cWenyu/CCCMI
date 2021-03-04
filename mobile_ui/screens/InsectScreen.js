@@ -291,7 +291,7 @@ const InsectScreen = ({navigation, route}) => {
         testID={testVariables.insectScreenSelectInsectButton}
         titleProps={{}}
         titleStyle={{marginHorizontal: 22, fontSize: 18}}
-        buttonStyle={{width: 270, height: 50, backgroundColor: '#625D52'}}
+        buttonStyle={{width: 270, height: 50, backgroundColor: '#009387'}}
         containerStyle={{margin: 5, alignItems: 'center', marginTop: 40}}
         disabledStyle={{
           borderWidth: 2,
@@ -313,7 +313,7 @@ const InsectScreen = ({navigation, route}) => {
         }}
         titleProps={{}}
         titleStyle={{marginHorizontal: 22, fontSize: 18}}
-        buttonStyle={{width: 270, height: 50, backgroundColor: '#625D52'}}
+        buttonStyle={{width: 270, height: 50, backgroundColor: '#009387'}}
         containerStyle={{
           margin: 5,
           alignItems: 'center',
@@ -359,12 +359,28 @@ const InsectScreen = ({navigation, route}) => {
       </ScrollView>
 
       <Button
-        title="thats it"
+        title="That\'s it"
         onPress={() => {
           getScore();
           setModalVisible(true);
           navigation.navigate('ResultPage');
         }}
+        accessibilityLabel={testVariables.insectScreenSelectInsectButton}
+        testID={testVariables.insectScreenSelectInsectButton}
+        titleProps={{}}
+        titleStyle={{marginHorizontal: 22, fontSize: 18}}
+        buttonStyle={{width: 270, height: 50, backgroundColor: '#009387'}}
+        containerStyle={{margin: 5, alignItems: 'center', marginTop: 40}}
+        disabledStyle={{
+          borderWidth: 2,
+          borderColor: '#00F',
+        }}
+        disabledTitleStyle={{color: '#00F'}}
+        linearGradientProps={null}
+        icon={<Icon name="buffer" size={19} color="#FAF9F7" />}
+        iconContainerStyle={{background: '#000'}}
+        loadingProps={{animating: true}}
+        loadingStyle={{}}
       />
     </View>
   );
