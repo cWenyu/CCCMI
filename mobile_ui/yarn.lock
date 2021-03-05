@@ -8918,6 +8918,11 @@
     "react-native-size-matters" "^0.3.1"
     "react-native-status-bar-height" "^2.5.0"
 
+"react-native-fast-image@^8.3.4":
+  "integrity" "sha512-LpzAdjUphihUpVEBn5fEv5AILe55rHav0YiZroPZ1rumKDhAl4u2cG01ku2Pb7l8sayjTsNu7FuURAlXUUDsow=="
+  "resolved" "https://registry.npmjs.org/react-native-fast-image/-/react-native-fast-image-8.3.4.tgz"
+  "version" "8.3.4"
+
 "react-native-gesture-handler@*", "react-native-gesture-handler@^1.6.0":
   "integrity" "sha512-KulGCWKTxa6xBpPP4LWEPmmLqBqOe2jbtdlILOVF/dR4EgImiaBVrKdOHeRMyMzJOYAWxs5uDZsyA8hgSsm+lw=="
   "resolved" "https://registry.npmjs.org/react-native-gesture-handler/-/react-native-gesture-handler-1.6.0.tgz"
@@ -8957,6 +8962,13 @@
   "integrity" "sha512-HygBkZBecTnIVRYrSiLRAvu4OmXOYso/A7c6Cy73HkOh9CgGV8Ap5eBea24tvmFGptjj5Hg8AJ94/YbmWK1Okw=="
   "resolved" "https://registry.npmjs.org/react-native-maps/-/react-native-maps-0.27.1.tgz"
   "version" "0.27.1"
+
+"react-native-modalbox@^2.0.2":
+  "integrity" "sha512-uSuoZ+siPPNqWGyw8NXhA/Aots7mOx2+qijFoeovequY0kczZEPZDd0ARHbzg+1cE3H3AATJEwGdkVA8lUxs0g=="
+  "resolved" "https://registry.npmjs.org/react-native-modalbox/-/react-native-modalbox-2.0.2.tgz"
+  "version" "2.0.2"
+  dependencies:
+    "prop-types" "^15.5.10"
 
 "react-native-onboarding-swiper@^1.1.4":
   "integrity" "sha512-dG2J6giQpt5kKlU+Xe68E9xy+OkmC9Yf5XD7S1mJQ5VvwySfCIXnPojai0PEQ9NmbbH06k9lqN5Ik1PGYnIdVA=="
@@ -9044,7 +9056,7 @@
     "prop-types" "^15.7.2"
     "yargs" "^15.0.2"
 
-"react-native@*", "react-native@>= 0.51", "react-native@>=0.40.0", "react-native@>=0.44", "react-native@>=0.50.0", "react-native@>=0.60", "react-native@0.61.5":
+"react-native@*", "react-native@>= 0.51", "react-native@>=0.40.0", "react-native@>=0.44", "react-native@>=0.50.0", "react-native@>=0.60", "react-native@>=0.60.0", "react-native@0.61.5":
   "integrity" "sha512-MXqE3NoGO0T3dUKIKkIppijBhRRMpfN6ANbhMXHDuyfA+fSilRWgCwYgR/YNCC7ntECoJYikKaNTUBB0DeQy6Q=="
   "resolved" "https://registry.npmjs.org/react-native/-/react-native-0.61.5.tgz"
   "version" "0.61.5"
@@ -9113,7 +9125,7 @@
     "raf" "^3.1.0"
     "tween-functions" "^1.0.1"
 
-"react@*", "react@^16.8.3 || ^17", "react@>= 16.0 || < 17.0", "react@>=15.0.0", "react@>=16.8.3", "react@16.9.0":
+"react@*", "react@^16.8.3 || ^17", "react@^16.8.6", "react@>= 16.0 || < 17.0", "react@>=15.0.0", "react@>=16.8.3", "react@16.9.0":
   "integrity" "sha512-+7LQnFBwkiw+BobzOF6N//BdoNw0ouwmSJTEm9cglOOmsg/TMiFHZLe2sEoN5M7LgJTj9oHH0gxklfnQe66S1w=="
   "resolved" "https://registry.npmjs.org/react/-/react-16.9.0.tgz"
   "version" "16.9.0"

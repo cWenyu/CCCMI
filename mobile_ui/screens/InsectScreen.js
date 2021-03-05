@@ -249,7 +249,7 @@ const InsectScreen = ({navigation, route}) => {
     if (analysedInsect.length > 0 || insectList.length > 0) {
       return (
         <View style={{alignSelf: 'center', paddingVertical: 10}}>
-          <Button
+          {/* <Button
             title="Get Score"
             onPress={() => {
               getScore();
@@ -257,7 +257,7 @@ const InsectScreen = ({navigation, route}) => {
             }}
             titleStyle={{marginHorizontal: 22, fontSize: 18}}
             buttonStyle={{width: 200, height: 50, backgroundColor: '#610D00'}}
-          />
+          /> */}
         </View>
       );
     }
@@ -359,11 +359,11 @@ const InsectScreen = ({navigation, route}) => {
       </ScrollView>
 
       <Button
-        title="That\'s it"
+        title="Finish"
         onPress={() => {
           getScore();
           setModalVisible(true);
-          navigation.navigate('ResultPage');
+          navigation.navigate('ResultPage', {selectedInsect: insectList, riverData: route.params.riverData, surveyData: route.params.surveyData, currentLocation: route.params.currentLocation, sensorData: route.params.sensorData, surrounding: route.params.surrounding});
         }}
         accessibilityLabel={testVariables.insectScreenSelectInsectButton}
         testID={testVariables.insectScreenSelectInsectButton}
@@ -377,7 +377,7 @@ const InsectScreen = ({navigation, route}) => {
         }}
         disabledTitleStyle={{color: '#00F'}}
         linearGradientProps={null}
-        icon={<Icon name="buffer" size={19} color="#FAF9F7" />}
+        icon={<Icon name="check-circle-outline" size={19} color="#FAF9F7" />}
         iconContainerStyle={{background: '#000'}}
         loadingProps={{animating: true}}
         loadingStyle={{}}

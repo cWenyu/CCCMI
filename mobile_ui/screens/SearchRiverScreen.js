@@ -47,7 +47,7 @@ const SearchRiverScreen = ({ navigation, route }) => {
       console.log(JSON.stringify(route.params));
     }
     requestLocationPermission();
-  }, [route.params?.sampleData]);
+  }, [route.params?.surveyData]);
 
   /**
    * @function requestLocationPermission
@@ -120,7 +120,7 @@ const SearchRiverScreen = ({ navigation, route }) => {
             key={el.river_id}
             title={el.river_name.toString()}
             onPress={() =>
-              navigation.navigate('SearchRiverScreen2', { riverData: el, surveyData: route.params.surveyData[0], currentLocation:location })
+              navigation.navigate('SearchRiverScreen2', { riverData: el, surveyData: route.params.surveyData[0], currentLocation:location, surrounding: route.params.surrounding })
             }
             buttonStyle={{ width: 310, height: 55, backgroundColor: '#02ab9e', borderRadius: 5, }}
             containerStyle={{ margin: 5, alignItems: 'center', marginTop: 20 }}

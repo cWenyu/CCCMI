@@ -18,11 +18,24 @@ import {Colors, Button as PaperBtn} from 'react-native-paper';
 import ImagePicker from 'react-native-image-crop-picker';
 import AsyncStorage from '@react-native-community/async-storage';
 
-const SurroundingsPhotoScreen = ({navigation}) => {
+
+
+
+const SurroundingsPhotoScreen = ({navigation, route}) => {
+
+  useEffect(() => {
+
+    if (route.params?.surveyData) {
+      console.log(JSON.stringify(route.params));
+    }
+  
+  }, [route.params?.surveyData]);
+
   const {colors} = useTheme();
   const [dataSource, setDataSource] = useState([]);
   const [image, setImage] = useState({url: '', index: 0});
   const [modalVisibleStatus, setModalVisibleStatus] = useState(false);
+  const [surveyPhoto, setSurveyPhoto] = useState();
   const [buttonStyle, setButtonStyle] = useState({
     flex: 1,
     margin: null,
@@ -277,7 +290,8 @@ const SurroundingsPhotoScreen = ({navigation}) => {
         titleStyle={{marginHorizontal: 22, fontSize: 16}}
         buttonStyle={styles.submitButton}
         onPress={() =>
-          storePhotoGallery().then(navigation.navigate('SearchRiverScreen'))
+          storePhotoGallery()
+          // storePhotoGallery().then(navigation.navigate('SearchRiverScreen', {surveyData: route.params.surveyData, surrounding: surveyPhoto}))
         }
       />
     );
@@ -287,7 +301,12 @@ const SurroundingsPhotoScreen = ({navigation}) => {
     let surveyPhotosObj = {
       surveyPhotos: dataSource,
     };
-    await AsyncStorage.setItem('surveyPhotos', JSON.stringify(surveyPhotosObj));
+    // await AsyncStorage.setItem('surveyPhotos', JSON.stringify(surveyPhotosObj));
+    
+    setSurveyPhoto(surveyPhotosObj)
+    console.log(surveyPhoto)
+    navigation.navigate('SearchRiverScreen', {surveyData: route.params.surveyData, surrounding: surveyPhoto})
+    // console.log(JSON.stringify(surveyPhotosObj))
   };
 
   return (

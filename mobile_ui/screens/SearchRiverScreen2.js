@@ -26,10 +26,10 @@ const SearchRiverScreen2 = ({navigation, route}) => {
   });
 
   React.useEffect(()=>{
-    if(route.params?.sampleData) {
+    if(route.params?.surveyData) {
       console.log(JSON.stringify(route.params));
     }
-  }, [route.params?.sampleData])
+  }, [route.params?.surveyData])
 
   const storeData = async value => {
     try {
