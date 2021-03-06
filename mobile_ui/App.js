@@ -211,10 +211,10 @@ const App = () => {
       />
       {/* add screen here */}
       <HomeStack.Screen
-        name="uploadImage"
-        component={uploadImage}
+        name="SampleHistoryScreen"
+        component={SampleHistoryScreen}
         options={{
-          title: 'uploadImage',
+          title: 'SampleHistoryScreen',
           headerLeft: () => (
             <Icon.Button
               name="ios-menu"
