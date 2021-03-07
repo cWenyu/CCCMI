@@ -12,10 +12,9 @@ router.register(r'user_upload_insect',views.AllInsectUserUploadViewSet)
 router.register(r'river_environment_image',views.RiverEnvironmentImageViewSet)
 router.register(r'samplerecord',views.SampleRecordViewSet)
 router.register(r'recordinsect',views.SampleRecordInsectViewSet)
-#Application Name
 
+#Application Name
 app_name = 'aquality_server'
-# Controlling The Path of Application
 
 useraccount = [
     path('useraccount/loginauth', views.checkUser, name='checkUser'),
@@ -28,6 +27,7 @@ useraccount = [
     path('useraccount/safetyterm',views.turn_safety_term,name='safetyTerm'),
 ]
 
+# Controlling The Path of Application
 urlpatterns = [
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
