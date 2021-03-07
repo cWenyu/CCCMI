@@ -24,6 +24,6 @@ class SampleRecordInsectDetail(admin.ModelAdmin):
         return obj.sample_record_insect.insect_name
     get_sample_record_insect.short_description = 'Insect Name'  #Renames column head
     
-@admin.register(User_Account)
+@admin.register(UserAccount)
 class UserAccountAdmin(admin.ModelAdmin):
     list_display = ("user_group","user","occupation","bio","profile_pic","date_of_birth","term_condition_accept_state","safety_guide_accept_state")

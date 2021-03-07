@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import River, Data, Login_Account, UserAccount, Insect, InsectGroup, SampleRecord, \
+from .models import River, Data, LoginAccount, UserAccount, Insect, InsectGroup, SampleRecord, \
     SampleRecordInsectDetail, User,AllInsectUserUpload, RiverEnvironmentImage
 
 
