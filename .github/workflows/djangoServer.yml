@@ -50,7 +50,7 @@ jobs:
           cd Aquality_Two_Backend_Server
           python manage.py migrate
 
-      - name: Run Test # running tests
+      - name: Run Check # running check
         run: |
           cd Aquality_Two_Backend_Server  
-          python manage.py test
+          python manage.py check
