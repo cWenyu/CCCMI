@@ -6,14 +6,14 @@ from django.contrib.auth.models import User
 import json
 
 # Login Account Model
-class Login_Account(models.Model):
+class LoginAccount(models.Model):
     account_id = models.AutoField(primary_key = True)
     username = models.CharField(max_length=200,unique=True)
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=200)
 
 #User Account Models
-class User_Account(models.Model):
+class UserAccount(models.Model):
     user = models.OneToOneField(
         User, on_delete=models.CASCADE
     )

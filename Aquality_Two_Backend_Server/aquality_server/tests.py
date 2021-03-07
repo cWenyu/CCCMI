@@ -4,7 +4,7 @@ from .filter import *
 # Create your tests here.
 class AccountTestCase(TestCase):
     def setUp(self):
-        Login_Account.objects.create(
+        LoginAccount.objects.create(
             username="TestUser1",
             email = "TestingUser@email.com",
             password = "123456"
