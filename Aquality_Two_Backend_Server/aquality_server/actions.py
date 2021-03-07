@@ -1,86 +1,83 @@
 import requests
 from aquality_server.models import River
-# from django.contrib.gis.geos import Point
 
 #The Path Variable Access to wfd Api
-catchmentsUrl = "https://wfdapi.edenireland.ie/api/"
-catchmentApiKey = 'catchment/'
-subcatchmentApiKey = '/subcatchment/'
-waterbodyApiKey = 'waterbody/'
+CATCHMENTS_URL = "https://wfdapi.edenireland.ie/api/"
+CATCHMENT_API_KEY = 'catchment/'
+SUB_CATCHMENT_API_KEY = '/subcatchment/'
+WATERBODY_API_KEY = 'waterbody/'
 
 #Get JsonResult From targetUrl
-def getJsonFrom(targetUrl):
-    response = requests.get(targetUrl)
+def get_json_from(target_url):
+    response = requests.get(target_url)
     return response.json()
 
 #Get all CatchmentList From API
-def getCatchmentList():
-    targetUrl = catchmentsUrl + catchmentApiKey
-    jsonData = getJsonFrom(targetUrl)
-    return jsonData['Catchments']
+def get_catchment_list():
+    target_url = CATCHMENTS_URL + CATCHMENT_API_KEY
+    json_data = get_json_from(target_url)
+    return json_data['Catchments']
 
 #Get One CatchmentDetai By Catchment Code
-def getCatchmentDetail(code):
-    targetUrl = catchmentsUrl + catchmentApiKey + code
-    jsonData = getJsonFrom(targetUrl)
-    return jsonData
+def get_catchment_detail(code):
+    target_url = CATCHMENTS_URL + CATCHMENT_API_KEY + code
+    json_data = get_json_from(target_url)
+    return json_data
 
 #Get All Catchment Detail By Using All Catchment 
-def getCatchmentDetailList():
-    catchmentList = getCatchmentList()
-    catchmentDataList = []
-    for catchment in catchmentList:
-        targetUrl = catchmentsUrl + catchmentApiKey + catchment['Code']
-        catchmentDataList.append(getJsonFrom(targetUrl))
-    return catchmentDataList
+def get_catchment_detail_list():
+    catchment_list = get_catchment_list()
+    catchment_data_list = []
+    for catchment in catchment_list:
+        target_url = CATCHMENTS_URL + CATCHMENT_API_KEY + catchment['Code']
+        catchment_data_list.append(get_json_from(target_url))
+    return catchment_data_list
 
 #Get Subcatchment Detail by SubcatchmentCode
-def getSubCatchmentDetail(subcatchmentcode):
-    targetUrl = catchmentsUrl + catchmentApiKey + subcatchmentcode.split('_')[0]+ subcatchmentApiKey + subcatchmentcode
-    jsonData = getJsonFrom(targetUrl)
-    return jsonData
+def get_subcatchment_detail(subcatchment_code):
+    target_url = CATCHMENTS_URL + CATCHMENT_API_KEY + subcatchment_code.split('_')[0]+ SUB_CATCHMENT_API_KEY + subcatchment_code
+    json_data = get_json_from(target_url)
+    return json_data
 
 #Get Waterbody Detail by its code
-def getWaterBodyDetail(waterbodycode):
-    targetUrl = catchmentsUrl + waterbodyApiKey + waterbodycode
-    jsonData = getJsonFrom(targetUrl)
-    return jsonData
+def get_water_body_detail(waterbody_code):
+    target_url = CATCHMENTS_URL + WATERBODY_API_KEY + waterbody_code
+    json_data = get_json_from(target_url)
+    return json_data
 
 #Get All Waterbody Code 
-def getAllWaterBodyCode():
-    catchmentList = getCatchmentDetailList()
-    waterbodyCodeList = []
-    for catchment in catchmentList:
+def get_all_water_body_code():
+    catchment_list = get_catchment_detail_list()
+    waterbody_code_list = []
+    for catchment in catchment_list:
         for subcatchment in catchment['Subcatchments']:
-            for waterbody in getSubCatchmentDetail(subcatchment['Code']).get("Waterbodies"):
-                waterbodyCodeList.append(waterbody["Code"])
-    return waterbodyCodeList
+            for waterbody in get_subcatchment_detail(subcatchment['Code']).get("Waterbodies"):
+                waterbody_code_list.append(waterbody["Code"])
+    return waterbody_code_list
             
 #Get All Waterbody Details List
-def getAllWaterBodyDetails():
-    waterbodyCodeList = getAllWaterBodyCode()
-    waterbodyCodeList = list(dict.fromkeys(waterbodyCodeList))
-    waterbodyDetailList = []
-    for waterbodyCode in waterbodyCodeList:
-        targetUrl = catchmentsUrl + waterbodyApiKey + waterbodyCode
-        waterbodyDetailList.append(getJsonFrom(targetUrl))
-    return waterbodyDetailList
+def get_all_water_body_details():
+    waterbody_code_list = get_all_water_body_code()
+    waterbody_code_list = list(dict.fromkeys(waterbody_code_list))
+    waterbody_detail_list = []
+    for waterbody_code in waterbody_code_list:
+        target_url = CATCHMENTS_URL + WATERBODY_API_KEY + waterbody_code
+        waterbody_detail_list.append(get_json_from(target_url))
+    return waterbody_detail_list
 
 #Get Waterbody Detail By Its Code
-def getOneWaterDetails(waterbodyCode):
-#   waterbodyCode = "IE_NW_01B010100"
-    targetUrl = catchmentsUrl + waterbodyApiKey + waterbodyCode
-    return getJsonFrom(targetUrl)
+def get_one_water_details(waterbody_code):
+    target_url = CATCHMENTS_URL + WATERBODY_API_KEY + waterbody_code
+    return get_json_from(target_url)
 
 #Save All RiverList into Database
-def saveRiverListToDb(waterbodyList):
-    for waterbody in waterbodyList:
+def save_river_list_to_database(waterbody_list):
+    for waterbody in waterbody_list:
         water = River(
                 river_code=waterbody.get("Code"),
                 river_name = waterbody.get("Name"),
                 river_catchments_code =waterbody.get("Catchment")[0].get("Code"),
                 river_catchments =waterbody.get("Catchment")[0].get("Name"),
-                # location = Point(waterbody.get("Longitude"),waterbody.get("Latitude") ),
                 latitude = waterbody.get("Latitude"),
                 longitude = waterbody.get("Longitude"),
                 local_authority = waterbody.get("LocalAuthority"),
@@ -92,7 +89,7 @@ def saveRiverListToDb(waterbodyList):
         water.save()
 
 # Load All Data From WFA, Save to DB
-def saveRiverListToDbFromWFA():
-    waterbodylist = getAllWaterBodyDetails()
-    saveRiverListToDb(waterbodylist)
+def save_river_list_to_database_from_wfa():
+    waterbodylist = get_all_water_body_details()
+    save_river_list_to_database(waterbodylist)
     return 'Done'
