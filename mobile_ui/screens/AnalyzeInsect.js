@@ -122,6 +122,10 @@ const AnalyzeScreen = ({navigation}) => {
     setLoading(false);
   };
 
+  const openModal = () => {
+    setModalVisible(true);
+  }
+
   const renderInner = () => (
     <View
       style={styles.panel}
@@ -251,7 +255,7 @@ const AnalyzeScreen = ({navigation}) => {
         visible={modalVisible}
         onRequestClose={() => {}}>
         <View style={styles.centeredView}>
-          <View style={styles.modalView}>
+          <View style={styles.modalView}> 
             <Text style={{fontWeight: 'bold', alignSelf: 'flex-start'}}>
               Detected: {detectedInsect}
             </Text>
@@ -264,17 +268,20 @@ const AnalyzeScreen = ({navigation}) => {
               onPress={() => handleConfirm()}
               buttonStyle={{backgroundColor: 'green', margin: 5}}
             />
+
+          <View style={{flexDirection: 'row'}}>
             <Button
               title="Cancel"
               onPress={() => setModalVisible(!modalVisible)}
               buttonStyle={{backgroundColor: 'red', margin: 5}}
             />
-            {/* <IconButton
-              icon="close-circle"
-              color={Colors.red500}
-              size={20}
-              onPress={() => setModalVisible(!modalVisible)}
-            /> */}
+            
+            </View>
+            <TouchableOpacity onPress={()=> {setModalVisible(!modalVisible);navigation.navigate('ReportProblem')}}>
+              <Text style={{textDecorationLine: 'underline'}}>Having problem?</Text>
+              </TouchableOpacity>
+        
+
           </View>
         </View>
       </Modal>
@@ -384,10 +391,13 @@ const AnalyzeScreen = ({navigation}) => {
         accessibilityLabel={testVariables.analysisInsectSaveButton}
         testID={testVariables.analysisInsectSaveButton}
       />
+      <Button title='open modal' onPress={()=> openModal()} />
+
       <ScrollView>
         {renderModal()}
         {renderAnalysedInsect()}
       </ScrollView>
+
     </View>
   );
 };
@@ -471,7 +481,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 22,
+    marginTop:22,
   },
   modalView: {
     margin: 20,
@@ -487,7 +497,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
-    width: 300,
+    width: 'auto',
     height: 'auto',
   },
   tinyLogo: {

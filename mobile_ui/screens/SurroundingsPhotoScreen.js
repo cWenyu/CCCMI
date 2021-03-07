@@ -333,6 +333,8 @@ const SurroundingsPhotoScreen = ({navigation, route}) => {
         titleStyle={{marginHorizontal: 22, fontSize: 18}}
       />
 
+        <Button title='skip' onPress={()=>navigation.navigate('SearchRiverScreen', {surveyData: route.params.surveyData})}/>
+
       {dataSource.length > 0 && renderImageGallery()}
       {dataSource.length > 0 && renderDoneButton()}
     </View>
