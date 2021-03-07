@@ -46,7 +46,7 @@ class RiverTestCase(TestCase):
         
     def testFindNearBy(self):
         pnt = [-7.55,54.93] 
-        result = getNearbyList(pnt)
+        result = get_nearby_list(pnt)
         expectResult = River.objects.get(river_id = 1)
         check = River.objects.create(
             river_id= 12,

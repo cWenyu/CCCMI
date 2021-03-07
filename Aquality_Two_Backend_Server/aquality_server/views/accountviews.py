@@ -6,20 +6,20 @@ from django.contrib.auth.models import User
 
 
 @csrf_exempt
-def checkUser(request):
+def check_user(request):
     username = request.POST['username']
     password = request.POST['password']
-    userGet = authenticate(username=username, password=password)
-    if userGet is not None:
-        user_account = UserAccount.objects.filter(user=userGet)[0]
+    user_get = authenticate(username=username, password=password)
+    if user_get is not None:
+        user_account = UserAccount.objects.filter(user=user_get)[0]
         return JsonResponse({
             'status': 'Login Success',
-            'user_id':userGet.id,
-            'user_username': userGet.username,
-            'date_joined': userGet.date_joined,
-            'user_first_name': userGet.first_name,
-            'user_last_name': userGet.last_name,
-            'user_email': userGet.email,
+            'user_id':user_get.id,
+            'user_username': user_get.username,
+            'date_joined': user_get.date_joined,
+            'user_first_name': user_get.first_name,
+            'user_last_name': user_get.last_name,
+            'user_email': user_get.email,
             'user_group': user_account.user_group,
             'user_profic': str(user_account.profile_pic),
             'user_dob': user_account.date_of_birth,
@@ -35,18 +35,18 @@ def checkUser(request):
         })
 
 @csrf_exempt
-def getUserDetail(request):
+def get_user_detail(request):
     username_in = request.POST['username']
-    userGet = User.objects.get(username=username_in)
-    if userGet is not None:
-        user_account = UserAccount.objects.filter(user=userGet)[0]
+    user_get = User.objects.get(username=username_in)
+    if user_get is not None:
+        user_account = UserAccount.objects.filter(user=user_get)[0]
         return JsonResponse({
-            'user_id': userGet.id,
-            'user_username': userGet.username,
-            'date_joined': userGet.date_joined,
-            'user_first_name': userGet.first_name,
-            'user_last_name': userGet.last_name,
-            'user_email': userGet.email,
+            'user_id': user_get.id,
+            'user_username': user_get.username,
+            'date_joined': user_get.date_joined,
+            'user_first_name': user_get.first_name,
+            'user_last_name': user_get.last_name,
+            'user_email': user_get.email,
             'user_group': user_account.user_group,
             'user_profic': str(user_account.profile_pic),
             'user_dob': user_account.date_of_birth,
@@ -62,7 +62,7 @@ def getUserDetail(request):
         })
 
 @csrf_exempt
-def registerPage(request):
+def register_page(request):
     username = request.POST['username']
     email = request.POST['email']
     password = request.POST['password']
