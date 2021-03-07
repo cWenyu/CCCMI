@@ -1,18 +1,14 @@
-# from django.contrib.gis.db import models
-# from django.contrib.gis.geos import Point
-# Create your models here.
 from django.db import models
 from django.contrib.auth.models import User
 import json
 
-# Login Account Model
 class LoginAccount(models.Model):
     account_id = models.AutoField(primary_key = True)
     username = models.CharField(max_length=200,unique=True)
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=200)
 
-#User Account Models
+
 class UserAccount(models.Model):
     user = models.OneToOneField(
         User, on_delete=models.CASCADE
@@ -25,14 +21,13 @@ class UserAccount(models.Model):
     term_condition_accept_state = models.BooleanField(default=False)
     safety_guide_accept_state = models.BooleanField(default=False)
     
-#River Models
+    
 class River(models.Model):
     river_id = models.AutoField(primary_key = True)
     river_code = models.CharField(max_length = 200,unique=True)
     river_name = models.CharField(max_length = 200)
     river_catchments_code = models.CharField(max_length = 20)
     river_catchments = models.CharField(max_length = 200)
-    # location = models.PointField(geography=True, default=Point(0.0, 0.0),null=True)
     latitude = models.FloatField(default = 0,null=True)
     longitude = models.FloatField(default = 0,null=True)
     local_authority = models.CharField(max_length = 200)
@@ -41,8 +36,9 @@ class River(models.Model):
     transboundary = models.CharField(max_length = 20)
     canal = models.CharField(max_length = 20)
     
-#Data Collected Model
+
 class Data(models.Model):
+    '''Data Collected by Hardware Store To '''
     data_id = models.AutoField(primary_key = True) 
     river = models.ForeignKey(
         River,
@@ -50,8 +46,7 @@ class Data(models.Model):
         default=None, 
         blank=True, 
         null=True
-    )   
-    # location = models.PointField(geography=True, default=Point(0.0, 0.0),null=True)
+    ) 
     arduino_id = models.IntegerField()
     latitude = models.FloatField(default = 0,null=True)
     longitude = models.FloatField(default = 0,null=True)
@@ -61,15 +56,17 @@ class Data(models.Model):
     ecological_status = models.CharField(max_length = 200,default=None, blank=True, null=True)
     score_by_insect = models.IntegerField(default=None, blank=True, null=True)
 
-#Image Model
+
 class DataHistoryImageImage(models.Model):
     image_id = models.AutoField(primary_key = True)
     image_path = models.ImageField(upload_to = 'data-insect-img',null=True)
     data = models.ForeignKey(Data,on_delete=models.CASCADE)
 
+
 class InsectGroup(models.Model):
     group_id = models.IntegerField(primary_key=True)
     group_name = models.CharField(max_length = 200, unique= True)
+
 
 class Insect(models.Model):
     insect_id = models.AutoField(primary_key = True)
@@ -88,6 +85,7 @@ class RiverEnvironmentImage(models.Model):
     river_id = models.AutoField(primary_key=True)
     river_image_path = models.ImageField(upload_to='river-environment-img', null=True)
 
+
 class SampleRecord(models.Model):
     sample_id = models.AutoField(primary_key = True)
     sample_date = models.DateTimeField(auto_now_add=True)
@@ -98,9 +96,11 @@ class SampleRecord(models.Model):
     sample_river = models.ForeignKey(River,on_delete=models.CASCADE)
     sample_survey = models.JSONField(null=True,encoder=json.JSONEncoder,decoder=json.JSONDecoder)
 
+
 class SampleRecordInsectDetail(models.Model):
     class Meta:
         unique_together = (('sample_record_data','sample_record_insect'))
+        
     sample_record_data = models.ForeignKey(SampleRecord,on_delete=models.CASCADE)
     sample_record_insect = models.ForeignKey(Insect,on_delete=models.CASCADE)
     insect_number = models.IntegerField()
