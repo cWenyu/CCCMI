@@ -6,7 +6,7 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
 @csrf_exempt
-def getSampleRecord(request):
+def get_sample_record(request):
     sample_id_get = request.POST['sample_id']
     sample_record = SampleRecord.objects.get(sample_id=sample_id_get)
     insect_list = SampleRecordInsectDetail.objects.filter(sample_record_data = sample_record)
@@ -16,7 +16,7 @@ def getSampleRecord(request):
     })
 
 @csrf_exempt
-def storeRecordResult(request):
+def store_record_result(request):
     try:
         data = json.loads(request.body)
         sample_detail = data['data_get']

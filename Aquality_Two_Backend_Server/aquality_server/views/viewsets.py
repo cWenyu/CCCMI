@@ -12,10 +12,10 @@ class DataViewSet(viewsets.ModelViewSet):
 
     def create(self, request):
         if request.method == 'POST':
-            saveSerialize = self.serializer_class_save(data=request.data)
-            if saveSerialize.is_valid():
-                saveSerialize.save()
-                return Response(saveSerialize.data, status=status.HTTP_201_CREATED)
+            save_serialize = self.serializer_class_save(data=request.data)
+            if save_serialize.is_valid():
+                save_serialize.save()
+                return Response(save_serialize.data, status=status.HTTP_201_CREATED)
         return Response({
             'status': 'Bad request',
             'message': 'Data could not be created with received data.'
@@ -43,9 +43,9 @@ class AllDataViewset(viewsets.ModelViewSet):
 
     def get_queryset(self):
         # return Data.objects.all().order_by('river_id')
-        pnt = getLocationPoint(self.request)
+        pnt = get_location_point(self.request)
         # return Data.objects.filter(location__distance_lt=(pnt,D(m=10000)))
-        return getNearbyListHardware(pnt)
+        return get_nearby_list_hardware(pnt)
 
 
 class RiverViewSet(viewsets.ModelViewSet):
@@ -54,9 +54,9 @@ class RiverViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         # return River.objects.all().order_by('river_id')
-        pnt = getLocationPoint(self.request)
+        pnt = get_location_point(self.request)
         # return River.objects.filter(location__distance_lt=(pnt,D(m=10000)))
-        return getNearbyList(pnt)
+        return get_nearby_list(pnt)
 
 
 class InsectViewSet(viewsets.ModelViewSet):
@@ -68,33 +68,6 @@ class InsectViewSet(viewsets.ModelViewSet):
             return Insect.objects.filter(insect_group=self.request.query_params.get('group')).order_by('insect_id')
         else:
             return Insect.objects.all().order_by('insect_id')
-
-
-# class AccountUserViewSet(viewsets.ModelViewSet):
-#     queryset = Login_Account.objects.all().order_by('account_id')
-#     serializer_class = LoginAccountSerializer
-
-#     def create(self, request):
-#         if request.method == 'POST':
-#             saveSerialize = self.serializer_class(data=request.data)
-#             if saveSerialize.is_valid():
-#                 saveSerialize.save()
-#                 return Response(saveSerialize.data, status=status.HTTP_201_CREATED)
-#         return Response({
-#             'status': 'Bad request',
-#             'message': 'Account could not be created with received data.'
-#         }, status=status.HTTP_400_BAD_REQUEST)
-
-#     def get_queryset(self):
-#         return Login_Account.objects.all().order_by('account_id')
-
-#     def destroy(self, request, *args, **kwargs):
-#         try:
-#             instance = self.get_object()
-#             self.perform_destroy(instance)
-#         except status.HTTP_400_BAD_REQUEST:
-#             pass
-#         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class SampleRecordViewSet(viewsets.ModelViewSet):
@@ -132,10 +105,10 @@ class AllInsectUserUploadViewSet(viewsets.ModelViewSet):
 
     def create(self, request):
         if request.method == 'POST':
-            saveSerialize = self.serializer_class(data=request.data)
-            if saveSerialize.is_valid():
-                saveSerialize.save()
-                return Response(saveSerialize.data, status=status.HTTP_201_CREATED)
+            save_serialize = self.serializer_class(data=request.data)
+            if save_serialize.is_valid():
+                save_serialize.save()
+                return Response(save_serialize.data, status=status.HTTP_201_CREATED)
         return Response({
             'status': 'Bad request',
             'message': 'Data could not be created with received data.'

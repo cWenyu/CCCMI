@@ -3,27 +3,30 @@ import requests
 from .models import River, Data
 
 
-def getLocationFromRequest(request):
+def get_location_from_request(request):
+    '''Extract longitude and latitude from request and return a point'''
     longitute = request.query_params.get('longitude')
     latitude = request.query_params.get('latitude')
     return [latitude, longitute]
 
 
-def getLocationPointFromGoogleApi(request):
+def get_location_point_from_google_api(request):
+    '''Getting coordinates object by using goole api search '''
     request_url = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=" + request.query_params.get(
         'location') + "&inputtype=textquery&fields=geometry&key=" + config('GOOGLEMAP_APIKEY')
-    locationfound = requests.get(request_url)
-    data = locationfound.json().get("candidates")[0].get("geometry").get("location")
+    location_found = requests.get(request_url)
+    data = location_found.json().get("candidates")[0].get("geometry").get("location")
     longitude = data.get("lng")
     latitude = data.get("lat")
     return [latitude, longitude]
 
 
-def getLocationPoint(request):
+def get_location_point(request):
+    '''Extract request into coordicates point '''
     if (request.query_params.get('longitude') and request.query_params.get('latitude')):
-        pnt = getLocationFromRequest(request)
+        pnt = get_location_from_request(request)
     elif (request.query_params.get('location')):
-        pnt = getLocationPointFromGoogleApi(request)
+        pnt = get_location_point_from_google_api(request)
     else:
         latitude = 54.93
         longitute = -7.55
@@ -31,7 +34,8 @@ def getLocationPoint(request):
     return pnt
 
 
-def getNearbyList(pnt):
+def get_nearby_list(pnt):
+    ''' Using Raw SQL Query to get nearby river list'''
     query = """SELECT 
     river_id,
 	longitude,
@@ -66,7 +70,7 @@ ORDER BY
     return River.objects.raw(query)[0:5]
 
 
-def getNearbyListHardware(pnt):
+def get_nearby_list_hardware(pnt):
     query = """
     SELECT 
         DISTINCT ON (arduino_id) arduino_id,

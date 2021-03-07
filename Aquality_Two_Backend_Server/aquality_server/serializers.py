@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import River, Data, Login_Account, User_Account, Insect, InsectGroup, SampleRecord, \
+from .models import River, Data, LoginAccount, UserAccount, Insect, InsectGroup, SampleRecord, \
     SampleRecordInsectDetail, User,AllInsectUserUpload, RiverEnvironmentImage
 
 
@@ -32,16 +32,11 @@ class AllDataSerializerWithDate(serializers.HyperlinkedModelSerializer):
         fields = ("data_id", "arduino_id", "latitude", "longitude", "ph", "temp", "date_captured")
 
 
-# class LoginAccountSerializer(serializers.HyperlinkedModelSerializer):
-#     class Meta:
-#         model = Login_Account
-#         fields = ("account_id","username","email","password")
-
 class UserAccountSerializer(serializers.HyperlinkedModelSerializer):
     user = serializers.PrimaryKeyRelatedField(read_only=True)
 
     class Meta:
-        model = User_Account
+        model = UserAccount
         fields = (
         "user_group", "user", "occupation", "bio", "profile_pic", "date_of_birth", "term_condition_accept_state",
         "safety_guide_accept_state")
@@ -59,10 +54,12 @@ class AllInsectUserUploadSerializer(serializers.HyperlinkedModelSerializer):
         model = AllInsectUserUpload
         fields = ('insect_id', 'insect_image_path')
 
+
 class RiverEnvironmentImageSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = RiverEnvironmentImage
         fields = ('river_id', 'river_image_path')
+
 
 class SampleRecordDataSerializer(serializers.HyperlinkedModelSerializer):
     sample_river = serializers.CharField(source='sample_river.river_name')
