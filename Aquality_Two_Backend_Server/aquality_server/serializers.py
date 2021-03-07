@@ -32,11 +32,6 @@ class AllDataSerializerWithDate(serializers.HyperlinkedModelSerializer):
         fields = ("data_id", "arduino_id", "latitude", "longitude", "ph", "temp", "date_captured")
 
 
-# class LoginAccountSerializer(serializers.HyperlinkedModelSerializer):
-#     class Meta:
-#         model = Login_Account
-#         fields = ("account_id","username","email","password")
-
 class UserAccountSerializer(serializers.HyperlinkedModelSerializer):
     user = serializers.PrimaryKeyRelatedField(read_only=True)
 
@@ -59,10 +54,12 @@ class AllInsectUserUploadSerializer(serializers.HyperlinkedModelSerializer):
         model = AllInsectUserUpload
         fields = ('insect_id', 'insect_image_path')
 
+
 class RiverEnvironmentImageSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = RiverEnvironmentImage
         fields = ('river_id', 'river_image_path')
+
 
 class SampleRecordDataSerializer(serializers.HyperlinkedModelSerializer):
     sample_river = serializers.CharField(source='sample_river.river_name')
