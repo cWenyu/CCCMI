@@ -18,24 +18,18 @@ import {Colors, Button as PaperBtn} from 'react-native-paper';
 import ImagePicker from 'react-native-image-crop-picker';
 import AsyncStorage from '@react-native-community/async-storage';
 
-
-
-
 const SurroundingsPhotoScreen = ({navigation, route}) => {
-
   useEffect(() => {
-
     if (route.params?.surveyData) {
       console.log(JSON.stringify(route.params));
     }
-  
   }, [route.params?.surveyData]);
 
   const {colors} = useTheme();
   const [dataSource, setDataSource] = useState([]);
   const [image, setImage] = useState({url: '', index: 0});
   const [modalVisibleStatus, setModalVisibleStatus] = useState(false);
-  const [surveyPhoto, setSurveyPhoto] = useState();
+  const [surveyPhoto, setSurveyPhoto] = useState({surveyPhotos: []});
   const [buttonStyle, setButtonStyle] = useState({
     flex: 1,
     margin: null,
@@ -289,10 +283,14 @@ const SurroundingsPhotoScreen = ({navigation, route}) => {
         titleProps={{}}
         titleStyle={{marginHorizontal: 22, fontSize: 16}}
         buttonStyle={styles.submitButton}
-        onPress={() =>
-          storePhotoGallery()
-          // storePhotoGallery().then(navigation.navigate('SearchRiverScreen', {surveyData: route.params.surveyData, surrounding: surveyPhoto}))
-        }
+        onPress={() => {
+          storePhotoGallery().then(surveyPhotosObj => {
+            navigation.navigate('SearchRiverScreen', {
+              surveyData: route.params.surveyData,
+              surrounding: surveyPhotosObj,
+            });
+          });
+        }}
       />
     );
   };
@@ -301,12 +299,8 @@ const SurroundingsPhotoScreen = ({navigation, route}) => {
     let surveyPhotosObj = {
       surveyPhotos: dataSource,
     };
-    // await AsyncStorage.setItem('surveyPhotos', JSON.stringify(surveyPhotosObj));
-    
-    setSurveyPhoto(surveyPhotosObj)
-    console.log(surveyPhoto)
-    navigation.navigate('SearchRiverScreen', {surveyData: route.params.surveyData, surrounding: surveyPhoto})
-    // console.log(JSON.stringify(surveyPhotosObj))
+    // navigation.navigate('SearchRiverScreen', {surveyData: route.params.surveyData, surrounding: surveyPhoto})
+    return surveyPhotosObj;
   };
 
   return (
