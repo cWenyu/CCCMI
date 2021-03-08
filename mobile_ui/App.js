@@ -686,7 +686,7 @@ const App = () => {
                   name="TakeSampleScreen"
                   component={TakeSampleStackScreen}
                 />
-                <Drawer.Screen name="SupportScreen" component={SupportScreen} />
+
                 <Drawer.Screen
                   name="SettingsScreen"
                   component={SettingsScreen}

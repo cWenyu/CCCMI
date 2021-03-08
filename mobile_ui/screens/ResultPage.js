@@ -77,16 +77,6 @@ const resultPage = ({navigation, route}) => {
 
   const setDataForPost = async() => {
     console.log('setting up data for upload');
-
-    // setData({
-    //   // sample_score: insectScore,
-    //   sample_user: username,
-    //   sample_ph: route.params.sensorData.ph,
-    //   sample_tmp: route.params.sensorData.temp,
-    //   sample_river_id: route.params.riverData.river_id,
-    //   sample_survey: route.params.surveyData,
-    // });
-
     let sampleObj = {
       sample_user: username,
       sample_ph: route.params.sensorData.ph,
@@ -114,8 +104,6 @@ const resultPage = ({navigation, route}) => {
     
     
     navigation.navigate('Home');
-
-    // setDataForPost().then(postData()).then(navigation.navigate('Home'));
   };
 
   const getRiverData = async () => {
@@ -416,24 +404,16 @@ const resultPage = ({navigation, route}) => {
     if (route.params) {
       console.log(JSON.stringify(route.params));
     }
-    // setDataForPost();
+
   }, []);
 
   return (
     <View>
       <ScrollView>
-        {/* <Button title="postData" onPress={() => postData()} /> */}
-        <Button title="setDataForPost" onPress={() => setDataForPost()} />
-
         {renderRiver()}
         {renderArduino()}
         {renderSelectedInsect()}
         {renderAnalysedInsect()}
-
-        {/* {river && renderRiver()} */}
-        {/* {arduino && renderArduino()} */}
-        {/* {selectedInsect && renderSelectedInsect()}
-        {analysedInsect && renderAnalysedInsect()} */}
 
         <Button
           accessibilityLabel={testVariables.resultPageDoneButton}
