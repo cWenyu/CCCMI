@@ -5,9 +5,9 @@
  * @format
  * @flow
  */
-
+// import Icon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
 import React, {useEffect} from 'react';
-import {View, ActivityIndicator} from 'react-native';
+import {View, ActivityIndicator, Button, Alert} from 'react-native';
 import {
   NavigationContainer,
   DefaultTheme as NavigationDefaultTheme,
@@ -28,20 +28,36 @@ import SafetyGuideScreen from './screens/SafetyGuideScreen';
 import SettingsScreen from './screens/SettingsScreen';
 import ArduinoScreen from './screens/ArduinoScreen';
 import ArduinoScreen2 from './screens/ArduinoScreen2';
+import SurveyPage from './screens/SurveyPage';
 import SearchRiverScreen from './screens/SearchRiverScreen';
 import SearchRiverScreen2 from './screens/SearchRiverScreen2';
+import InsectScreen from './screens/InsectScreen';
+import selectInsect1 from './screens/selectInsect1';
+import AnalyzeInsect from './screens/AnalyzeInsect';
+import ResultPage from './screens/ResultPage';
+import OnboardingScreen2 from './screens/OnboardingScreen2';
 import uploadImage from './screens/uploadImage';
 import {AuthContext} from './components/context';
-
 import RootStackScreen from './screens/RootStackScreen';
-
 import AsyncStorage from '@react-native-community/async-storage';
 import HomeScreen from './screens/HomeScreen';
-
 import testVariables from './appium_automation_testing/test_variables';
 import SampleHistoryScreen from './screens/SampleHistoryScreen';
 import HistoryDetail from './screens/HistoryDetail';
 import HistoryList from './screens/HistoryList';
+import {Provider} from 'react-redux';
+import store from './components/reduxStore';
+import ReportProblem from './screens/ReportProblem'
+
+import {
+  resetSurveyForm,
+  updateSelectionHandlers,
+  updateQIndex,
+  updateAnswers,
+} from './components/reduxStore';
+import {useDispatch} from 'react-redux';
+import {StackActions} from '@react-navigation/native';
+import SurroundingsPhotoScreen from './screens/SurroundingsPhotoScreen';
 
 const Drawer = createDrawerNavigator();
 
@@ -117,8 +133,6 @@ const App = () => {
   const authContext = React.useMemo(
     () => ({
       signIn: async userName => {
-        // setUserToken('fgkj');
-        // setIsLoading(false);
         try {
           await AsyncStorage.setItem('username', userName);
           dispatch({type: 'LOGIN', userName: userName});
@@ -198,10 +212,10 @@ const App = () => {
       />
       {/* add screen here */}
       <HomeStack.Screen
-        name="uploadImage"
-        component={uploadImage}
+        name="SampleHistoryScreen"
+        component={SampleHistoryScreen}
         options={{
-          title: 'uploadImage',
+          title: 'SampleHistoryScreen',
           headerLeft: () => (
             <Icon.Button
               name="ios-menu"
@@ -212,11 +226,24 @@ const App = () => {
           ),
         }}
       />
-      <HomeStack.Screen
-        name="SampleHistoryScreen"
-        component={SampleHistoryScreen}
+      {/* <HomeStack.Screen
+        name="SurroundingsPhotoScreen"
+        component={SurroundingsPhotoScreen}
         options={{
-          title: 'Search History Samples',
+          title: 'Sample Surroundings',
+          headerRight: () => (
+            <Icon.Button
+              name="information-circle-outline"
+              size={25}
+              backgroundColor="#009387"
+              onPress={() =>
+                Alert.alert(
+                  'What to do?',
+                  'Upload images of the surroundings of sample site here.',
+                )
+              }
+            />
+          ),
           headerStyle: {
             backgroundColor: '#009387',
           },
@@ -225,7 +252,7 @@ const App = () => {
             fontWeight: 'bold',
           },
         }}
-      />
+      /> */}
       <HomeStack.Screen
         name="HistoryDetail"
         component={HistoryDetail}
@@ -285,27 +312,395 @@ const App = () => {
     </HomeStack.Navigator>
   );
 
-  return (
-    <PaperProvider theme={theme}>
-      <AuthContext.Provider value={authContext}>
-        <NavigationContainer theme={theme}>
-          {loginState.username !== null ? (
-            <Drawer.Navigator
-              drawerContent={props => <DrawerContent {...props} />}>
-              <Drawer.Screen name="HomeScreen" component={HomeStackScreen} />
-              <Drawer.Screen
-                name="SafetyGuideScreen"
-                component={SafetyGuideScreen}
+  const TakeSampleStack = createStackNavigator();
+  const TakeSampleStackScreen = ({navigation}) => {
+    const dispatch = useDispatch();
+
+    return (
+      <TakeSampleStack.Navigator initialRouteName='SurveyPage'>
+
+        <TakeSampleStack.Screen
+          name="ReportProblem"
+          component={ReportProblem}
+          options={{
+            // title: 'Introduction of Taking Sample',
+            headerStyle: {
+              backgroundColor: '#009387',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}
+        />
+
+        <TakeSampleStack.Screen
+          name="OnboardingScreen2"
+          component={OnboardingScreen2}
+          options={{
+            title: 'Introduction of Taking Sample',
+            headerStyle: {
+              backgroundColor: '#009387',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}
+        />
+
+        <TakeSampleStack.Screen
+          name="SurveyPage"
+          component={SurveyPage}
+          options={{
+            title: 'The Survey',
+            headerStyle: {
+              backgroundColor: '#009387',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+            headerRight: () => (
+              <Icon.Button
+                name="ios-home"
+                size={25}
+                backgroundColor="#009387"
+                onPress={() =>
+                  Alert.alert(
+                    'Hold on!',
+                    'Go back to Home will not save your proccess of taking sample.',
+                    [
+                      {
+                        text: 'Cancel',
+                        onPress: () => null,
+                        style: 'cancel',
+                      },
+                      {
+                        text: 'BACK',
+                        onPress: () => {
+                          dispatch(resetSurveyForm());
+                          navigation.navigate('TakeSampleScreen', {
+                            screen: 'SurveyPage',
+                          });
+                          navigation.navigate('Home');
+                        },
+                      },
+                    ],
+                  )
+                }
               />
-              <Drawer.Screen name="SettingsScreen" component={SettingsScreen} />
-              <Drawer.Screen name="MainTabScreen" component={MainTabScreen} />
-            </Drawer.Navigator>
-          ) : (
-            <RootStackScreen />
-          )}
-        </NavigationContainer>
-      </AuthContext.Provider>
-    </PaperProvider>
+            ),
+          }}
+        />
+
+        <TakeSampleStack.Screen
+          name="SurroundingsPhotoScreen"
+          component={SurroundingsPhotoScreen}
+          options={{
+            title: 'Record Surroundings',
+            headerStyle: {
+              backgroundColor: '#009387',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}
+        />
+
+        <TakeSampleStack.Screen
+          name="SearchRiverScreen"
+          component={SearchRiverScreen}
+          options={{
+            title: 'Search River',
+            headerStyle: {
+              backgroundColor: '#009387',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+            headerRight: () => (
+              <Icon.Button
+                name="ios-home"
+                size={25}
+                backgroundColor="#009387"
+                onPress={() =>
+                  Alert.alert(
+                    'Hold on!',
+                    'Go back to Home will not save your proccess of taking sample.',
+                    [
+                      {
+                        text: 'Cancel',
+                        onPress: () => null,
+                        style: 'cancel',
+                      },
+                      {
+                        text: 'BACK',
+                        onPress: () => {
+                          dispatch(resetSurveyForm());
+                          navigation.navigate('SurveyPage');
+                          navigation.navigate('HomeScreen');
+                        },
+                      },
+                    ],
+                  )
+                }
+              />
+            ),
+          }}
+        />
+
+        <TakeSampleStack.Screen
+          name="SearchRiverScreen2"
+          component={SearchRiverScreen2}
+          options={{
+            title: 'SearchRiverScreen2',
+            headerStyle: {
+              backgroundColor: '#009387',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+            headerRight: () => (
+              <Icon.Button
+                name="ios-home"
+                size={25}
+                backgroundColor="#009387"
+                onPress={() =>
+                  Alert.alert(
+                    'Hold on!',
+                    'Go back to Home will not save your proccess of taking sample.',
+                    [
+                      {
+                        text: 'Cancel',
+                        onPress: () => null,
+                        style: 'cancel',
+                      },
+                      {
+                        text: 'BACK',
+                        onPress: () => {
+                          dispatch(resetSurveyForm());
+                          navigation.navigate('SurveyPage');
+                          navigation.navigate('HomeScreen');
+                        },
+                      },
+                    ],
+                  )
+                }
+              />
+            ),
+          }}
+        />
+
+        <TakeSampleStack.Screen
+          name="ArduinoScreen"
+          component={ArduinoScreen}
+          options={{
+            title: 'ArduinoScreen',
+            headerStyle: {
+              backgroundColor: '#009387',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+            headerRight: () => (
+              <Icon.Button
+                name="ios-home"
+                size={25}
+                backgroundColor="#009387"
+                onPress={() =>
+                  Alert.alert(
+                    'Hold on!',
+                    'Go back to Home will not save your proccess of taking sample.',
+                    [
+                      {
+                        text: 'Cancel',
+                        onPress: () => null,
+                        style: 'cancel',
+                      },
+                      {
+                        text: 'BACK',
+                        onPress: () => {
+                          dispatch(resetSurveyForm());
+                          navigation.navigate('SurveyPage');
+                          navigation.navigate('HomeScreen');
+                        },
+                      },
+                    ],
+                  )
+                }
+              />
+            ),
+          }}
+        />
+
+        <TakeSampleStack.Screen
+          name="ArduinoScreen2"
+          component={ArduinoScreen2}
+          options={{
+            title: 'ArduinoScreen2',
+            headerStyle: {
+              backgroundColor: '#009387',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+            headerRight: () => (
+              <Icon.Button
+                name="ios-home"
+                size={25}
+                backgroundColor="#009387"
+                onPress={() =>
+                  Alert.alert(
+                    'Hold on!',
+                    'Go back to Home will not save your proccess of taking sample.',
+                    [
+                      {
+                        text: 'Cancel',
+                        onPress: () => null,
+                        style: 'cancel',
+                      },
+                      {
+                        text: 'BACK',
+                        onPress: () => {
+                          dispatch(resetSurveyForm());
+                          navigation.navigate('SurveyPage');
+                          navigation.navigate('HomeScreen');
+                        },
+                      },
+                    ],
+                  )
+                }
+              />
+            ),
+          }}
+        />
+
+        <TakeSampleStack.Screen
+          name="InsectScreen"
+          component={InsectScreen}
+          options={{
+            title: 'InsectScreen',
+            headerStyle: {
+              backgroundColor: '#009387',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+            headerRight: () => (
+              <Icon.Button
+                name="ios-home"
+                size={25}
+                backgroundColor="#009387"
+                onPress={() =>
+                  Alert.alert(
+                    'Hold on!',
+                    'Go back to Home will not save your proccess of taking sample.',
+                    [
+                      {
+                        text: 'Cancel',
+                        onPress: () => null,
+                        style: 'cancel',
+                      },
+                      {
+                        text: 'BACK',
+                        onPress: () => {
+                          dispatch(resetSurveyForm());
+                          navigation.navigate('SurveyPage');
+                          navigation.navigate('HomeScreen');
+                        },
+                      },
+                    ],
+                  )
+                }
+              />
+            ),
+          }}
+        />
+
+        <TakeSampleStack.Screen
+          name="selectInsect1"
+          component={selectInsect1}
+          options={{
+            title: 'selectInsect1',
+            headerStyle: {
+              backgroundColor: '#009387',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}
+        />
+
+        <TakeSampleStack.Screen
+          name="AnalyzeInsect"
+          component={AnalyzeInsect}
+          options={{
+            title: 'AnalyzeInsect',
+            headerStyle: {
+              backgroundColor: '#009387',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}
+        />
+
+        <TakeSampleStack.Screen
+          name="ResultPage"
+          component={ResultPage}
+          options={{
+            title: 'Review',
+            headerStyle: {
+              backgroundColor: '#009387',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}
+        />
+      </TakeSampleStack.Navigator>
+    );
+  };
+
+  return (
+
+    <Provider store={store}>
+      <PaperProvider theme={theme}>
+        <AuthContext.Provider value={authContext}>
+          <NavigationContainer theme={theme}>
+            {loginState.username !== null ? (
+              <Drawer.Navigator
+                drawerContent={props => <DrawerContent {...props} />}>
+                <Drawer.Screen name="HomeScreen" component={HomeStackScreen} />
+                <Drawer.Screen
+                  name="TakeSampleScreen"
+                  component={TakeSampleStackScreen}
+                />
+                <Drawer.Screen name="SupportScreen" component={SupportScreen} />
+                <Drawer.Screen
+                  name="SettingsScreen"
+                  component={SettingsScreen}
+                />
+                <Drawer.Screen name="MainTabScreen" component={MainTabScreen} />
+              </Drawer.Navigator>
+            ) : (
+              <RootStackScreen />
+            )}
+          </NavigationContainer>
+        </AuthContext.Provider>
+      </PaperProvider>
+    </Provider>
+
   );
 };
 

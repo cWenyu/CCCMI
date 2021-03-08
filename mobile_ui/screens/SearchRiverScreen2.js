@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {ListItem, Button} from 'react-native-elements';
 import {useTheme} from '@react-navigation/native';
@@ -7,6 +7,8 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 const SearchRiverScreen2 = ({navigation, route}) => {
   const {colors} = useTheme();
+  const [sampleData, setSampleData] = useState([]);
+
   const styles = StyleSheet.create({
     container: {
       flex: 1,
@@ -22,6 +24,12 @@ const SearchRiverScreen2 = ({navigation, route}) => {
       textAlign: 'center',
     },
   });
+
+  React.useEffect(()=>{
+    if(route.params?.surveyData) {
+      console.log(JSON.stringify(route.params));
+    }
+  }, [route.params?.surveyData])
 
   const storeData = async value => {
     try {
@@ -45,7 +53,7 @@ const SearchRiverScreen2 = ({navigation, route}) => {
               River Name
             </ListItem.Subtitle>
             <ListItem.Title style={styles.title}>
-              {route.params.data.river_name}
+              {route.params.riverData.river_name}
             </ListItem.Title>
           </ListItem.Content>
         </ListItem>
@@ -53,7 +61,7 @@ const SearchRiverScreen2 = ({navigation, route}) => {
           <ListItem.Content>
             <ListItem.Subtitle style={styles.title}>Latitude</ListItem.Subtitle>
             <ListItem.Title style={styles.title}>
-              {route.params.data.latitude}
+              {route.params.riverData.latitude}
             </ListItem.Title>
           </ListItem.Content>
         </ListItem>
@@ -63,7 +71,7 @@ const SearchRiverScreen2 = ({navigation, route}) => {
               Longitude
             </ListItem.Subtitle>
             <ListItem.Title style={styles.title}>
-              {route.params.data.longitude}
+              {route.params.riverData.longitude}
             </ListItem.Title>
           </ListItem.Content>
         </ListItem>
@@ -73,7 +81,7 @@ const SearchRiverScreen2 = ({navigation, route}) => {
               River Catchments
             </ListItem.Subtitle>
             <ListItem.Title style={styles.title}>
-              {route.params.data.river_catchments}
+              {route.params.riverData.river_catchments}
             </ListItem.Title>
           </ListItem.Content>
         </ListItem>
@@ -83,7 +91,7 @@ const SearchRiverScreen2 = ({navigation, route}) => {
               River Code
             </ListItem.Subtitle>
             <ListItem.Title style={styles.title}>
-              {route.params.data.river_code}
+              {route.params.riverData.river_code}
             </ListItem.Title>
           </ListItem.Content>
         </ListItem>
@@ -93,7 +101,7 @@ const SearchRiverScreen2 = ({navigation, route}) => {
               Local Authority
             </ListItem.Subtitle>
             <ListItem.Title style={styles.title}>
-              {route.params.data.local_authority}
+              {route.params.riverData.local_authority}
             </ListItem.Title>
           </ListItem.Content>
         </ListItem>
@@ -104,7 +112,7 @@ const SearchRiverScreen2 = ({navigation, route}) => {
               Transboundary
             </ListItem.Subtitle>
             <ListItem.Title style={styles.title}>
-              {route.params.data.transboundary}
+              {route.params.riverData.transboundary}
             </ListItem.Title>
           </ListItem.Content>
         </ListItem>
@@ -114,11 +122,12 @@ const SearchRiverScreen2 = ({navigation, route}) => {
         testID={testVariables.riverDetailChooseRiverButton}
         title="Choose this river"
         onPress={() => {
-          navigation.navigate('MainTabScreen');
-          storeData(route.params.data);
+          // sampleData.push({"river": JSON.stringify(route.params.data)}) //here
+          navigation.navigate('ArduinoScreen', route.params);
+          // storeData(route.params.data);
         }}
-        buttonStyle={{ width: 360, height: 50, backgroundColor: "#02ab9e" }}
-          containerStyle={{ margin: 5, alignItems: "center", marginTop: 20 }}
+        buttonStyle={{ width: 360, height: 50, backgroundColor: "#02ab9e", borderRadius: 5, }}
+          containerStyle={{ margin: 5, alignItems: "center", marginTop: 35 }}
           disabledStyle={{
             borderWidth: 2,
             borderColor: "#00F"
