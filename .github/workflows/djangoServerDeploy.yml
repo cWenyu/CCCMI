@@ -23,9 +23,9 @@ jobs:
           touch .env
           echo $DEV_ENV_FILE | tr ' ' '\n' >> .env
           cat .env
-       env:
-         DEV_ENV_FILE: ${{ secrets.SERVER_ENV }}
-       shell: bash
+      env:
+        DEV_ENV_FILE: ${{ secrets.SERVER_ENV }}
+      shell: bash
     
     - name: Generate deployment package
       run: |
