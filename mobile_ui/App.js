@@ -24,7 +24,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {DrawerContent} from './screens/DrawerContent';
 import Icon from 'react-native-vector-icons/Ionicons';
 import MainTabScreen from './screens/MainTabScreen';
-import SupportScreen from './screens/SupportScreen';
+import SafetyGuideScreen from './screens/SafetyGuideScreen';
 import SettingsScreen from './screens/SettingsScreen';
 import ArduinoScreen from './screens/ArduinoScreen';
 import ArduinoScreen2 from './screens/ArduinoScreen2';
@@ -673,6 +673,7 @@ const App = () => {
   };
 
   return (
+
     <Provider store={store}>
       <PaperProvider theme={theme}>
         <AuthContext.Provider value={authContext}>
@@ -699,6 +700,7 @@ const App = () => {
         </AuthContext.Provider>
       </PaperProvider>
     </Provider>
+
   );
 };
 
