@@ -363,7 +363,7 @@ const InsectScreen = ({navigation, route}) => {
         onPress={() => {
           getScore();
           setModalVisible(true);
-          navigation.navigate('ResultPage', {selectedInsect: insectList, riverData: route.params.riverData, surveyData: route.params.surveyData, currentLocation: route.params.currentLocation, sensorData: route.params.sensorData, surrounding: route.params.surrounding});
+          navigation.navigate('ResultPage', {analyzedInsect: analysedInsect, selectedInsect: insectList, riverData: route.params.riverData, surveyData: route.params.surveyData, currentLocation: route.params.currentLocation, sensorData: route.params.sensorData, surrounding: route.params.surrounding});
         }}
         accessibilityLabel={testVariables.insectScreenSelectInsectButton}
         testID={testVariables.insectScreenSelectInsectButton}

@@ -317,7 +317,7 @@ const App = () => {
     const dispatch = useDispatch();
 
     return (
-      <TakeSampleStack.Navigator initialRouteName='AnalyzeInsect'>
+      <TakeSampleStack.Navigator initialRouteName='SurveyPage'>
 
         <TakeSampleStack.Screen
           name="ReportProblem"
