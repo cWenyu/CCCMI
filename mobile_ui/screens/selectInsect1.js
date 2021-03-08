@@ -201,14 +201,7 @@ const selectInsect1 = ({navigation}) => {
             />
           </View>
         ))}
-        {selectedInsectList.map((item, key) => (
-          <View>
-            <Text>
-              {item.insect_name}
-              {item.amount}
-            </Text>
-          </View>
-        ))}
+
       </ScrollView>
 
       <Button
