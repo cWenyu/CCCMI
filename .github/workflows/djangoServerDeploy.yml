@@ -15,7 +15,7 @@ jobs:
         ref: AqualityServer_Master
 
     - name: create .env file
-       run: |
+      run: |
          cd Aquality_Two_Backend_Server
          touch .env
          echo $DEV_ENV_FILE | tr ' ' '\n' >> .env
