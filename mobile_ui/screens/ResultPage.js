@@ -59,13 +59,13 @@ const resultPage = ({navigation, route}) => {
     },
   });
 
-  const postData = async () => {
+  const postData = async (ob) => {
     try {
       let response = await axios.post(
         'https://cccmi-aquality.tk/aquality_server/samplesave',
         {
-          data_get: data,
-          insect_list: insectList,
+          data_get: ob.sampleObj,
+          insect_list: ob.insectObj,
         },
       );
       console.log(response);
@@ -75,30 +75,44 @@ const resultPage = ({navigation, route}) => {
     }
   };
 
-  const setDataForPost = () => {
+  const setDataForPost = async() => {
     console.log('setting up data for upload');
-    setData({
-      // sample_score: insectScore,
+
+    // setData({
+    //   // sample_score: insectScore,
+    //   sample_user: username,
+    //   sample_ph: route.params.sensorData.ph,
+    //   sample_tmp: route.params.sensorData.temp,
+    //   sample_river_id: route.params.riverData.river_id,
+    //   sample_survey: route.params.surveyData,
+    // });
+
+    let sampleObj = {
       sample_user: username,
       sample_ph: route.params.sensorData.ph,
       sample_tmp: route.params.sensorData.temp,
       sample_river_id: route.params.riverData.river_id,
       sample_survey: route.params.surveyData,
-    });
+    }
+
     // set insect (selected + analysed)
     let array3 = route.params.selectedInsect.concat(
       route.params.analyzedInsect,
     );
     setInsectList(array3);
 
-    // console.log(data);
-    return data;
+    let dataObj = {sampleObj:sampleObj, insectObj: array3}
+
+    return dataObj;
   };
 
   const handleFinish = () => {
-    let res = setDataForPost();
+     setDataForPost().then(ob =>{
+      console.log('look here' + JSON.stringify(ob))
+      postData(ob);
+     })
     
-    postData();
+    
     navigation.navigate('Home');
 
     // setDataForPost().then(postData()).then(navigation.navigate('Home'));
