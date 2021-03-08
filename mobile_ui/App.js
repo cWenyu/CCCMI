@@ -47,7 +47,7 @@ import HistoryDetail from './screens/HistoryDetail';
 import HistoryList from './screens/HistoryList';
 import {Provider} from 'react-redux';
 import store from './components/reduxStore';
-import ReportProblem from './screens/ReportProblem'
+import ReportProblem from './screens/ReportProblem';
 
 import {
   resetSurveyForm,
@@ -317,8 +317,7 @@ const App = () => {
     const dispatch = useDispatch();
 
     return (
-      <TakeSampleStack.Navigator initialRouteName='SurveyPage'>
-
+      <TakeSampleStack.Navigator initialRouteName="SurveyPage">
         <TakeSampleStack.Screen
           name="ReportProblem"
           component={ReportProblem}
@@ -673,7 +672,6 @@ const App = () => {
   };
 
   return (
-
     <Provider store={store}>
       <PaperProvider theme={theme}>
         <AuthContext.Provider value={authContext}>
@@ -691,7 +689,11 @@ const App = () => {
                   name="SettingsScreen"
                   component={SettingsScreen}
                 />
-                <Drawer.Screen name="MainTabScreen" component={MainTabScreen} />
+
+                <Drawer.Screen
+                  name="SafetyGuideScreen"
+                  component={SafetyGuideScreen}
+                />
               </Drawer.Navigator>
             ) : (
               <RootStackScreen />
@@ -700,7 +702,6 @@ const App = () => {
         </AuthContext.Provider>
       </PaperProvider>
     </Provider>
-
   );
 };
 
