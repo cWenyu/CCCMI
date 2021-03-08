@@ -53,62 +53,62 @@ const survey = [
       },
     ],
   },
-  {
-    questionType: 'SelectionGroup',
-    questionText: '2/21\nPrincipal Type of Substratum Sampled:\n\nGravel?',
-    questionId: 'b',
-    questionSettings: {
-      maxMultiSelect: 1,
-      minMultiSelect: 1,
-      autoAdvance: true,
-    },
-    options: [
-      {
-        optionText: 'None',
-        value: 'none',
-      },
-      {
-        optionText: 'Present',
-        value: 'present',
-      },
-      {
-        optionText: 'Moderate',
-        value: 'moderate',
-      },
-      {
-        optionText: 'Dominant',
-        value: 'dominant',
-      },
-    ],
-  },
-  {
-    questionType: 'SelectionGroup',
-    questionText: '3/21\nPrincipal Type of Substratum Sampled:\n\nSand?',
-    questionId: 'c',
-    questionSettings: {
-      maxMultiSelect: 1,
-      minMultiSelect: 1,
-      autoAdvance: true,
-    },
-    options: [
-      {
-        optionText: 'None',
-        value: 'none',
-      },
-      {
-        optionText: 'Present',
-        value: 'present',
-      },
-      {
-        optionText: 'Moderate',
-        value: 'moderate',
-      },
-      {
-        optionText: 'Dominant',
-        value: 'dominant',
-      },
-    ],
-  },
+  // {
+  //   questionType: 'SelectionGroup',
+  //   questionText: '2/21\nPrincipal Type of Substratum Sampled:\n\nGravel?',
+  //   questionId: 'b',
+  //   questionSettings: {
+  //     maxMultiSelect: 1,
+  //     minMultiSelect: 1,
+  //     autoAdvance: true,
+  //   },
+  //   options: [
+  //     {
+  //       optionText: 'None',
+  //       value: 'none',
+  //     },
+  //     {
+  //       optionText: 'Present',
+  //       value: 'present',
+  //     },
+  //     {
+  //       optionText: 'Moderate',
+  //       value: 'moderate',
+  //     },
+  //     {
+  //       optionText: 'Dominant',
+  //       value: 'dominant',
+  //     },
+  //   ],
+  // },
+  // {
+  //   questionType: 'SelectionGroup',
+  //   questionText: '3/21\nPrincipal Type of Substratum Sampled:\n\nSand?',
+  //   questionId: 'c',
+  //   questionSettings: {
+  //     maxMultiSelect: 1,
+  //     minMultiSelect: 1,
+  //     autoAdvance: true,
+  //   },
+  //   options: [
+  //     {
+  //       optionText: 'None',
+  //       value: 'none',
+  //     },
+  //     {
+  //       optionText: 'Present',
+  //       value: 'present',
+  //     },
+  //     {
+  //       optionText: 'Moderate',
+  //       value: 'moderate',
+  //     },
+  //     {
+  //       optionText: 'Dominant',
+  //       value: 'dominant',
+  //     },
+  //   ],
+  // },
   // {
   //   questionType: 'SelectionGroup',
   //   questionText:
@@ -347,35 +347,35 @@ const survey = [
   //     }
   //   ]
   // },
-  {
-    questionType: 'SelectionGroup',
-    questionText:
-      '12/21\nWhich of these describe the land next to the stream bank?\n\nForest?',
-    questionId: 'k',
-    questionSettings: {
-      maxMultiSelect: 1,
-      minMultiSelect: 1,
-      autoAdvance: true,
-    },
-    options: [
-      {
-        optionText: 'Present',
-        value: 'present',
-      },
-      {
-        optionText: 'Moderate',
-        value: 'moderate',
-      },
-      {
-        optionText: 'Abundant',
-        value: 'abundant',
-      },
-      {
-        optionText: 'Other',
-        value: 'other',
-      },
-    ],
-  },
+  // {
+  //   questionType: 'SelectionGroup',
+  //   questionText:
+  //     '12/21\nWhich of these describe the land next to the stream bank?\n\nForest?',
+  //   questionId: 'k',
+  //   questionSettings: {
+  //     maxMultiSelect: 1,
+  //     minMultiSelect: 1,
+  //     autoAdvance: true,
+  //   },
+  //   options: [
+  //     {
+  //       optionText: 'Present',
+  //       value: 'present',
+  //     },
+  //     {
+  //       optionText: 'Moderate',
+  //       value: 'moderate',
+  //     },
+  //     {
+  //       optionText: 'Abundant',
+  //       value: 'abundant',
+  //     },
+  //     {
+  //       optionText: 'Other',
+  //       value: 'other',
+  //     },
+  //   ],
+  // },
   // {
   //   questionType: 'SelectionGroup',
   //   questionText:
@@ -584,31 +584,31 @@ const survey = [
   //     }
   //   ]
   // },
-  {
-    questionType: 'SelectionGroup',
-    questionText:
-      '21/21\nSelect the Best Matches for Your Stream Site.\n\nGrassland and Crops:',
-    questionId: 'select_match_grassland_crops',
-    questionSettings: {
-      maxMultiSelect: 1,
-      minMultiSelect: 1,
-      autoAdvance: true,
-    },
-    options: [
-      {
-        optionText: 'Present',
-        value: 'present'
-      },
-      {
-        optionText: 'Moderate',
-        value: 'moderate'
-      },
-      {
-        optionText: 'Abundant',
-        value: 'abundant'
-      }
-    ]
-  },
+  // {
+  //   questionType: 'SelectionGroup',
+  //   questionText:
+  //     '21/21\nSelect the Best Matches for Your Stream Site.\n\nGrassland and Crops:',
+  //   questionId: 'select_match_grassland_crops',
+  //   questionSettings: {
+  //     maxMultiSelect: 1,
+  //     minMultiSelect: 1,
+  //     autoAdvance: true,
+  //   },
+  //   options: [
+  //     {
+  //       optionText: 'Present',
+  //       value: 'present'
+  //     },
+  //     {
+  //       optionText: 'Moderate',
+  //       value: 'moderate'
+  //     },
+  //     {
+  //       optionText: 'Abundant',
+  //       value: 'abundant'
+  //     }
+  //   ]
+  // },
 
   // __________________
 

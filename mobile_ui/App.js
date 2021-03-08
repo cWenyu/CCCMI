@@ -47,6 +47,7 @@ import HistoryDetail from './screens/HistoryDetail';
 import HistoryList from './screens/HistoryList';
 import {Provider} from 'react-redux';
 import store from './components/reduxStore';
+import ReportProblem from './screens/ReportProblem'
 
 import {
   resetSurveyForm,
@@ -316,7 +317,23 @@ const App = () => {
     const dispatch = useDispatch();
 
     return (
-      <TakeSampleStack.Navigator>
+      <TakeSampleStack.Navigator initialRouteName='SurveyPage'>
+
+        <TakeSampleStack.Screen
+          name="ReportProblem"
+          component={ReportProblem}
+          options={{
+            // title: 'Introduction of Taking Sample',
+            headerStyle: {
+              backgroundColor: '#009387',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}
+        />
+
         <TakeSampleStack.Screen
           name="OnboardingScreen2"
           component={OnboardingScreen2}

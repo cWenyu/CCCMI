@@ -59,13 +59,13 @@ const resultPage = ({navigation, route}) => {
     },
   });
 
-  const postData = async () => {
+  const postData = async (ob) => {
     try {
       let response = await axios.post(
         'https://cccmi-aquality.tk/aquality_server/samplesave',
         {
-          data_get: data,
-          insect_list: insectList,
+          data_get: ob.sampleObj,
+          insect_list: ob.insectObj,
         },
       );
       console.log(response);
@@ -75,42 +75,47 @@ const resultPage = ({navigation, route}) => {
     }
   };
 
-  const clearData = async () => {
-    try {
-      console.log('clearing data...');
-      const clear1 = await AsyncStorage.removeItem('river');
-      const clear2 = await AsyncStorage.removeItem('arduino');
-      const clear3 = await AsyncStorage.removeItem('selected_insect');
-      const clear4 = await AsyncStorage.removeItem('analysed_insect');
-      const clear5 = await AsyncStorage.removeItem('insect_score');
-      console.log('data cleared');
-    } catch (e) {
-      // error reading value
-    }
-  };
-
-  const setDataForPost = () => {
+  const setDataForPost = async() => {
     console.log('setting up data for upload');
-    setData({
-      sample_score: insectScore,
+
+    // setData({
+    //   // sample_score: insectScore,
+    //   sample_user: username,
+    //   sample_ph: route.params.sensorData.ph,
+    //   sample_tmp: route.params.sensorData.temp,
+    //   sample_river_id: route.params.riverData.river_id,
+    //   sample_survey: route.params.surveyData,
+    // });
+
+    let sampleObj = {
       sample_user: username,
-      sample_ph: arduino.ph,
-      sample_tmp: arduino.temp,
-      sample_river_id: river.river_id,
-    });
+      sample_ph: route.params.sensorData.ph,
+      sample_tmp: route.params.sensorData.temp,
+      sample_river_id: route.params.riverData.river_id,
+      sample_survey: route.params.surveyData,
+    }
+
     // set insect (selected + analysed)
-    let array3 = selectedInsect.concat(analysedInsect);
+    let array3 = route.params.selectedInsect.concat(
+      route.params.analyzedInsect,
+    );
     setInsectList(array3);
-    console.log('insects: ' + JSON.stringify(insectList));
-    console.log('finish setting data');
-    console.log('data' + JSON.stringify(data));
+
+    let dataObj = {sampleObj:sampleObj, insectObj: array3}
+
+    return dataObj;
   };
 
   const handleFinish = () => {
-    setDataForPost();
-    postData();
+     setDataForPost().then(ob =>{
+      console.log('look here' + JSON.stringify(ob))
+      postData(ob);
+     })
+    
+    
     navigation.navigate('Home');
-    // clearData();
+
+    // setDataForPost().then(postData()).then(navigation.navigate('Home'));
   };
 
   const getRiverData = async () => {
@@ -356,48 +361,49 @@ const resultPage = ({navigation, route}) => {
         );
       });
       return comp;
-    } else return <Text>No insects.</Text>;
+    } else {
+      return <Text>No insects.</Text>;
+    }
   };
 
-  // const renderAnalysedInsect = () => {
-  //   if (route.params.analysedInsect.length > 0) {
-  //     let comp = [];
-  //     comp.push(<Text style={styles.sectionHeader}>Analysed Insect</Text>);
-  //     route.params.analysedInsect.map(item => {
-  //       comp.push(
-  //         <View
-  //           style={{flexDirection: 'row', alignItems: 'center', marginTop: 15}}>
-  //           <Image
-  //             style={styles.tinyLogo}
-  //             source={{
-  //               uri: item.insect_image,
-  //             }}
-  //           />
-  //           <Text
-  //             style={{
-  //               fontSize: 15,
-  //               width: 150,
-  //               textAlign: 'center',
-  //               color: colors.text,
-  //             }}>
-  //             {item.insect_name}
-  //           </Text>
-  //           <Text
-  //             style={{
-  //               fontSize: 15,
-  //               width: 150,
-  //               textAlign: 'center',
-  //               color: colors.text,
-  //             }}>
-  //             {item.amount}
-  //           </Text>
-
-  //         </View>,
-  //       );
-  //     });
-  //     return comp;
-  //   }
-  // };
+  const renderAnalysedInsect = () => {
+    if (route.params?.analyzedInsect) {
+      let comp = [];
+      comp.push(<Text style={styles.sectionHeader}>Analysed Insect</Text>);
+      route.params.analyzedInsect.map(item => {
+        comp.push(
+          <View
+            style={{flexDirection: 'row', alignItems: 'center', marginTop: 15}}>
+            <Image
+              style={styles.tinyLogo}
+              source={{
+                uri: item.insect_image,
+              }}
+            />
+            <Text
+              style={{
+                fontSize: 15,
+                width: 150,
+                textAlign: 'center',
+                color: colors.text,
+              }}>
+              {item.insect_name}
+            </Text>
+            <Text
+              style={{
+                fontSize: 15,
+                width: 150,
+                textAlign: 'center',
+                color: colors.text,
+              }}>
+              {item.amount}
+            </Text>
+          </View>,
+        );
+      });
+      return comp;
+    }
+  };
 
   useEffect(() => {
     getRiverData();
@@ -422,8 +428,8 @@ const resultPage = ({navigation, route}) => {
         {renderRiver()}
         {renderArduino()}
         {renderSelectedInsect()}
-        {/* {renderAnalysedInsect()}
-         */}
+        {renderAnalysedInsect()}
+
         {/* {river && renderRiver()} */}
         {/* {arduino && renderArduino()} */}
         {/* {selectedInsect && renderSelectedInsect()}

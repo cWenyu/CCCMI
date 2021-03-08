@@ -19,6 +19,7 @@ import Animated from 'react-native-reanimated';
 import Icon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
 import ImagePicker from 'react-native-image-crop-picker';
 import testVariables from '../appium_automation_testing/test_variables';
+import {TextInput} from 'react-native-gesture-handler';
 
 const AnalyzeScreen = ({navigation}) => {
   const [image, setImage] = useState(
@@ -28,8 +29,8 @@ const AnalyzeScreen = ({navigation}) => {
   const bs = React.createRef();
   const fall = new Animated.Value(1);
   const [modalVisible, setModalVisible] = useState(false);
-  const [detectedInsect, setDetectedInsect] = useState('');
-  const [count, setCount] = useState();
+  const [detectedInsect, setDetectedInsect] = useState('caenis');
+  const [count, setCount] = useState('6');
   const [confidence, setConfidence] = useState('');
   const [loading, setLoading] = useState(false);
   const [insectList, setInsectList] = useState([]);
@@ -120,6 +121,10 @@ const AnalyzeScreen = ({navigation}) => {
       console.log(e);
     }
     setLoading(false);
+  };
+
+  const openModal = () => {
+    setModalVisible(true);
   };
 
   const renderInner = () => (
@@ -252,29 +257,42 @@ const AnalyzeScreen = ({navigation}) => {
         onRequestClose={() => {}}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={{fontWeight: 'bold', alignSelf: 'flex-start'}}>
-              Detected: {detectedInsect}
-            </Text>
-            <Text style={{fontWeight: 'bold', alignSelf: 'flex-start'}}>
-              Count: {count}
-            </Text>
+          <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
+              <Text style={{fontWeight: 'bold'}}>
+                Insect Name:
+              </Text>
+              <TextInput value={detectedInsect} onChangeText={text => setDetectedInsect(text)}/>
+            </View>
+            <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
+              <Text style={{fontWeight: 'bold'}}>
+                Count:
+              </Text>
+              <TextInput value={count} onChangeText={text => setCount(text)} keyboardType='numeric'/>
+            </View>
+            
             {/* <Text style={{fontWeight: 'bold', alignSelf: 'flex-start'}}>Confidence: {confidence}</Text> */}
             <Button
               title="Confirm"
               onPress={() => handleConfirm()}
               buttonStyle={{backgroundColor: 'green', margin: 5}}
             />
-            <Button
-              title="Cancel"
-              onPress={() => setModalVisible(!modalVisible)}
-              buttonStyle={{backgroundColor: 'red', margin: 5}}
-            />
-            {/* <IconButton
-              icon="close-circle"
-              color={Colors.red500}
-              size={20}
-              onPress={() => setModalVisible(!modalVisible)}
-            /> */}
+
+            <View style={{flexDirection: 'row'}}>
+              <Button
+                title="Cancel"
+                onPress={() => setModalVisible(!modalVisible)}
+                buttonStyle={{backgroundColor: 'red', margin: 5}}
+              />
+            </View>
+            <TouchableOpacity
+              onPress={() => {
+                setModalVisible(!modalVisible);
+                navigation.navigate('ReportProblem');
+              }}>
+              <Text style={{textDecorationLine: 'underline'}}>
+                Having problem?
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>
       </Modal>
@@ -356,7 +374,7 @@ const AnalyzeScreen = ({navigation}) => {
         />
       </Animated.View>
       <Button
-        title="Save"
+        title="Done"
         titleProps={{}}
         titleStyle={{marginHorizontal: 22, fontSize: 16}}
         buttonStyle={{
@@ -384,6 +402,8 @@ const AnalyzeScreen = ({navigation}) => {
         accessibilityLabel={testVariables.analysisInsectSaveButton}
         testID={testVariables.analysisInsectSaveButton}
       />
+      <Button title="open modal" onPress={() => openModal()} />
+
       <ScrollView>
         {renderModal()}
         {renderAnalysedInsect()}
@@ -487,7 +507,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
-    width: 300,
+    width: 'auto',
     height: 'auto',
   },
   tinyLogo: {
