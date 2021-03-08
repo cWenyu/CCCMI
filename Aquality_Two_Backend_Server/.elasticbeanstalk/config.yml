@@ -1,0 +1,25 @@
+branch-defaults:
+  default:
+    environment: aquality-server
+    group_suffix: null
+environment-defaults:
+  aquality-18-dec-4:
+    branch: null
+    repository: null
+  aquality-application-17-dec:
+    branch: null
+    repository: null
+global:
+  application_name: Aquality2
+  branch: null
+  default_ec2_keyname: key1
+  default_platform: Python 3.7 running on 64bit Amazon Linux 2
+  default_region: eu-west-1
+  include_git_submodules: true
+  instance_profile: null
+  platform_name: null
+  platform_version: null
+  profile: null
+  repository: null
+  sc: null
+  workspace_type: Application
