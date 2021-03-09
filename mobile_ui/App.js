@@ -210,6 +210,7 @@ const App = () => {
           ),
         }}
       />
+      
       {/* add screen here */}
       <HomeStack.Screen
         name="SampleHistoryScreen"
