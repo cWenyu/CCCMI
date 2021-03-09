@@ -29,8 +29,8 @@ jobs:
 
     - name: checkout to folder
       run: |
+          echo "export PATH=\"/home/runner/.local/bin:\$PATH\"" >> ~/.bashrc && source ~/.bashrc
           cd Aquality_Two_Backend_Server
           pip install --upgrade pip awsebcli
-          echo "export PATH=\"/home/runner/.local/bin:\$PATH\"" >> ~/.bashrc && source ~/.bashrc
           eb deploy
       shell: bash
