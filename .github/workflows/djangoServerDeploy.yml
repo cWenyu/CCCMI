@@ -31,11 +31,16 @@ jobs:
       run: |
           echo "export PATH=\"/home/runner/.local/bin:\$PATH\"" >> ~/.bashrc && source ~/.bashrc
           echo $PATH
+      shell: bash
           
+    - name: Install AWS EB CLI
+      run: |
+          sudo apt-get update -y
+          sudo pip install --upgrade pip awsebcli --target=/usr/local/bin
+      shell: bash
+
     - name: checkout to folder
       run: |
           cd Aquality_Two_Backend_Server
-          sudo apt-get update -y
-          sudo pip install --upgrade pip awsebcli --target=/usr/local/bin
           eb deploy
       shell: bash
