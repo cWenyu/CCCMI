@@ -28,27 +28,28 @@ jobs:
       shell: bash
 
     - name: Install dependencies
-      run: sudo apt-get -y ...stuff...
+      run: |
+          sudo apt-get update -y
+          sudo apt-get pip
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
         python-version: 3.7.8
     - name: Install Python dependencies
       run: |
-        python -m pip install --upgrade pipenv
-        pipenv sync --dev
+        python -m pip install --upgrade awsebcli
 
-    - name: Add Path
-      run: |
-          echo "export PATH=\"/home/runner/.local/bin:\$PATH\"" >> ~/.bashrc && source ~/.bashrc
-          echo $PATH
-      shell: bash
+    # - name: Add Path
+    #   run: |
+    #       echo "export PATH=\"/home/runner/.local/bin:\$PATH\"" >> ~/.bashrc && source ~/.bashrc
+    #       echo $PATH
+    #   shell: bash
           
-    - name: Install AWS EB CLI
-      run: |
-          sudo apt-get update -y
-          sudo pip install --upgrade pip awsebcli --target=/usr/local/bin
-      shell: bash
+    # - name: Install AWS EB CLI
+    #   run: |
+    #       sudo apt-get update -y
+    #       sudo pip install --upgrade pip awsebcli --target=/usr/local/bin
+    #   shell: bash
 
     - name: checkout to folder
       run: |
