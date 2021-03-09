@@ -15,7 +15,7 @@ jobs:
     - name: Checkout source code
       uses: actions/checkout@v2
       with:
-        ref: AqualityServer_Master
+        ref: 32650_DeployEB
 
     - name: create .env file
       run: |
