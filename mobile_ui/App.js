@@ -196,13 +196,7 @@ const App = () => {
           ),
         }}
       />
-      <HomeStack.Screen
-        name="OnboardingScreen"
-        component={OnboardingScreen}
-        options={{
-          title: 'IntroSlider'
-        }}
-      />
+      
       {/* add screen here */}
       <HomeStack.Screen
         name="uploadImage"

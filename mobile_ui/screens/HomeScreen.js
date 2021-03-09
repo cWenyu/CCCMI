@@ -58,7 +58,6 @@ const HomeScreen = ({navigation}) => {
         titleStyle={{marginHorizontal: 22, fontSize: 18}}
       />
 
-      <Button title='intro slider' onPress={() => navigation.navigate('OnboardingScreen')}/>
     </View>
   );
 };
