@@ -17,6 +17,12 @@ jobs:
       with:
         ref: AqualityServer_Master
 
+    - name : Install AWS Eb Cli
+      uses: BSFishy/pip-action@v1
+      with:
+        packages: |
+        awsebcli
+
     - name: create .env file
       run: |
           cd Aquality_Two_Backend_Server
@@ -29,8 +35,6 @@ jobs:
 
     - name: checkout to folder
       run: |
-          echo "export PATH=\"/home/runner/.local/bin:\$PATH\"" >> ~/.bashrc && source ~/.bashrc
           cd Aquality_Two_Backend_Server
-          pip install --upgrade pip awsebcli
           eb deploy
       shell: bash
