@@ -1,21 +1,30 @@
 import testVariables from '../appium_automation_testing/test_variables';
-import React from 'react';
-import {View, StyleSheet, Text} from 'react-native';
-import {useFocusEffect, useTheme} from '@react-navigation/native';
-import {ListItem} from 'react-native-elements';
+import React, {useEffect} from 'react';
+import { View, StyleSheet, Text } from 'react-native';
+import { useFocusEffect, useTheme } from '@react-navigation/native';
+import { ListItem, Button } from 'react-native-elements';
 import axios from 'axios';
 
-const ArduinoScreen2 = ({route}) => {
-  const {colors} = useTheme();
-  const {arduino_id, temp, ph, longitude, latitude, date_captured} = route.params;
+const ArduinoScreen2 = ({ navigation, route }) => {
+  const { colors } = useTheme();
+  // const {arduino_id, temp, ph, longitude, latitude, date_captured} = route.params;
+
+  // const [data, setData] = React.useState({
+  //   arduinoId: JSON.stringify(arduino_id),
+  //   temp: JSON.stringify(temp),
+  //   ph: JSON.stringify(ph),
+  //   longitude: JSON.stringify(longitude),
+  //   latitude: JSON.stringify(latitude),
+  //   date: JSON.stringify(date_captured),
+  // });
 
   const [data, setData] = React.useState({
-    arduinoId: JSON.stringify(arduino_id),
-    temp: JSON.stringify(temp),
-    ph: JSON.stringify(ph),
-    longitude: JSON.stringify(longitude),
-    latitude: JSON.stringify(latitude),
-    date: JSON.stringify(date_captured),
+    arduinoId: '',
+    temp: '',
+    ph: '',
+    longitude: '',
+    latitude: '',
+    date: '',
   });
 
   const styles = StyleSheet.create({
@@ -32,13 +41,6 @@ const ArduinoScreen2 = ({route}) => {
     },
   });
 
-  useFocusEffect(
-    React.useCallback(() => {
-      const interval = setInterval(() => getData(), 5000);
-      return () => clearInterval(interval);
-    }, []),
-  );
-
   const getData = async () => {
     try {
       let response = await axios.get(
@@ -51,18 +53,30 @@ const ArduinoScreen2 = ({route}) => {
       );
       setData({
         ...data,
+        arduinoId: response.data[0].arduino_id,
         temp: response.data[0].temp,
         ph: response.data[0].ph,
         longitude: response.data[0].longitude,
         latitude: response.data[0].latitude,
         date: response.data[0].date_captured,
       });
-      console.log(response.data[0].ph);
-      console.log('print things');
+      console.log('Data Updated');
     } catch (e) {
       console.error(e);
     }
   };
+
+  useEffect(() => {
+    getData()
+    console.log(route.params);
+  }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const interval = setInterval(() => getData(), 30000);
+      return () => clearInterval(interval);
+    }, []),
+  );
 
   return (
     <View
@@ -125,18 +139,40 @@ const ArduinoScreen2 = ({route}) => {
           <Text
             style={styles.title}>
             Date{' '}
-              {data.date.substring(
-                0,
-                data.date.indexOf('T'),
-              )}{' '}
+            {data.date.substring(
+              0,
+              data.date.indexOf('T'),
+            )}{' '}
               | Time{' '}
-              {data.date.substring(
-                data.date.indexOf('T') + 1,
-                16,
-              )}
+            {data.date.substring(
+              data.date.indexOf('T') + 1,
+              16,
+            )}
           </Text>
         </ListItem.Content>
       </ListItem>
+
+
+      <Button
+        title="Connect to this device"
+        onPress={() => {
+          // sampleData.push({"river": JSON.stringify(route.params.data)}) //here
+          navigation.navigate('InsectScreen', {sensorData: data, riverData: route.params.riverData, surveyData: route.params.surveyData});
+          // storeData(route.params.data);
+        }}
+        buttonStyle={{ width: 360, height: 50, backgroundColor: "#02ab9e", borderRadius: 5, }}
+          containerStyle={{ margin: 5, alignItems: "center", marginTop: 35 }}
+          disabledStyle={{
+            borderWidth: 2,
+            borderColor: "#00F"
+          }}
+          disabledTitleStyle={{ color: "#00F" }}
+          linearGradientProps={null}
+          loadingProps={{ animating: true }}
+          loadingStyle={{}}
+          titleProps={{}}
+          titleStyle={{ marginHorizontal: 22, fontSize: 18 }}
+      />
     </View>
   );
 };

@@ -62,6 +62,10 @@ const InsectScreen = ({navigation, route}) => {
       width: 300,
       height: 'auto',
     },
+    title: {
+      paddingTop: 20,
+      color: colors.text
+    },
   });
 
   const setallinsect = () => {
@@ -245,36 +249,41 @@ const InsectScreen = ({navigation, route}) => {
     if (analysedInsect.length > 0 || insectList.length > 0) {
       return (
         <View style={{alignSelf: 'center', paddingVertical: 10}}>
-          <Button
-          title="Get Score"
-          onPress={() => {
-            getScore();
-            setModalVisible(true);
-          }}
-          titleStyle={{marginHorizontal: 22, fontSize: 18}}
-          buttonStyle={{width: 200, height: 50, backgroundColor: '#610D00'}}
-        />
+          {/* <Button
+            title="Get Score"
+            onPress={() => {
+              getScore();
+              setModalVisible(true);
+            }}
+            titleStyle={{marginHorizontal: 22, fontSize: 18}}
+            buttonStyle={{width: 200, height: 50, backgroundColor: '#610D00'}}
+          /> */}
         </View>
-        
       );
     }
   };
 
   useEffect(() => {
-    if (route.params?.post) {
-      setInsectList(route.params.post);
+    if (route.params?.selectedInsect) {
+      setInsectList(route.params.selectedInsect);
     }
-    if (route.params?.insect) {
-      setAnalysedInsect(route.params.insect);
+    if (route.params?.aiInsect) {
+      setAnalysedInsect(route.params.aiInsect);
+    }
+    if(route.params) {
+      console.log(JSON.stringify(route.params));
     }
     // setallinsect();
-  }, [route.params?.post, route.params?.insect]);
+  }, [route.params?.selectedInsect, route.params?.aiInsect]);
 
   return (
     <View
       style={styles.container}
       accessibilityLabel={testVariables.insectScreenContainer}
       testID={testVariables.insectScreenContainer}>
+      <Text h4 h4Style={styles.title}>
+        Insert insects found
+      </Text>
       <Button
         title="Select Insect"
         onPress={() => navigation.navigate('selectInsect1')}
@@ -282,7 +291,7 @@ const InsectScreen = ({navigation, route}) => {
         testID={testVariables.insectScreenSelectInsectButton}
         titleProps={{}}
         titleStyle={{marginHorizontal: 22, fontSize: 18}}
-        buttonStyle={{width: 270, height: 50, backgroundColor: '#625D52'}}
+        buttonStyle={{width: 270, height: 50, backgroundColor: '#009387'}}
         containerStyle={{margin: 5, alignItems: 'center', marginTop: 40}}
         disabledStyle={{
           borderWidth: 2,
@@ -304,7 +313,7 @@ const InsectScreen = ({navigation, route}) => {
         }}
         titleProps={{}}
         titleStyle={{marginHorizontal: 22, fontSize: 18}}
-        buttonStyle={{width: 270, height: 50, backgroundColor: '#625D52'}}
+        buttonStyle={{width: 270, height: 50, backgroundColor: '#009387'}}
         containerStyle={{
           margin: 5,
           alignItems: 'center',
@@ -329,7 +338,7 @@ const InsectScreen = ({navigation, route}) => {
         onRequestClose={() => {}}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text>Score: {score}</Text>
+            <Text>You got the sample score of </Text><Text style={{fontWeight: 'bold'}}>{score} points</Text>
 
             <IconButton
               accessibilityLabel={testVariables.cancelAddAmountIcon}
@@ -348,6 +357,31 @@ const InsectScreen = ({navigation, route}) => {
         {renderAnalysedInsect()}
         {renderGetScoreButton()}
       </ScrollView>
+
+      <Button
+        title="Finish"
+        onPress={() => {
+          getScore();
+          setModalVisible(true);
+          navigation.navigate('ResultPage', {analyzedInsect: analysedInsect, selectedInsect: insectList, riverData: route.params.riverData, surveyData: route.params.surveyData, currentLocation: route.params.currentLocation, sensorData: route.params.sensorData, surrounding: route.params.surrounding});
+        }}
+        accessibilityLabel={testVariables.insectScreenSelectInsectButton}
+        testID={testVariables.insectScreenSelectInsectButton}
+        titleProps={{}}
+        titleStyle={{marginHorizontal: 22, fontSize: 18}}
+        buttonStyle={{width: 270, height: 50, backgroundColor: '#009387'}}
+        containerStyle={{margin: 5, alignItems: 'center', marginTop: 40}}
+        disabledStyle={{
+          borderWidth: 2,
+          borderColor: '#00F',
+        }}
+        disabledTitleStyle={{color: '#00F'}}
+        linearGradientProps={null}
+        icon={<Icon name="check-circle-outline" size={19} color="#FAF9F7" />}
+        iconContainerStyle={{background: '#000'}}
+        loadingProps={{animating: true}}
+        loadingStyle={{}}
+      />
     </View>
   );
 };

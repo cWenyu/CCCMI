@@ -2,7 +2,7 @@ import React from 'react';
 import {useEffect} from 'react';
 import {useState} from 'react';
 import {useTheme} from '@react-navigation/native';
-import {Text, View, Image, StyleSheet, ScrollView} from 'react-native';
+import {Text, View, Image, StyleSheet, ScrollView, Alert} from 'react-native';
 import {Button, colors, ListItem} from 'react-native-elements';
 import AsyncStorage from '@react-native-community/async-storage';
 import testVariables from '../appium_automation_testing/test_variables';
@@ -23,7 +23,7 @@ const resultPage = ({navigation, route}) => {
   });
   const [insectList, setInsectList] = useState([]);
   const [username, setUsername] = useState('');
-  const [insectScore, setInsectScore] = useState()
+  const [insectScore, setInsectScore] = useState();
 
   const styles = StyleSheet.create({
     container: {
@@ -59,59 +59,51 @@ const resultPage = ({navigation, route}) => {
     },
   });
 
-  const postData = async () => {
-    
+  const postData = async (ob) => {
     try {
       let response = await axios.post(
         'https://cccmi-aquality.tk/aquality_server/samplesave',
         {
-          data_get: data,
-          insect_list: insectList,
+          data_get: ob.sampleObj,
+          insect_list: ob.insectObj,
         },
       );
       console.log(response);
-      console.log('data posted')
+      console.log('data posted');
     } catch (e) {
       console.error(e);
     }
   };
 
-  const clearData = async() => {
-    try {
-      console.log('clearing data...')
-      const clear1 = await AsyncStorage.removeItem('river');
-      const clear2 = await AsyncStorage.removeItem('arduino');
-      const clear3 = await AsyncStorage.removeItem('selected_insect');
-      const clear4 = await AsyncStorage.removeItem('analysed_insect');
-      const clear5 = await AsyncStorage.removeItem('insect_score');
-      console.log('data cleared')
-    } catch (e) {
-      // error reading value
-    }
-  }
-
-  const setDataForPost = () => {
-    console.log('setting up data for upload')
-    setData({
-      sample_score: insectScore,
+  const setDataForPost = async() => {
+    console.log('setting up data for upload');
+    let sampleObj = {
       sample_user: username,
-      sample_ph: arduino.ph,
-      sample_tmp: arduino.temp,
-      sample_river_id: river.river_id,
-    });
+      sample_ph: route.params.sensorData.ph,
+      sample_tmp: route.params.sensorData.temp,
+      sample_river_id: route.params.riverData.river_id,
+      sample_survey: route.params.surveyData,
+    }
+
     // set insect (selected + analysed)
-    let array3 = selectedInsect.concat(analysedInsect);
+    let array3 = route.params.selectedInsect.concat(
+      route.params.analyzedInsect,
+    );
     setInsectList(array3);
-    console.log('insects: ' + JSON.stringify(insectList))
-    console.log('finish setting data');
-    console.log('data' + JSON.stringify(data))
+
+    let dataObj = {sampleObj:sampleObj, insectObj: array3}
+
+    return dataObj;
   };
 
   const handleFinish = () => {
-    setDataForPost();
-    postData();
+     setDataForPost().then(ob =>{
+      console.log('look here' + JSON.stringify(ob))
+      postData(ob);
+     })
+    
+    
     navigation.navigate('Home');
-    // clearData();
   };
 
   const getRiverData = async () => {
@@ -172,6 +164,21 @@ const resultPage = ({navigation, route}) => {
     }
   };
 
+  const createTwoButtonAlert = () =>
+    Alert.alert(
+      '',
+      'Are you sure to finish this sample?',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        {text: 'Yes', onPress: () => handleFinish()},
+      ],
+      {cancelable: true},
+    );
+
   const renderRiver = () => {
     return (
       <View
@@ -185,13 +192,15 @@ const resultPage = ({navigation, route}) => {
             <ListItem.Subtitle style={styles.title}>
               River Name
             </ListItem.Subtitle>
-            <Text style={styles.title}>{river.river_name}</Text>
+            <Text style={styles.title}>
+              {route.params.riverData.river_name}
+            </Text>
           </ListItem.Content>
         </ListItem>
         <ListItem bottomDivider containerStyle={styles.listContainer}>
           <ListItem.Content>
             <ListItem.Subtitle style={styles.title}>Latitude</ListItem.Subtitle>
-            <Text style={styles.title}>{river.latitude}</Text>
+            <Text style={styles.title}>{route.params.riverData.latitude}</Text>
           </ListItem.Content>
         </ListItem>
         <ListItem bottomDivider containerStyle={styles.listContainer}>
@@ -199,7 +208,7 @@ const resultPage = ({navigation, route}) => {
             <ListItem.Subtitle style={styles.title}>
               Longitude
             </ListItem.Subtitle>
-            <Text style={styles.title}>{river.longitude}</Text>
+            <Text style={styles.title}>{route.params.riverData.longitude}</Text>
           </ListItem.Content>
         </ListItem>
         <ListItem bottomDivider containerStyle={styles.listContainer}>
@@ -207,7 +216,9 @@ const resultPage = ({navigation, route}) => {
             <ListItem.Subtitle style={styles.title}>
               River Catchments
             </ListItem.Subtitle>
-            <Text style={styles.title}>{river.river_catchments}</Text>
+            <Text style={styles.title}>
+              {route.params.riverData.river_catchments}
+            </Text>
           </ListItem.Content>
         </ListItem>
         <ListItem bottomDivider containerStyle={styles.listContainer}>
@@ -215,7 +226,9 @@ const resultPage = ({navigation, route}) => {
             <ListItem.Subtitle style={styles.title}>
               River Code
             </ListItem.Subtitle>
-            <Text style={styles.title}>{river.river_code}</Text>
+            <Text style={styles.title}>
+              {route.params.riverData.river_code}
+            </Text>
           </ListItem.Content>
         </ListItem>
         <ListItem bottomDivider containerStyle={styles.listContainer}>
@@ -223,7 +236,9 @@ const resultPage = ({navigation, route}) => {
             <ListItem.Subtitle style={styles.title}>
               Local Authority
             </ListItem.Subtitle>
-            <Text style={styles.title}>{river.local_authority}</Text>
+            <Text style={styles.title}>
+              {route.params.riverData.local_authority}
+            </Text>
           </ListItem.Content>
         </ListItem>
         <ListItem bottomDivider containerStyle={styles.listContainer}>
@@ -231,7 +246,9 @@ const resultPage = ({navigation, route}) => {
             <ListItem.Subtitle style={styles.title}>
               Transboundary
             </ListItem.Subtitle>
-            <Text style={styles.title}>{river.transboundary}</Text>
+            <Text style={styles.title}>
+              {route.params.riverData.transboundary}
+            </Text>
           </ListItem.Content>
         </ListItem>
       </View>
@@ -241,19 +258,20 @@ const resultPage = ({navigation, route}) => {
   const renderArduino = () => {
     return (
       <View>
-        <Text style={styles.sectionHeader}>Arduino</Text>
+        <Text style={styles.sectionHeader}>Sensor Device</Text>
         <ListItem bottomDivider containerStyle={styles.listContainer}>
           <ListItem.Content>
             <ListItem.Subtitle style={styles.title}>
               Device ID
             </ListItem.Subtitle>
-            <Text style={styles.title}>{arduino.arduino_id}</Text>
+            {/* <Text style={styles.title}>{arduino.arduino_id}</Text> */}
+            <Text style={styles.title}>{route.params.sensorData.deviceId}</Text>
           </ListItem.Content>
         </ListItem>
         <ListItem bottomDivider containerStyle={styles.listContainer}>
           <ListItem.Content>
             <ListItem.Subtitle style={styles.title}>Water pH</ListItem.Subtitle>
-            <Text style={styles.title}>{arduino.ph}</Text>
+            <Text style={styles.title}>{route.params.sensorData.ph}</Text>
           </ListItem.Content>
         </ListItem>
         <ListItem bottomDivider containerStyle={styles.listContainer}>
@@ -261,17 +279,17 @@ const resultPage = ({navigation, route}) => {
             <ListItem.Subtitle style={styles.title}>
               Water Temperature
             </ListItem.Subtitle>
-            <Text style={styles.title}>{arduino.temp}</Text>
+            <Text style={styles.title}>{route.params.sensorData.temp}</Text>
           </ListItem.Content>
         </ListItem>
-        <ListItem bottomDivider containerStyle={styles.listContainer}>
+        {/* <ListItem bottomDivider containerStyle={styles.listContainer}>
           <ListItem.Content>
             <ListItem.Subtitle style={styles.title}>
               Coordinates (Long, Lat)
             </ListItem.Subtitle>
-            <Text style={styles.title}>{arduino.longitude}, {arduino.latitude}</Text>
+            <Text style={styles.title}>{route.params.sensorData.longitude}, {route.params.sensorData.latitude}</Text>
           </ListItem.Content>
-        </ListItem>
+        </ListItem> */}
         <ListItem bottomDivider containerStyle={styles.listContainer}>
           <ListItem.Content>
             <ListItem.Subtitle style={styles.title}>
@@ -279,13 +297,13 @@ const resultPage = ({navigation, route}) => {
             </ListItem.Subtitle>
             <Text style={styles.title}>
               Date{' '}
-              {arduino.date_captured.substring(
+              {route.params.sensorData.date.substring(
                 0,
-                arduino.date_captured.indexOf('T'),
+                route.params.sensorData.date.indexOf('T'),
               )}{' '}
               | Time{' '}
-              {arduino.date_captured.substring(
-                arduino.date_captured.indexOf('T') + 1,
+              {route.params.sensorData.date.substring(
+                route.params.sensorData.date.indexOf('T') + 1,
                 16,
               )}
             </Text>
@@ -296,10 +314,10 @@ const resultPage = ({navigation, route}) => {
   };
 
   const renderSelectedInsect = () => {
-    if (selectedInsect.length > 0) {
+    if (route.params?.selectedInsect) {
       let comp = [];
       comp.push(<Text style={styles.sectionHeader}>Selected Insects</Text>);
-      selectedInsect.map(item => {
+      route.params.selectedInsect.map(item => {
         comp.push(
           <View
             style={{flexDirection: 'row', alignItems: 'center', marginTop: 15}}>
@@ -331,14 +349,16 @@ const resultPage = ({navigation, route}) => {
         );
       });
       return comp;
+    } else {
+      return <Text>No insects.</Text>;
     }
   };
 
   const renderAnalysedInsect = () => {
-    if (analysedInsect.length > 0) {
+    if (route.params?.analyzedInsect) {
       let comp = [];
       comp.push(<Text style={styles.sectionHeader}>Analysed Insect</Text>);
-      analysedInsect.map(item => {
+      route.params.analyzedInsect.map(item => {
         comp.push(
           <View
             style={{flexDirection: 'row', alignItems: 'center', marginTop: 15}}>
@@ -366,7 +386,6 @@ const resultPage = ({navigation, route}) => {
               }}>
               {item.amount}
             </Text>
-              
           </View>,
         );
       });
@@ -381,22 +400,21 @@ const resultPage = ({navigation, route}) => {
     getAnalysedInsectData();
     getUsername();
     getScore();
-    // setDataForPost();
+
+    if (route.params) {
+      console.log(JSON.stringify(route.params));
+    }
+
   }, []);
 
   return (
     <View>
       <ScrollView>
-        {/* <Button title="postData" onPress={() => postData()} /> */}
-        <Button title="setDataForPost" onPress={() => setDataForPost()} />
-        
+        {renderRiver()}
+        {renderArduino()}
+        {renderSelectedInsect()}
+        {renderAnalysedInsect()}
 
-        {river && renderRiver()}
-        {arduino && renderArduino()}
-        {selectedInsect && renderSelectedInsect()}
-        {analysedInsect && renderAnalysedInsect()}
-
-        
         <Button
           accessibilityLabel={testVariables.resultPageDoneButton}
           testID={testVariables.resultPageDoneButton}
@@ -404,11 +422,9 @@ const resultPage = ({navigation, route}) => {
           titleProps={{}}
           titleStyle={{marginHorizontal: 22, fontSize: 16}}
           buttonStyle={styles.submitButton}
-          onPress={() => handleFinish()}
+          onPress={() => createTwoButtonAlert()}
         />
-        
       </ScrollView>
-      
     </View>
   );
 };
