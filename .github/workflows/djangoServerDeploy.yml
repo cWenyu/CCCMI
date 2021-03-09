@@ -27,18 +27,10 @@ jobs:
         DEV_ENV_FILE: ${{ secrets.SERVER_ENV }}
       shell: bash
     
-    - name: Generate deployment package
-      run: |
-          cd Aquality_Two_Backend_Server
-          zip -r deploy.zip . -x '*.git*'
-      
-    - name: Deploy to EB
-      uses: einaregilsson/beanstalk-deploy@v16
+      uses: hmanzur/actions-aws-eb@v1.0.0
       with:
-        aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        application_name: Aquality2
-        environment_name: aquality-server
-        version_label: 12347
-        region: eu-west-1
-        deployment_package: Aquality_Two_Backend_Server/deploy.zip
+        command: 'deploy'
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_DEFAULT_REGION: "eu-west-1"
