@@ -27,6 +27,7 @@ jobs:
         DEV_ENV_FILE: ${{ secrets.SERVER_ENV }}
       shell: bash
     
+    - name: Deploy Server
       uses: hmanzur/actions-aws-eb@v1.0.0
       with:
         command: 'deploy'
