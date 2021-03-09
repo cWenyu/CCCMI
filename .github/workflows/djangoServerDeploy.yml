@@ -31,4 +31,5 @@ jobs:
       run: |
           cd Aquality_Two_Backend_Server
           pip install --upgrade pip awsebcli
+          eb deploy
       shell: bash
