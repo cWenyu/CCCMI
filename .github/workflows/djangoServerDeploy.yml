@@ -36,6 +36,6 @@ jobs:
       run: |
           cd Aquality_Two_Backend_Server
           sudo apt-get update -y
-          pip install --upgrade pip awsebcli
+          pip install --upgrade pip awsebcli --target=/usr/local/bin
           eb deploy
       shell: bash
