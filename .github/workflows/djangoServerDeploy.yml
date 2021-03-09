@@ -27,6 +27,16 @@ jobs:
         DEV_ENV_FILE: ${{ secrets.SERVER_ENV }}
       shell: bash
 
+    - name: Install dependencies
+      run: |
+        sudo apt-get -y install ...stuff...
+        python -m pip install --upgrade pipenv
+        pipenv sync --dev
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.7.8  
+
     - name: Add Path
       run: |
           echo "export PATH=\"/home/runner/.local/bin:\$PATH\"" >> ~/.bashrc && source ~/.bashrc
