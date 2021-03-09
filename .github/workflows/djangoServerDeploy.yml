@@ -41,4 +41,4 @@ jobs:
         environment_name: aquality-server
         version_label: 12345
         region: eu-west-1
-        deployment_package: deploy.zip
+        deployment_package: Aquality_Two_Backend_Server/deploy.zip
