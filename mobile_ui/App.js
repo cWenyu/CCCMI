@@ -671,6 +671,36 @@ const App = () => {
     );
   };
 
+  const SafetyStack = createStackNavigator();
+  const SafetyStackScreen = ({navigation}) => (
+    <SafetyStack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: '#009387',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+      }}>
+      <SafetyStack.Screen
+        name="SafetyGuideScreen"
+        component={SafetyGuideScreen}
+        options={{
+          title: 'Safety Guide',
+          headerLeft: () => (
+            <Icon.Button
+              name="ios-menu"
+              size={25}
+              backgroundColor="#009387"
+              onPress={() => navigation.openDrawer()}
+            />
+          ),
+        }}
+      />
+    </SafetyStack.Navigator>
+  );
+
   return (
     <Provider store={store}>
       <PaperProvider theme={theme}>
@@ -692,7 +722,7 @@ const App = () => {
 
                 <Drawer.Screen
                   name="SafetyGuideScreen"
-                  component={SafetyGuideScreen}
+                  component={SafetyStackScreen}
                 />
               </Drawer.Navigator>
             ) : (

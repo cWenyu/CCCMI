@@ -46,7 +46,8 @@ const SurroundingsPhotoScreen = ({navigation, route}) => {
   const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#ffffff',
+      backgroundColor: colors.background,
+      // backgroundColor: '#ffffff',
     },
     titleStyle: {
       padding: 16,
@@ -327,7 +328,14 @@ const SurroundingsPhotoScreen = ({navigation, route}) => {
         titleStyle={{marginHorizontal: 22, fontSize: 18}}
       />
 
-        <Button title='skip' onPress={()=>navigation.navigate('SearchRiverScreen', {surveyData: route.params.surveyData})}/>
+      <Button
+        title="skip"
+        onPress={() =>
+          navigation.navigate('SearchRiverScreen', {
+            surveyData: route.params.surveyData,
+          })
+        }
+      />
 
       {dataSource.length > 0 && renderImageGallery()}
       {dataSource.length > 0 && renderDoneButton()}
