@@ -27,9 +27,12 @@ jobs:
         DEV_ENV_FILE: ${{ secrets.SERVER_ENV }}
       shell: bash
 
-    - name: checkout to folder
+    - name: Add Path
       run: |
           echo "export PATH=/home/runner/.local/bin:\$PATH" >> ~/.bashrc && source ~/.bashrc
+          
+    - name: checkout to folder
+      run: |
           cd Aquality_Two_Backend_Server
           sudo apt-get update -y
           pip3 install --upgrade pip awsebcli
