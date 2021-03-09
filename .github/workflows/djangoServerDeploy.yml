@@ -21,7 +21,7 @@ jobs:
       uses: BSFishy/pip-action@v1
       with:
         packages: |
-        awsebcli
+                  awsebcli
 
     - name: create .env file
       run: |
