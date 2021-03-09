@@ -30,11 +30,12 @@ jobs:
     - name: Add Path
       run: |
           echo "export PATH=/home/runner/.local/bin:\$PATH" >> ~/.bashrc && source ~/.bashrc
+          echo $PATH
           
     - name: checkout to folder
       run: |
           cd Aquality_Two_Backend_Server
           sudo apt-get update -y
-          pip3 install --upgrade pip awsebcli
+          pip install --upgrade pip awsebcli
           eb deploy
       shell: bash
