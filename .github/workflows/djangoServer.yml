@@ -1,12 +1,12 @@
 name: Django CI Workflow
 
-# on:
-#   pull_request:
-#     branches:
-#       - AqualityServer_Master
-#   push:
-#     branches:
-#       - AqualityServer_Master
+on:
+  pull_request:
+    branches:
+      - AqualityServer_Master
+  push:
+    branches:
+      - AqualityServer_Master
 
 # three job definition
 jobs:
