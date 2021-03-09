@@ -17,11 +17,12 @@ export default function GuideContent() {
       color: colors.text,
       textAlign: 'center',
     },
-    subTitle: {paddingBottom: 5, fontWeight: 'bold'},
+    subTitle: {paddingBottom: 5, fontWeight: 'bold', color: colors.text},
     contentWrap: {width: '96%'},
     content: {
       textAlign: 'justify',
       paddingBottom: 15,
+      color: colors.text,
     },
   });
 
