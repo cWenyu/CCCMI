@@ -6,11 +6,7 @@
   type="text/css"
   href="{% static 'aquality_admin/css/maps.css' %}"
 />
-<link
-  rel="stylesheet"
-  type="text/css"
-  href="{% static 'aquality_admin/css/side.css' %}"
-/>
+
 {% endblock head_css_section %} 
 {% block head_js %}    
     <script src="{% static 'aquality_admin/js/maps.js' %}"></script>
@@ -35,11 +31,27 @@
   </div>
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">If You See This, It must be Error</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id='ModelContent'>
+        If You See This, It must be Error
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock content %}
 
 {% block footer_javascript_section %}
 
-    <script src="{% static 'aquality_admin/js/side.js' %}"></script>
     <script
       src="https://maps.googleapis.com/maps/api/js?key={{map_api}}&callback=initMap&libraries=visualization"
       async
