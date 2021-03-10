@@ -181,9 +181,9 @@ const InsectScreen = ({navigation, route}) => {
           list: allInsect,
         },
       );
-      // console.log(response.data.object.score);
-      setScore(response.data.object.score);
-      saveScore(response.data.object.score);
+      console.log(response.data.object);
+      setScore(response.data.object.total_score);
+      saveScore(response.data.object.total_score);
     } catch (e) {
       console.error(e);
     }
