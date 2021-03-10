@@ -62,12 +62,12 @@ const OnboardingScreen2 = ({navigation}) => {
           image: (
             <Image
               source={require('../assets/recognizeinsect.gif')}
-              style={{height: 400, width: '100%', marginTop: -200}}
+              style={{height: 550, width: '100%', marginTop: -200}}
             />
           ),
           // title: 'Step 5',
           subtitle:
-            "Or analyse insects that you don't know with our AI recognition model.",
+            "Or analyse insects with our AI recognition model.",
         },
       ]}
     />
