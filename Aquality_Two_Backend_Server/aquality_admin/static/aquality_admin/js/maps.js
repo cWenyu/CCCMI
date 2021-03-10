@@ -14,7 +14,10 @@ async function getRiver(array){
     {
       river = data[i].sample_river;
       array.push({lat: river.latitude, lng : river.longitude})
+      data[i].coordinates = {lat: river.latitude, lng : river.longitude}
     }
+    console.log(data)
+    return data
 }
 
 //  
@@ -27,17 +30,21 @@ async function initMap() {
     const labels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     var locations = [];
-
-    await getRiver(locations);
+    var sampleDatas = await getRiver(locations);
     
-    console.log(locations)
 
-
-    markers = locations.map((location, i) => {
-        return new google.maps.Marker({
-          position: location,
-          label: labels[i % labels.length],
+    markers = sampleDatas.map((sampleData) => {
+        var infowindow = new google.maps.InfoWindow({
+          content:sampleData.sample_date
+        })
+        var marker =  new google.maps.Marker({
+          position: sampleData.coordinates,
+          title: sampleData.sample_user
         });
+        marker.addListener("click",()=>{
+          infowindow.open(map,marker);
+        })
+        return marker
       });
 
     const heatmapdata = locations.map((location) => {
