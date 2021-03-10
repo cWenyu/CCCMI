@@ -6,6 +6,11 @@
   type="text/css"
   href="{% static 'aquality_admin/css/maps.css' %}"
 />
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{% static 'aquality_admin/css/side.css' %}"
+/>
 {% endblock head_css_section %} 
 {% block head_js %}    
     <script src="{% static 'aquality_admin/js/maps.js' %}"></script>
@@ -29,9 +34,12 @@
     </div>
   </div>
 </div>
+
 {% endblock content %}
 
 {% block footer_javascript_section %}
+
+    <script src="{% static 'aquality_admin/js/side.js' %}"></script>
     <script
       src="https://maps.googleapis.com/maps/api/js?key={{map_api}}&callback=initMap&libraries=visualization"
       async
