@@ -2,7 +2,8 @@ var map;
 var ireland = { lat: 53.4624, lng: -7.6921 };
 
 async function getJSON(){
-  return fetch('https://cccmi-aquality.tk/aquality_server/samplerecord/?username=userzzz')
+  return fetch('/aquality_server/samplerecord/?username=userzzz')
+  // return fetch('https://cccmi-aquality.tk/aquality_server/samplerecord/?username=userzzz')
       .then((response)=>response.json())
       .then((responseJson)=>{return responseJson});
 };
