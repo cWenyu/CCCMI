@@ -1,4 +1,4 @@
-var map;
+var map,heatmap;
 var ireland = { lat: 53.4624, lng: -7.6921 };
 
 async function getJSON(){
@@ -43,13 +43,17 @@ async function initMap() {
     const heatmapdata = locations.map((location) => {
         return new google.maps.LatLng(location.lat,location.lng);
     });
-    var heatmap = new google.maps.visualization.HeatmapLayer({
-      data: heatmapdata
+    heatmap = new google.maps.visualization.HeatmapLayer({
+      data: heatmapdata,
+      map : map
     });
-    heatmap.setMap(map);
 
     new MarkerClusterer(map, markers, {
       imagePath:
         "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m",
     });
+}
+
+function toggleHeatmap() {
+  heatmap.setMap(heatmap.getMap() ? null : map);
 }
