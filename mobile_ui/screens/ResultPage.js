@@ -83,6 +83,7 @@ const resultPage = ({navigation, route}) => {
       sample_tmp: route.params.sensorData.temp,
       sample_river_id: route.params.riverData.river_id,
       sample_survey: route.params.surveyData,
+      sample_score: 0   //TEMPORILY
     }
 
     // set insect (selected + analysed)
