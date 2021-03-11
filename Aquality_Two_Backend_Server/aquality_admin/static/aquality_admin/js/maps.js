@@ -2,8 +2,8 @@ var map, heatmap, markerclusterer, markers;
 var ireland = { lat: 53.4624, lng: -7.6921 };
 
 async function getSampleRecordListJSON() {
-  // return fetch('/aquality_server/samplerecord/?username=userzzz')
-    return fetch('https://cccmi-aquality.tk/aquality_server/samplerecord/?username=userzzz')
+  return fetch('/aquality_server/samplerecord/?username=userzzz')
+    // return fetch('https://cccmi-aquality.tk/aquality_server/samplerecord/?username=userzzz')
     .then((response) => response.json())
     .then((responseJson) => { return responseJson });
 };
@@ -11,8 +11,8 @@ async function getSampleRecordListJSON() {
 async function getSampleRecordJSON(sample_id_in) {
   var bodyFormData = new FormData()
   bodyFormData.append('sample_id', sample_id_in)
-  // return fetch('/aquality_server/sampledetail',
-  return fetch('https://cccmi-aquality.tk/aquality_server/sampledetail',
+  return fetch('/aquality_server/sampledetail',
+  // return fetch('https://cccmi-aquality.tk/aquality_server/sampledetail',
     {
       method: 'POST',
       body: bodyFormData,
