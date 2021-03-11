@@ -1,64 +1,139 @@
-import React, {useState} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  Picker,
-  TextInput,
-} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {View, Text, StyleSheet, Image, TextInput} from 'react-native';
 import {Card, Button} from 'react-native-elements';
-
+import {Picker} from '@react-native-picker/picker';
 import {useTheme} from '@react-navigation/native';
+import axios from 'axios';
 
-const ReportProblem = ({navigation}) => {
+const ReportProblem = ({navigation, route}) => {
   const {colors} = useTheme();
-  const [selectedValue, setSelectedValue] = useState('insect');
+  const [problem, setProblem] = useState('0');
+  const [description, setDescription] = useState('');
+  const [image, setImage] = useState('');
+
+  useEffect(() => {
+    if (route.params?.insect_image) {
+      setImage(route.params.insect_image);
+      console.log(route.params);
+    }
+  });
+
+  const setDataForPost = async () => {
+    let sampleObj = {
+      report_image_path: route.params.insect_image,
+      report_problem: problem,
+      report_problem_description: description,
+    };
+
+    return sampleObj;
+  };
+
+  const postData = async ob => {
+    try {
+      var photo = {
+        uri: image,
+        type: 'image/jpeg',
+        name: 'photo.jpg',
+      };
+      var form = new FormData();
+      form.append('report_image_path', photo);
+      form.append('report_problem', problem);
+      form.append('report_problem_description', description);
+
+      let response = await axios({
+        method: 'post',
+        url: 'https://cccmi-aquality.tk/aquality_server/reportrecord/',
+        data: form,
+        headers: {'Content-Type': 'multipart/form-data'},
+      });
+
+      console.log(response);
+      console.log('data posted');
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const handleFinish = () => {
+    setDataForPost().then(ob => {
+      postData(ob);
+    });
+
+    navigation.navigate('AnalyzeInsect');
+
+    // setDataForPost().then(postData()).then(navigation.navigate('Home'));
+  };
 
   return (
     <View style={styles.container}>
-
       <Card containerStyle={{width: '90%'}}>
-        
-        <Image source={require('../assets/insects/ecdyonurus.jpg')} style={{width: '100%', height: '50%', alignSelf: 'center'}}/>
+        <Image
+          source={{
+            uri: route.params.insect_image,
+          }}
+          style={{width: '100%', height: '50%', alignSelf: 'center'}}
+        />
         <Card.Divider />
-        <Text><Text>Insect Name: </Text><Text style={{fontWeight: "bold"}}>Caenis</Text></Text>
-        <Text><Text>Count: </Text><Text style={{fontWeight: "bold"}}>2</Text></Text>
+        <Text>
+          <Text>Insect Name: </Text>
+          <Text style={{fontWeight: 'bold'}}>{route.params.insect_name}</Text>
+        </Text>
+        <Text>
+          <Text>Count: </Text>
+          <Text style={{fontWeight: 'bold'}}>{route.params.count}</Text>
+        </Text>
         <Card.Divider />
-      <Text style={{fontSize: 18}}>What went wrong? Choose the reason:</Text>
 
-      <Picker
-        selectedValue={selectedValue}
-        style={{height: 50, width: 300}}
-        onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}>
-        {/* <Picker.Item label="Choose one ..." value="default"/> */}
-        <Picker.Item label="The insect name is wrong." value="insect" />
-        <Picker.Item label="The count is wrong." value="count" />
-        <Picker.Item label="Some bug." value="bug" />
-      </Picker>
+        <Text style={{fontSize: 18}}>What went wrong? Choose the reason:</Text>
 
-      <Button
-        title="Send feedback"
-        onPress={() => {
-          // sampleData.push({"river": JSON.stringify(route.params.data)}) //here
-          navigation.navigate('AnalyzeInsect');
-          // storeData(route.params.data);
-        }}
-        buttonStyle={{ width: 360, height: 50, backgroundColor: "blue", borderRadius: 5, }}
-          containerStyle={{ margin: 5, alignItems: "center", marginTop: 35 }}
+        <Picker
+          selectedValue={problem}
+          onValueChange={(itemValue, itemIndex) => setProblem(itemValue)}>
+          <Picker.Item label="Choose a reason:" value="0" />
+          <Picker.Item
+            label="The insect name is wrong."
+            value="wrong insect name"
+          />
+          <Picker.Item label="Other bugs." value="other" />
+        </Picker>
+
+        <TextInput
+          style={{
+            height: '10%',
+            width: '100%',
+            borderWidth: 1,
+            textAlignVertical: 'top',
+          }}
+          placeholder="Describe the problem."
+          onChangeText={text => setDescription(text)}
+          defaultValue={description}
+          multiline={true}
+        />
+
+        <Button
+          title="Send feedback"
+          onPress={() => {
+            handleFinish();
+          }}
+          buttonStyle={{
+            width: 360,
+            height: 50,
+            backgroundColor: 'blue',
+            borderRadius: 5,
+          }}
+          containerStyle={{margin: 5, alignItems: 'center', marginTop: 35}}
           disabledStyle={{
             borderWidth: 2,
-            borderColor: "#00F"
+            borderColor: '#00F',
           }}
-          disabledTitleStyle={{ color: "#00F" }}
+          disabledTitleStyle={{color: '#00F'}}
           linearGradientProps={null}
-          loadingProps={{ animating: true }}
+          loadingProps={{animating: true}}
           loadingStyle={{}}
           titleProps={{}}
-          titleStyle={{ marginHorizontal: 22, fontSize: 18 }}
-      />
+          titleStyle={{marginHorizontal: 22, fontSize: 18}}
+        />
       </Card>
-      
     </View>
   );
 };

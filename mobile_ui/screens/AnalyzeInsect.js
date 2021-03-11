@@ -287,7 +287,7 @@ const AnalyzeScreen = ({navigation}) => {
             <TouchableOpacity
               onPress={() => {
                 setModalVisible(!modalVisible);
-                navigation.navigate('ReportProblem');
+                navigation.navigate('ReportProblem', {insect_image: image, insect_name: detectedInsect, count: count});
               }}>
               <Text style={{textDecorationLine: 'underline'}}>
                 Having problem?
