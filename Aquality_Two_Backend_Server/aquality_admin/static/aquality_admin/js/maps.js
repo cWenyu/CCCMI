@@ -12,13 +12,13 @@ async function getSampleRecordJSON(sample_id_in) {
   var bodyFormData = new FormData()
   bodyFormData.append('sample_id', sample_id_in)
   return fetch('/aquality_server/sampledetail',
+  // return fetch('https://cccmi-aquality.tk/aquality_server/sampledetail',
     {
       method: 'POST',
       body: bodyFormData,
 
     }
   )
-    // return fetch('https://cccmi-aquality.tk/aquality_server/samplerecord/?username=userzzz')
     .then((response) => response.json())
     .then((responseJson) => { return responseJson });
 }
