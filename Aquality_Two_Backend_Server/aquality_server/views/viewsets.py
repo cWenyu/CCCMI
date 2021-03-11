@@ -150,3 +150,8 @@ class RiverEnvironmentImageViewSet(viewsets.ModelViewSet):
         except status.HTTP_400_BAD_REQUEST:
             pass
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class ReportProblemRecordViewSet(viewsets.ModelViewSet):
+    queryset = ReportProblemRecord.objects.all()
+    serializer_class = ReportProblemRecordSerializer
