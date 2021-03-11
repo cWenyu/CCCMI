@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import River, Data, LoginAccount, UserAccount, Insect, InsectGroup, SampleRecord, \
-    SampleRecordInsectDetail, User,AllInsectUserUpload, RiverEnvironmentImage
+    SampleRecordInsectDetail, User,AllInsectUserUpload, RiverEnvironmentImage, ReportProblemRecord
 
 
 class RiverSerializer(serializers.HyperlinkedModelSerializer):
@@ -78,3 +78,8 @@ class SampleRecordInsectDetailSerializer(serializers.HyperlinkedModelSerializer)
     class Meta:
         model = SampleRecordInsectDetail
         fields = ('sample_record_data', 'sample_record_insect', 'insect_number')
+
+class ReportProblemRecordSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = ReportProblemRecord
+        fields = ('report_id','report_image_path','report_problem','report_problem_description')

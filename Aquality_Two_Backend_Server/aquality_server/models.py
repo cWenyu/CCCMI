@@ -107,3 +107,9 @@ class RiverEnvironmentImage(models.Model):
     river_id = models.AutoField(primary_key=True)
     sample_record_data = models.ForeignKey(SampleRecord,on_delete=models.CASCADE)
     river_image_path = models.ImageField(upload_to='river-environment-img', null=True)
+    
+class ReportProblemRecord(models.Model):
+    report_id = models.AutoField(primary_key=True)
+    report_image_path = models.ImageField(upload_to='report-insect-img',null=True)
+    report_problem = models.CharField(max_length=200)
+    report_problem_description = models.TextField()
