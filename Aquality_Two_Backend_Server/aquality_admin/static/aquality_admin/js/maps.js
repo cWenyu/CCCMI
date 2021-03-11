@@ -15,7 +15,7 @@ async function getSampleRecordJSON(sample_id_in) {
     {
       method: 'POST',
       body: bodyFormData,
-      
+
     }
   )
     // return fetch('https://cccmi-aquality.tk/aquality_server/samplerecord/?username=userzzz')
@@ -101,6 +101,9 @@ function toggleHeatmap() {
 }
 
 async function setModel(sample_id) {
-    var sampleDetail = await getSampleRecordJSON(sample_id)
-    document.getElementById('ModelContent').innerHTML =JSON.stringify(sampleDetail)
+  var sampleDetail = await getSampleRecordJSON(sample_id)
+  const tree = JsonView.createTree(sampleDetail);
+  JsonView.render(tree, document.querySelector('#ModalContent'));
+  JsonView.expandChildren(tree);
+  document.querySelector('#ModalLabel').innerHTML= ("Sampling Detail for ID "+sample_id)
 }
