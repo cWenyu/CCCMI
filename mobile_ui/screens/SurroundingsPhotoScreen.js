@@ -304,6 +304,19 @@ const SurroundingsPhotoScreen = ({navigation, route}) => {
     return surveyPhotosObj;
   };
 
+  const renderSkipButton = () => {
+    return (
+      <Button
+        title="skip"
+        onPress={() =>
+          navigation.navigate('SearchRiverScreen', {
+            surveyData: route.params.surveyData,
+          })
+        }
+      />
+    );
+  };
+
   return (
     <View style={styles.container}>
       <Button
@@ -328,17 +341,9 @@ const SurroundingsPhotoScreen = ({navigation, route}) => {
         titleStyle={{marginHorizontal: 22, fontSize: 18}}
       />
 
-      <Button
-        title="skip"
-        onPress={() =>
-          navigation.navigate('SearchRiverScreen', {
-            surveyData: route.params.surveyData,
-          })
-        }
-      />
-
       {dataSource.length > 0 && renderImageGallery()}
       {dataSource.length > 0 && renderDoneButton()}
+      {dataSource.length == 0 && renderSkipButton()}
     </View>
   );
 };
