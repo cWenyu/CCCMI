@@ -337,7 +337,7 @@ const SurroundingsPhotoScreen = ({ navigation, route }) => {
     return (
       <Button
         buttonStyle={{ width: 95, height: 35, backgroundColor: colors.backdrop }}
-        containerStyle={{ margin: 5, alignItems: 'center', position: 'absolute', alignSelf: 'center', top: 480}}
+        containerStyle={{ margin: 5, alignItems: 'center', position: 'absolute', alignSelf: 'center', top: 400}}
         disabledStyle={{
           borderWidth: 2,
           borderColor: '#00F',
