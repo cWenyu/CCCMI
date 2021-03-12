@@ -18,6 +18,13 @@ import GetLocation from 'react-native-get-location';
 import { FlatList } from 'react-native-gesture-handler';
 import { color } from 'react-native-reanimated';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
+import {
+  resetSurveyForm,
+  updateSelectionHandlers,
+  updateQIndex,
+  updateAnswers,
+} from '../components/reduxStore';
+import {useDispatch} from 'react-redux';
 
 const riverURL = 'https://cccmi-aquality.tk/aquality_server/rivers/';
 
@@ -35,6 +42,7 @@ const SearchRiverScreen = ({ navigation, route }) => {
     longitude: undefined,
   });
   const [data, setData] = useState([]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     //get Location Permission, get location and set location
@@ -47,7 +55,28 @@ const SearchRiverScreen = ({ navigation, route }) => {
       console.log(JSON.stringify(route.params));
     }
     requestLocationPermission();
+
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, [route.params?.surveyData]);
+
+  const backAction = () => {
+    Alert.alert("Hold on!", "Go back to Home will not save your proccess of taking sample.", [
+      {
+        text: "Cancel",
+        onPress: () => null,
+        style: "cancel"
+      },
+      { text: "BACK", onPress: () => {
+        dispatch(resetSurveyForm());
+        navigation.navigate('SurveyPage');
+        navigation.navigate('HomeScreen');
+      }, }
+    ]);
+    return true;
+  };
 
   /**
    * @function requestLocationPermission

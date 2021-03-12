@@ -1,11 +1,19 @@
 import React, {useState} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, Alert, BackHandler,} from 'react-native';
 import {ListItem, Button} from 'react-native-elements';
 import {useTheme} from '@react-navigation/native';
 import testVariables from '../appium_automation_testing/test_variables';
 import AsyncStorage from '@react-native-community/async-storage';
+import {
+  resetSurveyForm,
+  updateSelectionHandlers,
+  updateQIndex,
+  updateAnswers,
+} from '../components/reduxStore';
+import {useDispatch} from 'react-redux';
 
 const SearchRiverScreen2 = ({navigation, route}) => {
+  const dispatch = useDispatch();
   const {colors} = useTheme();
   const [sampleData, setSampleData] = useState([]);
 
@@ -29,7 +37,27 @@ const SearchRiverScreen2 = ({navigation, route}) => {
     if(route.params?.surveyData) {
       console.log(JSON.stringify(route.params));
     }
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, [route.params?.surveyData])
+
+  const backAction = () => {
+    Alert.alert("Hold on!", "Go back to Home will not save your proccess of taking sample.", [
+      {
+        text: "Cancel",
+        onPress: () => null,
+        style: "cancel"
+      },
+      { text: "BACK", onPress: () => {
+        dispatch(resetSurveyForm());
+        navigation.navigate('SurveyPage');
+        navigation.navigate('HomeScreen');
+      }, }
+    ]);
+    return true;
+  };
 
   const storeData = async value => {
     try {

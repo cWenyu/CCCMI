@@ -1,4 +1,4 @@
-import React, {useRef, useEffect, useState} from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -9,27 +9,35 @@ import {
   Modal,
   useWindowDimensions,
   Alert,
+  BackHandler,
 } from 'react-native';
-import {useTheme} from '@react-navigation/native';
-import {Button} from 'react-native-elements';
+import { useTheme } from '@react-navigation/native';
+import { Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
 import FastImage from 'react-native-fast-image';
-import {Colors, Button as PaperBtn} from 'react-native-paper';
+import { Colors, Button as PaperBtn } from 'react-native-paper';
 import ImagePicker from 'react-native-image-crop-picker';
 import AsyncStorage from '@react-native-community/async-storage';
+import {
+  resetSurveyForm,
+  updateSelectionHandlers,
+  updateQIndex,
+  updateAnswers,
+} from '../components/reduxStore';
+import { useDispatch } from 'react-redux';
 
-const SurroundingsPhotoScreen = ({navigation, route}) => {
+const SurroundingsPhotoScreen = ({ navigation, route }) => {
   useEffect(() => {
     if (route.params?.surveyData) {
       console.log(JSON.stringify(route.params));
     }
   }, [route.params?.surveyData]);
-
-  const {colors} = useTheme();
+  const dispatch = useDispatch();
+  const { colors } = useTheme();
   const [dataSource, setDataSource] = useState([]);
-  const [image, setImage] = useState({url: '', index: 0});
+  const [image, setImage] = useState({ url: '', index: 0 });
   const [modalVisibleStatus, setModalVisibleStatus] = useState(false);
-  const [surveyPhoto, setSurveyPhoto] = useState({surveyPhotos: []});
+  const [surveyPhoto, setSurveyPhoto] = useState({ surveyPhotos: [] });
   const [buttonStyle, setButtonStyle] = useState({
     flex: 1,
     margin: null,
@@ -106,7 +114,28 @@ const SurroundingsPhotoScreen = ({navigation, route}) => {
         alertPageInfo();
       }
     });
+
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
+
+  const backAction = () => {
+    Alert.alert("Hold on!", "Go back to Home will not save your proccess of taking sample.", [
+      {
+        text: "Cancel",
+        onPress: () => null,
+        style: "cancel"
+      },
+      { text: "BACK", onPress: () => {
+        dispatch(resetSurveyForm());
+        navigation.navigate('SurveyPage');
+        navigation.navigate('HomeScreen');
+      }, }
+    ]);
+    return true;
+  };
 
   const updateButtonStyles = len => {
     if (len > 0) {
@@ -146,7 +175,7 @@ const SurroundingsPhotoScreen = ({navigation, route}) => {
     Alert.alert(
       'Page Information',
       'Record surrounding environment by taking photos,' +
-        'you can view the image by clicking it in image gallery then delete it or keep it.',
+      'you can view the image by clicking it in image gallery then delete it or keep it.',
       [
         {
           text: 'Read it later',
@@ -199,7 +228,7 @@ const SurroundingsPhotoScreen = ({navigation, route}) => {
   };
 
   const showModalFunction = (visible, imageURL, index) => {
-    setImage({url: imageURL, index: index});
+    setImage({ url: imageURL, index: index });
     setModalVisibleStatus(visible);
   };
 
@@ -207,72 +236,72 @@ const SurroundingsPhotoScreen = ({navigation, route}) => {
     let type = [];
     modalVisibleStatus
       ? type.push(
-          <Modal
-            transparent={false}
-            animationType={'fade'}
-            visible={modalVisibleStatus}
-            onRequestClose={() => {
-              showModalFunction(!modalVisibleStatus, '', -1);
-            }}>
-            <View style={styles.modelStyle}>
-              <FastImage
-                style={styles.fullImageStyle}
-                source={{uri: image.url}}
-                resizeMode={FastImage.resizeMode.contain}
-              />
-            </View>
-            <View
-              style={{
-                flex: 1,
-                flexDirection: 'row',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <PaperBtn
-                icon="check-circle"
-                color={Colors.green500}
-                size={20}
-                onPress={() => showModalFunction(!modalVisibleStatus, '', -1)}>
-                Accept
-              </PaperBtn>
-              <PaperBtn
-                icon="close-circle"
-                color={Colors.red500}
-                size={20}
-                onPress={() => deleteImage(image.index, !modalVisibleStatus)}>
-                Delete
-              </PaperBtn>
-            </View>
-          </Modal>,
-        )
-      : type.push(
-          <View style={styles.container}>
-            <Text style={styles.titleStyle}>Image Gallery</Text>
-            <FlatList
-              data={dataSource}
-              renderItem={({item, index}) => (
-                <View style={styles.imageContainerStyle}>
-                  <TouchableOpacity
-                    key={index}
-                    style={{flex: 1}}
-                    onPress={() => {
-                      showModalFunction(true, item, index);
-                    }}>
-                    <FastImage
-                      style={styles.imageStyle}
-                      source={{
-                        uri: item,
-                      }}
-                    />
-                  </TouchableOpacity>
-                </View>
-              )}
-              //Setting the number of column
-              numColumns={3}
-              keyExtractor={(item, index) => index.toString()}
+        <Modal
+          transparent={false}
+          animationType={'fade'}
+          visible={modalVisibleStatus}
+          onRequestClose={() => {
+            showModalFunction(!modalVisibleStatus, '', -1);
+          }}>
+          <View style={styles.modelStyle}>
+            <FastImage
+              style={styles.fullImageStyle}
+              source={{ uri: image.url }}
+              resizeMode={FastImage.resizeMode.contain}
             />
-          </View>,
-        );
+          </View>
+          <View
+            style={{
+              flex: 1,
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <PaperBtn
+              icon="check-circle"
+              color={Colors.green500}
+              size={20}
+              onPress={() => showModalFunction(!modalVisibleStatus, '', -1)}>
+              Accept
+              </PaperBtn>
+            <PaperBtn
+              icon="close-circle"
+              color={Colors.red500}
+              size={20}
+              onPress={() => deleteImage(image.index, !modalVisibleStatus)}>
+              Delete
+              </PaperBtn>
+          </View>
+        </Modal>,
+      )
+      : type.push(
+        <View style={styles.container}>
+          <Text style={styles.titleStyle}>Image Gallery</Text>
+          <FlatList
+            data={dataSource}
+            renderItem={({ item, index }) => (
+              <View style={styles.imageContainerStyle}>
+                <TouchableOpacity
+                  key={index}
+                  style={{ flex: 1 }}
+                  onPress={() => {
+                    showModalFunction(true, item, index);
+                  }}>
+                  <FastImage
+                    style={styles.imageStyle}
+                    source={{
+                      uri: item,
+                    }}
+                  />
+                </TouchableOpacity>
+              </View>
+            )}
+            //Setting the number of column
+            numColumns={3}
+            keyExtractor={(item, index) => index.toString()}
+          />
+        </View>,
+      );
     return type;
   };
 
@@ -280,9 +309,9 @@ const SurroundingsPhotoScreen = ({navigation, route}) => {
     return (
       <Button
         title="Done"
-        buttonStyle={{paddingHorizontal: FOOTER_PADDING}}
+        buttonStyle={{ paddingHorizontal: FOOTER_PADDING }}
         titleProps={{}}
-        titleStyle={{marginHorizontal: 22, fontSize: 16}}
+        titleStyle={{ marginHorizontal: 22, fontSize: 16 }}
         buttonStyle={styles.submitButton}
         onPress={() => {
           storePhotoGallery().then(surveyPhotosObj => {
@@ -330,15 +359,15 @@ const SurroundingsPhotoScreen = ({navigation, route}) => {
           borderWidth: 2,
           borderColor: '#00F',
         }}
-        disabledTitleStyle={{color: '#00F'}}
+        disabledTitleStyle={{ color: '#00F' }}
         linearGradientProps={null}
         icon={<Icon name="camera" size={19} color="#0FF" />}
-        iconContainerStyle={{background: '#000'}}
-        loadingProps={{animating: true}}
+        iconContainerStyle={{ background: '#000' }}
+        loadingProps={{ animating: true }}
         loadingStyle={{}}
         onPress={() => requestCameraPermission()}
         title="Upload Image"
-        titleStyle={{marginHorizontal: 22, fontSize: 18}}
+        titleStyle={{ marginHorizontal: 22, fontSize: 18 }}
       />
 
       {dataSource.length > 0 && renderImageGallery()}

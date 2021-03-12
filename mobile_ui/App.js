@@ -406,6 +406,34 @@ const App = () => {
             headerTitleStyle: {
               fontWeight: 'bold',
             },
+            headerRight: () => (
+              <Icon.Button
+                name="ios-home"
+                size={25}
+                backgroundColor="#009387"
+                onPress={() =>
+                  Alert.alert(
+                    'Hold on!',
+                    'Go back to Home will not save your proccess of taking sample.',
+                    [
+                      {
+                        text: 'Cancel',
+                        onPress: () => null,
+                        style: 'cancel',
+                      },
+                      {
+                        text: 'BACK',
+                        onPress: () => {
+                          dispatch(resetSurveyForm());
+                          navigation.navigate('SurveyPage');
+                          navigation.navigate('HomeScreen');
+                        },
+                      },
+                    ],
+                  )
+                }
+              />
+            ),
           }}
         />
 

@@ -1,11 +1,19 @@
 import testVariables from '../appium_automation_testing/test_variables';
 import React, {useEffect} from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text,  Alert, BackHandler, } from 'react-native';
 import { useFocusEffect, useTheme } from '@react-navigation/native';
 import { ListItem, Button } from 'react-native-elements';
 import axios from 'axios';
+import {
+  resetSurveyForm,
+  updateSelectionHandlers,
+  updateQIndex,
+  updateAnswers,
+} from '../components/reduxStore';
+import {useDispatch} from 'react-redux';
 
 const ArduinoScreen2 = ({ navigation, route }) => {
+  const dispatch = useDispatch();
   const { colors } = useTheme();
   // const {arduino_id, temp, ph, longitude, latitude, date_captured} = route.params;
 
@@ -69,7 +77,27 @@ const ArduinoScreen2 = ({ navigation, route }) => {
   useEffect(() => {
     getData()
     console.log(route.params);
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
+
+  const backAction = () => {
+    Alert.alert("Hold on!", "Go back to Home will not save your proccess of taking sample.", [
+      {
+        text: "Cancel",
+        onPress: () => null,
+        style: "cancel"
+      },
+      { text: "BACK", onPress: () => {
+        dispatch(resetSurveyForm());
+        navigation.navigate('SurveyPage');
+        navigation.navigate('HomeScreen');
+      }, }
+    ]);
+    return true;
+  };
 
   useFocusEffect(
     React.useCallback(() => {

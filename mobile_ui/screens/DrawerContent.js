@@ -95,7 +95,7 @@ export function DrawerContent(props) {
               )}
               label="Home"
               onPress={() => {
-                props.navigation.navigate('HomeScreen');
+                props.navigation.navigate('Home');
               }}
             />
             {/* <DrawerItem

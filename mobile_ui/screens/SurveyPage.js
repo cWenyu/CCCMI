@@ -800,7 +800,7 @@ class SurveyScreen extends Component {
   }
 
   backAction = () => {
-    if (!this.props.navigation.isFocused()) {
+    if (this.props.navigation.isFocused()) {
       // The screen is not focused, so don't do anything
       // return false;
       Alert.alert(
@@ -816,31 +816,14 @@ class SurveyScreen extends Component {
             text: 'BACK',
             onPress: () => {
               this.props.resetSurveyForm();
-              this.props.navigation.popToTop();
+              //this.props.navigation.popToTop();
               this.props.navigation.navigate('HomeScreen');
             },
           },
         ],
       );
     } else {
-      Alert.alert(
-        'Hold on!',
-        'Go back to Home will not save your proccess of taking sample.',
-        [
-          {
-            text: 'Cancel',
-            onPress: () => null,
-            style: 'cancel',
-          },
-          {
-            text: 'BACK',
-            onPress: () => {
-              this.props.resetSurveyForm();
-              this.props.navigation.navigate('HomeScreen');
-            },
-          },
-        ],
-      );
+      this.props.navigation.navigate('HomeScreen');
     }
     return true;
   };

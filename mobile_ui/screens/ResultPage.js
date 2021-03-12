@@ -2,7 +2,7 @@ import React from 'react';
 import {useEffect} from 'react';
 import {useState} from 'react';
 import {useTheme} from '@react-navigation/native';
-import {Text, View, Image, StyleSheet, ScrollView, Alert} from 'react-native';
+import {Text, View, Image, StyleSheet, ScrollView, Alert, BackHandler} from 'react-native';
 import {Button, colors, ListItem} from 'react-native-elements';
 import AsyncStorage from '@react-native-community/async-storage';
 import testVariables from '../appium_automation_testing/test_variables';
@@ -405,8 +405,17 @@ const resultPage = ({navigation, route}) => {
     if (route.params) {
       console.log(JSON.stringify(route.params));
     }
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
 
   }, []);
+
+  const backAction = () => {
+    navigation.goBack();
+    return true;
+  };
 
   return (
     <View>

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -6,12 +6,13 @@ import {
   ScrollView,
   StyleSheet,
   TouchableOpacity,
+  BackHandler,
 } from 'react-native';
-import {Button, SearchBar} from 'react-native-elements';
+import { Button, SearchBar } from 'react-native-elements';
 import testVariables from '../appium_automation_testing/test_variables';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {useTheme} from '@react-navigation/native';
+import { useTheme } from '@react-navigation/native';
 import AsyncStorage from '@react-native-community/async-storage';
 
 let riverNameList = [];
@@ -24,8 +25,8 @@ let url = 'https://cccmi-aquality.tk/aquality_server/samplerecord/?username=';
  * @description Sample History Screen component
  * @return {SampleHistoryScreen}
  */
-const SampleHistoryScreen = ({navigation}) => {
-  const {colors} = useTheme();
+const SampleHistoryScreen = ({ navigation }) => {
+  const { colors } = useTheme();
   // const [userName, setUserName] = useState('');
   const [isLoading, setLoading] = useState(true);
   const [filterType, setFilterType] = useState('All');
@@ -37,10 +38,16 @@ const SampleHistoryScreen = ({navigation}) => {
   useEffect(
     React.useCallback(() => {
       const interval = setInterval(() => checkThemeForSearch());
-      return () => clearInterval(interval);
+      BackHandler.addEventListener("hardwareBackPress", backAction);
+
+      return () => { clearInterval(interval), BackHandler.removeEventListener("hardwareBackPress", backAction) };
     }, []),
   );
 
+  const backAction = () => {
+    navigation.goBack();
+    return true;
+  };
   // const [historyData, setHistoryData] = useState([]);
 
   const styles = StyleSheet.create({
@@ -262,21 +269,21 @@ const SampleHistoryScreen = ({navigation}) => {
           testID={testVariables.sampleHistorySearchedSample}
           title={el.river_name.toString()}
           onPress={() => selectResult(el.river_id)}
-          buttonStyle={{width: 270, height: 50, backgroundColor: '#02ab9e'}}
-          containerStyle={{margin: 5, alignItems: 'center', marginTop: 20}}
+          buttonStyle={{ width: 270, height: 50, backgroundColor: '#02ab9e' }}
+          containerStyle={{ margin: 5, alignItems: 'center', marginTop: 20 }}
           disabledStyle={{
             borderWidth: 2,
             borderColor: '#00F',
           }}
-          disabledTitleStyle={{color: '#00F'}}
+          disabledTitleStyle={{ color: '#00F' }}
           linearGradientProps={null}
-          loadingProps={{animating: true}}
+          loadingProps={{ animating: true }}
           loadingStyle={{}}
           icon={<Icon name="folder-outline" size={19} color="#0FF" />}
-          iconContainerStyle={{background: '#000'}}
+          iconContainerStyle={{ background: '#000' }}
           key={el.river_id}
           titleProps={{}}
-          titleStyle={{marginHorizontal: 22, fontSize: 18}}
+          titleStyle={{ marginHorizontal: 22, fontSize: 18 }}
         />,
       );
     });
@@ -304,7 +311,7 @@ const SampleHistoryScreen = ({navigation}) => {
       );
     }
 
-    navigation.navigate('HistoryList', {data: select});
+    navigation.navigate('HistoryList', { data: select });
   };
 
   /**

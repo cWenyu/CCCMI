@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -10,22 +10,25 @@ import {
   Image,
   ActivityIndicator,
   ScrollView,
+  Alert,
+  BackHandler,
 } from 'react-native';
-import {Button} from 'react-native-elements';
-import {useTheme} from 'react-native-paper';
+import { Button } from 'react-native-elements';
+import { useTheme } from 'react-native-paper';
 import axios from 'axios';
 import BottomSheet from 'reanimated-bottom-sheet';
 import Animated from 'react-native-reanimated';
 import Icon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
 import ImagePicker from 'react-native-image-crop-picker';
 import testVariables from '../appium_automation_testing/test_variables';
-import {TextInput} from 'react-native-gesture-handler';
+import { TextInput } from 'react-native-gesture-handler';
 
-const AnalyzeScreen = ({navigation}) => {
+
+const AnalyzeScreen = ({ navigation }) => {
   const [image, setImage] = useState(
     'https://cdn3.iconfinder.com/data/icons/ios-and-android-solid-icons-vol-1/64/014-512.png',
   );
-  const {colors} = useTheme();
+  const { colors } = useTheme();
   const bs = React.createRef();
   const fall = new Animated.Value(1);
   const [modalVisible, setModalVisible] = useState(false);
@@ -37,7 +40,16 @@ const AnalyzeScreen = ({navigation}) => {
 
   useEffect(() => {
     requestCameraPermission();
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
   });
+  
+  const backAction = () => {
+    navigation.goBack();
+    return true;
+  };
 
   const requestCameraPermission = async () => {
     try {
@@ -102,7 +114,7 @@ const AnalyzeScreen = ({navigation}) => {
         method: 'post',
         url: 'https://aquality2.nw.r.appspot.com/ai_model/detect_image/',
         data: form,
-        headers: {'Content-Type': 'multipart/form-data'},
+        headers: { 'Content-Type': 'multipart/form-data' },
       });
 
       if (response) {
@@ -132,7 +144,7 @@ const AnalyzeScreen = ({navigation}) => {
       style={styles.panel}
       accessibilityLabel={testVariables.analysisInsectInnerView}
       testID={testVariables.analysisInsectInnerView}>
-      <View style={{alignItems: 'center'}}>
+      <View style={{ alignItems: 'center' }}>
         <Text style={styles.panelTitle}>Upload Photo</Text>
         <Text style={styles.panelSubtitle}>Choose Your Profile Picture</Text>
       </View>
@@ -199,13 +211,13 @@ const AnalyzeScreen = ({navigation}) => {
       let comp = [];
       comp.push(
         <Text
-          style={{alignSelf: 'flex-start', fontWeight: 'bold', fontSize: 20}}>
+          style={{ alignSelf: 'flex-start', fontWeight: 'bold', fontSize: 20 }}>
           Analysed Insects:
         </Text>,
       );
       insectList.map(item => {
         comp.push(
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <Image
               style={styles.tinyLogo}
               source={{
@@ -254,42 +266,42 @@ const AnalyzeScreen = ({navigation}) => {
         animationType="slide"
         transparent={true}
         visible={modalVisible}
-        onRequestClose={() => {}}>
+        onRequestClose={() => { }}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-          <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
-              <Text style={{fontWeight: 'bold'}}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+              <Text style={{ fontWeight: 'bold' }}>
                 Insect Name:
               </Text>
-              <TextInput value={detectedInsect} onChangeText={text => setDetectedInsect(text)}/>
+              <TextInput value={detectedInsect} onChangeText={text => setDetectedInsect(text)} />
             </View>
-            <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
-              <Text style={{fontWeight: 'bold'}}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+              <Text style={{ fontWeight: 'bold' }}>
                 Count:
               </Text>
-              <TextInput value={count} onChangeText={text => setCount(text)} keyboardType='numeric'/>
+              <TextInput value={count} onChangeText={text => setCount(text)} keyboardType='numeric' />
             </View>
-            
+
             {/* <Text style={{fontWeight: 'bold', alignSelf: 'flex-start'}}>Confidence: {confidence}</Text> */}
             <Button
               title="Confirm"
               onPress={() => handleConfirm()}
-              buttonStyle={{backgroundColor: 'green', margin: 5}}
+              buttonStyle={{ backgroundColor: 'green', margin: 5 }}
             />
 
-            <View style={{flexDirection: 'row'}}>
+            <View style={{ flexDirection: 'row' }}>
               <Button
                 title="Cancel"
                 onPress={() => setModalVisible(!modalVisible)}
-                buttonStyle={{backgroundColor: 'red', margin: 5}}
+                buttonStyle={{ backgroundColor: 'red', margin: 5 }}
               />
             </View>
             <TouchableOpacity
               onPress={() => {
                 setModalVisible(!modalVisible);
-                navigation.navigate('ReportProblem', {insect_image: image, insect_name: detectedInsect, count: count});
+                navigation.navigate('ReportProblem', { insect_image: image, insect_name: detectedInsect, count: count });
               }}>
-              <Text style={{textDecorationLine: 'underline'}}>
+              <Text style={{ textDecorationLine: 'underline' }}>
                 Having problem?
               </Text>
             </TouchableOpacity>
@@ -310,7 +322,7 @@ const AnalyzeScreen = ({navigation}) => {
           margin: 20,
           opacity: Animated.add(0.1, Animated.multiply(fall, 1.0)),
         }}>
-        <View style={{alignItems: 'center', marginTop: 20}}>
+        <View style={{ alignItems: 'center', marginTop: 20 }}>
           <TouchableOpacity
             accessibilityLabel={testVariables.analysisInsectShowOptions}
             testID={testVariables.analysisInsectShowOptions}
@@ -329,8 +341,8 @@ const AnalyzeScreen = ({navigation}) => {
                 source={{
                   uri: image,
                 }}
-                style={{height: 150, width: 150}}
-                imageStyle={{borderRadius: 80}}>
+                style={{ height: 150, width: 150 }}
+                imageStyle={{ borderRadius: 80 }}>
                 <View
                   style={{
                     flex: 1,
@@ -351,8 +363,8 @@ const AnalyzeScreen = ({navigation}) => {
             uploadImage();
           }}
           titleProps={{}}
-          titleStyle={{marginHorizontal: 22, fontSize: 18}}
-          buttonStyle={{width: 270, height: 50, backgroundColor: '#625D52'}}
+          titleStyle={{ marginHorizontal: 22, fontSize: 18 }}
+          buttonStyle={{ width: 270, height: 50, backgroundColor: '#625D52' }}
           containerStyle={{
             margin: 5,
             alignItems: 'center',
@@ -363,11 +375,11 @@ const AnalyzeScreen = ({navigation}) => {
             borderWidth: 2,
             borderColor: '#00F',
           }}
-          disabledTitleStyle={{color: '#00F'}}
+          disabledTitleStyle={{ color: '#00F' }}
           linearGradientProps={null}
           icon={<Icon name="cloud-upload" size={19} color="#FAF9F7" />}
-          iconContainerStyle={{background: '#000'}}
-          loadingProps={{animating: true}}
+          iconContainerStyle={{ background: '#000' }}
+          loadingProps={{ animating: true }}
           loadingStyle={{}}
           accessibilityLabel={testVariables.analysisInsectUploadedPhotoButton}
           testID={testVariables.analysisInsectUploadedPhotoButton}
@@ -376,7 +388,7 @@ const AnalyzeScreen = ({navigation}) => {
       <Button
         title="Done"
         titleProps={{}}
-        titleStyle={{marginHorizontal: 22, fontSize: 16}}
+        titleStyle={{ marginHorizontal: 22, fontSize: 16 }}
         buttonStyle={{
           backgroundColor: '#3fa24f',
           height: 40,
@@ -395,9 +407,9 @@ const AnalyzeScreen = ({navigation}) => {
           borderWidth: 2,
           borderColor: '#00F',
         }}
-        disabledTitleStyle={{color: '#00F'}}
+        disabledTitleStyle={{ color: '#00F' }}
         linearGradientProps={null}
-        loadingProps={{animating: true}}
+        loadingProps={{ animating: true }}
         loadingStyle={{}}
         accessibilityLabel={testVariables.analysisInsectSaveButton}
         testID={testVariables.analysisInsectSaveButton}
@@ -426,7 +438,7 @@ const styles = StyleSheet.create({
   header: {
     backgroundColor: '#FFFFFF',
     shadowColor: '#333333',
-    shadowOffset: {width: -1, height: -3},
+    shadowOffset: { width: -1, height: -3 },
     shadowRadius: 2,
     shadowOpacity: 0.4,
     // elevation: 5,

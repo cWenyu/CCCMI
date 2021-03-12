@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, StyleSheet, Image, ScrollView, Modal} from 'react-native';
+import {View, StyleSheet, Image, ScrollView, Modal, Alert, BackHandler,} from 'react-native';
 import {useTheme} from '@react-navigation/native';
 import {Text, Button} from 'react-native-elements';
 import LinearGradient from 'react-native-linear-gradient';
@@ -8,8 +8,16 @@ import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
 import axios from 'axios';
 import {IconButton, Colors} from 'react-native-paper';
+import {
+  resetSurveyForm,
+  updateSelectionHandlers,
+  updateQIndex,
+  updateAnswers,
+} from '../components/reduxStore';
+import {useDispatch} from 'react-redux';
 
 const InsectScreen = ({navigation, route}) => {
+  const dispatch = useDispatch();
   const [modalVisible, setModalVisible] = useState(false);
   const {colors} = useTheme();
   const [insectList, setInsectList] = useState([]);
@@ -274,7 +282,28 @@ const InsectScreen = ({navigation, route}) => {
       console.log(JSON.stringify(route.params));
     }
     // setallinsect();
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, [route.params?.selectedInsect, route.params?.aiInsect]);
+  
+
+  const backAction = () => {
+    Alert.alert("Hold on!", "Go back to Home will not save your proccess of taking sample.", [
+      {
+        text: "Cancel",
+        onPress: () => null,
+        style: "cancel"
+      },
+      { text: "BACK", onPress: () => {
+        dispatch(resetSurveyForm());
+        navigation.navigate('SurveyPage');
+        navigation.navigate('HomeScreen');
+      }, }
+    ]);
+    return true;
+  };
 
   return (
     <View

@@ -1,15 +1,15 @@
-import React, {useEffect, useState, Component} from 'react';
-import {View, StyleSheet, Text, Image, Modal, ToastAndroid} from 'react-native';
-import {Button} from 'react-native-elements';
-import {ScrollView, TextInput} from 'react-native-gesture-handler';
+import React, { useEffect, useState, Component } from 'react';
+import { View, StyleSheet, Text, Image, Modal, ToastAndroid, Alert, BackHandler, } from 'react-native';
+import { Button } from 'react-native-elements';
+import { ScrollView, TextInput } from 'react-native-gesture-handler';
 import axios from 'axios';
-import {useTheme} from '@react-navigation/native';
-import {IconButton, Colors} from 'react-native-paper';
+import { useTheme } from '@react-navigation/native';
+import { IconButton, Colors } from 'react-native-paper';
 import testVariables from '../appium_automation_testing/test_variables';
 
-const selectInsect1 = ({navigation}) => {
+const selectInsect1 = ({ navigation }) => {
   const [insectList, setInsectList] = useState([]);
-  const {colors} = useTheme();
+  const { colors } = useTheme();
   const [selectedInsectList, setSelectedInsectList] = useState([]);
   const [selectedInsect, setSelectedInsect] = useState({
     insect_name: '',
@@ -133,7 +133,16 @@ const selectInsect1 = ({navigation}) => {
 
   useEffect(() => {
     getInsect();
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
+
+  const backAction = () => {
+    navigation.goBack();
+    return true;
+  };
 
   const getInsect = async () => {
     try {
@@ -147,7 +156,7 @@ const selectInsect1 = ({navigation}) => {
   };
 
   const handleSubmit = () => {
-    navigation.navigate('InsectScreen', {selectedInsect: selectedInsectList});
+    navigation.navigate('InsectScreen', { selectedInsect: selectedInsectList });
   };
 
   return (
@@ -184,7 +193,7 @@ const selectInsect1 = ({navigation}) => {
               }}
               title="ADD"
               titleProps={{}}
-              titleStyle={{fontSize: 18}}
+              titleStyle={{ fontSize: 18 }}
               buttonStyle={{
                 width: 65,
                 marginRight: 10,
@@ -194,9 +203,9 @@ const selectInsect1 = ({navigation}) => {
                 borderWidth: 2,
                 borderColor: '#00F',
               }}
-              disabledTitleStyle={{color: '#00F'}}
+              disabledTitleStyle={{ color: '#00F' }}
               linearGradientProps={null}
-              loadingProps={{animating: true}}
+              loadingProps={{ animating: true }}
               loadingStyle={{}}
             />
           </View>
@@ -209,7 +218,7 @@ const selectInsect1 = ({navigation}) => {
         testID={testVariables.submitInsectsAmountButton}
         title="Done"
         titleProps={{}}
-        titleStyle={{marginHorizontal: 22, fontSize: 16}}
+        titleStyle={{ marginHorizontal: 22, fontSize: 16 }}
         buttonStyle={styles.submitButton}
         onPress={() => handleSubmit()}
       />
@@ -217,7 +226,7 @@ const selectInsect1 = ({navigation}) => {
       <Modal
         animationType="slide"
         visible={modalVisible}
-        onRequestClose={() => {}}>
+        onRequestClose={() => { }}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <Image
@@ -226,10 +235,10 @@ const selectInsect1 = ({navigation}) => {
                 uri: image,
               }}
             />
-            <Text style={{color: colors.text, fontSize: 18}}>
+            <Text style={{ color: colors.text, fontSize: 18 }}>
               {actionTriggered}
             </Text>
-            <Text style={{color: colors.text}}>{description}</Text>
+            <Text style={{ color: colors.text }}>{description}</Text>
             <View style={styles.searchSection}>
               <TextInput
                 accessibilityLabel={testVariables.groupAmountInput}

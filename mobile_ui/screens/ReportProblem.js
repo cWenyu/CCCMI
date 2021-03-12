@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, StyleSheet, Image, TextInput} from 'react-native';
+import {View, Text, StyleSheet, Image, TextInput, Alert, BackHandler} from 'react-native';
 import {Card, Button} from 'react-native-elements';
 import {Picker} from '@react-native-picker/picker';
 import {useTheme} from '@react-navigation/native';
@@ -16,7 +16,16 @@ const ReportProblem = ({navigation, route}) => {
       setImage(route.params.insect_image);
       console.log(route.params);
     }
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
   });
+
+  const backAction = () => {
+    navigation.goBack();
+    return true;
+  };
 
   const setDataForPost = async () => {
     let sampleObj = {
