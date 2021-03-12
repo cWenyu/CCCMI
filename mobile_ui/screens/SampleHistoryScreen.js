@@ -6,6 +6,7 @@ import {
   ScrollView,
   StyleSheet,
   TouchableOpacity,
+  TextInput,
   BackHandler,
 } from 'react-native';
 import { Button, SearchBar } from 'react-native-elements';
@@ -31,23 +32,7 @@ const SampleHistoryScreen = ({ navigation }) => {
   const [isLoading, setLoading] = useState(true);
   const [filterType, setFilterType] = useState('All');
   const [data, setData] = useState([]);
-  const [d, sd] = React.useState({
-    isLightTheme: true,
-  });
 
-  useEffect(
-    React.useCallback(() => {
-      const interval = setInterval(() => checkThemeForSearch());
-      BackHandler.addEventListener("hardwareBackPress", backAction);
-
-      return () => { clearInterval(interval), BackHandler.removeEventListener("hardwareBackPress", backAction) };
-    }, []),
-  );
-
-  const backAction = () => {
-    navigation.goBack();
-    return true;
-  };
   // const [historyData, setHistoryData] = useState([]);
 
   const styles = StyleSheet.create({
@@ -58,16 +43,18 @@ const SampleHistoryScreen = ({ navigation }) => {
     },
     button: {
       width: 200,
+      height: 40,
       marginVertical: 10,
-      backgroundColor: '#4c4cff',
+      backgroundColor: '#009387',
       padding: 5,
-      borderRadius: 50,
+      borderRadius: 15,
     },
     btnText: {
       color: 'white',
       fontSize: 20,
       justifyContent: 'center',
       textAlign: 'center',
+      alignSelf: 'center',
     },
     searchContainer: {
       justifyContent: 'center',
@@ -89,7 +76,31 @@ const SampleHistoryScreen = ({ navigation }) => {
       justifyContent: 'center',
     },
     resultsContainer: {
-      marginTop: 40,
+      marginTop: 20,
+    },
+    searchSection: {
+      // flex: 1,
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: colors.border,
+      marginBottom: 30,
+      marginTop: 30,
+      height: 85,
+      borderRadius: 8,
+      width: '95%',
+    },
+    input: {
+      flex: 1,
+      paddingTop: 10,
+      marginLeft: 0,
+      paddingBottom: 10,
+      paddingLeft: 12,
+      backgroundColor: colors.background,
+      color: colors.text,
+      borderBottomColor: colors.text,
+      borderRadius: 5,
+      marginLeft: 25,
     },
   });
 
@@ -140,26 +151,21 @@ const SampleHistoryScreen = ({ navigation }) => {
         .then(() => setLoading(false))
         .catch(error => alert(error));
     });
+
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
 
-  const getUserName = async () => {
-    console.log('getUserName');
-    let username = await AsyncStorage.getItem('username');
-    return username;
+  const backAction = () => {
+    navigation.goBack();
+    return true;
   };
 
-  const checkThemeForSearch = async () => {
-    if (colors.background === '#333333') {
-      sd({
-        ...d,
-        isLightTheme: false,
-      });
-    } else {
-      sd({
-        ...d,
-        isLightTheme: true,
-      });
-    }
+  const getUserName = async () => {
+    let username = await AsyncStorage.getItem('username');
+    return username;
   };
 
   /**
@@ -279,8 +285,6 @@ const SampleHistoryScreen = ({ navigation }) => {
           linearGradientProps={null}
           loadingProps={{ animating: true }}
           loadingStyle={{}}
-          icon={<Icon name="folder-outline" size={19} color="#0FF" />}
-          iconContainerStyle={{ background: '#000' }}
           key={el.river_id}
           titleProps={{}}
           titleStyle={{ marginHorizontal: 22, fontSize: 18 }}
@@ -375,7 +379,7 @@ const SampleHistoryScreen = ({ navigation }) => {
             value={river}
             style={styles.riverNameInput}
           /> */}
-          <SearchBar
+          {/* <SearchBar
             accessibilityLabel={testVariables.sampleHistorySearchRiverBar}
             testID={testVariables.sampleHistorySearchRiverBar}
             placeholder="e.g. River Liffey"
@@ -396,7 +400,26 @@ const SampleHistoryScreen = ({ navigation }) => {
                 onPress={() => selectMatchItem(river)}
               />
             }
-          />
+          /> */}
+
+          <View style={styles.searchSection}>
+
+            <TextInput
+              style={styles.input}
+              placeholder="River Liffey ..."
+              placeholderTextColor={colors.text}
+              underlineColorAndroid="transparent"
+              onChangeText={text => getInput(text)}
+            />
+            <Icon.Button
+              style={styles.searchIcon}
+              name="magnify"
+              backgroundColor="transparent"
+              size={20}
+              color={colors.text}
+              onPress={() => selectMatchItem(river)}
+            />
+          </View>
           {/* <Button title="search" onPress={() => selectMatchItem(river)} /> */}
           {/* <Icon.Button
             accessibilityLabel={testVariables.searchRiverSearchIcon}

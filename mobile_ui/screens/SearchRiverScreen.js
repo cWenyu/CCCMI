@@ -233,7 +233,6 @@ const SearchRiverScreen = ({ navigation, route }) => {
     locateIcon: {
       marginLeft: 3,
       paddingRight:0,
-
     }
   });
 

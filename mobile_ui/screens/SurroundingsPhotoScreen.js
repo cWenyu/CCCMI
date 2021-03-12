@@ -308,7 +308,7 @@ const SurroundingsPhotoScreen = ({ navigation, route }) => {
   const renderDoneButton = () => {
     return (
       <Button
-        title="Done"
+        title="Next"
         buttonStyle={{ paddingHorizontal: FOOTER_PADDING }}
         titleProps={{}}
         titleStyle={{ marginHorizontal: 22, fontSize: 16 }}
@@ -336,12 +336,24 @@ const SurroundingsPhotoScreen = ({ navigation, route }) => {
   const renderSkipButton = () => {
     return (
       <Button
-        title="skip"
+        buttonStyle={{ width: 95, height: 35, backgroundColor: colors.backdrop }}
+        containerStyle={{ margin: 5, alignItems: 'center', position: 'absolute', alignSelf: 'center', top: 480}}
+        disabledStyle={{
+          borderWidth: 2,
+          borderColor: '#00F',
+        }}
+        disabledTitleStyle={{ color: '#00F' }}
+        linearGradientProps={null}
+        loadingProps={{ animating: true }}
+        loadingStyle={{}}
         onPress={() =>
           navigation.navigate('SearchRiverScreen', {
             surveyData: route.params.surveyData,
           })
         }
+        title="skip"
+        titleProps={{}}
+        titleStyle={{ marginHorizontal: 22, fontSize: 18 }}
       />
     );
   };

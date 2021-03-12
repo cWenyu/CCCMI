@@ -200,7 +200,7 @@ const ArduinoScreen = ({ navigation, route }) => {
       <Button
         title="Search Device Nearby"
         onPress={() => {
-          {/* checkDeviceId(); */ }
+          {/* checkDeviceId(); */}
           navigation.navigate('ArduinoScreen2', route.params)
         }}
         buttonStyle={{ width: 250, height: 50, backgroundColor: "#02ab9e", borderRadius: 5, }}
@@ -225,7 +225,6 @@ const ArduinoScreen = ({ navigation, route }) => {
         }}
         disabledTitleStyle={{ color: '#00F' }}
         linearGradientProps={null}
-
         loadingProps={{ animating: true }}
         loadingStyle={{}}
         onPress={() => navigation.navigate('InsectScreen', route.params)}
