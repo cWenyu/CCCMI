@@ -10,17 +10,6 @@ import axios from 'axios';
 
 const resultPage = ({navigation, route}) => {
   const {colors} = useTheme();
-  const [river, setRiver] = useState();
-  const [arduino, setArduino] = useState();
-  const [selectedInsect, setSelectedInsect] = useState([]);
-  const [analysedInsect, setAnalysedInsect] = useState([]);
-  const [data, setData] = useState({
-    sample_score: '',
-    sample_user: '',
-    sample_ph: '',
-    sample_tmp: '',
-    sample_river_id: '',
-  });
   const [insectList, setInsectList] = useState([]);
   const [username, setUsername] = useState('');
   const [insectScore, setInsectScore] = useState();
@@ -107,59 +96,10 @@ const resultPage = ({navigation, route}) => {
     navigation.navigate('Home');
   };
 
-  const getRiverData = async () => {
-    try {
-      const jsonValue = await AsyncStorage.getItem('river');
-      return jsonValue != null ? setRiver(JSON.parse(jsonValue)) : null;
-    } catch (e) {
-      // error reading value
-    }
-  };
-
-  const getArduinoData = async () => {
-    try {
-      const jsonValue = await AsyncStorage.getItem('arduino');
-      return jsonValue != null ? setArduino(JSON.parse(jsonValue)) : null;
-    } catch (e) {
-      // error reading value
-    }
-  };
-
-  const getSelectedInsectData = async () => {
-    try {
-      const jsonValue = await AsyncStorage.getItem('selected_insect');
-      return jsonValue != null
-        ? setSelectedInsect(JSON.parse(jsonValue))
-        : null;
-    } catch (e) {
-      // error reading value
-    }
-  };
-
-  const getAnalysedInsectData = async () => {
-    try {
-      const jsonValue = await AsyncStorage.getItem('analysed_insect');
-      return jsonValue != null
-        ? setAnalysedInsect(JSON.parse(jsonValue))
-        : null;
-    } catch (e) {
-      // error reading value
-    }
-  };
-
   const getUsername = async () => {
     try {
       const username = await AsyncStorage.getItem('username');
       setUsername(username);
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
-  const getScore = async () => {
-    try {
-      const score = await AsyncStorage.getItem('insect_score');
-      setInsectScore(score);
     } catch (e) {
       console.error(e);
     }
@@ -257,6 +197,7 @@ const resultPage = ({navigation, route}) => {
   };
 
   const renderArduino = () => {
+    if(route.params.sensorData){
     return (
       <View>
         <Text style={styles.sectionHeader}>Sensor Device</Text>
@@ -265,7 +206,6 @@ const resultPage = ({navigation, route}) => {
             <ListItem.Subtitle style={styles.title}>
               Device ID
             </ListItem.Subtitle>
-            {/* <Text style={styles.title}>{arduino.arduino_id}</Text> */}
             <Text style={styles.title}>{route.params.sensorData.deviceId}</Text>
           </ListItem.Content>
         </ListItem>
@@ -283,14 +223,6 @@ const resultPage = ({navigation, route}) => {
             <Text style={styles.title}>{route.params.sensorData.temp}</Text>
           </ListItem.Content>
         </ListItem>
-        {/* <ListItem bottomDivider containerStyle={styles.listContainer}>
-          <ListItem.Content>
-            <ListItem.Subtitle style={styles.title}>
-              Coordinates (Long, Lat)
-            </ListItem.Subtitle>
-            <Text style={styles.title}>{route.params.sensorData.longitude}, {route.params.sensorData.latitude}</Text>
-          </ListItem.Content>
-        </ListItem> */}
         <ListItem bottomDivider containerStyle={styles.listContainer}>
           <ListItem.Content>
             <ListItem.Subtitle style={styles.title}>
@@ -311,11 +243,11 @@ const resultPage = ({navigation, route}) => {
           </ListItem.Content>
         </ListItem>
       </View>
-    );
+    );} else return <Text>No sensor device connected.</Text>
   };
 
   const renderSelectedInsect = () => {
-    if (route.params?.selectedInsect) {
+    if (route.params.selectedInsect.length > 0) {
       let comp = [];
       comp.push(<Text style={styles.sectionHeader}>Selected Insects</Text>);
       route.params.selectedInsect.map(item => {
@@ -351,12 +283,12 @@ const resultPage = ({navigation, route}) => {
       });
       return comp;
     } else {
-      return <Text>No insects.</Text>;
+      return <Text>No selected insects.</Text>;
     }
   };
 
   const renderAnalysedInsect = () => {
-    if (route.params?.analyzedInsect) {
+    if (route.params.analyzedInsect.length > 0) {
       let comp = [];
       comp.push(<Text style={styles.sectionHeader}>Analysed Insect</Text>);
       route.params.analyzedInsect.map(item => {
@@ -391,19 +323,18 @@ const resultPage = ({navigation, route}) => {
         );
       });
       return comp;
-    }
+    } else return <Text>No analyzed insect.</Text>
   };
 
+  
+
   useEffect(() => {
-    getRiverData();
-    getArduinoData();
-    getSelectedInsectData();
-    getAnalysedInsectData();
-    getUsername();
-    getScore();
 
     if (route.params) {
       console.log(JSON.stringify(route.params));
+    }
+    if(route.params?.sensorData){
+      
     }
     BackHandler.addEventListener("hardwareBackPress", backAction);
 
