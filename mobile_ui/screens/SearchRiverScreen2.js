@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, Alert, BackHandler,} from 'react-native';
+import {View, StyleSheet, Alert, BackHandler, ScrollView} from 'react-native';
 import {ListItem, Button} from 'react-native-elements';
 import {useTheme} from '@react-navigation/native';
 import testVariables from '../appium_automation_testing/test_variables';
@@ -70,7 +70,7 @@ const SearchRiverScreen2 = ({navigation, route}) => {
   };
 
   return (
-    <View
+    <ScrollView
       style={styles.container}
       accessibilityLabel={testVariables.riverDetailContainer}
       testID={testVariables.riverDetailContainer}>
@@ -154,7 +154,7 @@ const SearchRiverScreen2 = ({navigation, route}) => {
           navigation.navigate('ArduinoScreen', route.params);
           // storeData(route.params.data);
         }}
-        buttonStyle={{ width: 360, height: 50, backgroundColor: "#02ab9e", borderRadius: 5, }}
+        buttonStyle={{ width: '100%', height: 50, backgroundColor: "#02ab9e", borderRadius: 10, }}
           containerStyle={{ margin: 5, alignItems: "center", marginTop: 35 }}
           disabledStyle={{
             borderWidth: 2,
@@ -167,7 +167,7 @@ const SearchRiverScreen2 = ({navigation, route}) => {
           titleProps={{}}
           titleStyle={{ marginHorizontal: 22, fontSize: 18 }}
       />
-    </View>
+    </ScrollView>
   );
 };
 
