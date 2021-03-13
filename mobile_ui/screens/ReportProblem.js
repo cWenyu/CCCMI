@@ -80,16 +80,28 @@ const ReportProblem = ({navigation, route}) => {
           source={{
             uri: route.params.insect_image,
           }}
-          style={{width: '100%', height: '50%', alignSelf: 'center'}}
+          style={{width: '100%', height: '40%', alignSelf: 'center'}}
         />
         <Card.Divider />
         <Text>
           <Text>Insect Name: </Text>
-          <Text style={{fontWeight: 'bold'}}>{route.params.insect_name}</Text>
+          <Text style={{fontWeight: 'bold'}}>{route.params.data.class_label}</Text>
         </Text>
         <Text>
-          <Text>Count: </Text>
-          <Text style={{fontWeight: 'bold'}}>{route.params.count}</Text>
+          <Text>Predicted count: </Text>
+          <Text style={{fontWeight: 'bold'}}>{route.params.data.predicted_count}</Text>
+        </Text>
+        <Text>
+          <Text>Smaller tail: </Text>
+          <Text style={{fontWeight: 'bold'}}>{route.params.data.smaller_tail.toString()}</Text>
+        </Text>
+        <Text>
+          <Text>Tail count: </Text>
+          <Text style={{fontWeight: 'bold'}}>{route.params.data.tail_count.toString()}</Text>
+        </Text>
+        <Text>
+          <Text>Tail present: </Text>
+          <Text style={{fontWeight: 'bold'}}>{route.params.data.tail_present.toString()}</Text>
         </Text>
         <Card.Divider />
 
@@ -102,6 +114,10 @@ const ReportProblem = ({navigation, route}) => {
           <Picker.Item
             label="The insect name is wrong."
             value="wrong insect name"
+          />
+          <Picker.Item
+            label="Tail count is wrong."
+            value="wrong tail count"
           />
           <Picker.Item label="Other bugs." value="other" />
         </Picker>
