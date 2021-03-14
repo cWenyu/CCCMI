@@ -1,8 +1,15 @@
 import React, {useEffect, useState} from 'react';
-import {View, StyleSheet, Image, ScrollView, Modal, Alert, BackHandler,} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Image,
+  ScrollView,
+  Modal,
+  Alert,
+  BackHandler,
+} from 'react-native';
 import {useTheme} from '@react-navigation/native';
 import {Text, Button} from 'react-native-elements';
-import LinearGradient from 'react-native-linear-gradient';
 import testVariables from '../appium_automation_testing/test_variables';
 import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
@@ -28,7 +35,14 @@ const InsectScreen = ({navigation, route}) => {
     insect_name: '',
     amount: 0,
   });
-  const [score, setScore] = useState('');
+  const [groupScore, setGroupScore] = useState({
+    group_1: '0',
+    group_2: '0',
+    group_3: '0',
+    group_4: '0',
+    group_5: '0',
+  });
+  const [score, setScore] = useState('0');
 
   const styles = StyleSheet.create({
     container: {
@@ -72,7 +86,7 @@ const InsectScreen = ({navigation, route}) => {
     },
     title: {
       paddingTop: 20,
-      color: colors.text
+      color: colors.text,
     },
   });
 
@@ -189,21 +203,29 @@ const InsectScreen = ({navigation, route}) => {
           list: allInsect,
         },
       );
-      console.log(response.data.object);
-      setScore(response.data.object.total_score);
-      saveScore(response.data.object.total_score);
+      console.log(response.data);
+      if (response.data.object == 'N/A') {
+        setScore('0');
+      } else {
+        let groupscore = {
+          group_1: response.data.object.group_1_score,
+          group_2: response.data.object.group_2_score,
+          group_3: response.data.object.group_3_score,
+          group_4: response.data.object.group_4_score,
+          group_5: response.data.object.group_5_score,
+        };
+
+        setGroupScore(groupscore);
+        setScore(response.data.object.total_score);
+      }
     } catch (e) {
       console.error(e);
     }
   };
 
-  const saveScore = async value => {
-    try {
-      const jsonValue = JSON.stringify(value);
-      await AsyncStorage.setItem('insect_score', jsonValue);
-      // console.log('stored insect_list: ' + jsonValue);
-    } catch (e) {
-      // saving error
+  const renderGroupScore = () => {
+    if (groupScore.length > 0) {
+      return <Text>Group 1: {groupScore.group_1}</Text>;
     }
   };
 
@@ -278,30 +300,36 @@ const InsectScreen = ({navigation, route}) => {
     if (route.params?.aiInsect) {
       setAnalysedInsect(route.params.aiInsect);
     }
-    if(route.params) {
+    if (route.params) {
       console.log(JSON.stringify(route.params));
     }
     // setallinsect();
-    BackHandler.addEventListener("hardwareBackPress", backAction);
+    BackHandler.addEventListener('hardwareBackPress', backAction);
 
     return () =>
-      BackHandler.removeEventListener("hardwareBackPress", backAction);
+      BackHandler.removeEventListener('hardwareBackPress', backAction);
   }, [route.params?.selectedInsect, route.params?.aiInsect]);
-  
 
   const backAction = () => {
-    Alert.alert("Hold on!", "Go back to Home will not save your proccess of taking sample.", [
-      {
-        text: "Cancel",
-        onPress: () => null,
-        style: "cancel"
-      },
-      { text: "BACK", onPress: () => {
-        dispatch(resetSurveyForm());
-        navigation.navigate('SurveyPage');
-        navigation.navigate('HomeScreen');
-      }, }
-    ]);
+    Alert.alert(
+      'Hold on!',
+      'Go back to Home will not save your proccess of taking sample.',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => null,
+          style: 'cancel',
+        },
+        {
+          text: 'BACK',
+          onPress: () => {
+            dispatch(resetSurveyForm());
+            navigation.navigate('SurveyPage');
+            navigation.navigate('HomeScreen');
+          },
+        },
+      ],
+    );
     return true;
   };
 
@@ -367,7 +395,13 @@ const InsectScreen = ({navigation, route}) => {
         onRequestClose={() => {}}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text>You got the sample score of </Text><Text style={{fontWeight: 'bold'}}>{score} points</Text>
+            <Text>Group 1 - {groupScore.group_1} points</Text>
+            <Text>Group 2 - {groupScore.group_2} points</Text>
+            <Text>Group 3 - {groupScore.group_3} points</Text>
+            <Text>Group 4 - {groupScore.group_4} points</Text>
+            <Text>Group 5 - {groupScore.group_5} points{"\n"}</Text>
+            <Text>Total sample score: </Text>
+            <Text style={{fontWeight: 'bold'}}>{score} points</Text>
 
             <IconButton
               accessibilityLabel={testVariables.cancelAddAmountIcon}
@@ -392,7 +426,16 @@ const InsectScreen = ({navigation, route}) => {
         onPress={() => {
           getScore();
           setModalVisible(true);
-          navigation.navigate('ResultPage', {analyzedInsect: analysedInsect, selectedInsect: insectList, riverData: route.params.riverData, surveyData: route.params.surveyData, currentLocation: route.params.currentLocation, sensorData: route.params.sensorData, surrounding: route.params.surrounding});
+          navigation.navigate('ResultPage', {
+            analyzedInsect: analysedInsect,
+            selectedInsect: insectList,
+            riverData: route.params.riverData,
+            surveyData: route.params.surveyData,
+            currentLocation: route.params.currentLocation,
+            sensorData: route.params.sensorData,
+            surrounding: route.params.surrounding,
+            sample_score: score,
+          });
         }}
         accessibilityLabel={testVariables.insectScreenSelectInsectButton}
         testID={testVariables.insectScreenSelectInsectButton}
