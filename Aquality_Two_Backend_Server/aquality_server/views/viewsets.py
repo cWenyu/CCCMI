@@ -59,6 +59,14 @@ class RiverViewSet(viewsets.ModelViewSet):
         return get_nearby_list(pnt)
 
 
+class InsectGroupViewSet(viewsets.ModelViewSet):
+    queryset = InsectGroup.objects.all().order_by('group_id')
+    serializer_class = InsectGroupSerializer
+
+    def get_queryset(self):
+        return InsectGroup.objects.all().order_by('group_id')
+
+
 class InsectViewSet(viewsets.ModelViewSet):
     queryset = Insect.objects.all().order_by('insect_id')
     serializer_class = InsectSerializer
