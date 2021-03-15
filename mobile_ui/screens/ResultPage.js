@@ -2,7 +2,15 @@ import React from 'react';
 import {useEffect} from 'react';
 import {useState} from 'react';
 import {useTheme} from '@react-navigation/native';
-import {Text, View, Image, StyleSheet, ScrollView, Alert, BackHandler} from 'react-native';
+import {
+  Text,
+  View,
+  Image,
+  StyleSheet,
+  ScrollView,
+  Alert,
+  BackHandler,
+} from 'react-native';
 import {Button, colors, ListItem} from 'react-native-elements';
 import AsyncStorage from '@react-native-community/async-storage';
 import testVariables from '../appium_automation_testing/test_variables';
@@ -48,7 +56,7 @@ const resultPage = ({navigation, route}) => {
     },
   });
 
-  const postData = async (ob) => {
+  const postData = async ob => {
     try {
       let response = await axios.post(
         'https://cccmi-aquality.tk/aquality_server/samplesave',
@@ -64,35 +72,45 @@ const resultPage = ({navigation, route}) => {
     }
   };
 
-  const setDataForPost = async() => {
+  const setDataForPost = async () => {
     console.log('setting up data for upload');
-    let sampleObj = {
-      sample_user: username,
-      sample_ph: route.params.sensorData.ph,
-      sample_tmp: route.params.sensorData.temp,
-      sample_river_id: route.params.riverData.river_id,
-      sample_survey: route.params.surveyData,
-      sample_score: route.params.sample_score   
+
+    let pph, ptmp;
+    if (typeof route.params.sensorData === 'undefined') {
+      pph = -1000;
+      ptmp = -1000;
+    } else {
+      pph = route.params.sensorData.ph;
+      ptmp = route.params.sensorData.temp;
     }
 
+    let sampleObj = {
+      sample_user: username,
+      sample_ph: pph,
+      sample_tmp: ptmp,
+      sample_river_id: route.params.riverData.river_id,
+      sample_survey: route.params.surveyData,
+      sample_score: route.params.sample_score,
+    };
+
+    console.log(JSON.stringify(sampleObj));
     // set insect (selected + analysed)
     let array3 = route.params.selectedInsect.concat(
       route.params.analyzedInsect,
     );
     setInsectList(array3);
 
-    let dataObj = {sampleObj:sampleObj, insectObj: array3}
+    let dataObj = {sampleObj: sampleObj, insectObj: array3};
 
     return dataObj;
   };
 
   const handleFinish = () => {
-     setDataForPost().then(ob =>{
-      console.log('look here' + JSON.stringify(ob))
+    setDataForPost().then(ob => {
+      console.log('look here' + JSON.stringify(ob));
       postData(ob);
-     })
-    
-    
+    });
+
     navigation.navigate('Home');
   };
 
@@ -197,53 +215,58 @@ const resultPage = ({navigation, route}) => {
   };
 
   const renderArduino = () => {
-    if(route.params.sensorData){
-    return (
-      <View>
-        <Text style={styles.sectionHeader}>Sensor Device</Text>
-        <ListItem bottomDivider containerStyle={styles.listContainer}>
-          <ListItem.Content>
-            <ListItem.Subtitle style={styles.title}>
-              Device ID
-            </ListItem.Subtitle>
-            <Text style={styles.title}>{route.params.sensorData.deviceId}</Text>
-          </ListItem.Content>
-        </ListItem>
-        <ListItem bottomDivider containerStyle={styles.listContainer}>
-          <ListItem.Content>
-            <ListItem.Subtitle style={styles.title}>Water pH</ListItem.Subtitle>
-            <Text style={styles.title}>{route.params.sensorData.ph}</Text>
-          </ListItem.Content>
-        </ListItem>
-        <ListItem bottomDivider containerStyle={styles.listContainer}>
-          <ListItem.Content>
-            <ListItem.Subtitle style={styles.title}>
-              Water Temperature
-            </ListItem.Subtitle>
-            <Text style={styles.title}>{route.params.sensorData.temp}</Text>
-          </ListItem.Content>
-        </ListItem>
-        <ListItem bottomDivider containerStyle={styles.listContainer}>
-          <ListItem.Content>
-            <ListItem.Subtitle style={styles.title}>
-              Date Captured
-            </ListItem.Subtitle>
-            <Text style={styles.title}>
-              Date{' '}
-              {route.params.sensorData.date.substring(
-                0,
-                route.params.sensorData.date.indexOf('T'),
-              )}{' '}
-              | Time{' '}
-              {route.params.sensorData.date.substring(
-                route.params.sensorData.date.indexOf('T') + 1,
-                16,
-              )}
-            </Text>
-          </ListItem.Content>
-        </ListItem>
-      </View>
-    );} else return <Text>No sensor device connected.</Text>
+    if (route.params.sensorData) {
+      return (
+        <View>
+          <Text style={styles.sectionHeader}>Sensor Device</Text>
+          <ListItem bottomDivider containerStyle={styles.listContainer}>
+            <ListItem.Content>
+              <ListItem.Subtitle style={styles.title}>
+                Device ID
+              </ListItem.Subtitle>
+              <Text style={styles.title}>
+                {route.params.sensorData.deviceId}
+              </Text>
+            </ListItem.Content>
+          </ListItem>
+          <ListItem bottomDivider containerStyle={styles.listContainer}>
+            <ListItem.Content>
+              <ListItem.Subtitle style={styles.title}>
+                Water pH
+              </ListItem.Subtitle>
+              <Text style={styles.title}>{route.params.sensorData.ph}</Text>
+            </ListItem.Content>
+          </ListItem>
+          <ListItem bottomDivider containerStyle={styles.listContainer}>
+            <ListItem.Content>
+              <ListItem.Subtitle style={styles.title}>
+                Water Temperature
+              </ListItem.Subtitle>
+              <Text style={styles.title}>{route.params.sensorData.temp}</Text>
+            </ListItem.Content>
+          </ListItem>
+          <ListItem bottomDivider containerStyle={styles.listContainer}>
+            <ListItem.Content>
+              <ListItem.Subtitle style={styles.title}>
+                Date Captured
+              </ListItem.Subtitle>
+              <Text style={styles.title}>
+                Date{' '}
+                {route.params.sensorData.date.substring(
+                  0,
+                  route.params.sensorData.date.indexOf('T'),
+                )}{' '}
+                | Time{' '}
+                {route.params.sensorData.date.substring(
+                  route.params.sensorData.date.indexOf('T') + 1,
+                  16,
+                )}
+              </Text>
+            </ListItem.Content>
+          </ListItem>
+        </View>
+      );
+    } else return <Text>No sensor device connected.</Text>;
   };
 
   const renderSelectedInsect = () => {
@@ -323,24 +346,20 @@ const resultPage = ({navigation, route}) => {
         );
       });
       return comp;
-    } else return <Text>No analyzed insect.</Text>
+    } else return <Text>No analyzed insect.</Text>;
   };
 
-  
-
   useEffect(() => {
-
+    getUsername();
     if (route.params) {
       console.log(JSON.stringify(route.params));
     }
-    if(route.params?.sensorData){
-      
+    if (route.params?.sensorData) {
     }
-    BackHandler.addEventListener("hardwareBackPress", backAction);
+    BackHandler.addEventListener('hardwareBackPress', backAction);
 
     return () =>
-      BackHandler.removeEventListener("hardwareBackPress", backAction);
-
+      BackHandler.removeEventListener('hardwareBackPress', backAction);
   }, []);
 
   const backAction = () => {
