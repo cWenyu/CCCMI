@@ -34,7 +34,7 @@ async function getRiver(array) {
   return data
 }
 
-//  
+
 async function initMap() {
   map = new google.maps.Map(document.getElementById("map"), {
     center: ireland,
@@ -101,6 +101,10 @@ function toggleHeatmap() {
 }
 
 async function setModel(sample_id) {
+  if(document.querySelector('#ModalContent').contains(document.querySelector('.json-container')))
+  {
+    document.querySelector('#ModalContent').removeChild(document.querySelector('.json-container'))
+  }
   var sampleDetail = await getSampleRecordJSON(sample_id)
   const tree = JsonView.createTree(sampleDetail);
   JsonView.render(tree, document.querySelector('#ModalContent'));
