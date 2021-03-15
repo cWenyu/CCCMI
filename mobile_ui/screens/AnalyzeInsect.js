@@ -139,6 +139,7 @@ const AnalyzeScreen = ({navigation}) => {
           tail_present: response.data.object.tail_present,
           tail_count: response.data.object.tail_count
         };
+        setCount(response.data.object.predicted_count);
         setAIR(res);
         console.log('air:' + JSON.stringify(AIR));
         setModalVisible(true);
@@ -209,7 +210,7 @@ const AnalyzeScreen = ({navigation}) => {
   const handleConfirm = () => {
     const insect = {
       insect_name: AIR.class_label,
-      amount: AIR.predicted_count.toString(),
+      amount: count.toString(),
       insect_image: image,
     };
     insectList.push(insect);
@@ -294,19 +295,7 @@ const AnalyzeScreen = ({navigation}) => {
                 {AIR.class_label}
               </Text>
             </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
-              <Text style={{fontWeight: 'bold'}}>Count: </Text>
-              <TextInput
-                value={AIR.predicted_count.toString()}
-                onChangeText={text => setCount(text)}
-                keyboardType="numeric"
-              />
-            </View>
+            
 
             <View
               style={{
@@ -354,6 +343,20 @@ const AnalyzeScreen = ({navigation}) => {
                 <Text style={{fontWeight: 'bold'}}>Tail count: </Text>
                 {AIR.tail_count}
               </Text>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              <Text style={{fontWeight: 'bold'}}>Count: </Text>
+              <TextInput
+                value={count.toString()}
+                onChangeText={text => setCount(text)}
+                keyboardType="numeric"
+                borderBottomWidth={1}
+              />
             </View>
             {/* <Text style={{fontWeight: 'bold', alignSelf: 'flex-start'}}>Confidence: {confidence}</Text> */}
             <Button
@@ -417,16 +420,16 @@ const AnalyzeScreen = ({navigation}) => {
                 source={{
                   uri: image,
                 }}
-                style={{height: 150, width: 150}}
-                imageStyle={{borderRadius: 80}}>
+                style={{height: 200, width: 300}}
+                imageStyle={{borderRadius: 40}}>
                 <View
                   style={{
                     flex: 1,
                     justifyContent: 'center',
                     alignItems: 'center',
-                    borderWidth: 3,
+                    borderWidth: 2,
                     borderColor: '#423D33',
-                    borderRadius: 80,
+                    borderRadius: 40,
                   }}
                 />
               </ImageBackground>
