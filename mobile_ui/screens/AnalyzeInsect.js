@@ -45,7 +45,7 @@ const AnalyzeScreen = ({ navigation }) => {
     return () =>
       BackHandler.removeEventListener("hardwareBackPress", backAction);
   });
-  
+
   const backAction = () => {
     navigation.goBack();
     return true;
@@ -329,8 +329,8 @@ const AnalyzeScreen = ({ navigation }) => {
             onPress={() => bs.current.snapTo(0)}>
             <View
               style={{
-                height: 150,
-                width: 150,
+                height: 250,
+                width: 250,
                 borderRadius: 15,
                 justifyContent: 'center',
                 alignItems: 'center',
@@ -341,16 +341,16 @@ const AnalyzeScreen = ({ navigation }) => {
                 source={{
                   uri: image,
                 }}
-                style={{ height: 150, width: 150 }}
-                imageStyle={{ borderRadius: 80 }}>
+                style={{ height: 250, width: 250, marginTop: 45 }}
+                imageStyle={{ height: 250, width: 250, borderRadius: 16.8 }}>
                 <View
                   style={{
                     flex: 1,
                     justifyContent: 'center',
                     alignItems: 'center',
                     borderWidth: 3,
-                    borderColor: '#423D33',
-                    borderRadius: 80,
+                    borderColor: '#cfcfcf',
+                    borderRadius: 16.8,
                   }}
                 />
               </ImageBackground>
@@ -368,7 +368,7 @@ const AnalyzeScreen = ({ navigation }) => {
           containerStyle={{
             margin: 5,
             alignItems: 'center',
-            marginTop: 55,
+            marginTop: 95,
             marginBottom: 23,
           }}
           disabledStyle={{
