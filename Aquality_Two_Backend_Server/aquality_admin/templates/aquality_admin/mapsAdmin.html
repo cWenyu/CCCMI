@@ -1,0 +1,49 @@
+{% load static %}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{% static 'aquality_admin/css/maps.css' %}"
+/>
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{% static 'aquality_admin/css/jsonview.bundle.css' %}"
+/>
+    <script src="{% static 'aquality_admin/js/jsonview.bundle.js' %}"></script>
+    <script src="{% static 'aquality_admin/js/maps.js' %}"></script>
+    <script src="https://unpkg.com/@googlemaps/markerclustererplus/dist/index.min.js"></script>
+
+<div id="container">
+<div id="floating-panel">
+      <button onclick="toggleHeatmap()">Toggle Heatmap</button>
+    </div>
+</div>
+<div id="container">
+  <div class="main shifted" id="main">
+    <div class="content">
+     <div id="map"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ModalLabel">If You See This, It must be Error</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id='ModalContent'>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key={{map_api}}&callback=initMap&libraries=visualization"
+      async
+    ></script>

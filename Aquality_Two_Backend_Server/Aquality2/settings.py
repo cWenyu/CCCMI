@@ -29,6 +29,7 @@ ALLOWED_HOSTS = ["127.0.0.1","aquality-server.eba-rxqnbumy.eu-west-1.elasticbean
 # Application definition
 
 INSTALLED_APPS = [    
+    'simpleui',
     'aquality_server.apps.AqualityServerConfig',
     'aquality_admin.apps.AqualityAdminConfig',
     'django.contrib.admin',
@@ -129,18 +130,69 @@ AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 AWS_S3_OBJECT_PARAMETERS = {
     'CacheControl': 'max-age=86400',
 }
-AWS_LOCATION = 'static'
+# AWS_LOCATION = 'static'
 
-STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
+# STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
 
-STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-DEFAULT_FILE_STORAGE = 'Aquality2.storage_backends.MediaStorage'
+# STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# DEFAULT_FILE_STORAGE = 'Aquality2.storage_backends.MediaStorage'
 
-# STATIC_ROOT = 'static'
-# STATIC_URL = '/static/'
+STATIC_ROOT = 'static'
+STATIC_URL = '/static/'
 
 MEDIA_ROOT = 'media'
 MEDIA_URL = '/media/'
 
 REST_FRAMEWORK = {}
 
+# Simple UI Configuration
+SIMPLEUI_LOGO = 'https://aquality-server-assets.s3.eu-west-1.amazonaws.com/static/aquality_admin/images/Apps%20Logo.png'
+SIMPLEUI_HOME_INFO = False
+SIMPLEUI_ANALYSIS = False
+
+SIMPLEUI_CONFIG = {
+    # 在自定义菜单的基础上保留系统模块
+    'system_keep': True,
+    'menus': [
+    {
+        # 自2021.02.01+ 支持多级菜单，models 为子菜单名
+        'name': 'Aquality Data',
+        'icon': 'fa fa-file',
+        'models': [{
+            'name': 'Insect',
+            'icon': 'far fa-surprise',
+            'url' : '/admin/aquality_server/insect/'
+        }, {'name': 'Rivers',
+            'icon': 'far fa-surprise',
+            'url' : '/admin/aquality_server/river/'
+        }]
+    }, {
+        'app': 'auth',
+        'name': '权限认证',
+        'icon': 'fas fa-user-shield',
+        'models': [{
+            'name': '用户',
+            'icon': 'fa fa-user',
+            'url': 'auth/user/'
+        }]
+    }, {
+        'name': '测试',
+        'icon': 'fa fa-file',
+        'models': [{
+            'name': 'Baidu',
+            'url': '/',
+            'icon': 'far fa-surprise'
+        }, {
+            'name': '内网穿透',
+            'url': '/',
+            'icon': 'fab fa-github'
+        }, {
+            'name': '内网穿透',
+            'url': '/',
+            'icon': 'fab fa-github'
+        }, {
+            'name': '登录页嵌套测试',
+            'url': '/'
+        }]
+    }]
+}
