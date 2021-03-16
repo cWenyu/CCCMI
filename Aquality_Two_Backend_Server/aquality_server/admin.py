@@ -4,11 +4,14 @@ from rest_framework import serializers
 from django.db.models.functions import Lower
 # Register your models here.
 
-admin.site.register(Data)
 admin.site.register(DataHistoryImageImage)
 admin.site.register(River)
 admin.site.register(AllInsectUserUpload)
 admin.site.register(RiverEnvironmentImage)
+
+@admin.register(Data)
+class DataAdmin(admin.ModelAdmin):
+    list_display = ('data_id','arduino_id','latitude','longitude','ph','temp','date_captured')
 
 @admin.register(Insect)
 class InsectAdmin(admin.ModelAdmin):
