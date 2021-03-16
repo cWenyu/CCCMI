@@ -152,32 +152,46 @@ SIMPLEUI_ANALYSIS = False
 
 SIMPLEUI_CONFIG = {
     # 在自定义菜单的基础上保留系统模块
-    'system_keep': True,
+    'system_keep': False,
     'menus': [
     {
         # 自2021.02.01+ 支持多级菜单，models 为子菜单名
         'name': 'Aquality Data',
         'icon': 'fa fa-file',
-        'models': [{
+        'models': [
+            {
             'name': 'Insect',
             'icon': 'far fa-surprise',
             'url' : '/admin/aquality_server/insect/'
-        }, {'name': 'Rivers',
+            }, 
+            {
+            'name': 'Rivers',
             'icon': 'far fa-surprise',
             'url' : '/admin/aquality_server/river/'
-        }]
+            }, 
+            {
+            'name': 'Sample Record',
+            'icon': 'far fa-surprise',
+            'url' : '/admin/aquality_server/samplerecord/'
+            },
+            {
+            'name': 'Data',
+            'icon': 'far fa-surprise',
+            'url' : '/admin/aquality_server/data/'
+            }
+        ]
     }, {
         'app': 'auth',
-        'name': '权限认证',
+        'name': 'Authorization',
         'icon': 'fas fa-user-shield',
         'models': [{
-            'name': '用户',
+            'name': 'User',
             'icon': 'fa fa-user',
             'url': 'auth/user/'
         }]
     }, {
         'name': 'Activity Map',
         'icon': 'fa fa-file',
-        'url' : '/aquality_admin/maps'
+        'url' : '/aquali'
     }]
 }
