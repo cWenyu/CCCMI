@@ -36,6 +36,9 @@ class River(models.Model):
     transboundary = models.CharField(max_length = 20)
     canal = models.CharField(max_length = 20)
     
+    def __str__(self):
+        return self.river_name
+    
 
 class Data(models.Model):
     '''Data Collected by Hardware Store To '''
