@@ -152,7 +152,7 @@ SIMPLEUI_ANALYSIS = False
 
 SIMPLEUI_CONFIG = {
     # 在自定义菜单的基础上保留系统模块
-    'system_keep': True,
+    'system_keep': False,
     'menus': [
     {
         # 自2021.02.01+ 支持多级菜单，models 为子菜单名

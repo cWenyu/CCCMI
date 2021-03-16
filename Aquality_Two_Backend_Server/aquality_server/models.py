@@ -89,6 +89,9 @@ class SampleRecordInsectDetail(models.Model):
     sample_record_insect = models.ForeignKey(Insect,on_delete=models.CASCADE)
     insect_number = models.IntegerField()
     
+    def __str__(self):
+        return self.sample_record_insect.insect_name
+    
     
 class AllInsectUserUpload(models.Model):
     insect_id = models.AutoField(primary_key=True)
