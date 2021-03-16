@@ -76,24 +76,26 @@ const resultPage = ({navigation, route}) => {
     console.log('setting up data for upload');
 
     let pph, ptmp;
+    let sampleObj;
     if (typeof route.params.sensorData === 'undefined') {
-      pph = -1000;
-      ptmp = -1000;
+      sampleObj = {
+        sample_user: username,
+        sample_river_id: route.params.riverData.river_id,
+        sample_survey: route.params.surveyData,
+        sample_score: route.params.sample_score,
+      };
     } else {
-      pph = route.params.sensorData.ph;
-      ptmp = route.params.sensorData.temp;
+      sampleObj = {
+        sample_user: username,
+        sample_ph: pph,
+        sample_tmp: ptmp,
+        sample_river_id: route.params.riverData.river_id,
+        sample_survey: route.params.surveyData,
+        sample_score: route.params.sample_score,
+      };
     }
 
-    let sampleObj = {
-      sample_user: username,
-      sample_ph: pph,
-      sample_tmp: ptmp,
-      sample_river_id: route.params.riverData.river_id,
-      sample_survey: route.params.surveyData,
-      sample_score: route.params.sample_score,
-    };
-
-    console.log(JSON.stringify(sampleObj));
+    console.log(JSON.stringify('sampleobj sending ',sampleObj));
     // set insect (selected + analysed)
     let array3 = route.params.selectedInsect.concat(
       route.params.analyzedInsect,
