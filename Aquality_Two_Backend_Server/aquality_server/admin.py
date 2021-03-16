@@ -2,7 +2,6 @@ from django.contrib import admin
 from aquality_server.models import *
 from rest_framework import serializers
 from django.db.models.functions import Lower
-from aquality_server.utils.json_utils import PrettyJSONWidget
 # Register your models here.
 
 admin.site.register(DataHistoryImageImage)
@@ -15,7 +14,7 @@ class RiverAdmin(admin.ModelAdmin):
 
 @admin.register(Data)
 class DataAdmin(admin.ModelAdmin):
-    list_display = ('data_id','arduino_id','latitude','longitude','ph','temp','date_captured')
+    list_display = ('data_id','arduino_id','latitude','longitude','pH','temp','date_captured')
 
 @admin.register(Insect)
 class InsectAdmin(admin.ModelAdmin):
@@ -30,6 +29,7 @@ class InsectGroupAdmin(admin.ModelAdmin):
 @admin.register(SampleRecord)
 class SampleRecordAdmin(admin.ModelAdmin):
     list_display = ('sample_id','sample_user','sample_pH','sample_tmp','sample_river','sample_date','sample_score')
+
 
 @admin.register(SampleRecordInsectDetail)
 class SampleRecordInsectDetail(admin.ModelAdmin):

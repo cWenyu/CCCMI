@@ -29,14 +29,10 @@ class River(models.Model):
     protected_area = models.CharField(max_length = 20,null=True)
     transboundary = models.CharField(max_length = 20)
     canal = models.CharField(max_length = 20)
-<<<<<<< HEAD
     
     def __str__(self):
         return self.river_name
     
-=======
-
->>>>>>> b5ed5ce4e3fd137321dfff7036c28022fd9a90dc
 
 class Data(models.Model):
     '''Data Collected by Hardware Store To '''

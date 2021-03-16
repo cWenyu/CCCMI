@@ -152,7 +152,7 @@ SIMPLEUI_ANALYSIS = False
 
 SIMPLEUI_CONFIG = {
     # 在自定义菜单的基础上保留系统模块
-    'system_keep': False,
+    'system_keep': True,
     'menus': [
     {
         # 自2021.02.01+ 支持多级菜单，models 为子菜单名
@@ -188,10 +188,15 @@ SIMPLEUI_CONFIG = {
             'name': 'User',
             'icon': 'fa fa-user',
             'url': 'auth/user/'
+        },
+        {
+            'name':'UserAccount',
+            'icon':'fa fa-user',
+            'url' : '/admin/aquality_server/useraccount'
         }]
     }, {
         'name': 'Activity Map',
         'icon': 'fa fa-file',
-        'url' : '/aquali'
+        'url' : '/aquality_admin/maps'
     }]
 }
