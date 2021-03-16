@@ -157,26 +157,26 @@ SIMPLEUI_CONFIG = {
     {
         # 自2021.02.01+ 支持多级菜单，models 为子菜单名
         'name': 'Aquality Data',
-        'icon': 'fa fa-file',
+        'icon': 'fas fa-folder-open',
         'models': [
             {
             'name': 'Insect',
-            'icon': 'far fa-surprise',
+            'icon': 'fas fa-bug',
             'url' : '/admin/aquality_server/insect/'
             }, 
             {
             'name': 'Rivers',
-            'icon': 'far fa-surprise',
+            'icon': 'fas fa-water',
             'url' : '/admin/aquality_server/river/'
             }, 
             {
             'name': 'Sample Record',
-            'icon': 'far fa-surprise',
+            'icon': 'fas fa-file-medical-alt',
             'url' : '/admin/aquality_server/samplerecord/'
             },
             {
-            'name': 'Data',
-            'icon': 'far fa-surprise',
+            'name': 'Hardware Data',
+            'icon': 'fas fa-microchip',
             'url' : '/admin/aquality_server/data/'
             }
         ]
@@ -191,12 +191,12 @@ SIMPLEUI_CONFIG = {
         },
         {
             'name':'UserAccount',
-            'icon':'fa fa-user',
+            'icon':'fas fa-users',
             'url' : '/admin/aquality_server/useraccount'
         }]
     }, {
         'name': 'Activity Map',
-        'icon': 'fa fa-file',
+        'icon': 'fas fa-globe-europe',
         'url' : '/aquality_admin/maps'
     }]
 }
