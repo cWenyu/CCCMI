@@ -31,6 +31,8 @@ class DataAdmin(admin.ModelAdmin):
 @admin.register(Insect)
 class InsectAdmin(admin.ModelAdmin):
     list_display = ('insect_id', 'insect_name','insect_group')
+    def get_ordering(self, request):
+        return ['insect_id'] 
 
 @admin.register(InsectGroup)
 class InsectGroupAdmin(admin.ModelAdmin):
