@@ -23,13 +23,13 @@ class RiverSerializer(serializers.HyperlinkedModelSerializer):
 class DataSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Data
-        fields = ("data_id", "arduino_id", "latitude", "longitude", "ph", "temp")
+        fields = ("data_id", "arduino_id", "latitude", "longitude", "pH", "temp")
 
 
 class AllDataSerializerWithDate(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Data
-        fields = ("data_id", "arduino_id", "latitude", "longitude", "ph", "temp", "date_captured")
+        fields = ("data_id", "arduino_id", "latitude", "longitude", "pH", "temp", "date_captured")
 
 
 class UserAccountSerializer(serializers.HyperlinkedModelSerializer):
@@ -73,7 +73,7 @@ class SampleRecordDataSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = SampleRecord
-        fields = ('sample_id', 'sample_date', 'sample_score', 'sample_user', 'sample_ph', 'sample_tmp','sample_survey', 'sample_river',)
+        fields = ('sample_id', 'sample_date', 'sample_score', 'sample_user', 'sample_pH', 'sample_tmp','sample_survey', 'sample_river',)
 
 
 class SampleRecordInsectDetailSerializer(serializers.HyperlinkedModelSerializer):
