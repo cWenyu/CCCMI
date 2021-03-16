@@ -8,7 +8,6 @@ import GuideContent from '../components/safetyGuide';
 import { IconButton, Colors, Button as PaperBtn } from 'react-native-paper';
 import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
-import Loading from '../components/Loading';
 import env from '../components/env.json';
 import GetLocation from 'react-native-get-location';
 
