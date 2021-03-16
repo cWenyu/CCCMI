@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import River, Data, LoginAccount, UserAccount, Insect, InsectGroup, SampleRecord, \
+from .models import River, Data, UserAccount, Insect, InsectGroup, SampleRecord, \
     SampleRecordInsectDetail, User,AllInsectUserUpload, RiverEnvironmentImage, ReportProblemRecord
 
 
@@ -23,13 +23,13 @@ class RiverSerializer(serializers.HyperlinkedModelSerializer):
 class DataSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Data
-        fields = ("data_id", "arduino_id", "latitude", "longitude", "ph", "temp")
+        fields = ("data_id", "arduino_id", "latitude", "longitude", "pH", "temp")
 
 
 class AllDataSerializerWithDate(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Data
-        fields = ("data_id", "arduino_id", "latitude", "longitude", "ph", "temp", "date_captured")
+        fields = ("data_id", "arduino_id", "latitude", "longitude", "pH", "temp", "date_captured")
 
 
 class UserAccountSerializer(serializers.HyperlinkedModelSerializer):
@@ -41,6 +41,11 @@ class UserAccountSerializer(serializers.HyperlinkedModelSerializer):
         "user_group", "user", "occupation", "bio", "profile_pic", "date_of_birth", "term_condition_accept_state",
         "safety_guide_accept_state")
 
+
+class InsectGroupSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = InsectGroup
+        fields = ('group_id','group_name')
 
 class InsectSerializer(serializers.HyperlinkedModelSerializer):
     insect_group = serializers.PrimaryKeyRelatedField(read_only=True)
@@ -68,7 +73,7 @@ class SampleRecordDataSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = SampleRecord
-        fields = ('sample_id', 'sample_date', 'sample_score', 'sample_user', 'sample_ph', 'sample_tmp','sample_survey', 'sample_river',)
+        fields = ('sample_id', 'sample_date', 'sample_score', 'sample_user', 'sample_pH', 'sample_tmp','sample_survey', 'sample_river',)
 
 
 class SampleRecordInsectDetailSerializer(serializers.HyperlinkedModelSerializer):

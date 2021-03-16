@@ -27,8 +27,8 @@ def store_record_result(request):
                 record_save = SampleRecord.objects.create(
                     sample_score = sample_detail['sample_score'],
                     sample_user = user,
-                    sample_ph = sample_detail['sample_ph'],
-                    sample_tmp = sample_detail['sample_tmp'],
+                    sample_pH = sample_detail.get('sample_ph'),
+                    sample_tmp = sample_detail.get('sample_tmp'),
                     sample_river = river,
                     sample_survey = sample_detail['sample_survey']
                 )
