@@ -42,6 +42,11 @@ class UserAccountSerializer(serializers.HyperlinkedModelSerializer):
         "safety_guide_accept_state")
 
 
+class InsectGroupSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = InsectGroup
+        fields = ('group_id','group_name')
+
 class InsectSerializer(serializers.HyperlinkedModelSerializer):
     insect_group = serializers.PrimaryKeyRelatedField(read_only=True)
 

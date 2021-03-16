@@ -13,6 +13,7 @@ router.register(r'river_environment_image',views.RiverEnvironmentImageViewSet)
 router.register(r'samplerecord',views.SampleRecordViewSet)
 router.register(r'recordinsect',views.SampleRecordInsectViewSet)
 router.register(r'reportrecord',views.ReportProblemRecordViewSet)
+router.register(r'insectgroup',views.InsectGroupViewSet)
 #Application Name
 app_name = 'aquality_server'
 
