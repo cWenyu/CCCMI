@@ -176,23 +176,8 @@ SIMPLEUI_CONFIG = {
             'url': 'auth/user/'
         }]
     }, {
-        'name': '测试',
+        'name': 'Activity Map',
         'icon': 'fa fa-file',
-        'models': [{
-            'name': 'Baidu',
-            'url': '/',
-            'icon': 'far fa-surprise'
-        }, {
-            'name': '内网穿透',
-            'url': '/',
-            'icon': 'fab fa-github'
-        }, {
-            'name': '内网穿透',
-            'url': '/',
-            'icon': 'fab fa-github'
-        }, {
-            'name': '登录页嵌套测试',
-            'url': '/'
-        }]
+        'url' : '/aquality_admin/maps'
     }]
 }
