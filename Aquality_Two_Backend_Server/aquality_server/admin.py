@@ -16,7 +16,7 @@ class InsectAdmin(admin.ModelAdmin):
 
 @admin.register(SampleRecord)
 class SampleRecordAdmin(admin.ModelAdmin):
-    list_display = ('sample_id','sample_user','sample_ph','sample_tmp','sample_river','sample_date')
+    list_display = ('sample_id','sample_user','sample_pH','sample_tmp','sample_river','sample_date')
     
 @admin.register(SampleRecordInsectDetail)
 class SampleRecordInsectDetail(admin.ModelAdmin):

@@ -2,12 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 import json
 
-class LoginAccount(models.Model):
-    account_id = models.AutoField(primary_key = True)
-    username = models.CharField(max_length=200,unique=True)
-    email = models.EmailField(unique=True)
-    password = models.CharField(max_length=200)
-
 
 class UserAccount(models.Model):
     user = models.OneToOneField(
@@ -35,26 +29,17 @@ class River(models.Model):
     protected_area = models.CharField(max_length = 20,null=True)
     transboundary = models.CharField(max_length = 20)
     canal = models.CharField(max_length = 20)
-    
+
 
 class Data(models.Model):
     '''Data Collected by Hardware Store To '''
-    data_id = models.AutoField(primary_key = True) 
-    river = models.ForeignKey(
-        River,
-        on_delete=models.CASCADE,
-        default=None, 
-        blank=True, 
-        null=True
-    ) 
+    data_id = models.AutoField(primary_key = True)  
     arduino_id = models.IntegerField()
     latitude = models.FloatField(default = 0,null=True)
     longitude = models.FloatField(default = 0,null=True)
-    ph = models.FloatField(default=None, blank=True, null=True)
+    pH = models.FloatField(default=None, blank=True, null=True)
     temp = models.FloatField(default=None, blank=True, null=True)
     date_captured = models.DateTimeField(auto_now_add=True)
-    ecological_status = models.CharField(max_length = 200,default=None, blank=True, null=True)
-    score_by_insect = models.IntegerField(default=None, blank=True, null=True)
 
 
 class DataHistoryImageImage(models.Model):
@@ -82,8 +67,8 @@ class SampleRecord(models.Model):
     sample_date = models.DateTimeField(auto_now_add=True)
     sample_score = models.IntegerField()
     sample_user = models.ForeignKey(User,on_delete=models.DO_NOTHING)
-    sample_ph = models.FloatField()
-    sample_tmp = models.FloatField()
+    sample_pH = models.FloatField(null=True)
+    sample_tmp = models.FloatField(null=True)
     sample_river = models.ForeignKey(River,on_delete=models.CASCADE)
     sample_survey = models.JSONField(null=True,encoder=json.JSONEncoder,decoder=json.JSONDecoder)
 
