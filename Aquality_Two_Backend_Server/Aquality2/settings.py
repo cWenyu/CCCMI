@@ -29,6 +29,7 @@ ALLOWED_HOSTS = ["127.0.0.1","aquality-server.eba-rxqnbumy.eu-west-1.elasticbean
 # Application definition
 
 INSTALLED_APPS = [    
+    'simpleui',
     'aquality_server.apps.AqualityServerConfig',
     'aquality_admin.apps.AqualityAdminConfig',
     'django.contrib.admin',
@@ -144,3 +145,58 @@ MEDIA_URL = '/media/'
 
 REST_FRAMEWORK = {}
 
+# Simple UI Configuration
+SIMPLEUI_LOGO = 'https://aquality-server-assets.s3.eu-west-1.amazonaws.com/static/aquality_admin/images/Apps%20Logo.png'
+SIMPLEUI_HOME_INFO = False
+SIMPLEUI_ANALYSIS = False
+
+SIMPLEUI_CONFIG = {
+    # 在自定义菜单的基础上保留系统模块
+    'system_keep': False,
+    'menus': [
+    {
+        # 自2021.02.01+ 支持多级菜单，models 为子菜单名
+        'name': 'Aquality Data',
+        'icon': 'fas fa-folder-open',
+        'models': [
+            {
+            'name': 'Insect',
+            'icon': 'fas fa-bug',
+            'url' : '/admin/aquality_server/insect/'
+            }, 
+            {
+            'name': 'Rivers',
+            'icon': 'fas fa-water',
+            'url' : '/admin/aquality_server/river/'
+            }, 
+            {
+            'name': 'Sample Record',
+            'icon': 'fas fa-file-medical-alt',
+            'url' : '/admin/aquality_server/samplerecord/'
+            },
+            {
+            'name': 'Hardware Data',
+            'icon': 'fas fa-microchip',
+            'url' : '/admin/aquality_server/data/'
+            }
+        ]
+    }, {
+        'app': 'auth',
+        'name': 'Authorization',
+        'icon': 'fas fa-user-shield',
+        'models': [{
+            'name': 'User',
+            'icon': 'fa fa-user',
+            'url': 'auth/user/'
+        },
+        {
+            'name':'UserAccount',
+            'icon':'fas fa-users',
+            'url' : '/admin/aquality_server/useraccount'
+        }]
+    }, {
+        'name': 'Activity Map',
+        'icon': 'fas fa-globe-europe',
+        'url' : '/aquality_admin/maps'
+    }]
+}

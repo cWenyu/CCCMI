@@ -34,7 +34,7 @@ async function getRiver(array) {
   return data
 }
 
-//  
+
 async function initMap() {
   map = new google.maps.Map(document.getElementById("map"), {
     center: ireland,
@@ -52,13 +52,13 @@ async function initMap() {
       "</div>" +
       '<h2 id="firstHeading" class="firstHeading">ID : ' + sampleData.sample_id + '</h2>' +
       '<div id="bodyContent">' +
-      "<p>Sample Date  : " + sampleData.sample_date + "</p>" +
-      "<p>Sample Score : " + sampleData.sample_score + "</p>" +
-      "<p>Sample User  : " + sampleData.sample_user + "</p>" +
-      "<p>Sample Ph    : " + sampleData.sample_ph + "</p>" +
-      "<p>Sample Temp  : " + sampleData.sample_tmp + "</p>" +
-      "<p>Sample River : " + sampleData.sample_river.river_name + "</p>" +
-      "<p>Sample Coor  : " + JSON.stringify(sampleData.coordinates) + "</p>" +
+      "<p>Date           : " + new Date(sampleData.sample_date) + "</p>" +
+      "<p>Score          : " + sampleData.sample_score + "</p>" +
+      "<p>User           : " + sampleData.sample_user + "</p>" +
+      "<p>pH             : " + sampleData.sample_ph + "</p>" +
+      "<p>Temperature    : " + sampleData.sample_tmp + "℃</p>" +
+      "<p>River          : " + sampleData.sample_river.river_name + "</p>" +
+      "<p>Cooroordinates : " + JSON.stringify(sampleData.coordinates) + "</p>" +
       "<button onclick='setModel(" + sampleData.sample_id + ")' type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#exampleModal'>Click Here for More Details</button>" +
       "</div>" +
       "</div>";
@@ -101,6 +101,10 @@ function toggleHeatmap() {
 }
 
 async function setModel(sample_id) {
+  if(document.querySelector('#ModalContent').contains(document.querySelector('.json-container')))
+  {
+    document.querySelector('#ModalContent').removeChild(document.querySelector('.json-container'))
+  }
   var sampleDetail = await getSampleRecordJSON(sample_id)
   const tree = JsonView.createTree(sampleDetail);
   JsonView.render(tree, document.querySelector('#ModalContent'));

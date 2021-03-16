@@ -55,7 +55,7 @@
       <nav class="navbar navbar-light bg-light">
         <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'aquality_admin:indexPage' %}">
-      <img src="{% static 'aquality_admin/images/aqualityv2.svg' %}" alt="" width="240" height="120" class="d-inline-block align-top">
+      <img src="{% static 'aquality_admin/images/aqualityv2.svg' %}" alt="" height="200" class="d-inline-block align-top">
     </a>
     {% if request.user.is_authenticated%}
     <div id="user-tools">
@@ -80,8 +80,9 @@
     </main>
     {# The Footer #}
     <footer class="footer mt-auto py-3 bg-light fixed-bottom">
-      <div class="container">
-        <p>Copyright CCCMI</p>
+      <div class="container row center">
+      <p class="col-3"></p>
+        <img src="{% static 'aquality_admin/images/cccmi.svg' %}" alt="" height="50" class="d-inline-block align-top col-3"><p class="col-6">Copyright CCCMI</p>
       </div>
     </footer>
   </body>

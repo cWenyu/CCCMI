@@ -19,11 +19,14 @@ from django.conf.urls.static import static
 from django.conf import settings
 import aquality_admin
 
+admin.site.site_title = 'Aquality'
+admin.site.site_header = 'Aquality Admin'
+
 urlpatterns = [
     path('aquality_server/', include('aquality_server.urls')),
     path('aquality_admin/',include('aquality_admin.urls')),
+    path('', admin.site.urls),
     path('admin/', admin.site.urls),
-    path('',aquality_admin.views.index)
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

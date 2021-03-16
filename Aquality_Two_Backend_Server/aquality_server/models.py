@@ -29,7 +29,10 @@ class River(models.Model):
     protected_area = models.CharField(max_length = 20,null=True)
     transboundary = models.CharField(max_length = 20)
     canal = models.CharField(max_length = 20)
-
+    
+    def __str__(self):
+        return self.river_name
+    
 
 class Data(models.Model):
     '''Data Collected by Hardware Store To '''
@@ -51,7 +54,9 @@ class DataHistoryImageImage(models.Model):
 class InsectGroup(models.Model):
     group_id = models.IntegerField(primary_key=True)
     group_name = models.CharField(max_length = 200, unique= True)
-
+    def __str__(self):
+        return self.group_name
+    
 
 class Insect(models.Model):
     insect_id = models.AutoField(primary_key = True)
@@ -59,8 +64,11 @@ class Insect(models.Model):
     insect_desc = models.TextField(null=True)
     insect_group = models.ForeignKey(InsectGroup,on_delete=models.CASCADE)
     insect_image_path = models.ImageField(upload_to='insect-img',null=True)
-
-
+    
+    # def display_group(self):
+    #     """Create a name for insect group. This is used to display insect group name in Admin."""
+    #     return self.insect_group.group_name
+    # display_group.short_description = 'Insect Group'
 
 class SampleRecord(models.Model):
     sample_id = models.AutoField(primary_key = True)
@@ -80,6 +88,9 @@ class SampleRecordInsectDetail(models.Model):
     sample_record_data = models.ForeignKey(SampleRecord,on_delete=models.CASCADE)
     sample_record_insect = models.ForeignKey(Insect,on_delete=models.CASCADE)
     insect_number = models.IntegerField()
+    
+    def __str__(self):
+        return self.sample_record_insect.insect_name
     
     
 class AllInsectUserUpload(models.Model):
