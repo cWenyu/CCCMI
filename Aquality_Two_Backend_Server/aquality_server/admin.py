@@ -1,18 +1,24 @@
 from django.contrib import admin
 from aquality_server.models import *
 from rest_framework import serializers
+from django.db.models.functions import Lower
 # Register your models here.
 
 admin.site.register(Data)
 admin.site.register(DataHistoryImageImage)
 admin.site.register(River)
-admin.site.register(InsectGroup)
 admin.site.register(AllInsectUserUpload)
 admin.site.register(RiverEnvironmentImage)
 
 @admin.register(Insect)
 class InsectAdmin(admin.ModelAdmin):
     list_display = ('insect_id', 'insect_name','insect_group')
+
+@admin.register(InsectGroup)
+class InsectGroupAdmin(admin.ModelAdmin):
+    list_display = ('group_id','group_name')
+    def get_ordering(self, request):
+        return ['group_id']  
 
 @admin.register(SampleRecord)
 class SampleRecordAdmin(admin.ModelAdmin):
@@ -28,4 +34,4 @@ class SampleRecordInsectDetail(admin.ModelAdmin):
     
 @admin.register(UserAccount)
 class UserAccountAdmin(admin.ModelAdmin):
-    list_display = ("user_group","user","occupation","bio","profile_pic","date_of_birth","term_condition_accept_state","safety_guide_accept_state")
+    list_display = ("user","user_group","occupation","bio","profile_pic","date_of_birth","term_condition_accept_state","safety_guide_accept_state")

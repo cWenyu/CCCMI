@@ -66,7 +66,9 @@ class DataHistoryImageImage(models.Model):
 class InsectGroup(models.Model):
     group_id = models.IntegerField(primary_key=True)
     group_name = models.CharField(max_length = 200, unique= True)
-
+    def __str__(self):
+        return self.group_name
+    
 
 class Insect(models.Model):
     insect_id = models.AutoField(primary_key = True)
@@ -74,8 +76,11 @@ class Insect(models.Model):
     insect_desc = models.TextField(null=True)
     insect_group = models.ForeignKey(InsectGroup,on_delete=models.CASCADE)
     insect_image_path = models.ImageField(upload_to='insect-img',null=True)
-
-
+    
+    # def display_group(self):
+    #     """Create a name for insect group. This is used to display insect group name in Admin."""
+    #     return self.insect_group.group_name
+    # display_group.short_description = 'Insect Group'
 
 class SampleRecord(models.Model):
     sample_id = models.AutoField(primary_key = True)
