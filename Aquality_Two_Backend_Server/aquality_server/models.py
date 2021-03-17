@@ -80,6 +80,10 @@ class SampleRecord(models.Model):
     sample_river = models.ForeignKey(River,on_delete=models.CASCADE)
     sample_survey = models.JSONField(null=True,encoder=json.JSONEncoder,decoder=json.JSONDecoder)
 
+    def sample_local_authority(self):
+        """Create a field for local authority that sample belong to. This is used to display in Admin and used in Map filter. """
+        return self.sample_river.local_authority
+    sample_local_authority.short_description = "Local Authority"
 
 class SampleRecordInsectDetail(models.Model):
     class Meta:
