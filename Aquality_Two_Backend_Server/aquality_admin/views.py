@@ -12,7 +12,8 @@ def index(request):
 
 def maps(request):
     GOOGLE_MAP_API = settings.GOOGLE_MAPS_API_KEY
-    return render(request,'aquality_admin/maps.html',{'map_api':GOOGLE_MAP_API})
+    username_json = request.user.username
+    return render(request,'aquality_admin/maps.html',{'map_api':GOOGLE_MAP_API,"username":username_json})
 
 # def index(request):
 #     GOOGLE_MAP_API = settings.GOOGLE_MAPS_API_KEY

@@ -42,7 +42,7 @@ class InsectGroupAdmin(admin.ModelAdmin):
 
 @admin.register(SampleRecord)
 class SampleRecordAdmin(admin.ModelAdmin):
-    list_display = ('sample_id','sample_user','sample_pH','sample_tmp','sample_river','sample_date','sample_score')
+    list_display = ('sample_id','sample_river','sample_score','sample_date','sample_user','sample_pH','sample_tmp','sample_local_authority')
     exclude = ('sample_survey',)
     readonly_fields = ('sample_id','sample_user','sample_pH','sample_tmp','sample_river','sample_date','sample_score','river_enviroment',)
     inlines = [SampleRecordInsectDetailInline]
