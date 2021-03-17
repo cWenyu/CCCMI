@@ -86,7 +86,12 @@ class SampleRecordViewSet(viewsets.ModelViewSet):
         if self.request.query_params.get('username'):
             username_get = self.request.GET['username']
             user_get = User.objects.get(username=username_get)
-            if self.request.query_params.get('rivername'):
+            if user_get.is_superuser:
+                return SampleRecord.objects.all()
+            elif user_get.is_staff:
+                user_get_sub = UserAccount.objects.get(user=user_get)
+                return SampleRecord.objects.filter(sample_river__local_authority = user_get_sub.user_group)
+            elif self.request.query_params.get('rivername'):
                 river_name = self.request.GET['rivername']
                 river_get = River.objects.get(river_name=river_name)
                 return SampleRecord.objects.filter(sample_user=user_get, sample_river=river_get)

@@ -1,9 +1,11 @@
 var map, heatmap, markerclusterer, markers;
 var ireland = { lat: 53.4624, lng: -7.6921 };
 
+const username = JSON.parse(document.getElementById('username').textContent);
+console.log(username)
 async function getSampleRecordListJSON() {
-  return fetch('/aquality_server/samplerecord/?username=userzzz')
-    // return fetch('https://cccmi-aquality.tk/aquality_server/samplerecord/?username=userzzz')
+  var fetchUrl ='/aquality_server/samplerecord/?username=' + username 
+  return fetch(fetchUrl)
     .then((response) => response.json())
     .then((responseJson) => { return responseJson });
 };
