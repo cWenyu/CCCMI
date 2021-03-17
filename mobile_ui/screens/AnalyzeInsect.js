@@ -408,8 +408,8 @@ const AnalyzeScreen = ({navigation}) => {
             onPress={() => bs.current.snapTo(0)}>
             <View
               style={{
-                height: 150,
-                width: 150,
+                height: 250,
+                width: 250,
                 borderRadius: 15,
                 justifyContent: 'center',
                 alignItems: 'center',
@@ -420,8 +420,10 @@ const AnalyzeScreen = ({navigation}) => {
                 source={{
                   uri: image,
                 }}
+
                 style={{height: 200, width: 300}}
                 imageStyle={{borderRadius: 40}}>
+
                 <View
                   style={{
                     flex: 1,
@@ -430,6 +432,7 @@ const AnalyzeScreen = ({navigation}) => {
                     borderWidth: 2,
                     borderColor: '#423D33',
                     borderRadius: 40,
+
                   }}
                 />
               </ImageBackground>
@@ -447,7 +450,7 @@ const AnalyzeScreen = ({navigation}) => {
           containerStyle={{
             margin: 5,
             alignItems: 'center',
-            marginTop: 55,
+            marginTop: 95,
             marginBottom: 23,
           }}
           disabledStyle={{
