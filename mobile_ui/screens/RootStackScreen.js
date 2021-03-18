@@ -1,4 +1,5 @@
 import React, {useEffect} from 'react';
+import { BackHandler } from "react-native";
 
 import {createStackNavigator} from '@react-navigation/stack';
 
@@ -7,7 +8,7 @@ import SignInScreen from './SignInScreen';
 // import SignUpScreen from './SignUpScreen';
 import OnboardingScreen from './OnboardingScreen';
 import AsyncStorage from '@react-native-community/async-storage';
-import PolicyTerms from '../screens/PolicyTermsScreen0';
+import PolicyTermsScreen0 from '../screens/PolicyTermsScreen0';
 
 const RootStack = createStackNavigator();
 
@@ -31,7 +32,7 @@ const RootStackScreen = ({navigation}) => {
   } else if (isFirstLaunch === true) {
     return (
       <RootStack.Navigator headerMode="none">
-        <RootStack.Screen name="Policy" component={PolicyTerms} />
+        <RootStack.Screen name="PolicyTermsScreen0" component={PolicyTermsScreen0} />
         <RootStack.Screen
           name="OnboardingScreen"
           component={OnboardingScreen}
