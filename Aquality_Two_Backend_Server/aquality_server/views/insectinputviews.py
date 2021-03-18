@@ -38,13 +38,28 @@ def store_record_result(request):
                     sample_river=river,
                     sample_survey=sample_detail['sample_survey']
                 )
-                record_save_id = record_save.sample_id
+
                 for insect in data['insect_list']:
                     insect_to_save = Insect.objects.get(insect_name=insect['insect_name'])
                     SampleRecordInsectDetail.objects.create(
                         sample_record_data=record_save,
                         sample_record_insect=insect_to_save,
                         insect_number=insect['amount']
+                    )
+
+                insect_photo_list = data['insectsImage']['insectPhoto']
+                survey_list = data["surrounding"]["surveyPhotos"]
+
+                for image_path in insect_photo_list:
+                    AllInsectUserUpload.objects.create(
+                        sample_record_data=record_save,
+                        insect_image_path=image_path
+                    )
+
+                for image_path in survey_list:
+                    RiverEnvironmentImage.objects.create(
+                        sample_record_data=record_save,
+                        river_image_path=image_path
                     )
 
                 return JsonResponse({
