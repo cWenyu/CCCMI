@@ -1,58 +1,65 @@
 import json
 from ..utils.utils import count_score_by_insect
-from Cython import typeof
 from ..serializers import *
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+
 
 @csrf_exempt
 def get_sample_record(request):
     sample_id_get = request.POST['sample_id']
     sample_record = SampleRecord.objects.get(sample_id=sample_id_get)
-    insect_list = SampleRecordInsectDetail.objects.filter(sample_record_data = sample_record)
+    insect_list = SampleRecordInsectDetail.objects.filter(sample_record_data=sample_record)
+    insect_image_list = AllInsectUserUpload.objects.filter(sample_record_data=sample_record)
+    environment_image_list = RiverEnvironmentImage.objects.filter(sample_record_data=sample_record)
+
     return JsonResponse({
-        'data_get' :SampleRecordDataSerializer(sample_record).data,
-        'insect_list' : SampleRecordInsectDetailSerializer(insect_list,many=True).data
+        'data_get': SampleRecordDataSerializer(sample_record).data,
+        'insect_list': SampleRecordInsectDetailSerializer(insect_list, many=True).data,
+        'insect_image_list': AllInsectUserUploadSerializer(insect_image_list, many=True).data,
+        'environment_image_list': RiverEnvironmentImageSerializer(environment_image_list, many=True).data
     })
+
 
 @csrf_exempt
 def store_record_result(request):
     try:
         data = json.loads(request.body)
         sample_detail = data['data_get']
-        if request.method =="POST":
+        if request.method == "POST":
             try:
                 user = User.objects.get(username=sample_detail['sample_user'])
-                river = River.objects.get(river_id = sample_detail['sample_river_id'])
+                river = River.objects.get(river_id=sample_detail['sample_river_id'])
                 record_save = SampleRecord.objects.create(
-                    sample_score = sample_detail['sample_score'],
-                    sample_user = user,
-                    sample_pH = sample_detail.get('sample_ph'),
-                    sample_tmp = sample_detail.get('sample_tmp'),
-                    sample_river = river,
-                    sample_survey = sample_detail['sample_survey']
+                    sample_score=sample_detail['sample_score'],
+                    sample_user=user,
+                    sample_pH=sample_detail.get('sample_ph'),
+                    sample_tmp=sample_detail.get('sample_tmp'),
+                    sample_river=river,
+                    sample_survey=sample_detail['sample_survey']
                 )
                 record_save_id = record_save.sample_id
                 for insect in data['insect_list']:
-                    insect_to_save = Insect.objects.get(insect_name = insect['insect_name'])
+                    insect_to_save = Insect.objects.get(insect_name=insect['insect_name'])
                     SampleRecordInsectDetail.objects.create(
-                        sample_record_data = record_save,
-                        sample_record_insect = insect_to_save,
-                        insect_number = insect['amount']
+                        sample_record_data=record_save,
+                        sample_record_insect=insect_to_save,
+                        insect_number=insect['amount']
                     )
-                
+
                 return JsonResponse({
-                    'status_code':201,
-                    'message':'store_success'
-                    })
+                    'status_code': 201,
+                    'message': 'store_success'
+                })
             except Exception as e:
                 return HttpResponse(e)
     except KeyError:
         pass
     return JsonResponse({
-        'status_code':202,
-        'message':'Error Occur'
+        'status_code': 202,
+        'message': 'Error Occur'
     })
+
 
 @csrf_exempt
 def calculate_score_insect(request):
