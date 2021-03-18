@@ -14,7 +14,7 @@ const RootStack = createStackNavigator();
 
 const RootStackScreen = ({navigation}) => {
   const [isFirstLaunch, setIsFirstLaunch] = React.useState(null);
-  AsyncStorage.removeItem('alreadyLaunched');
+  // AsyncStorage.removeItem('alreadyLaunched');
   useEffect(() => {
     AsyncStorage.getItem('alreadyLaunched').then(value => {
       console.log('alreadyLaunched ', value);
