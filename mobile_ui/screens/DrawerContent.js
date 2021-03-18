@@ -13,6 +13,7 @@ import {
 } from 'react-native-paper';
 import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {AuthContext} from '../components/context';
 import axios from 'axios';
 
@@ -123,6 +124,15 @@ export function DrawerContent(props) {
               label="Safety Guide"
               onPress={() => {
                 props.navigation.navigate('SafetyGuideScreen');
+              }}
+            />
+            <DrawerItem
+              icon={({color, size}) => (
+                <MaterialIcons name="policy" color={color} size={size} />
+              )}
+              label="Policy and Terms"
+              onPress={() => {
+                props.navigation.navigate('PolicyTermsScreen');
               }}
             />
           </Drawer.Section>

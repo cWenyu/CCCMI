@@ -35,13 +35,13 @@ export default function GuideContent() {
         <Text style={styles.content}>
           Health and safety should be top of the list for everyone, no matter
           how routine the activity. Working in and near water requires your
-          attention to safety matters. {'\n'}
+          attention to safety matters. {'\n\n'}
           Typical risks that should be considered before carrying out taking
           river sampling and their associated control measures are displayed in
           safety guide. This guideline does not represent a complete risk
           assessment and should be considered as supplementary information only.
           User should adhere to the health and safety policy/procedures of their
-          own organization, club, trust, or employer as appropriate. {'\n'}
+          own organization, club, trust, or employer as appropriate. {'\n\n'}
           Common sense and respect for conditions - especially following heavy
           rain when streams can be flooded – require particular attention.
           Remember - health and safety matters!
@@ -56,15 +56,15 @@ export default function GuideContent() {
         <Text style={styles.content}>
           a. Risk might happen when hypothermia. Please wear appropriate
           clothing; avoid becoming wet; bring spare set of clothes; take shelter
-          when appropriate. {'\n'}
+          when appropriate. {'\n\n'}
           b. Harmful substances and Weil’s Disease. Pleas wear appropriate
           personal protective equipment (PPE) such as footwear and gloves and
           follow good hygiene procedures; ensure no wounds are exposed to raw
-          water. Be aware of risk of Weil’s Disease. {'\n'}
+          water. Be aware of risk of Weil’s Disease. {'\n\n'}
           c. Drowning. Although small streams are generally shallow, drowning
           should always be considered as a risk when working in water and life
           jackets or buoyancy aids should always be worn. Operators should not
-          work in water deeper than knee-deep. {'\n'}
+          work in water deeper than knee-deep. {'\n\n'}
           d. Slips and trips. Care is needed on wet surfaces and when entering
           and leaving the stream. A staff or pond net handle should be used to
           provide support and balance while walking and also to test for deeper
@@ -107,7 +107,7 @@ export default function GuideContent() {
           any visible debris (mud, plant or animal matter) should be removed and
           left at the water body where it was found. Particular attention must
           be paid to the seams and seals of boots and waders. Any pockets of
-          pooled water should be emptied. {'\n'}
+          pooled water should be emptied. {'\n\n'}
           2.Clean: Equipment should be hosed down or pressure-washed on site. If
           facilities are not available, equipment should be carefully contained,
           e.g. in plastic bags, until such facilities are available. Washings
@@ -116,7 +116,7 @@ export default function GuideContent() {
           system (i.e. do not put them down the drain or sink). Where possible,
           clean equipment should be dipped in disinfectant solution (e.g.
           Virkon) to kill diseases, but note this is unlikely to kill nonnative
-          species. {'\n'}
+          species. {'\n\n'}
           3.Dry: Thoroughly drying is the best method for disinfecting clothing
           and equipment. Boots and nets should be hung up to dry. Equipment
           should be thoroughly dry for 48 hours before it is used elsewhere.
