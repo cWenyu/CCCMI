@@ -37,28 +37,6 @@ class DataViewSet(viewsets.ModelViewSet):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class AllDataViewset(viewsets.ModelViewSet):
-    queryset = Data.objects.all()
-    serializer_class = AllDataSerializerWithDate
-
-    def get_queryset(self):
-        # return Data.objects.all().order_by('river_id')
-        pnt = get_location_point(self.request)
-        # return Data.objects.filter(location__distance_lt=(pnt,D(m=10000)))
-        return get_nearby_list_hardware(pnt)
-
-
-class RiverViewSet(viewsets.ModelViewSet):
-    queryset = River.objects.all().order_by('river_id')
-    serializer_class = RiverSerializer
-
-    def get_queryset(self):
-        # return River.objects.all().order_by('river_id')
-        pnt = get_location_point(self.request)
-        # return River.objects.filter(location__distance_lt=(pnt,D(m=10000)))
-        return get_nearby_list(pnt)
-
-
 class InsectGroupViewSet(viewsets.ModelViewSet):
     queryset = InsectGroup.objects.all().order_by('group_id')
     serializer_class = InsectGroupSerializer
