@@ -37,6 +37,28 @@ class DataViewSet(viewsets.ModelViewSet):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+class AllDataViewset(viewsets.ModelViewSet):
+    queryset = Data.objects.all()
+    serializer_class = AllDataSerializerWithDate
+
+    def get_queryset(self):
+        # return Data.objects.all().order_by('river_id')
+        pnt = get_location_point(self.request)
+        # return Data.objects.filter(location__distance_lt=(pnt,D(m=10000)))
+        return get_nearby_list_hardware(pnt)
+
+
+class RiverViewSet(viewsets.ModelViewSet):
+    queryset = River.objects.all().order_by('river_id')
+    serializer_class = RiverSerializer
+
+    def get_queryset(self):
+        # return River.objects.all().order_by('river_id')
+        pnt = get_location_point(self.request)
+        # return River.objects.filter(location__distance_lt=(pnt,D(m=10000)))
+        return get_nearby_list(pnt)
+
+
 class InsectGroupViewSet(viewsets.ModelViewSet):
     queryset = InsectGroup.objects.all().order_by('group_id')
     serializer_class = InsectGroupSerializer
@@ -89,59 +111,6 @@ class SampleRecordInsectViewSet(viewsets.ModelViewSet):
             sample_record = SampleRecord.objects.get(sample_id=sample_id_get)
             return SampleRecordInsectDetail.objects.filter(sample_record_data=sample_record)
         return SampleRecordInsectDetail.objects.all()
-
-class AllInsectUserUploadViewSet(viewsets.ModelViewSet):
-    queryset = AllInsectUserUpload.objects.all()
-    serializer_class = AllInsectUserUploadSerializer
-
-    def create(self, request):
-        if request.method == 'POST':
-            save_serialize = self.serializer_class(data=request.data)
-            if save_serialize.is_valid():
-                save_serialize.save()
-                return Response(save_serialize.data, status=status.HTTP_201_CREATED)
-        return Response({
-            'status': 'Bad request',
-            'message': 'Data could not be created with received data.'
-        }, status=status.HTTP_400_BAD_REQUEST)
-
-    def get_queryset(self):
-            return AllInsectUserUpload.objects.all()
-
-    def destroy(self, request, *args, **kwargs):
-        try:
-            instance = self.get_object()
-            self.perform_destroy(instance)
-        except status.HTTP_400_BAD_REQUEST:
-            pass
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
-class RiverEnvironmentImageViewSet(viewsets.ModelViewSet):
-    queryset = RiverEnvironmentImage.objects.all()
-    serializer_class = RiverEnvironmentImageSerializer
-
-    def create(self, request):
-        if request.method == 'POST':
-            saveSerialize = self.serializer_class(data=request.data)
-            if saveSerialize.is_valid():
-                saveSerialize.save()
-                return Response(saveSerialize.data, status=status.HTTP_201_CREATED)
-        return Response({
-            'status': 'Bad request',
-            'message': 'Data could not be created with received data.'
-        }, status=status.HTTP_400_BAD_REQUEST)
-
-    def get_queryset(self):
-            return RiverEnvironmentImage.objects.all()
-
-    def destroy(self, request, *args, **kwargs):
-        try:
-            instance = self.get_object()
-            self.perform_destroy(instance)
-        except status.HTTP_400_BAD_REQUEST:
-            pass
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
 
 class ReportProblemRecordViewSet(viewsets.ModelViewSet):
     queryset = ReportProblemRecord.objects.all()
