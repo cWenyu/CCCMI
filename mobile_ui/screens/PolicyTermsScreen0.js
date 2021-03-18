@@ -10,14 +10,9 @@ const PolicyTermsScreen0 = ({navigation}) => {
   const [boxChecked, setBoxChecked] = useState(false);
   
   const toggleSwitch = () => {
-    !boxChecked && navigation.navigate('OnboardingScreen')
+    !boxChecked && navigation.replace('OnboardingScreen')
     setBoxChecked(previousState => !previousState);
   };
-  
-  useEffect(() => {
-    console.log("boxChecked useEffect",boxChecked);
-  }, []);
-
   /**
    * @param event
    * @private
