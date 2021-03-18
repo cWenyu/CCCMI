@@ -90,7 +90,7 @@ class SampleRecordViewSet(viewsets.ModelViewSet):
                 return SampleRecord.objects.all()
             elif user_get.is_staff:
                 user_get_sub = UserAccount.objects.get(user=user_get)
-                return SampleRecord.objects.filter(sample_river__local_authority = user_get_sub.user_group)
+                return SampleRecord.objects.filter(sample_river__local_authority=user_get_sub.user_group)
             elif self.request.query_params.get('rivername'):
                 river_name = self.request.GET['rivername']
                 river_get = River.objects.get(river_name=river_name)
@@ -111,6 +111,7 @@ class SampleRecordInsectViewSet(viewsets.ModelViewSet):
             sample_record = SampleRecord.objects.get(sample_id=sample_id_get)
             return SampleRecordInsectDetail.objects.filter(sample_record_data=sample_record)
         return SampleRecordInsectDetail.objects.all()
+
 
 class ReportProblemRecordViewSet(viewsets.ModelViewSet):
     queryset = ReportProblemRecord.objects.all()
