@@ -48,7 +48,7 @@ import HistoryList from './screens/HistoryList';
 import {Provider} from 'react-redux';
 import store from './components/reduxStore';
 import ReportProblem from './screens/ReportProblem';
-
+import PolicyTermsScreen from './screens/PolicyTermsScreen';
 import {
   resetSurveyForm,
   updateSelectionHandlers,
@@ -210,7 +210,7 @@ const App = () => {
           ),
         }}
       />
-      
+
       {/* add screen here */}
       <HomeStack.Screen
         name="SampleHistoryScreen"
@@ -334,7 +334,7 @@ const App = () => {
           }}
         />
 
-<TakeSampleStack.Screen
+        <TakeSampleStack.Screen
           name="OnboardingScreen2"
           component={OnboardingScreen2}
           options={{
@@ -729,6 +729,35 @@ const App = () => {
       />
     </SafetyStack.Navigator>
   );
+  const PolicyStack = createStackNavigator();
+  const PolicyStackScreen = ({navigation}) => (
+    <PolicyStack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: '#009387',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+      }}>
+      <PolicyStack.Screen
+        name="PolicyTermsScreen"
+        component={PolicyTermsScreen}
+        options={{
+          title: 'Policy and Terms',
+          headerLeft: () => (
+            <Icon.Button
+              name="ios-menu"
+              size={25}
+              backgroundColor="#009387"
+              onPress={() => navigation.openDrawer()}
+            />
+          ),
+        }}
+      />
+    </PolicyStack.Navigator>
+  );
 
   return (
     <Provider store={store}>
@@ -752,6 +781,10 @@ const App = () => {
                 <Drawer.Screen
                   name="SafetyGuideScreen"
                   component={SafetyStackScreen}
+                />
+                <Drawer.Screen
+                  name="PolicyTermsScreen"
+                  component={PolicyStackScreen}
                 />
               </Drawer.Navigator>
             ) : (
