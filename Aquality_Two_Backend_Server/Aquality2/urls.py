@@ -25,6 +25,7 @@ admin.site.site_header = 'Aquality Admin'
 urlpatterns = [
     path('aquality_server/', include('aquality_server.urls')),
     path('aquality_admin/',include('aquality_admin.urls')),
+    path('',include('aquality.urls')),
     path('admin/', admin.site.urls),
 ]
 

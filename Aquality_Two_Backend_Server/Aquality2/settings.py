@@ -30,6 +30,7 @@ ALLOWED_HOSTS = ["127.0.0.1","aquality-server.eba-rxqnbumy.eu-west-1.elasticbean
 
 INSTALLED_APPS = [    
     'simpleui',
+    'aquality.apps.AqualityConfig',
     'aquality_server.apps.AqualityServerConfig',
     'aquality_admin.apps.AqualityAdminConfig',
     'django.contrib.admin',
