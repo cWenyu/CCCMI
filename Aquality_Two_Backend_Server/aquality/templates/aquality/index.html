@@ -1,1 +1,81 @@
-<li><a href="{% url 'aquality:index' %}">HelloThisIsTitle</a></li>
+{% extends 'aquality/base.html'%} 
+{% load static %}
+{% block title%} Home{% endblock %} 
+
+
+{% block content %}
+<main id="main">
+    {% comment %} <section class="masthead" style="background-image: url({% static 'aquality/images/appLogo.png' %})"> {% endcomment %}
+    <section class="masthead">
+        <div id="particles-js"></div>
+        <div class="text-wrap" >
+            <img class="img-fluid" src="{% static 'aquality/images/appLogoWithoutTypoCrop.png' %}" alt=""><h1>Aquality</h1>
+            <p class="lead">Application Help you to do Sampling.</p>
+                    <a rel="nofollow" rel="noreferrer" class="btn" href="demo.php">
+                        How It Work
+                    </a>
+        </div>
+    </section>
+ <section class="content">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 text-justify">
+                    <header class="heading-title">
+                    <div id="HOME" class="Target">
+                        <h1><strong>What is Aquality </strong></h1>
+                    </header>
+                        <p>
+                        Aquality 1.0 is an application that helps determine water quality through the
+                        use of Insects.
+                        </p>
+                        <p>
+                        Aquality 2.0 is an improvement of version 1.0. It helps determine water
+                        quality through the use of 3 sensors (PH, temperature and oxygen content) and
+                        the AI model to analysis insects to enhance the accuracy of data which is
+                        collected by Citizen Scientists.
+                        </p>
+                        <p>
+                        The whole project applies IoT technic, combines hardware and software together
+                        to achieve the purpose of automation.
+                        </p>
+                         </div>
+                          <div id="ABOUT"  class="Target">
+                        <h4><strong>Technology</strong></h4>
+                        <ul>
+                        <li>
+                            <strong>Hardware: </strong>ESP 32 Microcontroller with PH sensor and
+                            temperature sensor
+                        </li>
+                        <li><strong>App: </strong>React Native</li>
+                        <li><strong>Cloud: </strong>AWS, PubNub</li>
+                        <li><strong>AI:</strong> Yolov3+LabelImg</li>
+                        <li><strong>Backend</strong>: Django + PostgreSQL</li>
+                        <li><strong>UI Testing</strong>: Appium + WendriveIO</li>
+                        <li><strong>API Testing</strong>: Postman + newman + Github Actions</li>
+                        </ul>
+                        </div>
+                        <p></p>
+                          <div id="CONTACT"  class="Target">
+                        <h4><strong>External Collaborator</strong></h4>
+                        <p>
+                        <span style="color: #00ccff"
+                            ><strong
+                            ><a href="https://www.dkit.ie/centre-freshwater-environmental-studies"
+                                >Centre for Freshwater and Environmental Studies</a
+                            ></strong
+                            ></span
+                        >
+                        </p>
+                        </div>
+                        
+                </div>
+               
+                       
+                   
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+{% endblock content%}
