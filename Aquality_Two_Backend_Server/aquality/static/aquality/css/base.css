@@ -37,8 +37,8 @@ label {
   font-size: 26px;
 }
 
-.navSelect{
-    float: right;
+.navSelect {
+  float: right;
 }
 
 nav .navSelect a {
@@ -75,9 +75,10 @@ label {
   display: none;
 }
 
-#nav-title{
-    margin-top: 0;
-    padding: 1rem 0 0 1rem;
+#nav-title {
+  margin-top: 0;
+  padding: 1rem 0 0 1rem;
+  z-index: 5;
 }
 
 @media only screen and (max-width: 500px) {
@@ -121,7 +122,6 @@ label {
   }
 }
 
-
 /* NEXT */
 /* NEXT */
 /* NEXT */
@@ -136,71 +136,76 @@ label {
 /* NEXT */
 
 /* Block For Custom */
-@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700');
-@import url('https://fonts.googleapis.com/css?family=Eczar');
+@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700");
+@import url("https://fonts.googleapis.com/css?family=Eczar");
 
-h1, h2, h3, h4, h5 {
-    font-family: 'Eczar', serif;
-    font-weight: 400;
-    line-height: 1.2em;
-    text-rendering: optimizeLegibility;
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: "Eczar", serif;
+  font-weight: 400;
+  line-height: 1.2em;
+  text-rendering: optimizeLegibility;
 }
 h1 {
-    font-size: 28px;
+  font-size: 28px;
 }
 
 .masthead {
-    display: table;
-    width: 100%;
-    background-color: rgb(18, 112, 136);
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center bottom;
-    background-attachment: fixed;
-    text-align: center;
-    /* height: calc(100vh - 100vh);
+  display: table;
+  width: 50%;
+  background-color: rgb(18, 112, 136);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  background-attachment: fixed;
+  text-align: center;
+  /* height: calc(100vh - 100vh);
     min-height: calc(100vh - 100vh); */
+  margin: 0 25% 0 25%;
 }
 
 .masthead .text-wrap {
-    display: table-cell;
-    text-align: center;
-    vertical-align: middle;
-    position: relative;
-    opacity: 0;
-    -webkit-transform: scale(0.95);
-       -moz-transform: scale(0.95);
-        -ms-transform: scale(0.95);
-            transform: scale(0.95);
-    -webkit-transition: all 0.6s ease-out;
-       -moz-transition: all 0.6s ease-out;
-            transition: all 0.6s ease-out;
-    -webkit-transition-delay: 0.6s;
-       -moz-transition-delay: 0.6s;
-            transition-delay: 0.6s;
-    z-index: 4;
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+  position: relative;
+  opacity: 0;
+  -webkit-transform: scale(0.95);
+  -moz-transform: scale(0.95);
+  -ms-transform: scale(0.95);
+  transform: scale(0.95);
+  -webkit-transition: all 0.6s ease-out;
+  -moz-transition: all 0.6s ease-out;
+  transition: all 0.6s ease-out;
+  -webkit-transition-delay: 0.6s;
+  -moz-transition-delay: 0.6s;
+  transition-delay: 0.6s;
+  z-index: 4;
 }
 .masthead.less .text-wrap {
-    padding: 0;
+  padding: 0;
 }
 .masthead .text-wrap h1 {
-    font-size: 40px;
-    color: #fff;
-    line-height: inherit;
-    margin: 0;
-    text-shadow: 0 0 1px rgba(0,0,0,0.15);
+  font-size: 40px;
+  color: #fff;
+  line-height: inherit;
+  margin: 0;
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.15);
 }
 .masthead .text-wrap .lead {
-    font-weight: 300;
-    color: #fff;
-    line-height: inherit;
-    margin: 0;
-    text-shadow: 0 0 1px rgba(0,0,0,0.15);
+  font-weight: 300;
+  color: #fff;
+  line-height: inherit;
+  margin: 0;
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.15);
 }
 body.pace-done .masthead .text-wrap {
-    opacity: 1;
-    -webkit-transform: scale(1);
-    -moz-transform: scale(1);
-    -ms-transform: scale(1);
-    transform: scale(1);
+  opacity: 1;
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  -ms-transform: scale(1);
+  transform: scale(1);
 }
