@@ -125,7 +125,6 @@ package-lock.json
 
 package.json
 
-static
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
