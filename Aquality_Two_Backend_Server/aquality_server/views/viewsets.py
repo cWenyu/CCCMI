@@ -90,7 +90,7 @@ class SampleRecordViewSet(viewsets.ModelViewSet):
                 return SampleRecord.objects.all()
             elif user_get.is_staff:
                 user_get_sub = UserAccount.objects.get(user=user_get)
-                return SampleRecord.objects.filter(sample_river__local_authority = user_get_sub.user_group)
+                return SampleRecord.objects.filter(sample_river__local_authority=user_get_sub.user_group)
             elif self.request.query_params.get('rivername'):
                 river_name = self.request.GET['rivername']
                 river_get = River.objects.get(river_name=river_name)
@@ -111,58 +111,6 @@ class SampleRecordInsectViewSet(viewsets.ModelViewSet):
             sample_record = SampleRecord.objects.get(sample_id=sample_id_get)
             return SampleRecordInsectDetail.objects.filter(sample_record_data=sample_record)
         return SampleRecordInsectDetail.objects.all()
-
-class AllInsectUserUploadViewSet(viewsets.ModelViewSet):
-    queryset = AllInsectUserUpload.objects.all()
-    serializer_class = AllInsectUserUploadSerializer
-
-    def create(self, request):
-        if request.method == 'POST':
-            save_serialize = self.serializer_class(data=request.data)
-            if save_serialize.is_valid():
-                save_serialize.save()
-                return Response(save_serialize.data, status=status.HTTP_201_CREATED)
-        return Response({
-            'status': 'Bad request',
-            'message': 'Data could not be created with received data.'
-        }, status=status.HTTP_400_BAD_REQUEST)
-
-    def get_queryset(self):
-            return AllInsectUserUpload.objects.all()
-
-    def destroy(self, request, *args, **kwargs):
-        try:
-            instance = self.get_object()
-            self.perform_destroy(instance)
-        except status.HTTP_400_BAD_REQUEST:
-            pass
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
-class RiverEnvironmentImageViewSet(viewsets.ModelViewSet):
-    queryset = RiverEnvironmentImage.objects.all()
-    serializer_class = RiverEnvironmentImageSerializer
-
-    def create(self, request):
-        if request.method == 'POST':
-            saveSerialize = self.serializer_class(data=request.data)
-            if saveSerialize.is_valid():
-                saveSerialize.save()
-                return Response(saveSerialize.data, status=status.HTTP_201_CREATED)
-        return Response({
-            'status': 'Bad request',
-            'message': 'Data could not be created with received data.'
-        }, status=status.HTTP_400_BAD_REQUEST)
-
-    def get_queryset(self):
-            return RiverEnvironmentImage.objects.all()
-
-    def destroy(self, request, *args, **kwargs):
-        try:
-            instance = self.get_object()
-            self.perform_destroy(instance)
-        except status.HTTP_400_BAD_REQUEST:
-            pass
-        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class ReportProblemRecordViewSet(viewsets.ModelViewSet):
