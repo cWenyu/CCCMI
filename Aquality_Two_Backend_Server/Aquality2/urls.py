@@ -28,4 +28,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 ]
 
+handler403 = 'aquality_server.views.custom_permission_denied_view'
+
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
