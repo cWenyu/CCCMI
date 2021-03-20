@@ -152,12 +152,17 @@ const resultPage = ({navigation, route}) => {
       <View
         accessibilityLabel={testVariables.resultPageContainer}
         testID={testVariables.resultPageContainer}>
+          <ListItem bottomDivider containerStyle={styles.listContainer}>
+          <ListItem.Content>
+            <ListItem.Subtitle style={styles.title}>Sample score (Insect)</ListItem.Subtitle>
+            <Text style={styles.title}>{route.params.sample_score}</Text>
+          </ListItem.Content>
+        </ListItem>
         <Text style={styles.sectionHeader}>River</Text>
-        {/* <Text>score: {insectScore}</Text>
-        <Text>username: {username}</Text> */}
+        {/* <Text>username: {username}</Text> */}
         <ListItem bottomDivider containerStyle={styles.listContainer}>
           <ListItem.Content>
-            <ListItem.Subtitle style={styles.title}>
+          <ListItem.Subtitle style={styles.title}>
               River Name
             </ListItem.Subtitle>
             <Text style={styles.title}>
@@ -165,6 +170,7 @@ const resultPage = ({navigation, route}) => {
             </Text>
           </ListItem.Content>
         </ListItem>
+        
         <ListItem bottomDivider containerStyle={styles.listContainer}>
           <ListItem.Content>
             <ListItem.Subtitle style={styles.title}>Latitude</ListItem.Subtitle>
@@ -363,8 +369,7 @@ const resultPage = ({navigation, route}) => {
     if (route.params) {
       console.log(JSON.stringify(route.params));
     }
-    if (route.params?.sensorData) {
-    }
+
     BackHandler.addEventListener('hardwareBackPress', backAction);
 
     return () =>
