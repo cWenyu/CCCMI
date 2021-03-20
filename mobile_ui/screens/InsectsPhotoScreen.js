@@ -100,6 +100,10 @@ const InsectPhotoScreen = ({navigation, route}) => {
       alignItems: buttonStyle.alignItems,
       justifyContent: buttonStyle.justifyContent,
     },
+    uploadPhotoButton: {
+      flex:1,
+      alignItems: 'center',
+    }
   });
 
   useEffect(() => {
@@ -293,8 +297,8 @@ const InsectPhotoScreen = ({navigation, route}) => {
           </Modal>,
         )
       : type.push(
-          <View style={styles.container}>
-            <Text style={styles.titleStyle}>Image Gallery</Text>
+          <View style={{position: 'absolute', width: '100%', marginTop: '50%'}}>
+            <Text style={styles.titleStyle}>Uploaded Image</Text>
             <FlatList
               data={dataSource}
               renderItem={({item, index}) => (
@@ -335,6 +339,7 @@ const InsectPhotoScreen = ({navigation, route}) => {
           storePhotoGallery().then(insectsImageObj => {
             navigation.navigate('InsectScreen', {
               insectsImage: insectsImageObj,
+              uploadInsectLength: dataSource.length
             });
           });
         }}
@@ -379,7 +384,7 @@ const InsectPhotoScreen = ({navigation, route}) => {
           height: 50,
           backgroundColor: '#02ab9e',
         }}
-        containerStyle={styles.takePhotoButton}
+        containerStyle={styles.uploadPhotoButton}
         disabledStyle={{
           borderWidth: 2,
           borderColor: '#00F',
