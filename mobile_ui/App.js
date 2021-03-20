@@ -58,6 +58,7 @@ import {
 import {useDispatch} from 'react-redux';
 import {StackActions} from '@react-navigation/native';
 import SurroundingsPhotoScreen from './screens/SurroundingsPhotoScreen';
+import InsectsPhotoScreen from './screens/InsectsPhotoScreen';
 
 const Drawer = createDrawerNavigator();
 
@@ -672,6 +673,21 @@ const App = () => {
           component={AnalyzeInsect}
           options={{
             title: 'AnalyzeInsect',
+            headerStyle: {
+              backgroundColor: '#009387',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}
+        />
+
+        <TakeSampleStack.Screen
+          name="UploadInsectsPhoto"
+          component={InsectsPhotoScreen}
+          options={{
+            title: 'Upload Insects Photo',
             headerStyle: {
               backgroundColor: '#009387',
             },

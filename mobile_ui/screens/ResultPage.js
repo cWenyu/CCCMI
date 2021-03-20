@@ -95,16 +95,17 @@ const resultPage = ({navigation, route}) => {
       };
     }
 
-    console.log(JSON.stringify('sampleobj sending ',sampleObj));
+    console.log(JSON.stringify('sampleobj sending ', sampleObj));
     // set insect (selected + analysed)
     let array3 = route.params.selectedInsect.concat(
       route.params.analyzedInsect,
     );
     setInsectList(array3);
 
+    console.log(JSON.stringify('insects photos', route.params.insect_image));
     let dataObj = {sampleObj: sampleObj, insectObj: array3};
 
-    return dataObj;
+    // return dataObj;
   };
 
   const handleFinish = () => {

@@ -13,6 +13,7 @@ import {Text, Button} from 'react-native-elements';
 import testVariables from '../appium_automation_testing/test_variables';
 import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
+import FolderIcon from 'react-native-vector-icons/dist/AntDesign';
 import axios from 'axios';
 import {IconButton, Colors} from 'react-native-paper';
 import {
@@ -43,6 +44,7 @@ const InsectScreen = ({navigation, route}) => {
     group_5: '0',
   });
   const [score, setScore] = useState('0');
+  const [insectsImageList, setInsectsImageList] = useState([]);
 
   const styles = StyleSheet.create({
     container: {
@@ -333,6 +335,14 @@ const InsectScreen = ({navigation, route}) => {
     return true;
   };
 
+  const ccg = () => {
+    if (insectsImageList.length === 0)
+      if (route.params?.insectsImage) {
+        console.log('insect images');
+        console.log(route.params);
+        setInsectsImageList(route.params.insectsImage.insectPhoto);
+      }
+  };
   return (
     <View
       style={styles.container}
@@ -388,7 +398,33 @@ const InsectScreen = ({navigation, route}) => {
         loadingProps={{animating: true}}
         loadingStyle={{}}
       />
-
+      <Button
+        accessibilityLabel={testVariables.insectScreenAnalyzeInsectButton}
+        testID={testVariables.insectScreenAnalyzeInsectButton}
+        title="Upload Insects Photos"
+        onPress={() => {
+          navigation.navigate('UploadInsectsPhoto');
+        }}
+        titleProps={{}}
+        titleStyle={{marginHorizontal: 22, fontSize: 18}}
+        buttonStyle={{width: 270, height: 50, backgroundColor: '#009387'}}
+        containerStyle={{
+          margin: 5,
+          alignItems: 'center',
+          marginTop: 20,
+          marginBottom: 33,
+        }}
+        disabledStyle={{
+          borderWidth: 2,
+          borderColor: '#00F',
+        }}
+        disabledTitleStyle={{color: '#00F'}}
+        linearGradientProps={null}
+        icon={<Icon name="upload" size={19} color="#FAF9F7" />}
+        iconContainerStyle={{background: '#000'}}
+        loadingProps={{animating: true}}
+        loadingStyle={{}}
+      />
       <Modal
         animationType="slide"
         visible={modalVisible}
@@ -399,7 +435,9 @@ const InsectScreen = ({navigation, route}) => {
             <Text>Group 2 - {groupScore.group_2} points</Text>
             <Text>Group 3 - {groupScore.group_3} points</Text>
             <Text>Group 4 - {groupScore.group_4} points</Text>
-            <Text>Group 5 - {groupScore.group_5} points{"\n"}</Text>
+            <Text>
+              Group 5 - {groupScore.group_5} points{'\n'}
+            </Text>
             <Text>Total sample score: </Text>
             <Text style={{fontWeight: 'bold'}}>{score} points</Text>
 
@@ -414,13 +452,11 @@ const InsectScreen = ({navigation, route}) => {
           </View>
         </View>
       </Modal>
-
       <ScrollView>
         {renderSelectedInsect()}
         {renderAnalysedInsect()}
         {renderGetScoreButton()}
       </ScrollView>
-
       <Button
         title="Finish"
         onPress={() => {
@@ -454,6 +490,7 @@ const InsectScreen = ({navigation, route}) => {
         loadingProps={{animating: true}}
         loadingStyle={{}}
       />
+      {ccg()}
     </View>
   );
 };
