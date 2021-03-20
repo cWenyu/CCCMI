@@ -370,7 +370,7 @@ const InsectPhotoScreen = ({navigation, route}) => {
         loadingProps={{animating: true}}
         loadingStyle={{}}
         onPress={() => requestCameraPermission('camera')}
-        title="Take Image"
+        title="Take Photo"
         titleStyle={{marginHorizontal: 22, fontSize: 18}}
       />
       <Button
