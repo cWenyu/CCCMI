@@ -470,6 +470,7 @@ const InsectScreen = ({navigation, route}) => {
             currentLocation: route.params.currentLocation,
             sensorData: route.params.sensorData,
             surrounding: route.params.surrounding,
+            insectsImage: route.params.insectsImage,
             sample_score: score,
           });
         }}

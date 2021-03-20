@@ -102,10 +102,16 @@ const resultPage = ({navigation, route}) => {
     );
     setInsectList(array3);
 
-    console.log(JSON.stringify('insects photos', route.params.insect_image));
-    let dataObj = {sampleObj: sampleObj, insectObj: array3};
+    console.log(JSON.stringify('insects photos', route.params.insectsImage));
+    console.log(JSON.stringify('env photos', route.params.surrounding));
+    let dataObj = {
+      sampleObj: sampleObj,
+      insectObj: array3,
+      insectsImage: route.params.insectsImage,
+      surrounding: route.params.surrounding,
+    };
 
-    // return dataObj;
+    return dataObj;
   };
 
   const handleFinish = () => {
