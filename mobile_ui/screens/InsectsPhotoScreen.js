@@ -101,9 +101,9 @@ const InsectPhotoScreen = ({navigation, route}) => {
       justifyContent: buttonStyle.justifyContent,
     },
     uploadPhotoButton: {
-      flex:1,
+      flex: 1,
       alignItems: 'center',
-    }
+    },
   });
 
   useEffect(() => {
@@ -167,9 +167,9 @@ const InsectPhotoScreen = ({navigation, route}) => {
   const getPageIntroVisible = async () => {
     try {
       const pageIntroModalVisibleResp = await AsyncStorage.getItem(
-        'pageIntroVisible',
+        'insectPhotoPageIntroVisible',
       );
-      return pageIntroModalVisibleResp;
+      return insectPhotoPageIntroVisible;
     } catch (e) {
       console.log(e);
       return false;
@@ -179,7 +179,7 @@ const InsectPhotoScreen = ({navigation, route}) => {
   const alertPageInfo = () => {
     Alert.alert(
       'Page Information',
-      'Record surrounding environment by taking photos,' +
+      'Upload insect photos by by taking photos or select photos from image gallery, ' +
         'you can view the image by clicking it in image gallery then delete it or keep it.',
       [
         {
@@ -196,7 +196,7 @@ const InsectPhotoScreen = ({navigation, route}) => {
   };
 
   const setPageIntroVisible = async () => {
-    await AsyncStorage.setItem('pageIntroVisible', 'false');
+    await AsyncStorage.setItem('insectPhotoPageIntroVisible', 'false');
   };
 
   const requestCameraPermission = async mode => {
@@ -339,7 +339,7 @@ const InsectPhotoScreen = ({navigation, route}) => {
           storePhotoGallery().then(insectsImageObj => {
             navigation.navigate('InsectScreen', {
               insectsImage: insectsImageObj,
-              uploadInsectLength: dataSource.length
+              uploadInsectLength: dataSource.length,
             });
           });
         }}
@@ -357,48 +357,49 @@ const InsectPhotoScreen = ({navigation, route}) => {
 
   return (
     <View style={styles.container}>
-      <Button
-        buttonStyle={{
-          width: 270,
-          height: 50,
-          backgroundColor: '#02ab9e',
-        }}
-        containerStyle={styles.takePhotoButton}
-        disabledStyle={{
-          borderWidth: 2,
-          borderColor: '#00F',
-        }}
-        disabledTitleStyle={{color: '#00F'}}
-        linearGradientProps={null}
-        icon={<Icon name="camera" size={19} color="#0FF" />}
-        iconContainerStyle={{background: '#000'}}
-        loadingProps={{animating: true}}
-        loadingStyle={{}}
-        onPress={() => requestCameraPermission('camera')}
-        title="Take Photo"
-        titleStyle={{marginHorizontal: 22, fontSize: 18}}
-      />
-      <Button
-        buttonStyle={{
-          width: 270,
-          height: 50,
-          backgroundColor: '#02ab9e',
-        }}
-        containerStyle={styles.uploadPhotoButton}
-        disabledStyle={{
-          borderWidth: 2,
-          borderColor: '#00F',
-        }}
-        disabledTitleStyle={{color: '#00F'}}
-        linearGradientProps={null}
-        icon={<Icon name="folder-search" size={19} color="#0FF" />}
-        iconContainerStyle={{background: '#000'}}
-        loadingProps={{animating: true}}
-        loadingStyle={{}}
-        onPress={() => requestCameraPermission('folder')}
-        title="Upload from folder"
-        titleStyle={{marginHorizontal: 22, fontSize: 18}}
-      />
+      <View style={styles.takePhotoButton}>
+        <Button
+          buttonStyle={{
+            width: 270,
+            height: 50,
+            backgroundColor: '#02ab9e',
+          }}
+          disabledStyle={{
+            borderWidth: 2,
+            borderColor: '#00F',
+          }}
+          disabledTitleStyle={{color: '#00F'}}
+          linearGradientProps={null}
+          icon={<Icon name="camera" size={19} color="#0FF" />}
+          iconContainerStyle={{background: '#000'}}
+          loadingProps={{animating: true}}
+          loadingStyle={{}}
+          onPress={() => requestCameraPermission('camera')}
+          title="Take Photo"
+          titleStyle={{marginHorizontal: 22, fontSize: 18}}
+        />
+        <Button
+          buttonStyle={{
+            width: 270,
+            height: 50,
+            backgroundColor: '#02ab9e',
+          }}
+          containerStyle={{marginTop: 15}}
+          disabledStyle={{
+            borderWidth: 2,
+            borderColor: '#00F',
+          }}
+          disabledTitleStyle={{color: '#00F'}}
+          linearGradientProps={null}
+          icon={<Icon name="folder-search" size={19} color="#0FF" />}
+          iconContainerStyle={{background: '#000'}}
+          loadingProps={{animating: true}}
+          loadingStyle={{}}
+          onPress={() => requestCameraPermission('folder')}
+          title="Upload from folder"
+          titleStyle={{marginHorizontal: 22, fontSize: 18}}
+        />
+      </View>
 
       {dataSource.length > 0 && renderImageGallery()}
       {dataSource.length > 0 && renderDoneButton()}
