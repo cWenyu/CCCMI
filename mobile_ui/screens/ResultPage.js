@@ -57,12 +57,24 @@ const resultPage = ({navigation, route}) => {
   });
 
   const postData = async ob => {
+    console.log('\n\n');
+    console.log(
+      JSON.stringify({
+        data_get: ob.sampleObj,
+        insect_list: ob.insectObj,
+        insectsImage: ob.insectsImage,
+        surrounding: ob.surrounding,
+      }),
+    );
+
     try {
       let response = await axios.post(
         'https://cccmi-aquality.tk/aquality_server/samplesave',
         {
           data_get: ob.sampleObj,
           insect_list: ob.insectObj,
+          insectsImage: ob.insectsImage,
+          surrounding: ob.surrounding,
         },
       );
       console.log(response);
@@ -102,8 +114,6 @@ const resultPage = ({navigation, route}) => {
     );
     setInsectList(array3);
 
-    console.log(JSON.stringify('insects photos', route.params.insectsImage));
-    console.log(JSON.stringify('env photos', route.params.surrounding));
     let dataObj = {
       sampleObj: sampleObj,
       insectObj: array3,
