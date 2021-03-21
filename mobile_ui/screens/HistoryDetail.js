@@ -63,10 +63,50 @@ const HistoryDetail = ({route}) => {
     },
   });
 
-  const renderInsects = () => {
-    console.log('renderInsects');
-    insectsList && console.log(insectsList);
+  const renderArduino = () => {
+    if (item.sample_tmp) {
+      return (
+        <View>
+          <Text style={styles.sectionHeader}>Sensor Device</Text>
+          <ListItem bottomDivider containerStyle={styles.listContainer}>
+            <ListItem.Content>
+              <ListItem.Subtitle style={styles.title}>
+                Water pH
+              </ListItem.Subtitle>
+              <Text style={styles.title}>{item.sample_pH}</Text>
+            </ListItem.Content>
+          </ListItem>
+          <ListItem bottomDivider containerStyle={styles.listContainer}>
+            <ListItem.Content>
+              <ListItem.Subtitle style={styles.title}>
+                Water Temperature
+              </ListItem.Subtitle>
+              <Text style={styles.title}>{item.sample_tmp}</Text>
+            </ListItem.Content>
+          </ListItem>
+        </View>
+      );
+    } else return <Text>No sensor device connected.</Text>;
   };
+
+  const renderInsects = () => {
+    if(insectsList.length > 0) {
+      let comp = []
+      comp.push(<Text style={styles.sectionHeader}>Insects</Text>);
+      insectsList.map(item => {
+        comp.push(
+          <View style={styles.insectContainer}>
+                <Text style={styles.textStyle}>
+                  {item.sample_record_insect}
+                </Text>
+                <Text style={styles.textStyle}>{item.insect_number}</Text>
+              </View>
+        )
+      })
+      return comp;
+    } else return <Text>No insects.</Text>
+  }
+
   return (
     <View
       style={styles.listContainer}
@@ -122,35 +162,11 @@ const HistoryDetail = ({route}) => {
             <Text style={styles.title}>{item.sample_river.local_authority}</Text>
           </ListItem.Content>
         </ListItem>
-        <Text style={styles.sectionHeader}>Sensors</Text>
-        <ListItem bottomDivider containerStyle={styles.listContainer}>
-          <ListItem.Content>
-            <ListItem.Subtitle style={styles.title}>Water pH</ListItem.Subtitle>
-            <Text style={styles.title}>{item.sample_ph}</Text>
-          </ListItem.Content>
-        </ListItem>
-        <ListItem bottomDivider containerStyle={styles.listContainer}>
-          <ListItem.Content>
-            <ListItem.Subtitle style={styles.title}>
-              Water Temperature
-            </ListItem.Subtitle>
-            <Text style={styles.title}>{item.sample_tmp}</Text>
-          </ListItem.Content>
-        </ListItem>
-        <Text style={styles.sectionHeader}>Insects</Text>
-        {insectsList &&
-          insectsList.map(item => {
-            return (
-              <View style={styles.insectContainer}>
-                <Text style={styles.textStyle}>
-                  {item.sample_record_insect}
-                </Text>
-                <Text style={styles.textStyle}>{item.insect_number}</Text>
-              </View>
-            );
-          })}
+
+        {renderArduino()}
+        {renderInsects()}
       </ScrollView>
-      {renderInsects()}
+      
     </View>
   );
 };
