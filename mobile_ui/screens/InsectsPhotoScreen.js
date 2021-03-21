@@ -169,7 +169,7 @@ const InsectPhotoScreen = ({navigation, route}) => {
       const pageIntroModalVisibleResp = await AsyncStorage.getItem(
         'insectPhotoPageIntroVisible',
       );
-      return insectPhotoPageIntroVisible;
+      return pageIntroModalVisibleResp;
     } catch (e) {
       console.log(e);
       return false;
@@ -297,7 +297,7 @@ const InsectPhotoScreen = ({navigation, route}) => {
           </Modal>,
         )
       : type.push(
-          <View style={{position: 'absolute', width: '100%', marginTop: '50%'}}>
+          <View style={styles.container}>
             <Text style={styles.titleStyle}>Uploaded Image</Text>
             <FlatList
               data={dataSource}
@@ -332,7 +332,6 @@ const InsectPhotoScreen = ({navigation, route}) => {
       <Button
         title="Done"
         buttonStyle={{paddingHorizontal: FOOTER_PADDING}}
-        titleProps={{}}
         titleStyle={{marginHorizontal: 22, fontSize: 16}}
         buttonStyle={styles.submitButton}
         onPress={() => {
