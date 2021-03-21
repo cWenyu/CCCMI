@@ -61,10 +61,11 @@ def store_record_result(request):
                         sample_record_data=record_save,
                         river_image_path=image_path
                     )
-
+                record_save_id = record_save.sample_id
                 return JsonResponse({
                     'status_code': 201,
-                    'message': 'store_success'
+                    'message': 'store_success',
+                    'sample_id': record_save_id
                 })
             except Exception as e:
                 return HttpResponse(e)
