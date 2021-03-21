@@ -135,6 +135,15 @@ export function DrawerContent(props) {
                 props.navigation.navigate('PolicyTermsScreen');
               }}
             />
+            <DrawerItem
+              icon={({color, size}) => (
+                <MaterialIcons name="help" color={color} size={size} />
+              )}
+              label="Help Page"
+              onPress={() => {
+                props.navigation.navigate('HelpScreen');
+              }}
+            />
           </Drawer.Section>
           <Drawer.Section title="Preferences">
             <TouchableRipple
