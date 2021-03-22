@@ -28,6 +28,12 @@ class AllInsectImageUserUploadInline(admin.StackedInline):
     max_num=0
     extra = 0
 
+class RiverEnviromentImageInline(admin.StackedInline):
+    model = RiverEnvironmentImage
+    readonly_fields = ('river_image_path',)
+    max_num=0
+    extra = 0
+
 @admin.register(River)
 class RiverAdmin(admin.ModelAdmin):
     list_display = ('river_code','river_name','river_catchments_code','river_catchments','local_authority')
@@ -53,7 +59,7 @@ class SampleRecordAdmin(admin.ModelAdmin):
     list_display = ('sample_id','sample_river','sample_score','sample_date','sample_user','sample_pH','sample_tmp','sample_local_authority')
     exclude = ('sample_survey',)
     readonly_fields = ('sample_id','sample_user','sample_pH','sample_tmp','sample_river','sample_date','sample_score','river_enviroment',)
-    inlines = [SampleRecordInsectDetailInline,AllInsectImageUserUploadInline]
+    inlines = [SampleRecordInsectDetailInline,AllInsectImageUserUploadInline,RiverEnviromentImageInline]
 
     def river_enviroment(self, instance):
         """Function to display pretty version of our data"""
