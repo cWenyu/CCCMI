@@ -8,6 +8,8 @@ from pygments import highlight
 from pygments.lexers import JsonLexer
 from pygments.formatters import HtmlFormatter
 from django.utils.safestring import mark_safe
+import datetime
+
 
 
 # admin.site.register(DataHistoryImageImage)
@@ -18,6 +20,12 @@ class SampleRecordInsectDetailInline(admin.StackedInline):
     model = SampleRecordInsectDetail
     readonly_fields = ('insect_number',)
     exclude = ('sample_record_insect',)
+    extra = 0
+
+class AllInsectImageUserUploadInline(admin.StackedInline):
+    model = AllInsectUserUpload
+    readonly_fields = ('insect_image_path',)
+    max_num=0
     extra = 0
 
 @admin.register(River)
@@ -45,7 +53,7 @@ class SampleRecordAdmin(admin.ModelAdmin):
     list_display = ('sample_id','sample_river','sample_score','sample_date','sample_user','sample_pH','sample_tmp','sample_local_authority')
     exclude = ('sample_survey',)
     readonly_fields = ('sample_id','sample_user','sample_pH','sample_tmp','sample_river','sample_date','sample_score','river_enviroment',)
-    inlines = [SampleRecordInsectDetailInline]
+    inlines = [SampleRecordInsectDetailInline,AllInsectImageUserUploadInline]
 
     def river_enviroment(self, instance):
         """Function to display pretty version of our data"""
