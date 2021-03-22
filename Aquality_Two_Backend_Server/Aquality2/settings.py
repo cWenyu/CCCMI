@@ -179,6 +179,11 @@ SIMPLEUI_CONFIG = {
             'name': 'Hardware Data',
             'icon': 'fas fa-microchip',
             'url' : '/admin/aquality_server/data/'
+            },
+            {
+            'name': 'Report Problem',
+            'icon': 'fas fa-wrench',
+            'url' : '/admin/aquality_server/reportproblemrecord/'
             }
         ]
     }, {

@@ -89,3 +89,7 @@ class SampleRecordInsectDetail(admin.ModelAdmin):
 @admin.register(UserAccount)
 class UserAccountAdmin(admin.ModelAdmin):
     list_display = ("user","user_group","occupation","bio","profile_pic","date_of_birth","term_condition_accept_state","safety_guide_accept_state")
+
+@admin.register(ReportProblemRecord)
+class ReportProblemRecordAdmin(admin.ModelAdmin):
+    list_display = ("report_id","report_problem")
