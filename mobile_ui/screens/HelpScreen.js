@@ -3,12 +3,12 @@ import {View, Text, Button, StyleSheet} from 'react-native';
 
 import {useTheme} from '@react-navigation/native';
 
-const HelpScreen = () => {
+const HelpScreen = ({navigation}) => {
   const {colors} = useTheme();
   return (
     <View style={styles.container}>
       <Text style={{color: colors.text}}>Help Page</Text>
-      <Button title="Click Here" onPress={() => alert('Button Clicked!')} />
+      <Button title="Click Here" onPress={() => navigation.navigate('HelpScreenTakeSample')} />
     </View>
   );
 };

@@ -50,6 +50,8 @@ import store from './components/reduxStore';
 import ReportProblem from './screens/ReportProblem';
 import PolicyTermsScreen from './screens/PolicyTermsScreen';
 import HelpScreen from './screens/HelpScreen';
+import HelpScreenTakeSample from './screens/HelpScreenTakeSample';
+
 import {
   resetSurveyForm,
   updateSelectionHandlers,
@@ -787,7 +789,8 @@ const App = () => {
         fontWeight: 'bold',
       },
     }}>
-      <HelpStack.Screen
+
+    <HelpStack.Screen
         name="HelpScreen"
         component={HelpScreen}
         options={{
@@ -802,6 +805,23 @@ const App = () => {
           ),
         }}
       />
+
+      <HelpStack.Screen
+        name="HelpScreenTakeSample"
+        component={HelpScreenTakeSample}
+        options={{
+          title: 'HelpScreenTakeSample',
+          headerLeft: () => (
+            <Icon.Button
+              name="ios-menu"
+              size={25}
+              backgroundColor="#009387"
+              onPress={() => navigation.openDrawer()}
+            />
+          ),
+        }}
+      />
+
     </HelpStack.Navigator>
   )
 
