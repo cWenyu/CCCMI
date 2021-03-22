@@ -397,7 +397,7 @@ const InsectScreen = ({navigation, route}) => {
         }}
         disabledTitleStyle={{color: '#00F'}}
         linearGradientProps={null}
-        icon={route.params.uploadInsectLength ? <Badge status="primary" value={route.params.uploadInsectLength}/> : <Icon name="upload" size={19} color="#FAF9F7" />}
+        icon={route.params.uploadInsectLength ? <Badge status="warning" value={route.params.uploadInsectLength}/> : <Icon name="upload" size={19} color="#FAF9F7" />}
         iconContainerStyle={{background: '#000'}}
         loadingProps={{animating: true}}
         loadingStyle={{}}
