@@ -9,10 +9,11 @@ import {
   BackHandler,
 } from 'react-native';
 import {useTheme} from '@react-navigation/native';
-import {Text, Button} from 'react-native-elements';
+import {Text, Button, Badge} from 'react-native-elements';
 import testVariables from '../appium_automation_testing/test_variables';
 import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
+import FolderIcon from 'react-native-vector-icons/dist/AntDesign';
 import axios from 'axios';
 import {IconButton, Colors} from 'react-native-paper';
 import {
@@ -43,6 +44,7 @@ const InsectScreen = ({navigation, route}) => {
     group_5: '0',
   });
   const [score, setScore] = useState('0');
+  const [insectsImageList, setInsectsImageList] = useState([]);
 
   const styles = StyleSheet.create({
     container: {
@@ -114,8 +116,6 @@ const InsectScreen = ({navigation, route}) => {
 
   const renderSelectedInsect = () => {
     if (insectList.length > 0) {
-      // console.log(insectList); //selected insect list
-
       let comp = [];
       comp.push(
         <Text
@@ -167,30 +167,7 @@ const InsectScreen = ({navigation, route}) => {
           </View>,
         );
       });
-
-      storeData(insectList);
-
       return comp;
-    }
-  };
-
-  const storeData = async value => {
-    try {
-      const jsonValue = JSON.stringify(value);
-      await AsyncStorage.setItem('selected_insect', jsonValue);
-      // console.log('stored insect_list: ' + jsonValue);
-    } catch (e) {
-      // saving error
-    }
-  };
-
-  const storeData2 = async value => {
-    try {
-      const jsonValue = JSON.stringify(value);
-      await AsyncStorage.setItem('analysed_insect', jsonValue);
-      // console.log('stored analysed_insect: ' + jsonValue);
-    } catch (e) {
-      // saving error
     }
   };
 
@@ -206,6 +183,8 @@ const InsectScreen = ({navigation, route}) => {
       console.log(response.data);
       if (response.data.object == 'N/A') {
         setScore('0');
+        setModalVisible(true);
+        return '0';
       } else {
         let groupscore = {
           group_1: response.data.object.group_1_score,
@@ -214,9 +193,10 @@ const InsectScreen = ({navigation, route}) => {
           group_4: response.data.object.group_4_score,
           group_5: response.data.object.group_5_score,
         };
-
+        setModalVisible(true);
         setGroupScore(groupscore);
-        setScore(response.data.object.total_score);
+        setScore(response.data.object.total_score.toString());
+        return response.data.object.total_score.toString();
       }
     } catch (e) {
       console.error(e);
@@ -333,6 +313,14 @@ const InsectScreen = ({navigation, route}) => {
     return true;
   };
 
+  const ccg = () => {
+    if (insectsImageList.length === 0)
+      if (route.params?.insectsImage) {
+        console.log('insect images');
+        console.log(route.params);
+        setInsectsImageList(route.params.insectsImage.insectPhoto);
+      }
+  };
   return (
     <View
       style={styles.container}
@@ -341,6 +329,7 @@ const InsectScreen = ({navigation, route}) => {
       <Text h4 h4Style={styles.title}>
         Insert insects found
       </Text>
+
       <Button
         title="Select Insect"
         onPress={() => navigation.navigate('selectInsect1')}
@@ -375,7 +364,7 @@ const InsectScreen = ({navigation, route}) => {
           margin: 5,
           alignItems: 'center',
           marginTop: 20,
-          marginBottom: 33,
+          // marginBottom: 33,
         }}
         disabledStyle={{
           borderWidth: 2,
@@ -388,7 +377,32 @@ const InsectScreen = ({navigation, route}) => {
         loadingProps={{animating: true}}
         loadingStyle={{}}
       />
-
+      <Button
+        accessibilityLabel={testVariables.insectScreenAnalyzeInsectButton}
+        testID={testVariables.insectScreenAnalyzeInsectButton}
+        title="Upload Insects Photos"
+        onPress={() => {
+          navigation.navigate('UploadInsectsPhoto');
+        }}
+        titleProps={{}}
+        titleStyle={{marginHorizontal: 22, fontSize: 18}}
+        buttonStyle={{width: 270, height: 50, backgroundColor: '#009387'}}
+        containerStyle={{
+          alignItems: 'center',
+          marginTop: 20,
+        }}
+        disabledStyle={{
+          borderWidth: 2,
+          borderColor: '#00F',
+        }}
+        disabledTitleStyle={{color: '#00F'}}
+        linearGradientProps={null}
+        icon={route.params.uploadInsectLength ? <Badge status="warning" value={route.params.uploadInsectLength}/> : <Icon name="upload" size={19} color="#FAF9F7" />}
+        iconContainerStyle={{background: '#000'}}
+        loadingProps={{animating: true}}
+        loadingStyle={{}}
+        iconRight
+      />
       <Modal
         animationType="slide"
         visible={modalVisible}
@@ -399,7 +413,9 @@ const InsectScreen = ({navigation, route}) => {
             <Text>Group 2 - {groupScore.group_2} points</Text>
             <Text>Group 3 - {groupScore.group_3} points</Text>
             <Text>Group 4 - {groupScore.group_4} points</Text>
-            <Text>Group 5 - {groupScore.group_5} points{"\n"}</Text>
+            <Text>
+              Group 5 - {groupScore.group_5} points{'\n'}
+            </Text>
             <Text>Total sample score: </Text>
             <Text style={{fontWeight: 'bold'}}>{score} points</Text>
 
@@ -414,28 +430,39 @@ const InsectScreen = ({navigation, route}) => {
           </View>
         </View>
       </Modal>
-
       <ScrollView>
         {renderSelectedInsect()}
         {renderAnalysedInsect()}
-        {renderGetScoreButton()}
       </ScrollView>
-
       <Button
         title="Finish"
         onPress={() => {
-          getScore();
-          setModalVisible(true);
-          navigation.navigate('ResultPage', {
-            analyzedInsect: analysedInsect,
-            selectedInsect: insectList,
-            riverData: route.params.riverData,
-            surveyData: route.params.surveyData,
-            currentLocation: route.params.currentLocation,
-            sensorData: route.params.sensorData,
-            surrounding: route.params.surrounding,
-            sample_score: score,
+          getScore().then(score => {
+            navigation.navigate('ResultPage', {
+              analyzedInsect: analysedInsect,
+              selectedInsect: insectList,
+              riverData: route.params.riverData,
+              surveyData: route.params.surveyData,
+              currentLocation: route.params.currentLocation,
+              sensorData: route.params.sensorData,
+              surrounding: route.params.surrounding,
+              insectsImage: route.params.insectsImage,
+              sample_score: score,
+            });
           });
+
+          // getScore();
+          // navigation.navigate('ResultPage', {
+          //   analyzedInsect: analysedInsect,
+          //   selectedInsect: insectList,
+          //   riverData: route.params.riverData,
+          //   surveyData: route.params.surveyData,
+          //   currentLocation: route.params.currentLocation,
+          //   sensorData: route.params.sensorData,
+          //   surrounding: route.params.surrounding,
+          //   insectsImage: route.params.insectsImage,
+          //   sample_score: score,
+          // });
         }}
         accessibilityLabel={testVariables.insectScreenSelectInsectButton}
         testID={testVariables.insectScreenSelectInsectButton}
@@ -454,6 +481,7 @@ const InsectScreen = ({navigation, route}) => {
         loadingProps={{animating: true}}
         loadingStyle={{}}
       />
+      {ccg()}
     </View>
   );
 };

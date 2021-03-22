@@ -38,12 +38,14 @@ const AnalyzeScreen = ({navigation}) => {
   const [insectList, setInsectList] = useState([]);
   const [AIR, setAIR] = useState({
     class_label: 'response.data.object.class_label',
-          confidence: 0,
-          predicted_count: 0,
-          smaller_tail: false,
-          tail_present: 0,
-          tail_count: 0
+    confidence: 0,
+    predicted_count: 0,
+    smaller_tail: false,
+    tail_present: 0,
+    tail_count: 0,
   });
+
+  const [innerVisible, setInnerVisible] = useState(false);
 
   useEffect(() => {
     requestCameraPermission();
@@ -90,6 +92,7 @@ const AnalyzeScreen = ({navigation}) => {
       compressImageQuality: 0.7,
     }).then(image => {
       console.log(image);
+      bs.current.snapTo(1);
       setImage(image.path);
     });
   };
@@ -101,8 +104,8 @@ const AnalyzeScreen = ({navigation}) => {
       cropping: true,
       compressImageQuality: 0.7,
     }).then(image => {
+      bs.current.snapTo(1);
       setImage(image.path);
-      // bs.current.snapTo(1);
     });
   };
 
@@ -137,7 +140,7 @@ const AnalyzeScreen = ({navigation}) => {
           predicted_count: response.data.object.predicted_count,
           smaller_tail: response.data.object.smaller_tail,
           tail_present: response.data.object.tail_present,
-          tail_count: response.data.object.tail_count
+          tail_count: response.data.object.tail_count,
         };
         setCount(response.data.object.predicted_count);
         setAIR(res);
@@ -161,7 +164,7 @@ const AnalyzeScreen = ({navigation}) => {
       testID={testVariables.analysisInsectInnerView}>
       <View style={{alignItems: 'center'}}>
         <Text style={styles.panelTitle}>Upload Photo</Text>
-        <Text style={styles.panelSubtitle}>Choose Your Profile Picture</Text>
+        <Text style={styles.panelSubtitle}>Choose Insect Picture</Text>
       </View>
       <TouchableOpacity
         accessibilityLabel={testVariables.takePhotoButton}
@@ -295,7 +298,6 @@ const AnalyzeScreen = ({navigation}) => {
                 {AIR.class_label}
               </Text>
             </View>
-            
 
             <View
               style={{
@@ -377,7 +379,7 @@ const AnalyzeScreen = ({navigation}) => {
                 setModalVisible(!modalVisible);
                 navigation.navigate('ReportProblem', {
                   insect_image: image,
-                  data: AIR
+                  data: AIR,
                 });
               }}>
               <Text style={{textDecorationLine: 'underline'}}>
@@ -420,10 +422,8 @@ const AnalyzeScreen = ({navigation}) => {
                 source={{
                   uri: image,
                 }}
-
                 style={{height: 200, width: 300}}
                 imageStyle={{borderRadius: 40}}>
-
                 <View
                   style={{
                     flex: 1,
@@ -432,7 +432,6 @@ const AnalyzeScreen = ({navigation}) => {
                     borderWidth: 2,
                     borderColor: '#423D33',
                     borderRadius: 40,
-
                   }}
                 />
               </ImageBackground>
@@ -496,7 +495,7 @@ const AnalyzeScreen = ({navigation}) => {
         accessibilityLabel={testVariables.analysisInsectSaveButton}
         testID={testVariables.analysisInsectSaveButton}
       />
-      
+
       {/* <Button title="open modal" onPress={() => openModal()} /> */}
 
       <ScrollView>

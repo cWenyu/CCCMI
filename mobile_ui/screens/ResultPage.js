@@ -57,12 +57,24 @@ const resultPage = ({navigation, route}) => {
   });
 
   const postData = async ob => {
+    console.log('\n\n');
+    console.log(
+      JSON.stringify({
+        data_get: ob.sampleObj,
+        insect_list: ob.insectObj,
+        insectsImage: ob.insectsImage,
+        surrounding: ob.surrounding,
+      }),
+    );
+
     try {
       let response = await axios.post(
         'https://cccmi-aquality.tk/aquality_server/samplesave',
         {
           data_get: ob.sampleObj,
           insect_list: ob.insectObj,
+          insectsImage: ob.insectsImage,
+          surrounding: ob.surrounding,
         },
       );
       console.log(response);
@@ -95,14 +107,19 @@ const resultPage = ({navigation, route}) => {
       };
     }
 
-    console.log(JSON.stringify('sampleobj sending ',sampleObj));
+    console.log(JSON.stringify('sampleobj sending ', sampleObj));
     // set insect (selected + analysed)
     let array3 = route.params.selectedInsect.concat(
       route.params.analyzedInsect,
     );
     setInsectList(array3);
 
-    let dataObj = {sampleObj: sampleObj, insectObj: array3};
+    let dataObj = {
+      sampleObj: sampleObj,
+      insectObj: array3,
+      insectsImage: route.params.insectsImage,
+      surrounding: route.params.surrounding,
+    };
 
     return dataObj;
   };
@@ -145,12 +162,17 @@ const resultPage = ({navigation, route}) => {
       <View
         accessibilityLabel={testVariables.resultPageContainer}
         testID={testVariables.resultPageContainer}>
+          <ListItem bottomDivider containerStyle={styles.listContainer}>
+          <ListItem.Content>
+            <ListItem.Subtitle style={styles.title}>Sample score (Insect)</ListItem.Subtitle>
+            <Text style={styles.title}>{route.params.sample_score}</Text>
+          </ListItem.Content>
+        </ListItem>
         <Text style={styles.sectionHeader}>River</Text>
-        {/* <Text>score: {insectScore}</Text>
-        <Text>username: {username}</Text> */}
+        {/* <Text>username: {username}</Text> */}
         <ListItem bottomDivider containerStyle={styles.listContainer}>
           <ListItem.Content>
-            <ListItem.Subtitle style={styles.title}>
+          <ListItem.Subtitle style={styles.title}>
               River Name
             </ListItem.Subtitle>
             <Text style={styles.title}>
@@ -158,6 +180,7 @@ const resultPage = ({navigation, route}) => {
             </Text>
           </ListItem.Content>
         </ListItem>
+        
         <ListItem bottomDivider containerStyle={styles.listContainer}>
           <ListItem.Content>
             <ListItem.Subtitle style={styles.title}>Latitude</ListItem.Subtitle>
@@ -356,8 +379,7 @@ const resultPage = ({navigation, route}) => {
     if (route.params) {
       console.log(JSON.stringify(route.params));
     }
-    if (route.params?.sensorData) {
-    }
+
     BackHandler.addEventListener('hardwareBackPress', backAction);
 
     return () =>

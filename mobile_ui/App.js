@@ -49,6 +49,7 @@ import {Provider} from 'react-redux';
 import store from './components/reduxStore';
 import ReportProblem from './screens/ReportProblem';
 import PolicyTermsScreen from './screens/PolicyTermsScreen';
+import HelpScreen from './screens/HelpScreen';
 import {
   resetSurveyForm,
   updateSelectionHandlers,
@@ -58,6 +59,7 @@ import {
 import {useDispatch} from 'react-redux';
 import {StackActions} from '@react-navigation/native';
 import SurroundingsPhotoScreen from './screens/SurroundingsPhotoScreen';
+import InsectsPhotoScreen from './screens/InsectsPhotoScreen';
 
 const Drawer = createDrawerNavigator();
 
@@ -683,6 +685,21 @@ const App = () => {
         />
 
         <TakeSampleStack.Screen
+          name="UploadInsectsPhoto"
+          component={InsectsPhotoScreen}
+          options={{
+            title: 'Upload Insects Photo',
+            headerStyle: {
+              backgroundColor: '#009387',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}
+        />
+
+        <TakeSampleStack.Screen
           name="ResultPage"
           component={ResultPage}
           options={{
@@ -759,6 +776,35 @@ const App = () => {
     </PolicyStack.Navigator>
   );
 
+  const HelpStack = createStackNavigator();
+  const HelpStackScreen = ({navigation}) => (
+    <HelpStack.Navigator screenOptions={{
+      headerStyle: {
+        backgroundColor: '#009387',
+      },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+    }}>
+      <HelpStack.Screen
+        name="HelpScreen"
+        component={HelpScreen}
+        options={{
+          title: 'Help Page',
+          headerLeft: () => (
+            <Icon.Button
+              name="ios-menu"
+              size={25}
+              backgroundColor="#009387"
+              onPress={() => navigation.openDrawer()}
+            />
+          ),
+        }}
+      />
+    </HelpStack.Navigator>
+  )
+
   return (
     <Provider store={store}>
       <PaperProvider theme={theme}>
@@ -785,6 +831,10 @@ const App = () => {
                 <Drawer.Screen
                   name="PolicyTermsScreen"
                   component={PolicyStackScreen}
+                />
+                <Drawer.Screen
+                  name="HelpScreen"
+                  component={HelpStackScreen}
                 />
               </Drawer.Navigator>
             ) : (
