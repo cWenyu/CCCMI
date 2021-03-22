@@ -8,13 +8,26 @@ from pygments import highlight
 from pygments.lexers import JsonLexer
 from pygments.formatters import HtmlFormatter
 from django.utils.safestring import mark_safe
+from django.db import models
 import datetime
+from django.contrib.admin.widgets import AdminFileWidget
+from django.utils.html import format_html
 
-
+class AdminImageWidget(AdminFileWidget):
+    def render(self, name, value, attrs=None, renderer=None):
+        html = super().render(name, value, attrs, renderer)
+        if value and getattr(value, 'url', None):
+            html = format_html('<a href="{0}" target="_blank"><img src="{0}" alt="{1}" width="150" height="150" style="object-fit: contain;"/></a>', value.url, str(value)) + html
+        return html
+        output.append(super(AdminFileWidget, self).render(name, value, attrs))
+        return mark_safe(u''.join(output))
 
 # admin.site.register(DataHistoryImageImage)
-admin.site.register(AllInsectUserUpload)
 admin.site.register(RiverEnvironmentImage)
+
+@admin.register(AllInsectUserUpload)
+class AllInsectUserUploadAdmin(admin.ModelAdmin):
+    exclude = ()
 
 class SampleRecordInsectDetailInline(admin.StackedInline):
     model = SampleRecordInsectDetail
@@ -24,13 +37,13 @@ class SampleRecordInsectDetailInline(admin.StackedInline):
 
 class AllInsectImageUserUploadInline(admin.StackedInline):
     model = AllInsectUserUpload
-    readonly_fields = ('insect_image_path',)
+    formfield_overrides = {models.ImageField: {'widget': AdminImageWidget}}
     max_num=0
     extra = 0
 
 class RiverEnviromentImageInline(admin.StackedInline):
     model = RiverEnvironmentImage
-    readonly_fields = ('river_image_path',)
+    formfield_overrides = {models.ImageField: {'widget': AdminImageWidget}}
     max_num=0
     extra = 0
 
