@@ -811,14 +811,6 @@ const App = () => {
         component={HelpScreenTakeSample}
         options={{
           title: 'HelpScreenTakeSample',
-          headerLeft: () => (
-            <Icon.Button
-              name="ios-menu"
-              size={25}
-              backgroundColor="#009387"
-              onPress={() => navigation.openDrawer()}
-            />
-          ),
         }}
       />
 
