@@ -322,7 +322,7 @@ const App = () => {
     const dispatch = useDispatch();
 
     return (
-      <TakeSampleStack.Navigator initialRouteName="OnboardingScreen2">
+      <TakeSampleStack.Navigator initialRouteName="SurveyPage">
         <TakeSampleStack.Screen
           name="ReportProblem"
           component={ReportProblem}
