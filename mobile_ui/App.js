@@ -51,6 +51,7 @@ import ReportProblem from './screens/ReportProblem';
 import PolicyTermsScreen from './screens/PolicyTermsScreen';
 import HelpScreen from './screens/HelpScreen';
 import HelpScreenTakeSample from './screens/HelpScreenTakeSample';
+import HelpScreenViewSample from './screens/HelpScreenViewSample';
 
 import {
   resetSurveyForm,
@@ -811,6 +812,14 @@ const App = () => {
         component={HelpScreenTakeSample}
         options={{
           title: 'HelpScreenTakeSample',
+        }}
+      />
+
+      <HelpStack.Screen
+        name="HelpScreenViewSample"
+        component={HelpScreenViewSample}
+        options={{
+          title: 'HelpScreenViewSample',
         }}
       />
 

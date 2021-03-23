@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
 
     font: {
         paddingLeft: 0,
-        fontSize: 21,
+        fontSize: 16,
         marginTop: 0,
         width: '100%',
         // fontWeight: 'bold',
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     },
     item: {
         paddingLeft: 20,
-        fontSize: 18,
+        fontSize: 14,
         marginTop: 0,
         width: '100%',
         color: '#424242',

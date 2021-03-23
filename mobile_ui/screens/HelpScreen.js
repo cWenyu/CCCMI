@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, Button, StyleSheet, TouchableHighlight } from 'react-native';
-import { ListItem, Icon, Avatar  } from 'react-native-elements';
+import { ListItem, Icon, Avatar } from 'react-native-elements';
 import { useTheme } from '@react-navigation/native';
 
 const HelpScreen = ({ navigation }) => {
@@ -13,13 +13,18 @@ const HelpScreen = ({ navigation }) => {
     },
     header: {
       backgroundColor: '#ededed',
-      height: 150,
+      height: 160,
       width: '100%',
     },
     headerText: {
       paddingTop: 50,
       paddingLeft: 20,
       fontSize: 30,
+      color: '#424242',
+    },
+    headerTextSub:{
+      paddingLeft: 23,
+      fontSize: 13,
       color: '#424242',
     },
     headerTitle: {
@@ -31,6 +36,7 @@ const HelpScreen = ({ navigation }) => {
       paddingLeft: 20,
       fontSize: 14,
       color: '#424242',
+      fontWeight: 'bold',
     },
     title: {
       color: 'black',
@@ -46,32 +52,14 @@ const HelpScreen = ({ navigation }) => {
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerText}>Support</Text>
+        <Text style={styles.headerTextSub}>Call +353 838841406 or</Text>
+        <Text style={styles.headerTextSub}>Email ccccmi-csteam@gmail.com</Text>
       </View>
       <View style={styles.headerTitle}>
         <Text style={styles.headerTitleText}>Choose an area you need help</Text>
       </View>
       <View style={styles.listContainer}>
 
-      <ListItem
-          Component={TouchableHighlight}
-          containerStyle={{}}
-          disabledStyle={{ opacity: 0.5 }}
-          bottomDivider
-          topDivider
-          onPress={() => navigation.navigate('HelpScreenTakeSample')}
-          pad={20}
-        >
-          <ListItem.Content>
-            <ListItem.Title>
-              <Text>Taking Sample</Text>
-            </ListItem.Title>
-            {/* <ListItem.Subtitle>
-              <Text>React Native Elements</Text>
-            </ListItem.Subtitle> */}
-          </ListItem.Content>
-          <ListItem.Chevron />
-        </ListItem>
-
         <ListItem
           Component={TouchableHighlight}
           containerStyle={{}}
@@ -83,27 +71,7 @@ const HelpScreen = ({ navigation }) => {
         >
           <ListItem.Content>
             <ListItem.Title>
-              <Text>Viewing Sample</Text>
-            </ListItem.Title>
-            {/* <ListItem.Subtitle>
-              <Text>React Native Elements</Text>
-            </ListItem.Subtitle> */}
-          </ListItem.Content>
-          <ListItem.Chevron />
-        </ListItem>
-
-        <ListItem
-          Component={TouchableHighlight}
-          containerStyle={{}}
-          disabledStyle={{ opacity: 0.5 }}
-          bottomDivider
-          topDivider
-          onPress={() => navigation.navigate('HelpScreenTakeSample')}
-          pad={20}
-        >
-          <ListItem.Content>
-            <ListItem.Title>
-              <Text>Setting</Text>
+              <Text>Take Sample</Text>
             </ListItem.Title>
             {/* <ListItem.Subtitle>
               <Text>React Native Elements</Text>
@@ -112,6 +80,29 @@ const HelpScreen = ({ navigation }) => {
           <ListItem.Chevron />
         </ListItem>
       </View>
+
+      <View style={styles.listContainer}>
+        <ListItem
+          Component={TouchableHighlight}
+          containerStyle={{}}
+          disabledStyle={{ opacity: 0.5 }}
+          bottomDivider
+          topDivider
+          onPress={() => navigation.navigate('HelpScreenViewSample')}
+          pad={20}
+        >
+          <ListItem.Content>
+            <ListItem.Title>
+              <Text>View Sample</Text>
+            </ListItem.Title>
+            {/* <ListItem.Subtitle>
+        <Text>React Native Elements</Text>
+      </ListItem.Subtitle> */}
+          </ListItem.Content>
+          <ListItem.Chevron />
+        </ListItem>
+      </View>
+
     </View>
   );
 };
