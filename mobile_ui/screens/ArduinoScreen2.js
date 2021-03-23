@@ -262,6 +262,7 @@ const ArduinoScreen = ({ navigation, route }) => {
       );
       if (response) {
         setMarkersArr(response.data);
+        console.log(response.data);
       } else {
         console.log("No hardware online...");
       }
@@ -281,7 +282,7 @@ const ArduinoScreen = ({ navigation, route }) => {
         },
         data: {
           deviceId: arr[i].arduino_id,
-          ph: arr[i].ph,
+          ph: arr[i].pH,
           temp: arr[i].temp,
           date: arr[i].date_captured,
         }
