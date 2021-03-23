@@ -1,4 +1,9 @@
 import json
+from base64 import b64decode
+import io
+import PIL.Image as Image
+from django.core.files.uploadedfile import InMemoryUploadedFile
+
 from ..utils.utils import count_score_by_insect
 from ..serializers import *
 from django.http import HttpResponse, JsonResponse
@@ -50,16 +55,20 @@ def store_record_result(request):
                 insect_photo_list = data['insectsImage']['insectPhoto']
                 survey_list = data["surrounding"]["surveyPhotos"]
 
-                for image_path in insect_photo_list:
+                for unprocessed_image in insect_photo_list:
+                    processed_insect_image = process_image_post(unprocessed_image)
+
                     AllInsectUserUpload.objects.create(
                         sample_record_data=record_save,
-                        insect_image_path=image_path
+                        insect_image_path=processed_insect_image
                     )
 
-                for image_path in survey_list:
+                for unprocessed_image in survey_list:
+                    processed_survey_image = process_image_post(unprocessed_image)
+
                     RiverEnvironmentImage.objects.create(
                         sample_record_data=record_save,
-                        river_image_path=image_path
+                        river_image_path=processed_survey_image
                     )
                 record_save_id = record_save.sample_id
                 return JsonResponse({
@@ -109,3 +118,23 @@ def calculate_score_insect(request):
 
     # return json_object and a JSON response
     return JsonResponse(json_object)
+
+
+def process_image_post(base64_data):
+    decode_image = b64decode(base64_data)
+
+    img = Image.open(io.BytesIO(decode_image))
+    img_format = '.' + img.format
+
+    fileData = io.BytesIO(decode_image)
+    file = InMemoryUploadedFile(  # arguments: 'file', 'field_name', 'name', 'content_type', 'size', and 'charset'
+        fileData,
+        None,
+        'photo' + img_format,
+        'image',
+        len(decode_image),
+        None,
+    )
+    img.close()
+
+    return file
