@@ -323,21 +323,6 @@ const SurroundingsPhotoScreen = ({navigation, route}) => {
         buttonStyle={styles.submitButton}
         onPress={() => {
           storePhotoGallery();
-          dataSource.forEach(url => {
-            toDataURL(url).then(res => {
-              setImageBase64([...imageBase64, res]);
-            });
-          });
-          if (imageBase64.length === dataSource.length) {
-            console.log('cao');
-            console.log(imageBase64);
-          }
-          // storePhotoGallery().then(surveyPhotosObj => {
-          //   navigation.navigate('SearchRiverScreen', {
-          //     surveyData: route.params.surveyData,
-          //     surrounding: surveyPhotosObj,
-          //   });
-          // });
         }}
       />
     );
@@ -357,30 +342,26 @@ const SurroundingsPhotoScreen = ({navigation, route}) => {
           }),
       );
 
-  const storePhotoGallery = () => {
+  const saveImage = (arr, str) => {
+    arr.push(str);
+    return arr;
+  };
+  const storePhotoGallery = async () => {
+    let arr = [];
     dataSource.forEach(url => {
       toDataURL(url).then(res => {
-        console.log(res);
+        saveImage(arr, res);
+        if (arr.length === dataSource.length) {
+          let surveyPhotosObj = {
+            surveyPhotos: arr,
+          };
+          navigation.navigate('SearchRiverScreen', {
+            surveyData: route.params.surveyData,
+            surrounding: surveyPhotosObj,
+          });
+        }
       });
-    });
-
-    console.log('not finish');
-    // console.log(s);
-    // let b = openImage(dataSource[0]);
-    // console.log('sssss', b);
-    // imageBase64 = [];
-    // dataSource.forEach(url => {
-    //   toDataURL(url).then(res => {
-    //     let arr = res.split(',');
-    //     saveIntoObj(arr[1]);
-    //   });
-    // });
-
-    // console.log('sssss', imageBase64);
-    // const b = getFileFromUrl(dataSource[0]);
-    // console.log('imageBase64', b);
-    // navigation.navigate('SearchRiverScreen', {surveyData: route.params.surveyData, surrounding: surveyPhoto})
-    // return surveyPhotosObj;
+    }, arr);
   };
 
   const renderSkipButton = () => {
