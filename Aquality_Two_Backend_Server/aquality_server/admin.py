@@ -13,15 +13,6 @@ import datetime
 from django.contrib.admin.widgets import AdminFileWidget
 from django.utils.html import format_html
 
-class AdminImageWidget(AdminFileWidget):
-    def render(self, name, value, attrs=None, renderer=None):
-        html = super().render(name, value, attrs, renderer)
-        if value and getattr(value, 'url', None):
-            html = format_html('<a href="{0}" target="_blank"><img src="{0}" alt="{1}" width="150" height="150" style="object-fit: contain;"/></a>', value.url, str(value)) + html
-        return html
-        output.append(super(AdminFileWidget, self).render(name, value, attrs))
-        return mark_safe(u''.join(output))
-
 # admin.site.register(DataHistoryImageImage)
 admin.site.register(RiverEnvironmentImage)
 
@@ -37,13 +28,11 @@ class SampleRecordInsectDetailInline(admin.StackedInline):
 
 class AllInsectImageUserUploadInline(admin.StackedInline):
     model = AllInsectUserUpload
-    formfield_overrides = {models.ImageField: {'widget': AdminImageWidget}}
     max_num=0
     extra = 0
 
 class RiverEnviromentImageInline(admin.StackedInline):
     model = RiverEnvironmentImage
-    formfield_overrides = {models.ImageField: {'widget': AdminImageWidget}}
     max_num=0
     extra = 0
 
