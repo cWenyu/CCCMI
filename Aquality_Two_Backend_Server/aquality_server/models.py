@@ -104,13 +104,13 @@ class SampleRecordInsectDetail(models.Model):
 class AllInsectUserUpload(models.Model):
     all_insect_image_id = models.AutoField(primary_key=True)
     sample_record_data = models.ForeignKey(SampleRecord, on_delete=models.CASCADE)
-    insect_image_path = models.ImageField(max_length=900000, upload_to='user-insect-img', null=True, default=None)
+    insect_image_path = models.ImageField(upload_to='user-insect-img', null=True, default=None)
 
 
 class RiverEnvironmentImage(models.Model):
     river_environment_image_id = models.AutoField(primary_key=True)
     sample_record_data = models.ForeignKey(SampleRecord, on_delete=models.CASCADE)
-    river_image_path = models.ImageField(max_length=900000, upload_to='river-environment-img', null=True, default=None)
+    river_image_path = models.ImageField(upload_to='river-environment-img', null=True, default=None)
 
 
 class ReportProblemRecord(models.Model):
