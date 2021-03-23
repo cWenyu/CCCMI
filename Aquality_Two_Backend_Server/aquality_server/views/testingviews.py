@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
+from django.template.response import TemplateResponse
 
 def index(request):
     return render(request, 'aquality_server/index.html', {})
@@ -29,3 +30,6 @@ def testing_page_for_patrick(request):
         'message': {'image': 'http//......', 'class_label': ['Ecdyonurus'], 'confidence': [0.9999022483825684]}
     })
 
+
+def custom_permission_denied_view(request, exception, template_name="403.html"):
+    return TemplateResponse(request, '403.html', {}).render()

@@ -8,16 +8,43 @@ from pygments import highlight
 from pygments.lexers import JsonLexer
 from pygments.formatters import HtmlFormatter
 from django.utils.safestring import mark_safe
+from django.db import models
+import datetime
+from django.contrib.admin.widgets import AdminFileWidget
+from django.utils.html import format_html
 
+class AdminImageWidget(AdminFileWidget):
+    def render(self, name, value, attrs=None, renderer=None):
+        html = super().render(name, value, attrs, renderer)
+        if value and getattr(value, 'url', None):
+            html = format_html('<a href="{0}" target="_blank"><img src="{0}" alt="{1}" width="150" height="150" style="object-fit: contain;"/></a>', value.url, str(value)) + html
+        return html
+        output.append(super(AdminFileWidget, self).render(name, value, attrs))
+        return mark_safe(u''.join(output))
 
 # admin.site.register(DataHistoryImageImage)
-admin.site.register(AllInsectUserUpload)
 admin.site.register(RiverEnvironmentImage)
+
+@admin.register(AllInsectUserUpload)
+class AllInsectUserUploadAdmin(admin.ModelAdmin):
+    exclude = ()
 
 class SampleRecordInsectDetailInline(admin.StackedInline):
     model = SampleRecordInsectDetail
     readonly_fields = ('insect_number',)
     exclude = ('sample_record_insect',)
+    extra = 0
+
+class AllInsectImageUserUploadInline(admin.StackedInline):
+    model = AllInsectUserUpload
+    formfield_overrides = {models.ImageField: {'widget': AdminImageWidget}}
+    max_num=0
+    extra = 0
+
+class RiverEnviromentImageInline(admin.StackedInline):
+    model = RiverEnvironmentImage
+    formfield_overrides = {models.ImageField: {'widget': AdminImageWidget}}
+    max_num=0
     extra = 0
 
 @admin.register(River)
@@ -45,7 +72,7 @@ class SampleRecordAdmin(admin.ModelAdmin):
     list_display = ('sample_id','sample_river','sample_score','sample_date','sample_user','sample_pH','sample_tmp','sample_local_authority')
     exclude = ('sample_survey',)
     readonly_fields = ('sample_id','sample_user','sample_pH','sample_tmp','sample_river','sample_date','sample_score','river_enviroment',)
-    inlines = [SampleRecordInsectDetailInline]
+    inlines = [SampleRecordInsectDetailInline,AllInsectImageUserUploadInline,RiverEnviromentImageInline]
 
     def river_enviroment(self, instance):
         """Function to display pretty version of our data"""
@@ -81,3 +108,7 @@ class SampleRecordInsectDetail(admin.ModelAdmin):
 @admin.register(UserAccount)
 class UserAccountAdmin(admin.ModelAdmin):
     list_display = ("user","user_group","occupation","bio","profile_pic","date_of_birth","term_condition_accept_state","safety_guide_accept_state")
+
+@admin.register(ReportProblemRecord)
+class ReportProblemRecordAdmin(admin.ModelAdmin):
+    list_display = ("report_id","report_problem")

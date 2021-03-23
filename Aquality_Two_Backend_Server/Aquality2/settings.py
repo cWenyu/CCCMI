@@ -30,6 +30,7 @@ ALLOWED_HOSTS = ["127.0.0.1","aquality-server.eba-rxqnbumy.eu-west-1.elasticbean
 
 INSTALLED_APPS = [    
     'simpleui',
+    'aquality.apps.AqualityConfig',
     'aquality_server.apps.AqualityServerConfig',
     'aquality_admin.apps.AqualityAdminConfig',
     'django.contrib.admin',
@@ -178,13 +179,24 @@ SIMPLEUI_CONFIG = {
             'name': 'Hardware Data',
             'icon': 'fas fa-microchip',
             'url' : '/admin/aquality_server/data/'
+            },
+            {
+            'name': 'Report Problem',
+            'icon': 'fas fa-wrench',
+            'url' : '/admin/aquality_server/reportproblemrecord/'
             }
         ]
     }, {
         'app': 'auth',
         'name': 'Authorization',
-        'icon': 'fas fa-user-shield',
-        'models': [{
+        'icon': 'fas fa-shield-alt',
+        'models': [
+        {
+            'name': 'Group',
+            'icon': 'fas fa-user-shield',
+            'url': 'auth/group/'
+        },
+        {
             'name': 'User',
             'icon': 'fa fa-user',
             'url': 'auth/user/'

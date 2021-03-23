@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 import json
-
+import datetime
 
 class UserAccount(models.Model):
     user = models.OneToOneField(
@@ -82,6 +82,9 @@ class SampleRecord(models.Model):
     sample_river = models.ForeignKey(River, on_delete=models.CASCADE)
     sample_survey = models.JSONField(null=True, encoder=json.JSONEncoder, decoder=json.JSONDecoder)
 
+    def __str__(self):
+        return "Sample" + str(self.sample_id) + "At Date " + str(self.sample_date)
+    
     def sample_local_authority(self):
         """Create a field for local authority that sample belong to. This is used to display in Admin and used in Map filter. """
         return self.sample_river.local_authority
@@ -104,15 +107,20 @@ class SampleRecordInsectDetail(models.Model):
 class AllInsectUserUpload(models.Model):
     all_insect_image_id = models.AutoField(primary_key=True)
     sample_record_data = models.ForeignKey(SampleRecord, on_delete=models.CASCADE)
-    insect_image_path = models.ImageField(upload_to='user-insect-img', null=True, default=None)
+    insect_image_path = models.ImageField(upload_to='user-insect-img', null=True, default= None)
+    
+    def __str__(self):
+        return "Insect Image In Sample" + str(self.sample_record_data)
 
 
 class RiverEnvironmentImage(models.Model):
     river_environment_image_id = models.AutoField(primary_key=True)
     sample_record_data = models.ForeignKey(SampleRecord, on_delete=models.CASCADE)
     river_image_path = models.ImageField(upload_to='river-environment-img', null=True, default=None)
-
-
+    
+    def __str__(self):
+        return "River Image In Sample" + str(self.sample_record_data)
+    
 class ReportProblemRecord(models.Model):
     report_id = models.AutoField(primary_key=True)
     report_image_path = models.ImageField(upload_to='report-insect-img', null=True)

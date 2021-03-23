@@ -1,0 +1,12 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+
+{% block title %}{% trans 'Forbidden Request' %}{% endblock %}
+
+{% block content %}
+
+<h2>{% trans 'Forbidden Request' %}</h2>
+
+<p>{% trans "We're sorry, but the requested page is not available to you." %}</p>
+
+{% endblock %}

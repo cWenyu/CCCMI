@@ -1,0 +1,276 @@
+:root {
+  --blue: #65C7E6;
+  --white: #faf0e6;
+  --nav-text : #47AFEC;
+  --text : #257E99;
+}
+
+
+/* Block For Nav Bar */
+body {
+  background-color: var(--white);
+  color: var(--text);
+  margin: 0;
+}
+
+div {
+  padding: 7%;
+  font-size: 1.5rem;
+  text-align: justify;
+}
+
+h1 {
+  font-size: 3rem;
+}
+nav {
+  display: block;
+  position: fixed;
+  width: 100%;
+  text-align: right;
+  height: 60px;
+  line-height: 60px;
+  font-size: 1.2rem;
+}
+
+nav ul {
+  margin: 0 30px 0 0;
+  padding: 0;
+}
+
+label {
+  float: right;
+  margin: 0 30px 0 0;
+  display: none;
+  font-size: 26px;
+}
+
+.navSelect {
+  float: right;
+  margin-right: 3em;
+}
+
+nav .navSelect a {
+  color: var(--nav-text);
+  text-decoration: none;
+  margin: 0 10px;
+  transition: all 0.3s ease;
+  -webkit-transition: all 0.3s ease;
+}
+
+nav .navSelect a:hover,
+nav .navSelect a.active {
+  transition: all 0.3s ease;
+  -webkit-transition: all 0.3s ease;
+  color: #90ee90;
+  text-shadow: 0px 0px rgba(143, 243, 201, 1);
+}
+
+nav.shrink {
+  width: 100%;
+  transition: all 0.1 ease;
+  background: rgba(0, 0, 0, 0.8);
+  font-size: 1rem;
+  height: 10%;
+}
+
+label {
+  float: right;
+  margin: 0 30px 0 0;
+  font-size: 26px;
+  display: none;
+}
+#toggle {
+  display: none;
+}
+
+#nav-title {
+  margin-top: 0;
+  padding: 1rem 0 0 1rem;
+  z-index: 5;
+}
+
+@media only screen and (max-width: 500px) {
+  .mobile {
+    margin: 0;
+    background-color: black;
+    font-size: 1.2rem;
+  }
+
+  .mobile shrink {
+    font-size: 1.2rem;
+  }
+
+  .mobile label {
+    display: block;
+    cursor: pointer;
+    color: white;
+  }
+  .mobile ul {
+    margin: 0%;
+    text-align: center;
+    display: none;
+  }
+  .mobile ul a {
+    clear: right;
+    margin: 0;
+    display: block;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 1);
+    height: 18vh;
+    line-height: 18vh;
+    vertical-align: middle;
+  }
+  .mobile ul a:hover {
+    background-color: rgba(143, 243, 201, 1);
+    color: black;
+  }
+
+  #toggle:checked + ul {
+    display: block;
+  }
+}
+
+/* NEXT */
+/* NEXT */
+/* NEXT */
+/* NEXT */
+/* NEXT */
+/* NEXT */
+/* NEXT */
+/* NEXT */
+/* NEXT */
+/* NEXT */
+/* NEXT */
+/* NEXT */
+
+/* Block For Midddle Content */
+@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700");
+@import url("https://fonts.googleapis.com/css?family=Eczar");
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: "Eczar", serif;
+  font-weight: 400;
+  line-height: 1.2em;
+  text-rendering: optimizeLegibility;
+}
+h1 {
+  font-size: 28px;
+}
+
+.masthead {
+  display: table;
+  width: 70%;
+  background-color: #0077BE;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  background-attachment: fixed;
+  text-align: center;
+  /* height: calc(100vh - 100vh);
+    min-height: calc(100vh - 100vh); */
+  margin: 0 15% 0 15%;
+}
+.links-in-main{
+  color: #fff;
+}
+.masthead .text-wrap {
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+  position: relative;
+  opacity: 0;
+  -webkit-transform: scale(0.95);
+  -moz-transform: scale(0.95);
+  -ms-transform: scale(0.95);
+  transform: scale(0.95);
+  -webkit-transition: all 0.6s ease-out;
+  -moz-transition: all 0.6s ease-out;
+  transition: all 0.6s ease-out;
+  -webkit-transition-delay: 0.6s;
+  -moz-transition-delay: 0.6s;
+  transition-delay: 0.6s;
+  z-index: 4;
+}
+.masthead.less .text-wrap {
+  padding: 0;
+}
+.masthead .text-wrap h1 {
+  font-size: 40px;
+  color: #fff;
+  line-height: inherit;
+  margin: 0;
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.15);
+}
+.masthead .text-wrap .lead {
+  font-weight: 300;
+  color: #fff;
+  line-height: inherit;
+  margin: 0;
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.15);
+}
+body.pace-done .masthead .text-wrap {
+  opacity: 1;
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  -ms-transform: scale(1);
+  transform: scale(1);
+}
+
+/* NEXT */
+/* NEXT */
+/* NEXT */
+/* NEXT */
+/* NEXT */
+/* NEXT */
+/* NEXT */
+/* NEXT */
+/* NEXT */
+/* NEXT */
+/* NEXT */
+/* NEXT */
+
+/* Block For Footer */
+footer #footer{
+  padding: 0%;
+}
+
+
+footer {
+    font-size: 13px;
+    color: #fdeaeb;
+    background: var(--blue);
+    padding-top: 60px;
+    padding-bottom: 50px;
+    transition: transform 300ms ease;
+}
+footer h1 {
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 14px;
+    color: #5f1419;
+    margin-top: 0;
+    text-transform: uppercase;
+}
+footer a {
+    font-size: 14px;
+    line-height: 24px;
+    color: #fdeaeb;
+}
+footer a:hover, 
+footer a:focus,
+footer a:active {
+    color: #5f1419;
+}
+footer .copyright {
+    color: #fdeaeb;
+}
+footer.slide-out {
+    transform: translateX(-256px);
+}
+
+.icon-social [class*="fa-"] {
+    font-size: 16px;
+}
