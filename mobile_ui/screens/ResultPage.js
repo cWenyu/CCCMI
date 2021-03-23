@@ -79,7 +79,6 @@ const resultPage = ({navigation, route}) => {
   const setDataForPost = async () => {
     console.log('setting up data for upload');
 
-    let pph, ptmp;
     let sampleObj;
     if (typeof route.params.sensorData === 'undefined') {
       sampleObj = {
@@ -91,8 +90,8 @@ const resultPage = ({navigation, route}) => {
     } else {
       sampleObj = {
         sample_user: username,
-        sample_ph: pph,
-        sample_tmp: ptmp,
+        sample_ph: route.params.sensorData.ph,
+        sample_tmp: route.params.sensorData.temp,
         sample_river_id: route.params.riverData.river_id,
         sample_survey: route.params.surveyData,
         sample_score: route.params.sample_score,
@@ -382,6 +381,7 @@ const resultPage = ({navigation, route}) => {
     getUsername();
     if (route.params) {
       console.log(JSON.stringify(route.params));
+      console.log()
     }
 
     BackHandler.addEventListener('hardwareBackPress', backAction);
