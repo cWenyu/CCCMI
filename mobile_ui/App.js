@@ -50,6 +50,9 @@ import store from './components/reduxStore';
 import ReportProblem from './screens/ReportProblem';
 import PolicyTermsScreen from './screens/PolicyTermsScreen';
 import HelpScreen from './screens/HelpScreen';
+import HelpScreenTakeSample from './screens/HelpScreenTakeSample';
+import HelpScreenViewSample from './screens/HelpScreenViewSample';
+
 import {
   resetSurveyForm,
   updateSelectionHandlers,
@@ -320,7 +323,7 @@ const App = () => {
     const dispatch = useDispatch();
 
     return (
-      <TakeSampleStack.Navigator initialRouteName="OnboardingScreen2">
+      <TakeSampleStack.Navigator initialRouteName="SurveyPage">
         <TakeSampleStack.Screen
           name="ReportProblem"
           component={ReportProblem}
@@ -787,7 +790,8 @@ const App = () => {
         fontWeight: 'bold',
       },
     }}>
-      <HelpStack.Screen
+
+    <HelpStack.Screen
         name="HelpScreen"
         component={HelpScreen}
         options={{
@@ -802,6 +806,23 @@ const App = () => {
           ),
         }}
       />
+
+      <HelpStack.Screen
+        name="HelpScreenTakeSample"
+        component={HelpScreenTakeSample}
+        options={{
+          title: 'HelpScreenTakeSample',
+        }}
+      />
+
+      <HelpStack.Screen
+        name="HelpScreenViewSample"
+        component={HelpScreenViewSample}
+        options={{
+          title: 'HelpScreenViewSample',
+        }}
+      />
+
     </HelpStack.Navigator>
   )
 
