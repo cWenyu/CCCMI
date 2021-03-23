@@ -57,16 +57,6 @@ const resultPage = ({navigation, route}) => {
   });
 
   const postData = async ob => {
-    console.log('\n\n');
-    console.log(
-      JSON.stringify({
-        data_get: ob.sampleObj,
-        insect_list: ob.insectObj,
-        insectsImage: ob.insectsImage,
-        surrounding: ob.surrounding,
-      }),
-    );
-
     try {
       let response = await axios.post(
         'https://cccmi-aquality.tk/aquality_server/samplesave',
@@ -78,6 +68,8 @@ const resultPage = ({navigation, route}) => {
         },
       );
       console.log(response);
+      console.log('\n\n');
+      console.log(response.data);
       console.log('data posted');
     } catch (e) {
       console.error(e);
@@ -107,12 +99,22 @@ const resultPage = ({navigation, route}) => {
       };
     }
 
-    console.log(JSON.stringify('sampleobj sending ', sampleObj));
+    // console.log(JSON.stringify('sampleobj sending ', sampleObj));
     // set insect (selected + analysed)
     let array3 = route.params.selectedInsect.concat(
       route.params.analyzedInsect,
     );
     setInsectList(array3);
+
+    if (typeof route.params.surrounding === 'undefined') {
+      console.log('undefined surrounding');
+      route.params.surrounding = {surveyPhotos: []};
+    }
+
+    if (typeof route.params.insectsImage === 'undefined') {
+      console.log('undefined insectsImage');
+      route.params.insectsImage = {insectPhoto: []};
+    }
 
     let dataObj = {
       sampleObj: sampleObj,
@@ -162,9 +164,11 @@ const resultPage = ({navigation, route}) => {
       <View
         accessibilityLabel={testVariables.resultPageContainer}
         testID={testVariables.resultPageContainer}>
-          <ListItem bottomDivider containerStyle={styles.listContainer}>
+        <ListItem bottomDivider containerStyle={styles.listContainer}>
           <ListItem.Content>
-            <ListItem.Subtitle style={styles.title}>Sample score (Insect)</ListItem.Subtitle>
+            <ListItem.Subtitle style={styles.title}>
+              Sample score (Insect)
+            </ListItem.Subtitle>
             <Text style={styles.title}>{route.params.sample_score}</Text>
           </ListItem.Content>
         </ListItem>
@@ -172,7 +176,7 @@ const resultPage = ({navigation, route}) => {
         {/* <Text>username: {username}</Text> */}
         <ListItem bottomDivider containerStyle={styles.listContainer}>
           <ListItem.Content>
-          <ListItem.Subtitle style={styles.title}>
+            <ListItem.Subtitle style={styles.title}>
               River Name
             </ListItem.Subtitle>
             <Text style={styles.title}>
@@ -180,7 +184,7 @@ const resultPage = ({navigation, route}) => {
             </Text>
           </ListItem.Content>
         </ListItem>
-        
+
         <ListItem bottomDivider containerStyle={styles.listContainer}>
           <ListItem.Content>
             <ListItem.Subtitle style={styles.title}>Latitude</ListItem.Subtitle>

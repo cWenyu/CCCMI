@@ -335,23 +335,46 @@ const InsectPhotoScreen = ({navigation, route}) => {
         titleStyle={{marginHorizontal: 22, fontSize: 16}}
         buttonStyle={styles.submitButton}
         onPress={() => {
-          storePhotoGallery().then(insectsImageObj => {
-            navigation.navigate('InsectScreen', {
-              insectsImage: insectsImageObj,
-              uploadInsectLength: dataSource.length,
-            });
-          });
+          storePhotoGallery();
         }}
       />
     );
   };
 
+  const toDataURL = url =>
+    fetch(url)
+      .then(response => response.blob())
+      .then(
+        blob =>
+          new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onloadend = () =>
+              resolve(reader.result.replace(/^data:.+;base64,/, ''));
+            reader.onerror = reject;
+            reader.readAsDataURL(blob);
+          }),
+      );
+
+  const saveImage = (arr, str) => {
+    arr.push(str);
+    return arr;
+  };
   const storePhotoGallery = async () => {
-    let insectsImageObj = {
-      insectPhoto: dataSource,
-    };
-    // navigation.navigate('SearchRiverScreen', {surveyData: route.params.surveyData, surrounding: surveyPhoto})
-    return insectsImageObj;
+    let arr = [];
+    dataSource.forEach(url => {
+      toDataURL(url).then(res => {
+        saveImage(arr, res);
+        if (arr.length === dataSource.length) {
+          let insectsImageObj = {
+            insectPhoto: arr,
+          };
+          navigation.navigate('InsectScreen', {
+            insectsImage: insectsImageObj,
+            uploadInsectLength: dataSource.length,
+          });
+        }
+      });
+    }, arr);
   };
 
   return (
