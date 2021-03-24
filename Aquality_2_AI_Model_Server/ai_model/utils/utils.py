@@ -182,6 +182,66 @@ def create_json_object(original_image, boxes, class_names):
 
     return result
 
+
+# gets data for tails length and count
+def tail_found(img, boxes, class_names):
+    insect_in_group_2 = ['Perla', 'Amphinemura', 'Leuctra', 'Protonemura', 'Isoperia']
+    # Get the width and height of the image
+    width = img.shape[1]
+    height = img.shape[0]
+    tail_count = 0
+    class_names_list = []
+    tail_length = []
+    smaller_tail = False
+    tail_present = False
+    smallest_tail = 0
+    largest_tail = 0
+
+    # loops through the bounding boxes
+    for i in range(len(boxes)):
+
+        # Get each bounding box
+        box = boxes[i]
+
+        # Get the (x,y) pixel coordinates of the upper-left and upper-right corners of the bounding box
+        x1 = int(np.around((box[0] - box[2] / 2.0) * width))
+        y1 = int(np.around((box[1] - box[3] / 2.0) * height))
+        x2 = int(np.around((box[0] + box[2] / 2.0) * width))
+        y2 = int(np.around((box[1] + box[3] / 2.0) * height))
+
+        # fills the class names insect and tail
+        if len(box) >= 7 and class_names:
+            cls_id = box[6]
+            class_names_list.append(class_names[cls_id])
+
+        # contains only tail not insect using classes added when present do calculations
+        if class_names[cls_id] == "Tail":
+            tail_present = True
+            tail_count += 1
+            # gets width x and width y used for length
+            width_x = x2 - x1
+            width_y = abs(y1 - y2)
+            # gets max out of all, biggest number is the length, smallest number is width of tail
+            length = max(width_x, width_y)
+            tail_length.append(length)
+
+            # gets 3 or 2 numbers in list depending on amount of tails, gets largest and smallest out of all
+            largest_tail = max(tail_length)
+            smallest_tail = min(tail_length)
+
+        # checks if class names list contains any name in group 2 insect names
+        check = any(item in class_names_list for item in insect_in_group_2)
+
+        # if so the it has 2 tails so smaller tail doesnt apply
+        if check:
+            smaller_tail = False
+        # else if the largest tail smallest tail do not equal then there is a small tail present
+        elif largest_tail != smallest_tail and not check:
+            smaller_tail = True
+
+    return tail_present, smaller_tail, tail_count
+
+
 # image processing and returns detection results, request type POST
 def process_image_post(api_request):
     # gets image from POST which is encoded into base64 string
