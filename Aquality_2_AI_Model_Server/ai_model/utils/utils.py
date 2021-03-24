@@ -1,4 +1,4 @@
-    import time
+import time
 import torch
 
 import io
@@ -154,31 +154,92 @@ def load_class_names(names):
 
 
 # creates json object, takes boxes and class_names as param
-def create_json_object(boxes, class_names):
-    # variables set to initial state, result is an empty object.
+def create_json_object(original_image, boxes, class_names):
     result = {}
     count = 0
     result['detected_image'] = False
+    tail_present, smaller_tail, tail_count = tail_found(original_image, boxes, class_names)
 
-    # runs through all prediction boxes that are found
+    # loops through the bounding boxes
     for i in range(len(boxes)):
-        # sets each box for each iteration
         box = boxes[i]
-        # counts insects detected using amount of boxes shown as each box represents an insect
-        count += 1
-        # if boxes are within a range to get best confidence and is within the same insect class
+
         if len(box) >= 7 and class_names:
-            # uses best confidence
             cls_conf = box[5]
-            # uses class ID
             cls_id = box[6]
-            # build json object, with key and value
-            result['detected_image'] = True
-            result["class_label"] = class_names[cls_id]
-            result["confidence"] = cls_conf.item()
-            result["predicted_count"] = count
-    # return resulting object
+            #  got from tail_found method used in json response
+            result["tail_present"] = tail_present
+            result["smaller_tail"] = smaller_tail
+            result["tail_count"] = tail_count
+
+            # if class name tail is not present add the count and add the resulting data for insect
+            if class_names[cls_id] != "Tail":
+                count += 1
+                result['detected_image'] = True
+                result["class_label"] = class_names[cls_id]
+                result["confidence"] = cls_conf.item()
+                result["predicted_count"] = count
+
     return result
+
+
+# gets data for tails length and count
+def tail_found(img, boxes, class_names):
+    insect_in_group_2 = ['Perla', 'Amphinemura', 'Leuctra', 'Protonemura', 'Isoperia']
+    # Get the width and height of the image
+    width = img.shape[1]
+    height = img.shape[0]
+    tail_count = 0
+    class_names_list = []
+    tail_length = []
+    smaller_tail = False
+    tail_present = False
+    smallest_tail = 0
+    largest_tail = 0
+
+    # loops through the bounding boxes
+    for i in range(len(boxes)):
+
+        # Get each bounding box
+        box = boxes[i]
+
+        # Get the (x,y) pixel coordinates of the upper-left and upper-right corners of the bounding box
+        x1 = int(np.around((box[0] - box[2] / 2.0) * width))
+        y1 = int(np.around((box[1] - box[3] / 2.0) * height))
+        x2 = int(np.around((box[0] + box[2] / 2.0) * width))
+        y2 = int(np.around((box[1] + box[3] / 2.0) * height))
+
+        # fills the class names insect and tail
+        if len(box) >= 7 and class_names:
+            cls_id = box[6]
+            class_names_list.append(class_names[cls_id])
+
+        # contains only tail not insect using classes added when present do calculations
+        if class_names[cls_id] == "Tail":
+            tail_present = True
+            tail_count += 1
+            # gets width x and width y used for length
+            width_x = x2 - x1
+            width_y = abs(y1 - y2)
+            # gets max out of all, biggest number is the length, smallest number is width of tail
+            length = max(width_x, width_y)
+            tail_length.append(length)
+
+            # gets 3 or 2 numbers in list depending on amount of tails, gets largest and smallest out of all
+            largest_tail = max(tail_length)
+            smallest_tail = min(tail_length)
+
+        # checks if class names list contains any name in group 2 insect names
+        check = any(item in class_names_list for item in insect_in_group_2)
+
+        # if so the it has 2 tails so smaller tail doesnt apply
+        if check:
+            smaller_tail = False
+        # else if the largest tail smallest tail do not equal then there is a small tail present
+        elif largest_tail != smallest_tail and not check:
+            smaller_tail = True
+
+    return tail_present, smaller_tail, tail_count
 
 
 # image processing and returns detection results, request type POST
@@ -227,12 +288,13 @@ def run_detection(original_image):
     # resize image to suite darknet cfg height and width
     resized_image = cv2.resize(np.float32(original_image), (m.width, m.height))
     # Overlap higher means more overlap is allowed
-    nms_thresh = 0.7
-    # Intersection over Union, 0.7 was closest to the bounding boxes placed on images
-    iou_thresh = 0.7
+    nms_thresh = 0.3
+    # Intersection over Union, 0.5 was closest to the bounding boxes placed on
+    # images after changes to classes and dimensions in cfg
+    iou_thresh = 0.5
     # process the detection with set values
     boxes, detection_time = detect_objects(m, resized_image, iou_thresh, nms_thresh)
     # creates json object from results
-    objects = create_json_object(boxes, class_names)
+    objects = create_json_object(resized_image, boxes, class_names)
     # return json object and time taken to detect insect
     return objects, detection_time

@@ -36,7 +36,7 @@ DEBUG = config('DEBUG')
 SECRET_KEY = config('SECRET_KEY')
 
 
-ALLOWED_HOSTS = ["aquality2.nw.r.appspot.com","127.0.0.1","aquality-server.eba-rxqnbumy.eu-west-1.elasticbeanstalk.com","cccmi-aquality.tk"]
+ALLOWED_HOSTS = ["aquality2-306820.nw.r.appspot.com","127.0.0.1","aquality-server.eba-rxqnbumy.eu-west-1.elasticbeanstalk.com","cccmi-aquality.tk"]
 
 # Application definition
 
