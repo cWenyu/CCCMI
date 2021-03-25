@@ -90,6 +90,9 @@ const InsectScreen = ({navigation, route}) => {
       paddingTop: 20,
       color: colors.text,
     },
+    text: {
+      color: colors.text,
+    },
   });
 
   const setallinsect = () => {
@@ -250,7 +253,6 @@ const InsectScreen = ({navigation, route}) => {
         );
       });
 
-      storeData2(analysedInsect);
       return comp;
     }
   };
@@ -409,21 +411,21 @@ const InsectScreen = ({navigation, route}) => {
         onRequestClose={() => {}}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text>Group 1 - {groupScore.group_1} points</Text>
-            <Text>Group 2 - {groupScore.group_2} points</Text>
-            <Text>Group 3 - {groupScore.group_3} points</Text>
-            <Text>Group 4 - {groupScore.group_4} points</Text>
-            <Text>
+            <Text style={{color: colors.text}}>Group 1 - {groupScore.group_1} points</Text>
+            <Text style={{color: colors.text}}>Group 2 - {groupScore.group_2} points</Text>
+            <Text style={{color: colors.text}}>Group 3 - {groupScore.group_3} points</Text>
+            <Text style={{color: colors.text}}>Group 4 - {groupScore.group_4} points</Text>
+            <Text style={{color: colors.text}}>
               Group 5 - {groupScore.group_5} points{'\n'}
             </Text>
-            <Text>Total sample score: </Text>
-            <Text style={{fontWeight: 'bold'}}>{score} points</Text>
+            <Text style={{color: colors.text}}>Total sample score: </Text>
+            <Text style={{fontWeight: 'bold', color: colors.text}}>{score} points</Text>
 
             <IconButton
               accessibilityLabel={testVariables.cancelAddAmountIcon}
               testID={testVariables.cancelAddAmountIcon}
-              icon="close-circle"
-              color={Colors.red500}
+              icon="check-circle"
+              color={Colors.green500}
               size={20}
               onPress={() => setModalVisible(!modalVisible)}
             />
