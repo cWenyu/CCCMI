@@ -1,0 +1,38 @@
+name: Build Android On Windows
+
+on:
+  pull_request:
+    branches:
+      - Aquality_Mobile_ui_Master
+
+  push:
+    branches:
+      - Aquality_Mobile_ui_Master
+
+jobs:
+  install-and-test:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: run unit test
+        run: |
+          cd mobile_ui
+          yarn install
+          yarn test
+
+  build-android:
+    needs: install-and-test
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: generate debug apk file
+        run: |
+          cd mobile_ui
+          yarn install
+          cd android && ./gradlew assembleDebug
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: app-debug.apk
+          path: mobile_ui/android/app/build/outputs/apk/debug/

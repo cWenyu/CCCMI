@@ -1,0 +1,85 @@
+name: E2E Testing in Android on macos
+
+on:
+  pull_request:
+    branches:
+      - Aquality_Mobile_ui_Master
+
+  push:
+    branches:
+      - Aquality_Mobile_ui_Master
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: macos-latest
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+        with:
+          ref: Aquality_Mobile_ui_Master
+      - name: Clean Packages
+        run: |
+          cd mobile_ui
+          npm cache clean --force
+          rm -rf package-lock.json
+      # Install React Native CLI
+      - name: Install React Native CLI
+        run: |
+          npm install react-native-cli
+      # Run Android Emulator
+      - name: Run Android Emulator
+        run: |
+          echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --install 'system-images;android-30;google_apis;x86_64'
+          echo "no" | $ANDROID_HOME/tools/bin/avdmanager create avd -n test_device -k 'system-images;android-30;google_apis;x86_64' --force
+          echo $ANDROID_HOME/emulator/emulator -list-avds
+          echo "Starting emulator"
+          nohup $ANDROID_HOME/emulator/emulator -avd test_device -no-snapshot > /dev/null 2>&1 &
+          $ANDROID_HOME/platform-tools/adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed | tr -d '\r') ]]; do sleep 1; done; input keyevent 82'
+          $ANDROID_HOME/platform-tools/adb devices
+          echo "Emulator started"
+
+      # Install Repo and Dependencies
+      - name: Install Repo and Dependencies
+        run: |
+          cd mobile_ui
+          yarn install
+          cd appium_automation_testing
+          npm install
+
+      # Start the Appium Server
+      - name: Start the Appium Server
+        run: |
+          cd mobile_ui
+          ./node_modules/.bin/appium --log-timestamp --log-no-colors --allow-insecure chromedriver_autodownload > appium.log &
+
+      # Start the Appium Server
+      - name: Open Metro Bundler in Background
+        run: |
+          cd mobile_ui
+          node_modules/react-native/scripts/launchPackager.command &
+      # Build Android App and Run Tests
+      - name: Build Android App and Run Tests
+        env:
+          E2E_TEST_PLATFORM: 'android'
+          E2E_TEST_DEFAULTS: 'true'
+          E2E_TEST_TAGS: 'E2E'
+        run: |
+          cd mobile_ui/android
+          chmod +x ./gradlew
+          ./gradlew clean
+          yarn android
+          sleep 1000
+          cd ../appium_automation_testing
+          mkdir reports
+          npm run testandroid | tee ./reports/test-report.txt
+
+      # Upload Test Results
+      - name: Upload Test Results
+        uses: actions/upload-artifact@v1
+        with:
+          name: test-report.txt
+          path: mobile_ui/appium_automation_testing/reports/

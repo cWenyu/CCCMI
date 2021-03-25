@@ -31,6 +31,7 @@ run the code
 pip install -r requirements.txt
 ```
 
+
 # Configuration for .env File
 
 djangorestframework-gis
