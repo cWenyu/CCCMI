@@ -325,7 +325,6 @@ const HomeScreen = ({navigation}) => {
         titleProps={{}}
         titleStyle={{marginHorizontal: 22, fontSize: 18}}
       />
-<Button title='saveweather' onPress={()=>saveWeather()}/>
       <Modal
         animationType="slide"
         visible={modalVisible}
