@@ -1,57 +1,90 @@
 import json
+from base64 import b64decode
+import io
+import PIL.Image as Image
+from django.core.files.uploadedfile import InMemoryUploadedFile
+
 from ..utils.utils import count_score_by_insect
-from Cython import typeof
 from ..serializers import *
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
-@csrf_exempt
-def getSampleRecord(request):
-    sample_id_get = request.POST['sample_id']
-    sample_record = SampleRecord.objects.get(sample_id=sample_id_get)
-    insect_list = SampleRecordInsectDetail.objects.filter(sample_record_data = sample_record)
-    return JsonResponse({
-        'data_get' :SampleRecordDataSerializer(sample_record).data,
-        'insect_list' : SampleRecordInsectDetailSerializer(insect_list,many=True).data
-    })
 
 @csrf_exempt
-def storeRecordResult(request):
+def get_sample_record(request):
+    sample_id_get = request.POST['sample_id']
+    sample_record = SampleRecord.objects.get(sample_id=sample_id_get)
+    insect_list = SampleRecordInsectDetail.objects.filter(sample_record_data=sample_record)
+    insect_image_list = AllInsectUserUpload.objects.filter(sample_record_data=sample_record)
+    environment_image_list = RiverEnvironmentImage.objects.filter(sample_record_data=sample_record)
+
+    return JsonResponse({
+        'data_get': SampleRecordDataSerializer(sample_record).data,
+        'insect_list': SampleRecordInsectDetailSerializer(insect_list, many=True).data,
+        'insect_image_list': AllInsectUserUploadSerializer(insect_image_list, many=True).data,
+        'environment_image_list': RiverEnvironmentImageSerializer(environment_image_list, many=True).data
+    })
+
+
+@csrf_exempt
+def store_record_result(request):
     try:
         data = json.loads(request.body)
         sample_detail = data['data_get']
-        if request.method =="POST":
+        if request.method == "POST":
             try:
-                user = User.objects.get(id=sample_detail['sample_user'])
-                river = River.objects.get(river_id = sample_detail['sample_river_id'])
+                user = User.objects.get(username=sample_detail['sample_user'])
+                river = River.objects.get(river_id=sample_detail['sample_river_id'])
                 record_save = SampleRecord.objects.create(
-                    sample_score = sample_detail['sample_score'],
-                    sample_user = user,
-                    sample_ph = sample_detail['sample_ph'],
-                    sample_tmp = sample_detail['sample_tmp'],
-                    sample_river = river
+                    sample_score=sample_detail['sample_score'],
+                    sample_user=user,
+                    sample_pH=sample_detail.get('sample_ph'),
+                    sample_tmp=sample_detail.get('sample_tmp'),
+                    sample_river=river,
+                    sample_survey=sample_detail['sample_survey']
                 )
-                record_save_id = record_save.sample_id
+
                 for insect in data['insect_list']:
-                    insect_to_save = Insect.objects.get(insect_name = insect['sample_record_insect'])
+                    insect_to_save = Insect.objects.get(insect_name=insect['insect_name'])
                     SampleRecordInsectDetail.objects.create(
-                        sample_record_data = record_save,
-                        sample_record_insect = insect_to_save,
-                        insect_number = insect['insect_number']
+                        sample_record_data=record_save,
+                        sample_record_insect=insect_to_save,
+                        insect_number=insect['amount']
                     )
-                
+
+                insect_photo_list = data['insectsImage']['insectPhoto']
+                survey_list = data["surrounding"]["surveyPhotos"]
+
+                for unprocessed_image in insect_photo_list:
+                    processed_insect_image = process_image_post(unprocessed_image)
+
+                    AllInsectUserUpload.objects.create(
+                        sample_record_data=record_save,
+                        insect_image_path=processed_insect_image
+                    )
+
+                for unprocessed_image in survey_list:
+                    processed_survey_image = process_image_post(unprocessed_image)
+
+                    RiverEnvironmentImage.objects.create(
+                        sample_record_data=record_save,
+                        river_image_path=processed_survey_image
+                    )
+                record_save_id = record_save.sample_id
                 return JsonResponse({
-                    'status_code':201,
-                    'message':'store_success'
-                    })
+                    'status_code': 201,
+                    'message': 'store_success',
+                    'sample_id': record_save_id
+                })
             except Exception as e:
                 return HttpResponse(e)
     except KeyError:
         pass
     return JsonResponse({
-        'status_code':202,
-        'message':'Error Occur'
+        'status_code': 202,
+        'message': 'Error Occur'
     })
+
 
 @csrf_exempt
 def calculate_score_insect(request):
@@ -85,3 +118,23 @@ def calculate_score_insect(request):
 
     # return json_object and a JSON response
     return JsonResponse(json_object)
+
+
+def process_image_post(base64_data):
+    decode_image = b64decode(base64_data)
+
+    img = Image.open(io.BytesIO(decode_image))
+    img_format = '.' + img.format
+
+    fileData = io.BytesIO(decode_image)
+    file = InMemoryUploadedFile(  # arguments: 'file', 'field_name', 'name', 'content_type', 'size', and 'charset'
+        fileData,
+        None,
+        'photo' + img_format,
+        'image',
+        len(decode_image),
+        None,
+    )
+    img.close()
+
+    return file

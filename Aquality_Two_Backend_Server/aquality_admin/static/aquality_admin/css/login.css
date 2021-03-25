@@ -1,0 +1,23 @@
+.login-wrap{
+  width:50em;
+  margin: 0 auto;
+  margin-top:100px;
+  border:1px solid #eee;
+  padding:15px;
+  background: #f8f8f8;
+  border-radius: 4px;
+}
+nav{
+  margin-bottom: 5em;
+}
+#loginWillOver {
+  padding-bottom: 4em;
+  padding-top: 4em;
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: auto;
+  margin-top: auto;
+}
+
+.form-group.last { margin-bottom:0px; }

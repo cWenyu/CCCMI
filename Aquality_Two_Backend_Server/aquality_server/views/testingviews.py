@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
+from django.template.response import TemplateResponse
 
 def index(request):
     return render(request, 'aquality_server/index.html', {})
@@ -12,23 +13,23 @@ def index(request):
 #     return render(request, 'aquality_server/addData.html',{'returnMessage': returnMessage})
 
 @csrf_exempt
-def testingPage(request):
-    # request_url = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=River&inputtype=textquery&fields=geometry&key=" + config('GOOGLEMAP_APIKEY')
-    # locationfound = requests.get(request_url)
-    # data = locationfound.json().get("candidates")[0].get("geometry").get("location")
+def testing_page(request):
     return render(request, 'aquality_server/testing.html', {'request': request})
 
 @csrf_exempt
-def testingInsectPage(request):
+def testing_insect_page(request):
     data = json.loads(request.body)
-    dataTo = data['data_get']
-    insectList = data['insect_list']
-    return render(request, 'aquality_server/testingInsectSave.html', {'data': dataTo,'insectList':insectList})
+    data_to = data['data_get']
+    insect_list = data['insect_list']
+    return render(request, 'aquality_server/testingInsectSave.html', {'data': data_to,'insectList':insect_list})
 
 
-def testingPageForPatrick(request):
+def testing_page_for_patrick(request):
     return JsonResponse({
         'status': 'Image Accepted',
         'message': {'image': 'http//......', 'class_label': ['Ecdyonurus'], 'confidence': [0.9999022483825684]}
     })
 
+
+def custom_permission_denied_view(request, exception, template_name="403.html"):
+    return TemplateResponse(request, '403.html', {}).render()
