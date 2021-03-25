@@ -43,7 +43,7 @@ describe('Testing search river screen', () => {
 
   it('should show empty locate text input before locate icon is clicked', async => {
     expect($('~' + testVariables.searchRiverLocateInput).getText()).to.equal(
-      'Location name or Coordinates',
+      'River Name or Coordinates',
     );
   });
 
@@ -269,7 +269,7 @@ describe('Testing tabs with screens', () => {
     expect(
       $('~' + testVariables.insectScreenSelectedTitle).getText(),
       'selected insects title should be displayed',
-    ).to.equal('Selected :');
+    ).to.equal('Insects Selected');
 
     expect(
       $$('~' + testVariables.insectScreenSelectedInsects),
@@ -318,24 +318,41 @@ describe('Testing tabs with screens', () => {
     ).to.be.true;
   });
 
-  // it('should show sampling results', () => {
-  //   driver.pause(1000);
-  //   $('~' + testVariables.cancelButton).click();
-  //   driver.back();
+  it('should show sampling results', () => {
+    driver.pause(1000);
+    $('~' + testVariables.cancelButton).click();
+    driver.back();
 
-  //   $('~' + testVariables.insectScreenContainer).waitForDisplayed(10000, false);
+    $('~' + testVariables.insectScreenContainer).waitForDisplayed(10000, false);
 
-  //   expect(
-  //     $('~' + testVariables.showResultIcon).isDisplayed(),
-  //     'should display √ icon',
-  //   ).to.be.true;
+    expect(
+      $('~' + testVariables.showResultIcon).isDisplayed(),
+      'should display √ icon',
+    ).to.be.true;
 
-  //   $('~' + testVariables.showResultIcon).click();
+    $('~' + testVariables.showResultIcon).click();
 
-  //   $('~' + testVariables.resultPageContainer).waitForDisplayed(10000, false);
-  //   expect(
-  //     $('~' + testVariables.resultPageContainer).isDisplayed(),
-  //     'should display new sampling results',
-  //   ).to.be.true;
-  // });
+    $('~' + testVariables.resultPageContainer).waitForDisplayed(10000, false);
+    expect(
+      $('~' + testVariables.resultPageContainer).isDisplayed(),
+      'should display new sampling results',
+    ).to.be.true;
+  });
+
+  it('should submit sampling and go back to home screen', () => {
+    driver.pause(1000);
+    driver.execute('mobile: scroll', {
+      strategy: 'accessibility id',
+      selector: '~resultPageDoneButton',
+    });
+    const resultPageDoneButton = $('~' + testVariables.resultPageDoneButton);
+    expect(resultPageDoneButton.isDisplayed(), 'should display Done Button').to
+      .be.true;
+    resultPageDoneButton.click();
+    $('~' + testVariables.homeScreenContainer).waitForDisplayed(10000, false);
+    expect(
+      $('~' + testVariables.homeScreenContainer).isDisplayed(),
+      'should go back to home screen',
+    ).to.be.true;
+  });
 });

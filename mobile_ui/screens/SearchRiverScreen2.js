@@ -1,15 +1,22 @@
-import React from 'react';
-import {View, StyleSheet} from 'react-native';
-import {ListItem, Button, Text} from 'react-native-elements';
+import React, {useState} from 'react';
+import {View, StyleSheet, Alert, BackHandler, ScrollView} from 'react-native';
+import {ListItem, Button} from 'react-native-elements';
 import {useTheme} from '@react-navigation/native';
-import LinearGradient from 'react-native-linear-gradient';
 import testVariables from '../appium_automation_testing/test_variables';
-import {FlatList} from 'react-native-gesture-handler';
-import {List} from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
+import {
+  resetSurveyForm,
+  updateSelectionHandlers,
+  updateQIndex,
+  updateAnswers,
+} from '../components/reduxStore';
+import {useDispatch} from 'react-redux';
 
 const SearchRiverScreen2 = ({navigation, route}) => {
+  const dispatch = useDispatch();
   const {colors} = useTheme();
+  const [sampleData, setSampleData] = useState([]);
+
   const styles = StyleSheet.create({
     container: {
       flex: 1,
@@ -26,18 +33,44 @@ const SearchRiverScreen2 = ({navigation, route}) => {
     },
   });
 
+  React.useEffect(()=>{
+    if(route.params?.surveyData) {
+      console.log(JSON.stringify(route.params));
+    }
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
+  }, [route.params?.surveyData])
+
+  const backAction = () => {
+    Alert.alert("Hold on!", "Go back to Home will not save your proccess of taking sample.", [
+      {
+        text: "Cancel",
+        onPress: () => null,
+        style: "cancel"
+      },
+      { text: "BACK", onPress: () => {
+        dispatch(resetSurveyForm());
+        navigation.navigate('SurveyPage');
+        navigation.navigate('HomeScreen');
+      }, }
+    ]);
+    return true;
+  };
+
   const storeData = async value => {
     try {
       const jsonValue = JSON.stringify(value);
       await AsyncStorage.setItem('river', jsonValue);
-      console.log('stored data: ' + jsonValue);
+      // console.log('stored data: ' + jsonValue);
     } catch (e) {
       // saving error
     }
   };
 
   return (
-    <View
+    <ScrollView
       style={styles.container}
       accessibilityLabel={testVariables.riverDetailContainer}
       testID={testVariables.riverDetailContainer}>
@@ -48,7 +81,7 @@ const SearchRiverScreen2 = ({navigation, route}) => {
               River Name
             </ListItem.Subtitle>
             <ListItem.Title style={styles.title}>
-              {route.params.data.river_name}
+              {route.params.riverData.river_name}
             </ListItem.Title>
           </ListItem.Content>
         </ListItem>
@@ -56,7 +89,7 @@ const SearchRiverScreen2 = ({navigation, route}) => {
           <ListItem.Content>
             <ListItem.Subtitle style={styles.title}>Latitude</ListItem.Subtitle>
             <ListItem.Title style={styles.title}>
-              {route.params.data.latitude}
+              {route.params.riverData.latitude}
             </ListItem.Title>
           </ListItem.Content>
         </ListItem>
@@ -66,7 +99,7 @@ const SearchRiverScreen2 = ({navigation, route}) => {
               Longitude
             </ListItem.Subtitle>
             <ListItem.Title style={styles.title}>
-              {route.params.data.longitude}
+              {route.params.riverData.longitude}
             </ListItem.Title>
           </ListItem.Content>
         </ListItem>
@@ -76,7 +109,7 @@ const SearchRiverScreen2 = ({navigation, route}) => {
               River Catchments
             </ListItem.Subtitle>
             <ListItem.Title style={styles.title}>
-              {route.params.data.river_catchments}
+              {route.params.riverData.river_catchments}
             </ListItem.Title>
           </ListItem.Content>
         </ListItem>
@@ -86,7 +119,7 @@ const SearchRiverScreen2 = ({navigation, route}) => {
               River Code
             </ListItem.Subtitle>
             <ListItem.Title style={styles.title}>
-              {route.params.data.river_code}
+              {route.params.riverData.river_code}
             </ListItem.Title>
           </ListItem.Content>
         </ListItem>
@@ -96,7 +129,7 @@ const SearchRiverScreen2 = ({navigation, route}) => {
               Local Authority
             </ListItem.Subtitle>
             <ListItem.Title style={styles.title}>
-              {route.params.data.local_authority}
+              {route.params.riverData.local_authority}
             </ListItem.Title>
           </ListItem.Content>
         </ListItem>
@@ -107,7 +140,7 @@ const SearchRiverScreen2 = ({navigation, route}) => {
               Transboundary
             </ListItem.Subtitle>
             <ListItem.Title style={styles.title}>
-              {route.params.data.transboundary}
+              {route.params.riverData.transboundary}
             </ListItem.Title>
           </ListItem.Content>
         </ListItem>
@@ -117,11 +150,12 @@ const SearchRiverScreen2 = ({navigation, route}) => {
         testID={testVariables.riverDetailChooseRiverButton}
         title="Choose this river"
         onPress={() => {
-          navigation.navigate('MainTabScreen');
-          storeData(route.params.data);
+          // sampleData.push({"river": JSON.stringify(route.params.data)}) //here
+          navigation.navigate('ArduinoScreen', route.params);
+          // storeData(route.params.data);
         }}
-        buttonStyle={{ width: 360, height: 50, backgroundColor: "#02ab9e" }}
-          containerStyle={{ margin: 5, alignItems: "center", marginTop: 20 }}
+        buttonStyle={{ width: '100%', height: 50, backgroundColor: "#02ab9e", borderRadius: 10, }}
+          containerStyle={{ margin: 5, alignItems: "center", marginTop: 35 }}
           disabledStyle={{
             borderWidth: 2,
             borderColor: "#00F"
@@ -133,7 +167,7 @@ const SearchRiverScreen2 = ({navigation, route}) => {
           titleProps={{}}
           titleStyle={{ marginHorizontal: 22, fontSize: 18 }}
       />
-    </View>
+    </ScrollView>
   );
 };
 

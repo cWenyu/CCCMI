@@ -70,15 +70,23 @@ const SignInScreen = ({navigation}) => {
         let response = await axios({
           method: 'post',
           url:
-            'http://aquality-server.eba-rxqnbumy.eu-west-1.elasticbeanstalk.com/aquality_server/useraccount/loginauth',
+            'https://cccmi-aquality.tk/aquality_server/useraccount/loginauth',
           data: bodyFormData,
           headers: {'Content-Type': 'multipart/form-data'},
         });
 
         if (response && response.data && response.data.status) {
-          console.log(JSON.stringify(response.data));
+          // console.log(JSON.stringify(response.data));
           if (response.data.status === 'Login Success') {
             await AsyncStorage.setItem('username', response.data.user_username);
+            await AsyncStorage.setItem(
+              'userState',
+              response.data.user_safety_guide_accept_state.toString(),
+            );
+            await AsyncStorage.setItem(
+              'userID',
+              response.data.user_id.toString(),
+            );
             signIn(response.data.user_username);
           } else {
             setData({
@@ -101,7 +109,7 @@ const SignInScreen = ({navigation}) => {
       testID={testVariables.signScreenContainer}>
       <StatusBar backgroundColor="#009387" barStyle="light-content" />
       <View style={styles.header}>
-        <Text style={styles.text_header}>Welcome!</Text>
+        <Text style={styles.text_header}>Sign In</Text>
       </View>
       <Animatable.View
         animation="fadeInUpBig"
@@ -219,7 +227,7 @@ const SignInScreen = ({navigation}) => {
             </LinearGradient>
           </TouchableOpacity>
 
-          <TouchableOpacity
+          {/* <TouchableOpacity
             onPress={() => navigation.navigate('SignUpScreen')}
             style={[
               styles.signIn,
@@ -238,7 +246,7 @@ const SignInScreen = ({navigation}) => {
               ]}>
               Sign Up
             </Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </Animatable.View>
     </View>

@@ -1,17 +1,16 @@
 import React, { useEffect, useState, Component } from 'react';
-import { View, StyleSheet, Text, Image, Modal, ToastAndroid } from 'react-native';
+import { View, StyleSheet, Text, Image, Modal, ToastAndroid, Alert, BackHandler, } from 'react-native';
 import { Button } from 'react-native-elements';
 import { ScrollView, TextInput } from 'react-native-gesture-handler';
 import axios from 'axios';
-import {useTheme} from '@react-navigation/native';
-import {IconButton, Colors} from 'react-native-paper';
+import { useTheme } from '@react-navigation/native';
+import { IconButton, Colors } from 'react-native-paper';
 import testVariables from '../appium_automation_testing/test_variables';
 
 const selectInsect1 = ({ navigation }) => {
   const [insectList, setInsectList] = useState([]);
   const { colors } = useTheme();
   const [selectedInsectList, setSelectedInsectList] = useState([]);
-
   const [selectedInsect, setSelectedInsect] = useState({
     insect_name: '',
     amount: null,
@@ -32,7 +31,7 @@ const selectInsect1 = ({ navigation }) => {
     tinyLogo: {
       width: 80,
       height: 80,
-      borderRadius:3,
+      borderRadius: 3,
     },
     container: {
       flexDirection: 'row',
@@ -97,7 +96,6 @@ const selectInsect1 = ({ navigation }) => {
       marginBottom: 30,
     },
   });
-  
 
   const showToast = val => {
     ToastAndroid.show(val + ' has been added.', ToastAndroid.SHORT);
@@ -113,7 +111,7 @@ const selectInsect1 = ({ navigation }) => {
     newSelectedInsect.amount = selecTedAmount;
     newSelectedInsect.insect_image = imageName;
     setSelectedInsect(newSelectedInsect);
-    console.log('new insect:' + newSelectedInsect);
+    console.log('new selected insect:' + JSON.stringify(newSelectedInsect));
     handleUpdate(newSelectedInsect);
     setSelectedAmount('');
   };
@@ -129,19 +127,27 @@ const selectInsect1 = ({ navigation }) => {
       showToast(todo.insect_name);
     } else {
       alert('Error: duplicate insect detected.');
-      // showToast('error: duplicated')
       return;
     }
   };
 
   useEffect(() => {
     getInsect();
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
+
+  const backAction = () => {
+    navigation.goBack();
+    return true;
+  };
 
   const getInsect = async () => {
     try {
       let response = await axios.get(
-        'http://cccmi-aquality.tk/aquality_server/insect',
+        'https://cccmi-aquality.tk/aquality_server/insect',
       );
       setInsectList(response.data);
     } catch (e) {
@@ -150,7 +156,7 @@ const selectInsect1 = ({ navigation }) => {
   };
 
   const handleSubmit = () => {
-    navigation.navigate('Insect', { post: selectedInsectList });
+    navigation.navigate('InsectScreen', { selectedInsect: selectedInsectList });
   };
 
   return (
@@ -191,27 +197,20 @@ const selectInsect1 = ({ navigation }) => {
               buttonStyle={{
                 width: 65,
                 marginRight: 10,
-                backgroundColor: "#625D52"
+                backgroundColor: '#625D52',
               }}
               disabledStyle={{
                 borderWidth: 2,
-                borderColor: "#00F"
+                borderColor: '#00F',
               }}
-              disabledTitleStyle={{ color: "#00F" }}
+              disabledTitleStyle={{ color: '#00F' }}
               linearGradientProps={null}
               loadingProps={{ animating: true }}
               loadingStyle={{}}
             />
           </View>
         ))}
-        {selectedInsectList.map((item, key) => (
-          <View>
-            <Text>
-              {item.insect_name}
-              {item.amount}
-            </Text>
-          </View>
-        ))}
+
       </ScrollView>
 
       <Button
@@ -236,15 +235,17 @@ const selectInsect1 = ({ navigation }) => {
                 uri: image,
               }}
             />
-            <Text style={{color: colors.text, fontSize: 18}}>{actionTriggered}</Text>
-            <Text style={{color: colors.text}}>{description}</Text>
-            <View  style={styles.searchSection}>
+            <Text style={{ color: colors.text, fontSize: 18 }}>
+              {actionTriggered}
+            </Text>
+            <Text style={{ color: colors.text }}>{description}</Text>
+            <View style={styles.searchSection}>
               <TextInput
                 accessibilityLabel={testVariables.groupAmountInput}
                 testID={testVariables.groupAmountInput}
                 placeholder="Insect Amount"
                 style={styles.input}
-                placeholderTextColor= {colors.text}
+                placeholderTextColor={colors.text}
                 onChangeText={val => setSelectedAmount(val)}
                 keyboardType="numeric"
               />
@@ -277,4 +278,3 @@ const selectInsect1 = ({ navigation }) => {
 };
 
 export default selectInsect1;
-

@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { View, StyleSheet } from 'react-native';
+import React, {useEffect} from 'react';
+import {View, StyleSheet} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import {
   useTheme,
@@ -11,35 +11,55 @@ import {
   TouchableRipple,
   Switch,
 } from 'react-native-paper';
-import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
+import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { AuthContext } from '../components/context';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {AuthContext} from '../components/context';
+import axios from 'axios';
+
 export function DrawerContent(props) {
   const paperTheme = useTheme();
-  const { signOut, toggleTheme } = React.useContext(AuthContext);
+  const {signOut, toggleTheme} = React.useContext(AuthContext);
 
   const [data, setData] = React.useState({
     username: '',
+    email: '',
   });
 
   const getData = async () => {
-    let username = await AsyncStorage.getItem('username');
-    setData({
-      ...data,
-      username: username,
-    });
-  }
+    try {
+      let username = await AsyncStorage.getItem('username');
+      var bodyFormData = new FormData();
+      bodyFormData.append('username', username);
+
+      let response = await axios({
+        method: 'post',
+        url: 'https://cccmi-aquality.tk/aquality_server/useraccount/userdetail',
+        data: bodyFormData,
+        headers: {'Content-Type': 'multipart/form-data'},
+      });
+      if (response && response.data) {
+        setData({
+          ...data,
+          username: username,
+          email: response.data.user_email,
+        });
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   useEffect(() => {
     getData();
   }, []);
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{flex: 1}}>
       <DrawerContentScrollView {...props}>
         <View style={styles.drawerContent}>
           <View style={styles.userInfoSection}>
-            <View style={{ flexDirection: 'row', marginTop: 15 }}>
+            <View style={{flexDirection: 'row', marginTop: 15}}>
               <Avatar.Image
                 source={{
                   uri:
@@ -47,10 +67,9 @@ export function DrawerContent(props) {
                 }}
                 size={50}
               />
-              <View style={{ marginLeft: 15, flexDirection: 'column' }}>
-
+              <View style={{marginLeft: 15, flexDirection: 'column'}}>
                 <Title style={styles.title}>{data.username}</Title>
-                <Caption style={styles.caption}></Caption>
+                <Caption style={styles.caption}>{data.email}</Caption>
               </View>
             </View>
 
@@ -72,12 +91,12 @@ export function DrawerContent(props) {
 
           <Drawer.Section style={styles.drawerSection}>
             <DrawerItem
-              icon={({ color, size }) => (
+              icon={({color, size}) => (
                 <Icon name="home-outline" color={color} size={size} />
               )}
               label="Home"
               onPress={() => {
-                props.navigation.navigate('HomeScreen');
+                props.navigation.navigate('Home');
               }}
             />
             {/* <DrawerItem
@@ -90,7 +109,7 @@ export function DrawerContent(props) {
               }}
             /> */}
             <DrawerItem
-              icon={({ color, size }) => (
+              icon={({color, size}) => (
                 <Icon name="cog-outline" color={color} size={size} />
               )}
               label="Settings"
@@ -99,12 +118,30 @@ export function DrawerContent(props) {
               }}
             />
             <DrawerItem
-              icon={({ color, size }) => (
-                <Icon name="account-check-outline" color={color} size={size} />
+              icon={({color, size}) => (
+                <Icon name="file-document" color={color} size={size} />
               )}
-              label="Support"
+              label="Safety Guide"
               onPress={() => {
-                props.navigation.navigate('SupportScreen');
+                props.navigation.navigate('SafetyGuideScreen');
+              }}
+            />
+            <DrawerItem
+              icon={({color, size}) => (
+                <MaterialIcons name="policy" color={color} size={size} />
+              )}
+              label="Policy and Terms"
+              onPress={() => {
+                props.navigation.navigate('PolicyTermsScreen');
+              }}
+            />
+            <DrawerItem
+              icon={({color, size}) => (
+                <MaterialIcons name="help" color={color} size={size} />
+              )}
+              label="Help Page"
+              onPress={() => {
+                props.navigation.navigate('HelpScreen');
               }}
             />
           </Drawer.Section>
@@ -125,7 +162,7 @@ export function DrawerContent(props) {
       </DrawerContentScrollView>
       <Drawer.Section style={styles.bottomDrawerSection}>
         <DrawerItem
-          icon={({ color, size }) => (
+          icon={({color, size}) => (
             <Icon name="exit-to-app" color={color} size={size} />
           )}
           label="Sign Out"

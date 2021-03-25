@@ -158,8 +158,8 @@ const InsectStackScreen = ({navigation}) => (
         ),
         headerRight: () => (
           <Icon.Button
-            tabBarAccessibilityLabel={testVariables.showResultIcon}
-            tabBarTestID={testVariables.showResultIcon}
+            accessibilityLabel={testVariables.showResultIcon}
+            testID={testVariables.showResultIcon}
             name="checkmark-outline"
             size={25}
             backgroundColor="#857F72"

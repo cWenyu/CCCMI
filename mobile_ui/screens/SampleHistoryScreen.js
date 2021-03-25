@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -6,39 +6,32 @@ import {
   ScrollView,
   StyleSheet,
   TouchableOpacity,
+  TextInput,
+  BackHandler,
 } from 'react-native';
-import {Button, SearchBar} from 'react-native-elements';
+import { Button, SearchBar } from 'react-native-elements';
 import testVariables from '../appium_automation_testing/test_variables';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {useTheme} from '@react-navigation/native';
+import { useTheme } from '@react-navigation/native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 let riverNameList = [];
 let dateList = [];
 let historyData = [];
-let url = 'http://cccmi-aquality.tk/aquality_server/samplerecord/?username=';
+let url = 'https://cccmi-aquality.tk/aquality_server/samplerecord/?username=';
 
 /**
  * @param {*} {navigation}
  * @description Sample History Screen component
  * @return {SampleHistoryScreen}
  */
-const SampleHistoryScreen = ({navigation}) => {
-  const {colors} = useTheme();
-  const userName = 'kobe24';
+const SampleHistoryScreen = ({ navigation }) => {
+  const { colors } = useTheme();
+  // const [userName, setUserName] = useState('');
   const [isLoading, setLoading] = useState(true);
   const [filterType, setFilterType] = useState('All');
   const [data, setData] = useState([]);
-  const [d, sd] = React.useState({
-    isLightTheme: true,
-  });
-
-  useEffect(
-    React.useCallback(() => {
-      const interval = setInterval(() => checkThemeForSearch());
-      return () => clearInterval(interval);
-    }, []),
-  );
 
   // const [historyData, setHistoryData] = useState([]);
 
@@ -50,16 +43,18 @@ const SampleHistoryScreen = ({navigation}) => {
     },
     button: {
       width: 200,
+      height: 40,
       marginVertical: 10,
-      backgroundColor: '#4c4cff',
+      backgroundColor: '#009387',
       padding: 5,
-      borderRadius: 50,
+      borderRadius: 15,
     },
     btnText: {
       color: 'white',
       fontSize: 20,
       justifyContent: 'center',
       textAlign: 'center',
+      alignSelf: 'center',
     },
     searchContainer: {
       justifyContent: 'center',
@@ -81,7 +76,31 @@ const SampleHistoryScreen = ({navigation}) => {
       justifyContent: 'center',
     },
     resultsContainer: {
-      marginTop: 40,
+      marginTop: 20,
+    },
+    searchSection: {
+      // flex: 1,
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: colors.border,
+      marginBottom: 30,
+      marginTop: 30,
+      height: 85,
+      borderRadius: 8,
+      width: '95%',
+    },
+    input: {
+      flex: 1,
+      paddingTop: 10,
+      marginLeft: 0,
+      paddingBottom: 10,
+      paddingLeft: 12,
+      backgroundColor: colors.background,
+      color: colors.text,
+      borderBottomColor: colors.text,
+      borderRadius: 5,
+      marginLeft: 25,
     },
   });
 
@@ -116,34 +135,37 @@ const SampleHistoryScreen = ({navigation}) => {
    * @description life hook
    */
   useEffect(() => {
-    fetch(url + userName)
-      .then(response => {
-        if (response.status === 200) {
-          return response.json();
-        }
-        throw new Error('Network response was not ok.');
-      })
-      .then(json => {
-        historyData = json;
-      })
-      .then(() => convertDate())
-      .then(() => setValues())
-      .then(() => setLoading(false))
-      .catch(error => alert(error));
+    getUserName().then(userName => {
+      fetch(url + userName)
+        .then(response => {
+          if (response.status === 200) {
+            return response.json();
+          }
+          throw new Error('Network response was not ok.');
+        })
+        .then(json => {
+          historyData = json;
+        })
+        .then(() => convertDate())
+        .then(() => setValues())
+        .then(() => setLoading(false))
+        .catch(error => alert(error));
+    });
+
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
 
-  const checkThemeForSearch = async () => {
-    if (colors.background === '#333333') {
-      sd({
-        ...d,
-        isLightTheme: false,
-      });
-    } else {
-      sd({
-        ...d,
-        isLightTheme: true,
-      });
-    }
+  const backAction = () => {
+    navigation.goBack();
+    return true;
+  };
+
+  const getUserName = async () => {
+    let username = await AsyncStorage.getItem('username');
+    return username;
   };
 
   /**
@@ -239,7 +261,6 @@ const SampleHistoryScreen = ({navigation}) => {
    */
   const renderResults = () => {
     let type = [];
-    type.push(<Text style={{fontSize: 30, color: colors.text}}>Rivers</Text>);
     let riversNotRepeat = [];
     if (filterType === 'All' && historyData.length > 0) {
       riversNotRepeat = unique(historyData);
@@ -254,21 +275,19 @@ const SampleHistoryScreen = ({navigation}) => {
           testID={testVariables.sampleHistorySearchedSample}
           title={el.river_name.toString()}
           onPress={() => selectResult(el.river_id)}
-          buttonStyle={{width: 270, height: 50, backgroundColor: '#02ab9e'}}
-          containerStyle={{margin: 5, alignItems: 'center', marginTop: 20}}
+          buttonStyle={{ width: 270, height: 50, backgroundColor: '#02ab9e' }}
+          containerStyle={{ margin: 5, alignItems: 'center', marginTop: 20 }}
           disabledStyle={{
             borderWidth: 2,
             borderColor: '#00F',
           }}
-          disabledTitleStyle={{color: '#00F'}}
+          disabledTitleStyle={{ color: '#00F' }}
           linearGradientProps={null}
-          loadingProps={{animating: true}}
+          loadingProps={{ animating: true }}
           loadingStyle={{}}
-          icon={<Icon name="folder-outline" size={19} color="#0FF" />}
-          iconContainerStyle={{background: '#000'}}
           key={el.river_id}
           titleProps={{}}
-          titleStyle={{marginHorizontal: 22, fontSize: 18}}
+          titleStyle={{ marginHorizontal: 22, fontSize: 18 }}
         />,
       );
     });
@@ -296,7 +315,7 @@ const SampleHistoryScreen = ({navigation}) => {
       );
     }
 
-    navigation.navigate('HistoryList', {data: select});
+    navigation.navigate('HistoryList', { data: select });
   };
 
   /**
@@ -360,7 +379,7 @@ const SampleHistoryScreen = ({navigation}) => {
             value={river}
             style={styles.riverNameInput}
           /> */}
-          <SearchBar
+          {/* <SearchBar
             accessibilityLabel={testVariables.sampleHistorySearchRiverBar}
             testID={testVariables.sampleHistorySearchRiverBar}
             placeholder="e.g. River Liffey"
@@ -381,7 +400,26 @@ const SampleHistoryScreen = ({navigation}) => {
                 onPress={() => selectMatchItem(river)}
               />
             }
-          />
+          /> */}
+
+          <View style={styles.searchSection}>
+
+            <TextInput
+              style={styles.input}
+              placeholder="River Liffey ..."
+              placeholderTextColor={colors.text}
+              underlineColorAndroid="transparent"
+              onChangeText={text => getInput(text)}
+            />
+            <Icon.Button
+              style={styles.searchIcon}
+              name="magnify"
+              backgroundColor="transparent"
+              size={20}
+              color={colors.text}
+              onPress={() => selectMatchItem(river)}
+            />
+          </View>
           {/* <Button title="search" onPress={() => selectMatchItem(river)} /> */}
           {/* <Icon.Button
             accessibilityLabel={testVariables.searchRiverSearchIcon}

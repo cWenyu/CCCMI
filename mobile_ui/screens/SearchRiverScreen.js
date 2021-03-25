@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, TextInput, PermissionsAndroid, ScrollView } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  TextInput,
+  PermissionsAndroid,
+  ScrollView,
+  BackHandler,
+  Alert,
+} from 'react-native';
 import { Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Text } from 'react-native-elements';
@@ -10,10 +18,17 @@ import GetLocation from 'react-native-get-location';
 import { FlatList } from 'react-native-gesture-handler';
 import { color } from 'react-native-reanimated';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
+import {
+  resetSurveyForm,
+  updateSelectionHandlers,
+  updateQIndex,
+  updateAnswers,
+} from '../components/reduxStore';
+import {useDispatch} from 'react-redux';
 
-const riverURL = 'http://cccmi-aquality.tk/aquality_server/rivers/';
+const riverURL = 'https://cccmi-aquality.tk/aquality_server/rivers/';
 
-const SearchRiverScreen = ({ navigation }) => {
+const SearchRiverScreen = ({ navigation, route }) => {
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => {
     !isEnabled && getOneTimeLocation();
@@ -26,8 +41,8 @@ const SearchRiverScreen = ({ navigation }) => {
     latitude: undefined,
     longitude: undefined,
   });
-
   const [data, setData] = useState([]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     //get Location Permission, get location and set location
@@ -35,7 +50,33 @@ const SearchRiverScreen = ({ navigation }) => {
       requestLocationPermission();
       setSearchInput(searchInput);
     }
-  });
+    if (route.params?.surveyData) {
+
+      console.log(JSON.stringify(route.params));
+    }
+    requestLocationPermission();
+
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
+  }, [route.params?.surveyData]);
+
+  const backAction = () => {
+    Alert.alert("Hold on!", "Go back to Home will not save your proccess of taking sample.", [
+      {
+        text: "Cancel",
+        onPress: () => null,
+        style: "cancel"
+      },
+      { text: "BACK", onPress: () => {
+        dispatch(resetSurveyForm());
+        navigation.navigate('SurveyPage');
+        navigation.navigate('HomeScreen');
+      }, }
+    ]);
+    return true;
+  };
 
   /**
    * @function requestLocationPermission
@@ -50,10 +91,10 @@ const SearchRiverScreen = ({ navigation }) => {
       try {
         const granted = await PermissionsAndroid.request(
           PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-          {
-            title: 'Location Access Required',
-            message: 'This App needs to Access your location',
-          },
+          // {
+          //   title: 'Location Access Required',
+          //   message: 'This App needs to Access your location',
+          // },
         );
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
           //To Check, If Permission is granted
@@ -108,19 +149,18 @@ const SearchRiverScreen = ({ navigation }) => {
             key={el.river_id}
             title={el.river_name.toString()}
             onPress={() =>
-              navigation.navigate('SearchRiverScreen2', { data: el })
+              navigation.navigate('SearchRiverScreen2', { riverData: el, surveyData: route.params.surveyData[0], currentLocation:location, surrounding: route.params.surrounding })
             }
-            buttonStyle={{ width: 270, height: 50, backgroundColor: "#02ab9e" }}
-            containerStyle={{ margin: 5, alignItems: "center", marginTop: 20 }}
+            buttonStyle={{ width: 310, height: 55, backgroundColor: '#02ab9e', borderRadius: 5, }}
+            containerStyle={{ margin: 5, alignItems: 'center', marginTop: 20 }}
             disabledStyle={{
               borderWidth: 2,
-              borderColor: "#00F"
+              borderColor: '#00F',
             }}
-            disabledTitleStyle={{ color: "#00F" }}
+            disabledTitleStyle={{ color: '#00F' }}
             linearGradientProps={null}
             loadingProps={{ animating: true }}
             loadingStyle={{}}
-
             titleProps={{}}
             titleStyle={{ marginHorizontal: 22, fontSize: 18 }}
           />,
@@ -157,22 +197,26 @@ const SearchRiverScreen = ({ navigation }) => {
       justifyContent: 'center',
     },
     searchSection: {
+      // flex: 1,
       flexDirection: 'row',
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: colors.background,
+      backgroundColor: colors.border,
       marginBottom: 30,
+      height: 85,
+      borderRadius: 8,
+      width: '95%',
     },
     input: {
       flex: 1,
       paddingTop: 10,
-      paddingRight: 10,
+      marginLeft: 0,
       paddingBottom: 10,
-      paddingLeft: 0,
+      paddingLeft: 8,
       backgroundColor: colors.background,
       color: colors.text,
       borderBottomColor: colors.text,
-      borderBottomWidth: 1,
+      borderRadius: 5,
     },
     buttonText: {
       fontSize: 20,
@@ -186,6 +230,10 @@ const SearchRiverScreen = ({ navigation }) => {
       paddingBottom: 35,
       color: colors.text,
     },
+    locateIcon: {
+      marginLeft: 3,
+      paddingRight:0,
+    }
   });
 
   return (
@@ -193,16 +241,15 @@ const SearchRiverScreen = ({ navigation }) => {
       style={styles.container}
       accessibilityLabel={testVariables.searchRiverScreenContainer}
       testID={testVariables.searchRiverScreenContainer}>
-      {/* <Text>SearchRiver Screen</Text> */}
       <Text h4 h4Style={styles.title}>
-        River you want to sample from
+        Select river for the sample
       </Text>
 
       <View style={styles.searchSection}>
         <Icon.Button
           accessibilityLabel={testVariables.searchRiverLocateIcon}
           testID={testVariables.searchRiverLocateIcon}
-          style={styles.searchIcon}
+          style={styles.locateIcon}
           name={isEnabled ? 'crosshairs-gps' : 'crosshairs'}
           size={20}
           color={colors.text}
@@ -217,7 +264,7 @@ const SearchRiverScreen = ({ navigation }) => {
           testID={testVariables.searchRiverLocateInput}
           style={styles.input}
           placeholder="River Name or Coordinates"
-          placeholderTextColor= {colors.text} 
+          placeholderTextColor={colors.text}
           underlineColorAndroid="transparent"
           value={isEnabled ? searchInput : textInput}
           onChangeText={text => setTextInput(text)}
