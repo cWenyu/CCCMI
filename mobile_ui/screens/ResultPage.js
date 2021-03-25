@@ -21,6 +21,7 @@ const resultPage = ({navigation, route}) => {
   const [insectList, setInsectList] = useState([]);
   const [username, setUsername] = useState('');
   const [insectScore, setInsectScore] = useState();
+  const [weather, setWeather] = useState({});
 
   const styles = StyleSheet.create({
     container: {
@@ -65,8 +66,19 @@ const resultPage = ({navigation, route}) => {
           insect_list: ob.insectObj,
           insectsImage: ob.insectsImage,
           surrounding: ob.surrounding,
+          currentLocation: ob.currentLocation,
+          weather: ob.weather
         },
       );
+      let obb = {
+        data_get: ob.sampleObj,
+        insect_list: ob.insectObj,
+        insectsImage: ob.insectsImage,
+        surrounding: ob.surrounding,
+        currentLocation: ob.currentLocation,
+        weather: ob.weatherData
+      };
+      console.log(obb)
       console.log(response);
       console.log('\n\n');
       console.log(response.data);
@@ -120,8 +132,10 @@ const resultPage = ({navigation, route}) => {
       insectObj: array3,
       insectsImage: route.params.insectsImage,
       surrounding: route.params.surrounding,
+      currentLocation: route.params.currentLocation,
+      weather: weather,
     };
-
+    console.log(dataObj);
     return dataObj;
   };
 
@@ -294,7 +308,7 @@ const resultPage = ({navigation, route}) => {
           </ListItem>
         </View>
       );
-    } else return <Text>No sensor device connected.</Text>;
+    } else return <Text style={{color: colors.text}}>No sensor device connected.</Text>;
   };
 
   const renderSelectedInsect = () => {
@@ -334,7 +348,7 @@ const resultPage = ({navigation, route}) => {
       });
       return comp;
     } else {
-      return <Text>No selected insects.</Text>;
+      return <Text style={{color: colors.text}}>No selected insects.</Text>;
     }
   };
 
@@ -374,11 +388,17 @@ const resultPage = ({navigation, route}) => {
         );
       });
       return comp;
-    } else return <Text>No analyzed insect.</Text>;
+    } else return <Text style={{color: colors.text}}>No analyzed insect.</Text>;
   };
+
+  const getWeather = async () => {
+    let weather = await AsyncStorage.getItem('weatherData');
+    setWeather(JSON.parse(weather));
+  }
 
   useEffect(() => {
     getUsername();
+    getWeather();
     if (route.params) {
       console.log(JSON.stringify(route.params));
       console.log()
