@@ -294,7 +294,7 @@ void loop()
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   float value1 = temperature;
   float value2 = phValue;
-  String dataInput = "%7B%0A%20%20%20%20%20%20%20%20%22arduino_id%22%3A%20" + String(arduinoId) + "%2C%0A%20%20%20%20%20%20%20%20%22latitude%22%3A%20" + String(latitude, 6) + "%2C%0A%20%20%20%20%20%20%20%20%22longitude%22%3A%20" + String(longtitude, 6) + "%2C%0A%20%20%20%20%20%20%20%20%22ph%22%3A%20" + String(value2) + "%2C%0A%20%20%20%20%20%20%20%20%22temp%22%3A%20" + String(value1) + "%0A%20%20%20%20%7D";
+  String dataInput = "%7B%0A%20%20%20%20%20%20%20%20%22arduino_id%22%3A%20" + String(arduinoId) + "%2C%0A%20%20%20%20%20%20%20%20%22latitude%22%3A%20" + String(latitude, 6) + "%2C%0A%20%20%20%20%20%20%20%20%22longitude%22%3A%20" + String(longtitude, 6) + "%2C%0A%20%20%20%20%20%20%20%20%22pH%22%3A%20" + String(value2) + "%2C%0A%20%20%20%20%20%20%20%20%22temp%22%3A%20" + String(value1) + "%0A%20%20%20%20%7D";
 
   String resource = "/publish/" + String(publishKey) + "/" + String(subscribeKey)
                     + "/0/" + channelName + "/0/" + dataInput;
