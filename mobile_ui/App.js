@@ -305,7 +305,7 @@ const App = () => {
         name="SearchRiverScreen2"
         component={SearchRiverScreen2}
         options={{
-          title: 'Confirm River',
+          title: 'Confirm Riverr',
           headerStyle: {
             backgroundColor: '#009387',
           },
@@ -328,7 +328,7 @@ const App = () => {
           name="ReportProblem"
           component={ReportProblem}
           options={{
-            // title: 'Introduction of Taking Sample',
+            title: 'Report Problem',
             headerStyle: {
               backgroundColor: '#009387',
             },
@@ -489,7 +489,7 @@ const App = () => {
           name="SearchRiverScreen2"
           component={SearchRiverScreen2}
           options={{
-            title: 'SearchRiverScreen2',
+            title: 'Confirm River',
             headerStyle: {
               backgroundColor: '#009387',
             },
@@ -532,7 +532,7 @@ const App = () => {
           name="ArduinoScreen"
           component={ArduinoScreen}
           options={{
-            title: 'ArduinoScreen',
+            title: 'Sensor Device',
             headerStyle: {
               backgroundColor: '#009387',
             },
@@ -575,7 +575,7 @@ const App = () => {
           name="ArduinoScreen2"
           component={ArduinoScreen2}
           options={{
-            title: 'ArduinoScreen2',
+            title: 'Connect Sensor Device',
             headerStyle: {
               backgroundColor: '#009387',
             },
@@ -618,7 +618,7 @@ const App = () => {
           name="InsectScreen"
           component={InsectScreen}
           options={{
-            title: 'InsectScreen',
+            title: 'Insects',
             headerStyle: {
               backgroundColor: '#009387',
             },
@@ -661,7 +661,7 @@ const App = () => {
           name="selectInsect1"
           component={selectInsect1}
           options={{
-            title: 'selectInsect1',
+            title: 'Select Insect',
             headerStyle: {
               backgroundColor: '#009387',
             },
@@ -676,7 +676,7 @@ const App = () => {
           name="AnalyzeInsect"
           component={AnalyzeInsect}
           options={{
-            title: 'AnalyzeInsect',
+            title: 'Analyze Insect',
             headerStyle: {
               backgroundColor: '#009387',
             },
