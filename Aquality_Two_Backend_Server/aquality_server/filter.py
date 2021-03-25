@@ -103,7 +103,7 @@ def get_nearby_list_hardware(pnt):
         ) AS distance
     FROM
     aquality_server_data
-    WHERE date_captured BETWEEN NOW() - INTERVAL '15 MINUTES' AND NOW()
+    WHERE date_captured BETWEEN NOW() - INTERVAL '10 SECONDS' AND NOW()
     ORDER BY arduino_id, date_captured DESC"""
 
     return Data.objects.raw(query)
