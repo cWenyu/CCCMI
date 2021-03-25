@@ -8,6 +8,8 @@
   - [Screen Cuts](#screen-cuts)
   - [API Testing](#api-testing)
   - [CI Pipeline ](#ci-pipeline )
+  - [Commit Law](#commit-law)
+  - [Merge Request Law](#merge-request-law)
 
 # Aquality 2.0
 
@@ -68,4 +70,29 @@ The API testing uses [Postman](https://www.postman.com/), you can make own colle
 Continuous integration (CI) is a software practice that requires frequently committing code to a shared repository. Committing code more often detects errors sooner and reduces the amount of code a developer needs to debug when finding the source of an error. Frequent code updates also make it easier to merge changes from different members of a software development team. This is great for developers, who can spend more time writing code and less time debugging errors or resolving merge conflicts.
    
 Please build your own workflow in ./github/workflows
-   
+
+## Commit Law
+
+| Title Key word |                          Deception                           | Example (enter commit title first then commit message following) |
+| -------------- | :----------------------------------------------------------: | ------------------------------------------------------------ |
+| ui             |               any new/update components display on UI               | ui_add or ui_update primary button                                           |
+| style          |               any style changes on components                | style_table height/width                                     |
+| feat           |                        new functions                         | feat_show user name                                          |
+| fix            |                     fix functional bugs                      | fix_can't pop login successful window                        |
+| docs           | README, .gitignore, liciences,    any changes in related docs | docs_add xx folder into gitignore                             |
+| build          |           any changes in config file, dependencies           | build_import xxx dep                                         |
+| refactor       |                only used in code refactoring                 | refactor_xxfile_check()                                      |
+| file           |              any new files into project folder               | File_add index.html into view folder                         |
+| test           |                        unit test case                        | Test_xxx func                                                |
+| db             |          new table in DB, change fileds name, etc…           | DB_table_new student table    DB_filed_student table_rename age as Age |
+
+
+## Merge Request Law
+
+1. Create Merge request 
+
+2. Require at least two reviewer (corresponding lead and git lead)
+
+3. Send MR message in CCCMI teams Merge Request channel (MR + task name + MR link + reviwer1 + reviewer2)
+
+   E.g: MR The Step able User Upload all photo of Insect, also post image into server https://github.com/cWenyu/CCCMI/pull/116 @reviewer1 @reviewer2 
