@@ -28,9 +28,9 @@ async function getSampleRecordJSON(sample_id_in) {
 async function getRiver(array) {
   const data = await getSampleRecordListJSON()
   for (let i = 0; i < data.length; i++) {
-    river = data[i].sample_river;
-    array.push({ lat: river.latitude, lng: river.longitude })
-    data[i].coordinates = { lat: river.latitude, lng: river.longitude }
+    sample_record = data[i];
+    array.push({ lat: sample_record.sample_coor_lat, lng: sample_record.sample_coor_lng })
+    data[i].coordinates = { lat: sample_record.sample_coor_lat, lng: sample_record.sample_coor_lng }
   }
   console.log(data)
   return data
