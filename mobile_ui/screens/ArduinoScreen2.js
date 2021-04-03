@@ -287,6 +287,7 @@ const ArduinoScreen = ({ navigation, route }) => {
         }
       };
     }
+    
     setState({
       ...state,
       markers: tempArr,
