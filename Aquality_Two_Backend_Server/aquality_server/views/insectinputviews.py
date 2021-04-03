@@ -33,6 +33,7 @@ def store_record_result(request):
         sample_detail = data['data_get']
         if request.method == "POST":
             try:
+                coordinates = data['currentLocation']
                 user = User.objects.get(username=sample_detail['sample_user'])
                 river = River.objects.get(river_id=sample_detail['sample_river_id'])
                 record_save = SampleRecord.objects.create(
@@ -41,7 +42,10 @@ def store_record_result(request):
                     sample_pH=sample_detail.get('sample_ph'),
                     sample_tmp=sample_detail.get('sample_tmp'),
                     sample_river=river,
-                    sample_survey=sample_detail['sample_survey']
+                    sample_survey=sample_detail['sample_survey'],
+                    sample_weather = data['weather'],
+                    sample_coor_lat = coordinates['latitude'],
+                    sample_coor_lng = coordinates['longitude']
                 )
 
                 for insect in data['insect_list']:

@@ -81,7 +81,10 @@ class SampleRecord(models.Model):
     sample_tmp = models.FloatField(null=True)
     sample_river = models.ForeignKey(River, on_delete=models.CASCADE)
     sample_survey = models.JSONField(null=True, encoder=json.JSONEncoder, decoder=json.JSONDecoder)
-
+    sample_coor_lat = models.FloatField(null=True,default=None)
+    sample_coor_lng = models.FloatField(null=True,default=None)
+    sample_weather = models.JSONField(null=True)
+    
     def __str__(self):
         return "Sample" + str(self.sample_id) + "At Date " + str(self.sample_date)
     

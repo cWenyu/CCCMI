@@ -80,7 +80,7 @@ class SampleRecordDataSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = SampleRecord
         fields = ('sample_id', 'sample_date', 'sample_score', 'sample_user', 'sample_pH', 'sample_tmp', 'sample_survey',
-                  'sample_river',)
+                  'sample_river','sample_coor_lat','sample_coor_lng','sample_weather')
 
 
 class SampleRecordInsectDetailSerializer(serializers.HyperlinkedModelSerializer):
