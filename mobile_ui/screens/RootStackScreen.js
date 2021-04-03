@@ -1,18 +1,18 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { BackHandler } from "react-native";
 
-import {createStackNavigator} from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
 
 import SplashScreen from './SplashScreen';
 import SignInScreen from './SignInScreen';
-// import SignUpScreen from './SignUpScreen';
+import SignUpScreen from './SignUpScreen';
 import OnboardingScreen from './OnboardingScreen';
 import AsyncStorage from '@react-native-community/async-storage';
 import PolicyTermsScreen0 from '../screens/PolicyTermsScreen0';
 
 const RootStack = createStackNavigator();
 
-const RootStackScreen = ({navigation}) => {
+const RootStackScreen = ({ navigation }) => {
   const [isFirstLaunch, setIsFirstLaunch] = React.useState(null);
   // AsyncStorage.removeItem('alreadyLaunched');
   useEffect(() => {
@@ -39,11 +39,17 @@ const RootStackScreen = ({navigation}) => {
         />
         <RootStack.Screen name="SplashScreen" component={SplashScreen} />
         <RootStack.Screen name="SignInScreen" component={SignInScreen} />
-        {/* <RootStack.Screen name="SignUpScreen" component={SignUpScreen} /> */}
+        <RootStack.Screen name="SignUpScreen" component={SignUpScreen} />
       </RootStack.Navigator>
     );
   } else {
-    return <SignInScreen />;
+    return (
+      <RootStack.Navigator headerMode="none">
+        <RootStack.Screen name="SplashScreen" component={SplashScreen} />
+        <RootStack.Screen name="SignInScreen" component={SignInScreen} />
+        <RootStack.Screen name="SignUpScreen" component={SignUpScreen} />
+      </RootStack.Navigator>
+    );
   }
 };
 
