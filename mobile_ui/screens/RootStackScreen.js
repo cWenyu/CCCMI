@@ -9,6 +9,7 @@ import SignUpScreen from './SignUpScreen';
 import OnboardingScreen from './OnboardingScreen';
 import AsyncStorage from '@react-native-community/async-storage';
 import PolicyTermsScreen0 from '../screens/PolicyTermsScreen0';
+import ForgetPassword from '../screens/ForgetPassword'
 
 const RootStack = createStackNavigator();
 
@@ -47,7 +48,7 @@ const RootStackScreen = ({ navigation }) => {
       <RootStack.Navigator headerMode="none">
         <RootStack.Screen name="SplashScreen" component={SplashScreen} />
         <RootStack.Screen name="SignInScreen" component={SignInScreen} />
-        <RootStack.Screen name="SignUpScreen" component={SignUpScreen} />
+        <RootStack.Screen name="ForgetPassword" component={ForgetPassword} />
       </RootStack.Navigator>
     );
   }

@@ -187,7 +187,7 @@ const SignInScreen = ({navigation}) => {
           </TouchableOpacity>
         </View>
 
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('ForgetPassword')}>
           <Text style={{color: '#009387', marginTop: 15}}>
             Forgot password?
           </Text>
@@ -227,7 +227,7 @@ const SignInScreen = ({navigation}) => {
             </LinearGradient>
           </TouchableOpacity>
 
-          <TouchableOpacity
+          {/* <TouchableOpacity
             onPress={() => navigation.navigate('SignUpScreen')}
             style={[
               styles.signIn,
@@ -246,7 +246,7 @@ const SignInScreen = ({navigation}) => {
               ]}>
               Sign Up
             </Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </Animatable.View>
     </View>
