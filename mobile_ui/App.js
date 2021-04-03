@@ -50,6 +50,8 @@ import store from './components/reduxStore';
 import ReportProblem from './screens/ReportProblem';
 import PolicyTermsScreen from './screens/PolicyTermsScreen';
 import HelpScreen from './screens/HelpScreen';
+import ChangePassword from './screens/ChangePassword';
+
 import {
   resetSurveyForm,
   updateSelectionHandlers,
@@ -210,6 +212,14 @@ const App = () => {
               onPress={() => navigation.openDrawer()}
             />
           ),
+        }}
+      />
+
+      <HomeStack.Screen
+        name="ChangePassword"
+        component={ChangePassword}
+        options={{
+          title: 'Change Password',
         }}
       />
 
@@ -778,15 +788,16 @@ const App = () => {
 
   const HelpStack = createStackNavigator();
   const HelpStackScreen = ({navigation}) => (
-    <HelpStack.Navigator screenOptions={{
-      headerStyle: {
-        backgroundColor: '#009387',
-      },
-      headerTintColor: '#fff',
-      headerTitleStyle: {
-        fontWeight: 'bold',
-      },
-    }}>
+    <HelpStack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: '#009387',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+      }}>
       <HelpStack.Screen
         name="HelpScreen"
         component={HelpScreen}
@@ -803,7 +814,7 @@ const App = () => {
         }}
       />
     </HelpStack.Navigator>
-  )
+  );
 
   return (
     <Provider store={store}>
@@ -832,10 +843,7 @@ const App = () => {
                   name="PolicyTermsScreen"
                   component={PolicyStackScreen}
                 />
-                <Drawer.Screen
-                  name="HelpScreen"
-                  component={HelpStackScreen}
-                />
+                <Drawer.Screen name="HelpScreen" component={HelpStackScreen} />
               </Drawer.Navigator>
             ) : (
               <RootStackScreen />
