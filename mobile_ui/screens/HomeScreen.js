@@ -1,29 +1,33 @@
-import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, StatusBar, Alert, Modal, Text, ActivityIndicator } from 'react-native';
-import { Button, colors } from 'react-native-elements';
+import React, {useState, useEffect} from 'react';
+import {
+  View,
+  StyleSheet,
+  StatusBar,
+  Alert,
+  Modal,
+  Text,
+  ActivityIndicator,
+} from 'react-native';
+import {Button, colors} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
-import { useTheme } from '@react-navigation/native';
+import {useTheme} from '@react-navigation/native';
 import testVariables from '../appium_automation_testing/test_variables';
 import GuideContent from '../components/safetyGuide';
-import { IconButton, Colors, Button as PaperBtn } from 'react-native-paper';
+import {IconButton, Colors, Button as PaperBtn} from 'react-native-paper';
 import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
 import env from '../components/env.json';
 import GetLocation from 'react-native-get-location';
 
-
-
 // import { StyleSheet, View, Text, StatusBar } from 'react-native';
-import { LinearGradient } from 'react-native-linear-gradient';
+import {LinearGradient} from 'react-native-linear-gradient';
 
 const API_KEY = env.api_key;
 
-
-const HomeScreen = ({ navigation }) => {
-  
+const HomeScreen = ({navigation}) => {
   const safetyTermUrl =
     'https://cccmi-aquality.tk/aquality_server/useraccount/safetyterm';
-  const { colors } = useTheme();
+  const {colors} = useTheme();
 
   const theme = useTheme();
   const [modalVisible, setModalVisible] = useState(false);
@@ -33,7 +37,13 @@ const HomeScreen = ({ navigation }) => {
     id: 0,
     main: '',
     description: '',
-    icon: ''
+    icon: '',
+  });
+  const [weatherData, setWeatherData] = useState({
+    temp: 0,
+    pressure: 0,
+    humidity: 0,
+    description: ''
   });
   const [locationStatus, setLocationStatus] = useState(undefined);
   const [location, setLocation] = useState({
@@ -150,10 +160,10 @@ const HomeScreen = ({ navigation }) => {
   // };
 
   /**
-  * @function getOneTimeLocation
-  * @description get current location once
-  *
-  */
+   * @function getOneTimeLocation
+   * @description get current location once
+   *
+   */
   const getLocation = () => {
     setLocationStatus('locationStatus');
 
@@ -170,12 +180,12 @@ const HomeScreen = ({ navigation }) => {
         const currentLatitude = JSON.stringify(position.latitude);
 
         //Setting Longitude state
-        setLocation({ latitude: currentLatitude, longitude: currentLongitude });
+        setLocation({latitude: currentLatitude, longitude: currentLongitude});
         getWeather(position.latitude, position.longitude);
         setIsLoading(false);
       })
       .catch(error => {
-        setLocationStatus({ locationStatus: error.message });
+        setLocationStatus({locationStatus: error.message});
       });
   };
 
@@ -202,12 +212,17 @@ const HomeScreen = ({ navigation }) => {
           description: response.data.weather[0].description,
           icon: response.data.weather[0].icon,
         });
+        let weather = {
+          temp: response.data.main.temp,
+          humidity: response.data.main.humidity,
+          pressure: response.data.main.pressure,
+          description: response.data.weather[0].description,
+        };
+        await AsyncStorage.setItem('weatherData', JSON.stringify(weather))
       }
     } catch (e) {
       console.error(e);
     }
-
-
   };
 
   const checkUserSafetyState = async () => {
@@ -228,7 +243,7 @@ const HomeScreen = ({ navigation }) => {
         method: 'post',
         url: safetyTermUrl,
         data: bodyFormData,
-        headers: { 'Content-Type': 'multipart/form-data' },
+        headers: {'Content-Type': 'multipart/form-data'},
       });
     }
     if (response && response.data.status_code === 202) {
@@ -239,27 +254,9 @@ const HomeScreen = ({ navigation }) => {
     }
   };
 
-
-  const createTwoButtonAlert = () =>
-    Alert.alert(
-      'Take Sample',
-      'Start taking sample?',
-      [
-        {
-          text: 'Cancel',
-          onPress: () => console.log('Cancel Pressed'),
-          style: 'cancel',
-        },
-        { text: 'Yes', onPress: () => navigation.navigate('TakeSampleScreen') },
-      ],
-      { cancelable: true },
-    );
-
   const renderWeather = () => {
-    
     const main = weather.main;
     const type = weatherOptions[main] ?? weatherOptions['Default'];
-    
 
     return (
       <View style={styles.topContainer}>
@@ -272,9 +269,9 @@ const HomeScreen = ({ navigation }) => {
   };
 
   if (weather.id == 0) {
-    console.log("no weather");
+    console.log('no weather');
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
         <ActivityIndicator size="large" />
       </View>
     );
@@ -286,60 +283,59 @@ const HomeScreen = ({ navigation }) => {
       accessibilityLabel={testVariables.homeScreenContainer}
       testID={testVariables.homeScreenContainer}>
       <StatusBar barStyle={theme.dark ? 'light-content' : 'dark-content'} />
-
+      {/* <Button title='weatherData' onPress={()=> console.log(weatherData)} /> */}
       {renderWeather()}
       <Button
         accessibilityLabel={testVariables.homeScreenTakeNewSampleButton}
         testID={testVariables.homeScreenTakeNewSampleButton}
-        buttonStyle={{ width: 270, height: 50, backgroundColor: '#02ab9e' }}
-        containerStyle={{ margin: 5, alignItems: 'center', marginTop: 50 }}
+        buttonStyle={{width: 270, height: 50, backgroundColor: '#02ab9e'}}
+        containerStyle={{margin: 5, alignItems: 'center', marginTop: 50}}
         disabledStyle={{
           borderWidth: 2,
           borderColor: '#00F',
         }}
-        disabledTitleStyle={{ color: '#00F' }}
+        disabledTitleStyle={{color: '#00F'}}
         linearGradientProps={null}
         icon={<Icon name="water" size={19} color="#0FF" />}
-        iconContainerStyle={{ background: '#000' }}
-        loadingProps={{ animating: true }}
+        iconContainerStyle={{background: '#000'}}
+        loadingProps={{animating: true}}
         loadingStyle={{}}
         onPress={() => navigation.navigate('TakeSampleScreen')}
         title="Take Sample"
         titleProps={{}}
-        titleStyle={{ marginHorizontal: 22, fontSize: 18 }}
+        titleStyle={{marginHorizontal: 22, fontSize: 18}}
       />
       <Button
         accessibilityLabel={testVariables.homeScreenViewSampleButton}
         testID={testVariables.homeScreenViewSampleButton}
-        buttonStyle={{ width: 270, height: 50, backgroundColor: '#02ab9e' }}
-        containerStyle={{ margin: 5, alignItems: 'center', marginTop: 20 }}
+        buttonStyle={{width: 270, height: 50, backgroundColor: '#02ab9e'}}
+        containerStyle={{margin: 5, alignItems: 'center', marginTop: 20}}
         disabledStyle={{
           borderWidth: 2,
           borderColor: '#00F',
         }}
-        disabledTitleStyle={{ color: '#00F' }}
+        disabledTitleStyle={{color: '#00F'}}
         linearGradientProps={null}
         icon={<Icon name="flask-outline" size={19} color="#0FF" />}
-        iconContainerStyle={{ background: '#000' }}
-        loadingProps={{ animating: true }}
+        iconContainerStyle={{background: '#000'}}
+        loadingProps={{animating: true}}
         loadingStyle={{}}
         onPress={() => navigation.navigate('SampleHistoryScreen')}
         title="View Sample"
         titleProps={{}}
-        titleStyle={{ marginHorizontal: 22, fontSize: 18 }}
+        titleStyle={{marginHorizontal: 22, fontSize: 18}}
       />
-
       <Modal
         animationType="slide"
         visible={modalVisible}
-        onRequestClose={() => { }}>
+        onRequestClose={() => {}}>
         <View
           style={{
             flex: 15,
           }}>
           <GuideContent />
         </View>
-
+          
         <View
           style={{
             flex: 1,
@@ -347,6 +343,7 @@ const HomeScreen = ({ navigation }) => {
             justifyContent: 'center',
             alignItems: 'center',
           }}>
+            
           <PaperBtn
             icon="check-circle"
             color={Colors.green500}
@@ -382,5 +379,3 @@ const height = '100%';
 //     height: '100%',
 //   },
 // });
-
-
