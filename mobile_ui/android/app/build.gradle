@@ -128,7 +128,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.rnv5"
+        applicationId "com.cccmi.aquality"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -180,6 +180,7 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-maps')
     implementation 'com.facebook.fresco:fresco:2.0.0'
     implementation 'com.facebook.fresco:animated-gif:2.0.0'
     implementation 'com.android.support:multidex:1.0.3'
