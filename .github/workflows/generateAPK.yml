@@ -23,14 +23,13 @@ jobs:
           echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf
           sudo sysctl -p
 
-      - name: Build Release AAB
-        run: |
-          cd mobile_ui
-          npm i
-          cd android
-          cat "$GRADLE_PROPERTIES" >> gradle.properties
-          chmod +x ./gradlew
-          ./gradlew bundleRelease
+      # - name: Build Release AAB
+      #   run: |
+      #     cd mobile_ui
+      #     npm i
+      #     cd android
+      #     chmod +x ./gradlew
+      #     ./gradlew bundleRelease
 
       - name: Sign AAB
         uses: r0adkll/sign-android-release@v1
