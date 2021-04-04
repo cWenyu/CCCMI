@@ -27,8 +27,8 @@ jobs:
         run: |
           cd mobile_ui
           cd android
-          echo $GRADLE_PROPERTIES
-          echo $GRADLE_PROPERTIES >> gradle.properties
+          touch a.txt
+          echo $GRADLE_PROPERTIES | tr ' ' '\n' >> a.txt
         env:
           DEV_ENV_FILE: ${{ secrets.GRADLE_PROPERTIES }}
         shell: bash
@@ -38,8 +38,8 @@ jobs:
       - name: Upload gradle.properties
         uses: actions/upload-artifact@v1
         with:
-          name: gradle.properties
-          path: mobile_ui/android/gradle.properties
+          name: a.txt
+          path: mobile_ui/android/a.txt
 
       # - name: Sign AAB
       #   uses: r0adkll/sign-android-release@v1
