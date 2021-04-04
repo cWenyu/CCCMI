@@ -27,7 +27,7 @@ jobs:
         run: |
           cd mobile_ui
           cd android
-          echo ${{ GRADLE_PROPERTIES }} >> gradle.properties
+          echo ${{ secrets.GRADLE_PROPERTIES }} >> gradle.properties
         # chmod +x ./gradlew
         # ./gradlew bundleRelease
 
