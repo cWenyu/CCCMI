@@ -27,6 +27,7 @@ jobs:
         run: |
           cd mobile_ui
           cd android
+          echo $GRADLE_PROPERTIES
           echo $GRADLE_PROPERTIES >> gradle.properties
         env:
           DEV_ENV_FILE: ${{ secrets.GRADLE_PROPERTIES }}
