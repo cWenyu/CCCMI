@@ -26,7 +26,6 @@ jobs:
       - name: Build Release AAB
         run: |
           cd mobile_ui
-        # npm i
           cd android
           echo {{ $GRADLE_PROPERTIES }} >> gradle.properties
         # chmod +x ./gradlew
