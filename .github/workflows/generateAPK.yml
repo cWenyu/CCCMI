@@ -1,0 +1,34 @@
+name: Generate Release APK/bundle file for project
+
+on:
+  push:
+    branches:
+      - 15998_Generate_release_apk_file
+
+jobs:
+  Build-and-Deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Decrypt Android keys
+        run: sh ./.github/scripts/decrypt_android_keys.sh
+        env:
+          RELEASE_KEYSTORE: ${{ secrets.RELEASE_KEYSTORE }}
+          RELEASE_KEYSTORE_PASSPHRASE: ${{ secrets.RELEASE_KEYSTORE_PASSPHRASE }}
+          GRADLE_PROPERTIES: ${{ secrets.GRADLE_PROPERTIES }}
+
+      - uses: actions/checkout@v2
+      - name: generate release apk file
+        run: |
+          cd mobile_ui
+          npm i
+          cd android
+          chmod +x ./gradlew
+          ./gradlew assembleRelease
+
+      - name: Upload release APK Artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: app-release.apk
+          path: mobile_ui/android/app/build/outputs/apk/release/
