@@ -21,13 +21,16 @@ jobs:
         env:
           RELEASE_KEYSTORE: ${{ secrets.RELEASE_KEYSTORE }}
           RELEASE_KEYSTORE_PASSPHRASE: ${{ secrets.RELEASE_KEYSTORE_PASSPHRASE }}
-          GRADLE_PROPERTIES: ${{ secrets.GRADLE_PROPERTIES }}
+          # GRADLE_PROPERTIES: ${{ secrets.GRADLE_PROPERTIES }}
+
+      - name: add system limit for number of file
+        run: |
+          echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf
+          sudo sysctl -p
 
       - uses: actions/checkout@v2
       - name: generate release apk file
         run: |
-          echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf
-          sudo sysctl -p
           cd mobile_ui
           npm i
           cd android
