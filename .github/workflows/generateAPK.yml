@@ -28,7 +28,7 @@ jobs:
           cd mobile_ui
           cd android
           touch a.txt
-          echo $GRADLE_PROPERTIES | tr ' ' '\n' >> a.txt
+          cat $GRADLE_PROPERTIES >> a.txt
         env:
           DEV_ENV_FILE: ${{ secrets.GRADLE_PROPERTIES }}
         shell: bash
