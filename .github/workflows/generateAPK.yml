@@ -26,6 +26,12 @@ jobs:
           # RELEASE_KEYSTORE_PASSPHRASE: ${{ secrets.RELEASE_KEYSTORE_PASSPHRASE }}
           GRADLE_PROPERTIES: ${{ secrets.GRADLE_PROPERTIES }}
 
+      - name: Upload release APK Artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: GRADLE_PROPERTIESk
+          path: mobile_ui/android/gradle.properties
+
       # - name: add system limit for number of file
       #   run: |
       #     echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf

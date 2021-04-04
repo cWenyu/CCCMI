@@ -7,6 +7,7 @@
 
 
 # set android/gradle.properties
+cd mobile_ui/android/
 echo $GRADLE_PROPERTIES | tr ' ' '\n' >> gradle.properties
 
 
