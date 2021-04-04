@@ -49,18 +49,18 @@ jobs:
       #     name: GRADLE_PROPERTIESk
       #     path: mobile_ui/android/gradle.properties
 
-      # - name: add system limit for number of file
-      #   run: |
-      #     echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf
-      #     sudo sysctl -p
+      - name: add system limit for number of file
+        run: |
+          echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf
+          sudo sysctl -p
 
-      # - name: Build Release AAB
-      #   run: |
-      #     cd mobile_ui
-      #     npm i
-      #     cd android
-      #     chmod +x ./gradlew
-      #     ./gradlew bundleRelease
+      - name: Build Release AAB
+        run: |
+          cd mobile_ui
+          npm i
+          cd android
+          chmod +x ./gradlew
+          ./gradlew bundleRelease
 
       # - name: Sign AAB
       #   uses: r0adkll/sign-android-release@v1
@@ -71,7 +71,7 @@ jobs:
       #     keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
       #     keyPassword: ${{ secrets.KEY_PASSWORD }}
 
-      - name: Upload release APK Artifact
+      - name: Upload bundle release aab Artifact
         uses: actions/upload-artifact@v1
         with:
           name: app-release.aab
