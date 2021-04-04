@@ -18,28 +18,26 @@ jobs:
         with:
           java-version: 1.8
 
-      - name: add system limit for number of file
-        run: |
-          echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf
-          sudo sysctl -p
-
-      - name: Build Release AAB
-        run: |
-          cd mobile_ui
-          cd android
-          touch a.txt
-          cat $GRADLE_PROPERTIES >> a.txt
+      - uses: actions/checkout@v2
+      - name: add key/password into gradle.properties
+        run: sh ./.github/scripts/decrypt_android_keys.sh
         env:
-          DEV_ENV_FILE: ${{ secrets.GRADLE_PROPERTIES }}
-        shell: bash
-        # chmod +x ./gradlew
-        # ./gradlew bundleRelease
+          # RELEASE_KEYSTORE: ${{ secrets.RELEASE_KEYSTORE }}
+          # RELEASE_KEYSTORE_PASSPHRASE: ${{ secrets.RELEASE_KEYSTORE_PASSPHRASE }}
+          GRADLE_PROPERTIES: ${{ secrets.GRADLE_PROPERTIES }}
 
-      - name: Upload gradle.properties
-        uses: actions/upload-artifact@v1
-        with:
-          name: a.txt
-          path: mobile_ui/android/a.txt
+      # - name: add system limit for number of file
+      #   run: |
+      #     echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf
+      #     sudo sysctl -p
+
+      # - name: Build Release AAB
+      #   run: |
+      #     cd mobile_ui
+      #     npm i
+      #     cd android
+      #     chmod +x ./gradlew
+      #     ./gradlew bundleRelease
 
       # - name: Sign AAB
       #   uses: r0adkll/sign-android-release@v1
