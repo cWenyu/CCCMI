@@ -4,5 +4,6 @@ from . import views
 app_name= 'aquality'
 
 urlpatterns = [
-    path('',views.index,name='indexPage')
+    path('',views.index,name='indexPage'),
+    path('policy',views.policy,name='policyPage')
 ]
