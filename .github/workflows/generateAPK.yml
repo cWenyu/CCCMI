@@ -18,13 +18,21 @@ jobs:
         with:
           java-version: 1.8
 
-      - uses: actions/checkout@v2
-      - name: add key/password into gradle.properties
-        run: sh ./.github/scripts/decrypt_android_keys.sh
+      - name: set android/gradle.properties
+        run: |
+          cd mobile_ui/android/
+          echo $GRADLE_PROPERTIES | tr ' ' '\n' >> gradle.properties
         env:
-          # RELEASE_KEYSTORE: ${{ secrets.RELEASE_KEYSTORE }}
-          # RELEASE_KEYSTORE_PASSPHRASE: ${{ secrets.RELEASE_KEYSTORE_PASSPHRASE }}
           GRADLE_PROPERTIES: ${{ secrets.GRADLE_PROPERTIES }}
+        shell: bash
+
+      # - uses: actions/checkout@v2
+      # - name: add key/password into gradle.properties
+      #   run: sh ./.github/scripts/decrypt_android_keys.sh
+      #   env:
+      #     RELEASE_KEYSTORE: ${{ secrets.RELEASE_KEYSTORE }}
+      #     RELEASE_KEYSTORE_PASSPHRASE: ${{ secrets.RELEASE_KEYSTORE_PASSPHRASE }}
+      #     GRADLE_PROPERTIES: ${{ secrets.GRADLE_PROPERTIES }}
 
       - name: Upload release APK Artifact
         uses: actions/upload-artifact@v1
