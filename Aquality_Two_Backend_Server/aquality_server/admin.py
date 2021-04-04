@@ -60,31 +60,41 @@ class InsectGroupAdmin(admin.ModelAdmin):
 class SampleRecordAdmin(admin.ModelAdmin):
     list_display = ('sample_id','sample_river','sample_score','sample_date','sample_user','sample_pH','sample_tmp','sample_local_authority')
     exclude = ('sample_survey',)
-    readonly_fields = ('sample_id','sample_user','sample_pH','sample_tmp','sample_river','sample_date','sample_score','river_enviroment',)
+    readonly_fields = ('sample_id','sample_user','sample_pH','sample_tmp','sample_river','sample_date','sample_score','river_enviroment','sample_weather','sample_coor_lat','sample_coor_lng')
     inlines = [SampleRecordInsectDetailInline,AllInsectImageUserUploadInline,RiverEnviromentImageInline]
 
     def river_enviroment(self, instance):
         """Function to display pretty version of our data"""
-
         # Convert the data to sorted, indented JSON
         response = json.dumps(instance.sample_survey, sort_keys=True, indent=2)
-
         # Truncate the data. Alter as needed
         response = response[:5000]
-
         # Get the Pygments formatter
         formatter = HtmlFormatter(style='colorful')
-
         # Highlight the data
         response = highlight(response, JsonLexer(), formatter)
-
         # Get the stylesheet
         style = "<style>" + formatter.get_style_defs() + "</style><br>"
-
         # Safe the output
         return mark_safe(style + response)
 
+    def sample_weather(self,instance):
+        """Function to display pretty version of our data"""
+        # Convert the data to sorted, indented JSON
+        response = json.dumps(instance.sample_survey, sort_keys=True, indent=2)
+        # Truncate the data. Alter as needed
+        response = response[:5000]
+        # Get the Pygments formatter
+        formatter = HtmlFormatter(style='colorful')
+        # Highlight the data
+        response = highlight(response, JsonLexer(), formatter)
+        # Get the stylesheet
+        style = "<style>" + formatter.get_style_defs() + "</style><br>"
+        # Safe the output
+        return mark_safe(style + response)        
+
     river_enviroment.short_description = 'river enviroment'
+    sample_weather.short_description = 'Weather At Time'
 
 @admin.register(SampleRecordInsectDetail)
 class SampleRecordInsectDetail(admin.ModelAdmin):
