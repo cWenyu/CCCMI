@@ -75,7 +75,7 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: app-release.aab
-          path: mobile_ui/android/app/build/outputs/bundle/release/app-release.aab
+          path: mobile_ui/android/app/build/outputs/bundle/release/
 
       # - uses: actions/checkout@v2
       # - name: Decrypt Android keys
