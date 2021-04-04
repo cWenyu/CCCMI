@@ -18,6 +18,11 @@ jobs:
         with:
           java-version: 1.8
 
+      - name: add system limit for number of file
+        run: |
+          echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf
+          sudo sysctl -p
+
       - name: Build Release AAB
         run: |
           cd mobile_ui
@@ -35,6 +40,12 @@ jobs:
           keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
           keyPassword: ${{ secrets.KEY_PASSWORD }}
 
+      - name: Upload release APK Artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: app-release.aab
+          path: mobile_ui/android/app/build/outputs/bundle/release/app-release.aab
+
       # - uses: actions/checkout@v2
       # - name: Decrypt Android keys
       #   run: sh ./.github/scripts/decrypt_android_keys.sh
@@ -42,11 +53,6 @@ jobs:
       #     RELEASE_KEYSTORE: ${{ secrets.RELEASE_KEYSTORE }}
       #     RELEASE_KEYSTORE_PASSPHRASE: ${{ secrets.RELEASE_KEYSTORE_PASSPHRASE }}
       #     # GRADLE_PROPERTIES: ${{ secrets.GRADLE_PROPERTIES }}
-
-      # - name: add system limit for number of file
-      #   run: |
-      #     echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf
-      #     sudo sysctl -p
 
       # - uses: actions/checkout@v2
       # - name: generate release apk file
@@ -57,11 +63,6 @@ jobs:
       #     chmod +x ./gradlew
       #     ./gradlew assembleRelease
 
-      - name: Upload release APK Artifact
-        uses: actions/upload-artifact@v1
-        with:
-          name: app-release.aab
-          path: mobile_ui/android/app/build/outputs/bundle/release/app-release.aab
       # - name: Upload release APK Artifact
       #   uses: actions/upload-artifact@v1
       #   with:
