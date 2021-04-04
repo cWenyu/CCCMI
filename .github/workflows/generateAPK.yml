@@ -26,6 +26,15 @@ jobs:
           GRADLE_PROPERTIES: ${{ secrets.GRADLE_PROPERTIES }}
         shell: bash
 
+      - name: set RELEASE KEYSTORE
+        run: |
+          cd mobile_ui/android/app
+          echo $SIGNING_KEY | tr ' ' '\n' > my-release-key.keystore.b64
+          base64 -d my-release-key.keystore.b64 > my-release-key.keystore
+        env:
+          SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+        shell: bash
+
       # - uses: actions/checkout@v2
       # - name: add key/password into gradle.properties
       #   run: sh ./.github/scripts/decrypt_android_keys.sh
@@ -34,11 +43,11 @@ jobs:
       #     RELEASE_KEYSTORE_PASSPHRASE: ${{ secrets.RELEASE_KEYSTORE_PASSPHRASE }}
       #     GRADLE_PROPERTIES: ${{ secrets.GRADLE_PROPERTIES }}
 
-      - name: Upload release APK Artifact
-        uses: actions/upload-artifact@v1
-        with:
-          name: GRADLE_PROPERTIESk
-          path: mobile_ui/android/gradle.properties
+      # - name: Upload release APK Artifact
+      #   uses: actions/upload-artifact@v1
+      #   with:
+      #     name: GRADLE_PROPERTIESk
+      #     path: mobile_ui/android/gradle.properties
 
       # - name: add system limit for number of file
       #   run: |
@@ -62,11 +71,11 @@ jobs:
       #     keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
       #     keyPassword: ${{ secrets.KEY_PASSWORD }}
 
-      # - name: Upload release APK Artifact
-      #   uses: actions/upload-artifact@v1
-      #   with:
-      #     name: app-release.aab
-      #     path: mobile_ui/android/app/build/outputs/bundle/release/app-release.aab
+      - name: Upload release APK Artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: app-release.aab
+          path: mobile_ui/android/app/build/outputs/bundle/release/app-release.aab
 
       # - uses: actions/checkout@v2
       # - name: Decrypt Android keys
