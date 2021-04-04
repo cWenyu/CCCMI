@@ -23,28 +23,35 @@ jobs:
           echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf
           sudo sysctl -p
 
-      # - name: Build Release AAB
-      #   run: |
-      #     cd mobile_ui
-      #     npm i
-      #     cd android
-      #     chmod +x ./gradlew
-      #     ./gradlew bundleRelease
+      - name: Build Release AAB
+        run: |
+          cd mobile_ui
+          npm i
+          cd android
+          echo {{ $GRADLE_PROPERTIES }} >> gradle.properties
+        # chmod +x ./gradlew
+        # ./gradlew bundleRelease
 
-      - name: Sign AAB
-        uses: r0adkll/sign-android-release@v1
-        with:
-          releaseDirectory: mobile_ui/android/app/build/outputs/bundle/release
-          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
-          alias: ${{ secrets.ALIAS }}
-          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
-          keyPassword: ${{ secrets.KEY_PASSWORD }}
-
-      - name: Upload release APK Artifact
+      - name: Upload gradle.properties
         uses: actions/upload-artifact@v1
         with:
-          name: app-release.aab
-          path: mobile_ui/android/app/build/outputs/bundle/release/app-release.aab
+          name: gradle.properties
+          path: mobile_ui/android/gradle.properties
+
+      # - name: Sign AAB
+      #   uses: r0adkll/sign-android-release@v1
+      #   with:
+      #     releaseDirectory: mobile_ui/android/app/build/outputs/bundle/release
+      #     signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+      #     alias: ${{ secrets.ALIAS }}
+      #     keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+      #     keyPassword: ${{ secrets.KEY_PASSWORD }}
+
+      # - name: Upload release APK Artifact
+      #   uses: actions/upload-artifact@v1
+      #   with:
+      #     name: app-release.aab
+      #     path: mobile_ui/android/app/build/outputs/bundle/release/app-release.aab
 
       # - uses: actions/checkout@v2
       # - name: Decrypt Android keys
