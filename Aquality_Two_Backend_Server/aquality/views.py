@@ -4,3 +4,5 @@ from django.shortcuts import render
 def index(request):
     return render(request, 'aquality/index.html', {})
 
+def policy(request):
+    return render(request, 'aquality/privacy.html',{})
