@@ -44,6 +44,7 @@ class RiverAdmin(admin.ModelAdmin):
 @admin.register(Data)
 class DataAdmin(admin.ModelAdmin):
     list_display = ('data_id','arduino_id','latitude','longitude','pH','temp','date_captured')
+    list_filter = ('arduino_id',)
 
 @admin.register(Insect)
 class InsectAdmin(admin.ModelAdmin):
@@ -63,7 +64,7 @@ class InsectGroupAdmin(admin.ModelAdmin):
 
 @admin.register(SampleRecord)
 class SampleRecordAdmin(admin.ModelAdmin):
-    list_display = ('sample_id','sample_river','sample_score','sample_date','sample_user','sample_pH','sample_tmp','sample_local_authority')
+    list_display = ('sample_id','sample_river','sample_score','sample_date','sample_user','sample_pH','sample_tmp','sample_coor_lat','sample_coor_lng','sample_local_authority')
     exclude = ('sample_survey',)
     readonly_fields = ('sample_id','sample_user','sample_pH','sample_tmp','sample_river','sample_date','sample_score','river_enviroment','sample_weather','sample_coor_lat','sample_coor_lng')
     inlines = [SampleRecordInsectDetailInline,AllInsectImageUserUploadInline,RiverEnviromentImageInline]
