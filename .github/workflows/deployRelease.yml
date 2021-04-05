@@ -2,8 +2,8 @@ name: Internal release
 
 on:
   push:
-    tags:
-      - releases/*.*.*
+    branch:
+      - 'releases*'
 
 jobs:
   build:
