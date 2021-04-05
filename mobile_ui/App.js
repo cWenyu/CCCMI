@@ -150,10 +150,10 @@ const App = () => {
         }
         dispatch({type: 'LOGOUT'});
       },
-      signUp: () => {},
-      toggleTheme: () => {
-        setIsDarkTheme(isDarkTheme => !isDarkTheme);
-      },
+      // signUp: () => {},
+      // toggleTheme: () => {
+      //   setIsDarkTheme(isDarkTheme => !isDarkTheme);
+      // },
     }),
     [],
   );
