@@ -438,9 +438,24 @@ const InsectScreen = ({navigation, route}) => {
       </ScrollView>
       <Button
         title="Finish"
+        // onPress={() => {
+        //   getScore().then(score => {
+        //     navigation.navigate('ResultPage', {
+        //       analyzedInsect: analysedInsect,
+        //       selectedInsect: insectList,
+        //       riverData: route.params.riverData,
+        //       surveyData: route.params.surveyData,
+        //       currentLocation: route.params.currentLocation,
+        //       sensorData: route.params.sensorData,
+        //       surrounding: route.params.surrounding,
+        //       insectsImage: route.params.insectsImage,
+        //       sample_score: score,
+        //     });
+        //   });
+        // }}
         onPress={() => {
           getScore().then(score => {
-            navigation.navigate('ResultPage', {
+            navigation.navigate('ReviewTab', {
               analyzedInsect: analysedInsect,
               selectedInsect: insectList,
               riverData: route.params.riverData,
@@ -452,19 +467,6 @@ const InsectScreen = ({navigation, route}) => {
               sample_score: score,
             });
           });
-
-          // getScore();
-          // navigation.navigate('ResultPage', {
-          //   analyzedInsect: analysedInsect,
-          //   selectedInsect: insectList,
-          //   riverData: route.params.riverData,
-          //   surveyData: route.params.surveyData,
-          //   currentLocation: route.params.currentLocation,
-          //   sensorData: route.params.sensorData,
-          //   surrounding: route.params.surrounding,
-          //   insectsImage: route.params.insectsImage,
-          //   sample_score: score,
-          // });
         }}
         accessibilityLabel={testVariables.insectScreenSelectInsectButton}
         testID={testVariables.insectScreenSelectInsectButton}

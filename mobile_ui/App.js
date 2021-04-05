@@ -52,6 +52,12 @@ import PolicyTermsScreen from './screens/PolicyTermsScreen';
 import HelpScreen from './screens/HelpScreen';
 import HelpScreenTakeSample from './screens/HelpScreenTakeSample';
 import HelpScreenViewSample from './screens/HelpScreenViewSample';
+import ReviewRiver from './screens/ReviewRiver';
+import ReviewSensor from './screens/ReviewSensor';
+import ReviewInsect from './screens/ReviewInsect';
+
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+
 
 import {
   resetSurveyForm,
@@ -188,6 +194,25 @@ const App = () => {
       </View>
     );
   }
+
+  const Tab = createMaterialTopTabNavigator();
+  const ReviewTabStackScreen = ({navigation}) => (
+    <Tab.Navigator>
+      <Tab.Screen
+        name="ReviewRiver"
+        component={ReviewRiver}
+      />
+      <Tab.Screen
+        name="ReviewSensor"
+        component={ReviewSensor}
+      />
+      <Tab.Screen
+        name="ReviewInsect"
+        component={ReviewInsect}
+      />
+    </Tab.Navigator>
+  )
+
   const HomeStack = createStackNavigator();
   const HomeStackScreen = ({navigation}) => (
     <HomeStack.Navigator
@@ -287,7 +312,7 @@ const App = () => {
           },
         }}
       />
-      <HomeStack.Screen
+      {/* <HomeStack.Screen
         name="SearchRiverScreen"
         component={SearchRiverScreen}
         options={{
@@ -314,7 +339,7 @@ const App = () => {
             fontWeight: 'bold',
           },
         }}
-      />
+      /> */}
     </HomeStack.Navigator>
   );
 
@@ -705,6 +730,21 @@ const App = () => {
         <TakeSampleStack.Screen
           name="ResultPage"
           component={ResultPage}
+          options={{
+            title: 'Review',
+            headerStyle: {
+              backgroundColor: '#009387',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}
+        />
+
+          <TakeSampleStack.Screen
+          name="ReviewTab"
+          component={ReviewTabStackScreen}
           options={{
             title: 'Review',
             headerStyle: {
