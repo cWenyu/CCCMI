@@ -39,6 +39,7 @@ class RiverEnviromentImageInline(admin.StackedInline):
 @admin.register(River)
 class RiverAdmin(admin.ModelAdmin):
     list_display = ('river_code','river_name','river_catchments_code','river_catchments','local_authority')
+    list_filter = ('river_catchments_code','river_catchments','local_authority',)
 
 @admin.register(Data)
 class DataAdmin(admin.ModelAdmin):
@@ -51,6 +52,7 @@ class InsectAdmin(admin.ModelAdmin):
     def get_ordering(self, request):
         return ['insect_id'] 
 
+
 @admin.register(InsectGroup)
 class InsectGroupAdmin(admin.ModelAdmin):
     list_display = ('group_id','group_name')
@@ -58,7 +60,6 @@ class InsectGroupAdmin(admin.ModelAdmin):
     def get_ordering(self, request):
         return ['group_id']  
     
-
 
 @admin.register(SampleRecord)
 class SampleRecordAdmin(admin.ModelAdmin):
