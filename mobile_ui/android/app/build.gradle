@@ -1,3 +1,19 @@
+import groovy.json.JsonSlurper
+
+def getNpmVersion() {
+    def inputFile = new File('../package.json')
+    def packageJson = new JsonSlurper().parseText(inputFile.text)
+    return packageJson.version
+}
+/* calculated from git commits to give sequential integers */
+def getGitVersion() {
+    def process = 'git rev-list master --first-parent --count'.execute()
+    return process.text.toInteger()
+}
+
+def userVer = getNpmVersion()
+def googleVer = getGitVersion()
+
 apply plugin: 'com.android.application'
 
 import com.android.build.OutputFile
@@ -132,7 +148,7 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
-        versionName '1.0'
+        versionName userVer
         multiDexEnabled true
     }
     splits {
