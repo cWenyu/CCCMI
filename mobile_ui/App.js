@@ -196,7 +196,9 @@ const App = () => {
   }
 
   const Tab = createMaterialTopTabNavigator();
-  const ReviewTabStackScreen = ({navigation}) => (
+
+  
+  const ReviewTabStackScreen = ({navigation, route}) => (
     <Tab.Navigator>
       <Tab.Screen
         name="ReviewRiver"

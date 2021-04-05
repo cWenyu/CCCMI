@@ -49,16 +49,14 @@ const ReviewRiver = ({navigation, route}) => {
       <View
         accessibilityLabel={testVariables.resultPageContainer}
         testID={testVariables.resultPageContainer}>
-        {/* <ListItem bottomDivider containerStyle={styles.listContainer}>
+        <ListItem bottomDivider containerStyle={styles.listContainer}>
           <ListItem.Content>
             <ListItem.Subtitle style={styles.title}>
               Sample score (Insect)
             </ListItem.Subtitle>
             <Text style={styles.title}>{route.params.sample_score}</Text>
           </ListItem.Content>
-        </ListItem> */}
-        <Text style={styles.sectionHeader}>River</Text>
-        {/* <Text>username: {username}</Text> */}
+        </ListItem>
         <ListItem bottomDivider containerStyle={styles.listContainer}>
           <ListItem.Content>
             <ListItem.Subtitle style={styles.title}>
@@ -69,7 +67,7 @@ const ReviewRiver = ({navigation, route}) => {
             </Text>
           </ListItem.Content>
         </ListItem>
-{/* 
+
         <ListItem bottomDivider containerStyle={styles.listContainer}>
           <ListItem.Content>
             <ListItem.Subtitle style={styles.title}>Latitude</ListItem.Subtitle>
@@ -123,15 +121,14 @@ const ReviewRiver = ({navigation, route}) => {
               {route.params.riverData.transboundary}
             </Text>
           </ListItem.Content>
-        </ListItem> */}
+        </ListItem>
       </View>
     );
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={{color: colors.text}}>review river screen</Text>
-      {/* {renderRiver()} */}
+    <View>
+      {renderRiver()}
     </View>
   );
 };

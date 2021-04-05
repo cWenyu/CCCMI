@@ -23,6 +23,7 @@ import {
   updateAnswers,
 } from '../components/reduxStore';
 import {useDispatch} from 'react-redux';
+import ReviewSensor from './ReviewSensor';
 
 const InsectScreen = ({navigation, route}) => {
   const dispatch = useDispatch();
@@ -456,16 +457,25 @@ const InsectScreen = ({navigation, route}) => {
         onPress={() => {
           getScore().then(score => {
             navigation.navigate('ReviewTab', {
+              screen: 'ReviewRiver',
+              params: {
               analyzedInsect: analysedInsect,
               selectedInsect: insectList,
               riverData: route.params.riverData,
               surveyData: route.params.surveyData,
               currentLocation: route.params.currentLocation,
-              sensorData: route.params.sensorData,
               surrounding: route.params.surrounding,
               insectsImage: route.params.insectsImage,
               sample_score: score,
-            });
+              },
+            },
+            // {
+            //   screen: 'ReviewSensor',
+            //   params: {
+            //     sensorData: route.params.sensorData,
+            //   }
+            // }
+            );
           });
         }}
         accessibilityLabel={testVariables.insectScreenSelectInsectButton}

@@ -8,7 +8,6 @@ const ReviewInsect = () => {
   return (
     <View style={styles.container}>
       <Text style={{color: colors.text}}>Review insect screen</Text>
-      <Button title="Click Here" onPress={() => alert('Button Clicked!')} />
     </View>
   );
 };

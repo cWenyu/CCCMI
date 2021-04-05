@@ -3,12 +3,11 @@ import {View, Text, Button, StyleSheet} from 'react-native';
 
 import {useTheme} from '@react-navigation/native';
 
-const ReviewSensor = () => {
+const ReviewSensor = ({navigation, route}) => {
   const {colors} = useTheme();
   return (
     <View style={styles.container}>
-      <Text style={{color: colors.text}}>review sensor Screen</Text>
-      <Button title="Click Here" onPress={() => alert('Button Clicked!')} />
+      <Text>Review sensor screen</Text>
     </View>
   );
 };
