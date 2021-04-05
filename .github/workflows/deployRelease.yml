@@ -3,7 +3,7 @@ name: Internal release
 on:
   push:
     branches:
-      - release/
+      - 'releases/*.*.*'
 
 jobs:
   build:
