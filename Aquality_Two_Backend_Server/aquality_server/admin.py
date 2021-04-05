@@ -12,6 +12,27 @@ from django.db import models
 import datetime
 from django.contrib.admin.widgets import AdminFileWidget
 from django.utils.html import format_html
+import csv
+from django.http import HttpResponse
+
+class ExportCsvMixin:
+    def export_as_csv(self, request, queryset):
+
+        meta = self.model._meta
+        field_names = [field.name for field in meta.fields]
+
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename={}.csv'.format(meta)
+        writer = csv.writer(response)
+
+        writer.writerow(field_names)
+        for obj in queryset:
+            row = writer.writerow([getattr(obj, field) for field in field_names])
+
+        return response
+
+    export_as_csv.short_description = "Export Selected"
+
 
 # admin.site.register(DataHistoryImageImage)
 admin.site.register(RiverEnvironmentImage)
@@ -37,9 +58,10 @@ class RiverEnviromentImageInline(admin.StackedInline):
     extra = 0
 
 @admin.register(River)
-class RiverAdmin(admin.ModelAdmin):
+class RiverAdmin(admin.ModelAdmin,ExportCsvMixin):
     list_display = ('river_code','river_name','river_catchments_code','river_catchments','local_authority')
     list_filter = ('river_catchments_code','river_catchments','local_authority',)
+    actions = ['export_as_csv']
 
 @admin.register(Data)
 class DataAdmin(admin.ModelAdmin):
@@ -63,12 +85,13 @@ class InsectGroupAdmin(admin.ModelAdmin):
     
 
 @admin.register(SampleRecord)
-class SampleRecordAdmin(admin.ModelAdmin):
+class SampleRecordAdmin(admin.ModelAdmin,ExportCsvMixin):
     list_display = ('sample_id','sample_river','sample_score','sample_date','sample_user','sample_pH','sample_tmp','sample_coor_lat','sample_coor_lng','sample_local_authority',)
     list_filter = ('sample_river','sample_river__local_authority','sample_user')
     exclude = ('sample_survey',)
     readonly_fields = ('sample_id','sample_user','sample_pH','sample_tmp','sample_river','sample_date','sample_score','river_enviroment','sample_weather','sample_coor_lat','sample_coor_lng')
     inlines = [SampleRecordInsectDetailInline,AllInsectImageUserUploadInline,RiverEnviromentImageInline]
+    actions = ['export_as_csv',]
 
     def river_enviroment(self, instance):
         """Function to display pretty version of our data"""
@@ -102,6 +125,7 @@ class SampleRecordAdmin(admin.ModelAdmin):
 
     river_enviroment.short_description = 'river enviroment'
     sample_weather.short_description = 'Weather At Time'
+
 
 @admin.register(SampleRecordInsectDetail)
 class SampleRecordInsectDetail(admin.ModelAdmin):
