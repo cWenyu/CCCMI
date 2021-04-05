@@ -329,6 +329,8 @@ const HomeScreen = ({ navigation }) => {
         titleStyle={{ marginHorizontal: 22, fontSize: 18 }}
       />
 
+      <Button title='change password' onPress={() => navigation.navigate('ChangePassword')} />
+
       <Modal
         animationType="slide"
         visible={modalVisible}
