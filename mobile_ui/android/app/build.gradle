@@ -6,26 +6,15 @@ def getNpmVersion() {
     return packageJson.version
 }
 /* calculated from git commits to give sequential integers */
-def getGitVersion() {
-    def stdout = new ByteArrayOutputStream()
-    exec {
-        workingDir projectDir
-        executable 'git'
-        args 'rev-list', '--count', 'HEAD'
-        standardOutput = stdout
-    }
-
-    println 'projectDir: ' + projectDir
-    println 'stdout: ' + stdout.toString()
-    return stdout.toString().trim().toInteger()
-
-// def process = 'git rev-list master --first-parent --count'.execute([], project.rootDir)
-// println 'process: ' + process.text
-// return process.text.toInteger()
+def getNpmVersionCode() {
+    def inputFile = new File('../package.json')
+    def packageJson = new JsonSlurper().parseText(inputFile.text)
+    println 'android_version_code: ' + packageJson.android_version_code.toInteger()
+    return  packageJson.android_version_code.toInteger()
 }
 
 def userVer = getNpmVersion()
-def googleVer = getGitVersion()
+def userVersionCode = getNpmVersionCode()
 
 apply plugin: 'com.android.application'
 
@@ -160,7 +149,7 @@ android {
         applicationId 'com.cccmi.aquality'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode googleVer
+        versionCode userVersionCode
         versionName userVer
         multiDexEnabled true
     }
