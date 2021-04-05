@@ -3,7 +3,7 @@ name: Internal release
 on:
   push:
     branch:
-      - 'releases*'
+      - 'releases_*'
 
 jobs:
   build:
