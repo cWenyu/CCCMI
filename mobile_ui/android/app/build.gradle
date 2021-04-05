@@ -9,8 +9,9 @@ def getNpmVersion() {
 def getGitVersion() {
     def stdout = new ByteArrayOutputStream()
     exec {
+        workingDir projectDir
         executable 'git'
-        args 'rev-list', 'origin/Aquality_Mobile_ui_Master', '--count'
+        args 'rev-list', '--count', 'HEAD'
         standardOutput = stdout
     }
 
