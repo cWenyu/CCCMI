@@ -215,14 +215,6 @@ const App = () => {
         }}
       />
 
-      <HomeStack.Screen
-        name="ChangePassword"
-        component={ChangePassword}
-        options={{
-          title: 'Change Password',
-        }}
-      />
-
       {/* add screen here */}
       <HomeStack.Screen
         name="SampleHistoryScreen"
@@ -816,6 +808,44 @@ const App = () => {
     </HelpStack.Navigator>
   );
 
+  const SettingStack = createStackNavigator();
+  const SettingStackScreen = ({navigation}) => (
+    <SettingStack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: '#009387',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+      }}>
+      <SettingStack.Screen
+        name="SettingsScreen"
+        component={SettingsScreen}
+        options={{
+          title: 'Settings',
+          headerLeft: () => (
+            <Icon.Button
+              name="ios-menu"
+              size={25}
+              backgroundColor="#009387"
+              onPress={() => navigation.openDrawer()}
+            />
+          ),
+        }}
+      />
+
+      <SettingStack.Screen
+        name="ChangePassword"
+        component={ChangePassword}
+        options={{
+          title: 'ChangePassword',
+        }}
+      />
+    </SettingStack.Navigator>
+  );
+
   return (
     <Provider store={store}>
       <PaperProvider theme={theme}>
@@ -832,7 +862,7 @@ const App = () => {
 
                 <Drawer.Screen
                   name="SettingsScreen"
-                  component={SettingsScreen}
+                  component={SettingStackScreen}
                 />
 
                 <Drawer.Screen
@@ -843,7 +873,10 @@ const App = () => {
                   name="PolicyTermsScreen"
                   component={PolicyStackScreen}
                 />
-                <Drawer.Screen name="HelpScreen" component={HelpStackScreen} />
+                <Drawer.Screen 
+                name="HelpScreen" 
+                component={HelpStackScreen} 
+                />
               </Drawer.Navigator>
             ) : (
               <RootStackScreen />
