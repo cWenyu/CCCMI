@@ -55,23 +55,23 @@ jobs:
           name: bundle
           path: mobile_ui/android/app/build/outputs/bundle/release/app-release.aab
 
-  upload_to_test_track:
-    name: Uploading build to Internal test track
-    needs: build
-    runs-on: ubuntu-latest
+  # upload_to_test_track:
+  #   name: Uploading build to Internal test track
+  #   needs: build
+  #   runs-on: ubuntu-latest
 
-    steps:
-      - name: Downloading build
-        uses: actions/download-artifact@v2
-        with:
-          name: bundle
+  #   steps:
+  #     - name: Downloading build
+  #       uses: actions/download-artifact@v2
+  #       with:
+  #         name: bundle
 
-      - name: Uploading to test track
-        uses: r0adkll/upload-google-play@v1
-        with:
-          # Your service account JSON GitHub secret
-          serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
-          # Your package name
-          packageName: 'com.cccmi.aquality'
-          releaseFiles: app-release.aab
-          track: internal
+  #     - name: Uploading to test track
+  #       uses: r0adkll/upload-google-play@v1
+  #       with:
+  #         # Your service account JSON GitHub secret
+  #         serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
+  #         # Your package name
+  #         packageName: 'com.cccmi.aquality'
+  #         releaseFiles: app-release.aab
+  #         track: internal

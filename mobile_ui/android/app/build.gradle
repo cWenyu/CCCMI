@@ -7,8 +7,21 @@ def getNpmVersion() {
 }
 /* calculated from git commits to give sequential integers */
 def getGitVersion() {
-    def process = 'git rev-list master --first-parent --count'.execute()
-    return process.text.toInteger()
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        workingDir projectDir
+        executable 'git'
+        args 'rev-list', 'origin/Aquality_Mobile_ui_Master', '--count'
+        standardOutput = stdout
+    }
+
+    // println 'projectDir: ' + projectDir
+    // println 'stdout: ' + stdout.toString()
+    return stdout.toString().trim().toInteger()
+
+// def process = 'git rev-list master --first-parent --count'.execute([], project.rootDir)
+// println 'process: ' + process.text
+// return process.text.toInteger()
 }
 
 def userVer = getNpmVersion()
@@ -147,7 +160,7 @@ android {
         applicationId 'com.cccmi.aquality'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
+        versionCode googleVer
         versionName userVer
         multiDexEnabled true
     }
