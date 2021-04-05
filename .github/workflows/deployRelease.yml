@@ -73,5 +73,5 @@ jobs:
           # Your package name
           packageName: 'com.cccmi.aquality'
           releaseFiles: app-release.aab
-          track: internal
+          track: alpha
 # test again
