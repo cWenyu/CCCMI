@@ -171,7 +171,6 @@ const ChangePassword = ({ navigation }) => {
                 ...data,
                 oldPassword: val.nativeEvent.text,
               });
-              console.log(val.nativeEvent.text);
             }}
           />
           <TouchableOpacity style={styles.eye} onPress={updateOldSecureTextEntry}>
@@ -207,7 +206,6 @@ const ChangePassword = ({ navigation }) => {
                 newPassword: val.nativeEvent.text,
               });
               handlePasswordChange(val.nativeEvent.text);
-              console.log(val.nativeEvent.text);
             }}
           />
           <TouchableOpacity style={styles.eye} onPress={updateSecureTextEntry}>
