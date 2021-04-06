@@ -226,8 +226,33 @@ def turn_first_login_true(request):
                 UserAccount.objects.filter(user=u).update(first_time_login=True)
                 return JsonResponse({
                     'status_code':202,
-                    'status':'First Time Login State Updated'
+                    'status':'First Time Login State Updated to True'
                 })                
+    except User.DoesNotExist:
+        return JsonResponse ({
+            'status_code':400,
+            'status':'User Does Not Exist'
+        })
+    except Exception as e:
+        return HttpResponse(e)
+
+@csrf_exempt
+def turn_first_login_false(request):
+    try:
+        user_id = request.POST['user_id']
+        if(user_id is not None):
+            u = User.objects.get(id=user_id)
+            if u is None:
+                return JsonResponse({
+                    'status_code':400,
+                    'status':'User Does Not Exist'
+                })
+            else:
+                UserAccount.objects.filter(user=u).update(first_time_login=False)
+                return JsonResponse({
+                    'status_code':202,
+                    'status':'First Time Login State Updated to False'
+                })
     except User.DoesNotExist:
         return JsonResponse ({
             'status_code':400,
