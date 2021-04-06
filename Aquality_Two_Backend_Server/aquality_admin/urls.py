@@ -7,5 +7,6 @@ urlpatterns = [
     path('',views.index,name='indexPage'),
     path('index',views.index,name='indexPage'),
     path('maps',views.maps,name='mapPage'),
-    path('', include('django.contrib.auth.urls'))
+    path('', include('django.contrib.auth.urls')),
+    path('upload-csv/',views.process_csv,name='generateUser')
 ]
