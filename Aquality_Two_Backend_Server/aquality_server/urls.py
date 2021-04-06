@@ -23,6 +23,7 @@ useraccount = [
     path('useraccount/userdetail',views.get_user_detail,name='userDetail'),
     path('useraccount/trueterm',views.turn_true_term,name='termCondi'),
     path('useraccount/safetyterm',views.turn_safety_term,name='safetyTerm'),
+    path('useraccount/firstlogin',views.turn_first_login_true,name='first_login')
 ]
 
 # Controlling The Path of Application

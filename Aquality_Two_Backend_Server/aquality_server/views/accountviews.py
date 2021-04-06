@@ -26,7 +26,8 @@ def check_user(request):
             'user_occupation': user_account.occupation,
             'user_bio': user_account.bio,
             'user_term_condition_accept_state': user_account.term_condition_accept_state,
-            'user_safety_guide_accept_state': user_account.safety_guide_accept_state
+            'user_safety_guide_accept_state': user_account.safety_guide_accept_state,
+            'user_first_time_login' : user_account.first_time_login
         })
     else:
         return JsonResponse({
@@ -200,6 +201,32 @@ def turn_safety_term(request):
                 return JsonResponse({
                     'status_code':202,
                     'status':'Safety Guide State Updated'
+                })                
+    except User.DoesNotExist:
+        return JsonResponse ({
+            'status_code':400,
+            'status':'User Does Not Exist'
+        })
+    except Exception as e:
+        return HttpResponse(e)
+
+
+@csrf_exempt
+def turn_first_login_true(request):
+    try:
+        user_id = request.POST['user_id']
+        if(user_id is not None):
+            u = User.objects.get(id=user_id)
+            if u is None:
+                return JsonResponse({
+                    'status_code':400,
+                    'status':'User Does Not Exist'
+                })
+            else:
+                UserAccount.objects.filter(user=u).update(first_time_login=True)
+                return JsonResponse({
+                    'status_code':202,
+                    'status':'First Time Login State Updated'
                 })                
     except User.DoesNotExist:
         return JsonResponse ({
