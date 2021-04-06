@@ -23,10 +23,15 @@
     </form>
     {% endif %}
     {% if generated %}
-    <p>Generated Account</p>
+    <h2>Generated Account</h2>
     {% for account in account_list %}
     <p>{{account}}</p>
     {% endfor %}
+    <form action="{% url 'aquality_admin:generate_csv_page'%}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type='hidden' name='account_list' value='{{accounts_raw}}'>
+        <button type='submit'>Download CSV File</button>
+    </form>
     {% endif %}
 </body>
 </html>

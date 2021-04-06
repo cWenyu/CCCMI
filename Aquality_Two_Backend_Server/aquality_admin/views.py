@@ -5,8 +5,9 @@ from django.conf import settings
 from django.contrib import messages
 from aquality_server.models import UserAccount,User
 from django.db import IntegrityError
+from django.http import HttpResponse
 # Create your views here.
-import csv,io,random
+import csv,io,random,json
 
 def index(request):
     if request.user.is_authenticated:
@@ -55,10 +56,24 @@ def process_csv(request):
         except IntegrityError:
             account['status'] = 'Username or Email Exist'
 
-    context = {'account_list':account_list,'generated':True}
+    context = {'account_list':account_list,
+               'generated':True,
+               'accounts_raw': json.dumps(account_list)
+                }
 
 
     return render(request, template, context)
+
+def generate_csv(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment;filename="account_list.csv"'
+    account_list = json.loads(request.POST.get('account_list'))
+    writer = csv.writer(response)
+    writer.writerow(['username','email','password','status'])
+    for account in account_list:
+        writer.writerow([account['username'],account['email'],account['password'],account['status']])
+    
+    return response
 
 def generate_random_password(password_length):
     characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
