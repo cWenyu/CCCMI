@@ -39,7 +39,7 @@ class UserAccountSerializer(serializers.HyperlinkedModelSerializer):
         model = UserAccount
         fields = (
             "user_group", "user", "occupation", "bio", "profile_pic", "date_of_birth", "term_condition_accept_state",
-            "safety_guide_accept_state")
+            "safety_guide_accept_state","first_time_login")
 
 
 class InsectGroupSerializer(serializers.HyperlinkedModelSerializer):

@@ -1,0 +1,31 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+{% if messages %}
+        {% for message in messages %}
+            <div>
+<!--                | means OR operator-->
+                <strong>{{message|safe}}</strong>
+            </div>
+        {% endfor %}
+    {% else %}
+    <!-- {{order}} -->
+    <form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="file1"> Upload a file</label>
+        <input type="file" id="file1" name="file">
+        <label>Only accepts CSV files</label>
+        <button type="submit">Upload</button>
+    </form>
+    {% endif %}
+    {% if generated %}
+    <h2>Generated Account</h2>
+    {% for account in account_list %}
+    <p>{{account}}</p>
+    {% endfor %}
+    <form action="{% url 'aquality_admin:generate_csv_page'%}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type='hidden' name='account_list' value='{{accounts_raw}}'>
+        <button type='submit'>Download CSV File</button>
+    </form>
+    {% endif %}
+    {% endblock %}

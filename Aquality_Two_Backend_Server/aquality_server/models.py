@@ -14,7 +14,7 @@ class UserAccount(models.Model):
     bio = models.TextField(null=True)
     term_condition_accept_state = models.BooleanField(default=False)
     safety_guide_accept_state = models.BooleanField(default=False)
-
+    first_time_login = models.BooleanField(default=True)
 
 class River(models.Model):
     river_id = models.AutoField(primary_key=True)

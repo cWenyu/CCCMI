@@ -210,5 +210,9 @@ SIMPLEUI_CONFIG = {
         'name': 'Activity Map',
         'icon': 'fas fa-globe-europe',
         'url' : '/aquality_admin/maps'
+    },{
+        'name': 'Generate List of User',
+        'icon': 'fas fa-user-plus',
+        'url' : '/aquality_admin/upload-csv'
     }]
 }

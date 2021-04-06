@@ -3,7 +3,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, JsonResponse
 from ..models import River, UserAccount
 from django.contrib.auth.models import User
-
+from django.db import IntegrityError
 
 @csrf_exempt
 def check_user(request):
@@ -26,7 +26,8 @@ def check_user(request):
             'user_occupation': user_account.occupation,
             'user_bio': user_account.bio,
             'user_term_condition_accept_state': user_account.term_condition_accept_state,
-            'user_safety_guide_accept_state': user_account.safety_guide_accept_state
+            'user_safety_guide_accept_state': user_account.safety_guide_accept_state,
+            'user_first_time_login' : user_account.first_time_login
         })
     else:
         return JsonResponse({
@@ -67,13 +68,19 @@ def register_page(request):
     email = request.POST['email']
     password = request.POST['password']
     if username is not None and email is not None and password is not None:
-        user = User.objects.create_user(username, email, password)
-        entry = UserAccount.objects.create(user=user)
-        return JsonResponse({
-            'status': 'Register Success',
-            'Message': 'User Created',
-            'username': user.username
-        })
+        try:
+            user = User.objects.create_user(username, email, password)
+            entry = UserAccount.objects.create(user=user)
+            return JsonResponse({
+                'status': 'Register Success',
+                'Message': 'User Created',
+                'username': user.username
+            })
+        except IntegrityError:
+            return JsonResponse({
+                'status': 'Register Fail',
+                'Message' : 'Username or Email already Exist'
+            })
     else:
         return JsonResponse({
             'status': 'Register Fail',
@@ -195,6 +202,57 @@ def turn_safety_term(request):
                     'status_code':202,
                     'status':'Safety Guide State Updated'
                 })                
+    except User.DoesNotExist:
+        return JsonResponse ({
+            'status_code':400,
+            'status':'User Does Not Exist'
+        })
+    except Exception as e:
+        return HttpResponse(e)
+
+
+@csrf_exempt
+def turn_first_login_true(request):
+    try:
+        user_id = request.POST['user_id']
+        if(user_id is not None):
+            u = User.objects.get(id=user_id)
+            if u is None:
+                return JsonResponse({
+                    'status_code':400,
+                    'status':'User Does Not Exist'
+                })
+            else:
+                UserAccount.objects.filter(user=u).update(first_time_login=True)
+                return JsonResponse({
+                    'status_code':202,
+                    'status':'First Time Login State Updated to True'
+                })                
+    except User.DoesNotExist:
+        return JsonResponse ({
+            'status_code':400,
+            'status':'User Does Not Exist'
+        })
+    except Exception as e:
+        return HttpResponse(e)
+
+@csrf_exempt
+def turn_first_login_false(request):
+    try:
+        user_id = request.POST['user_id']
+        if(user_id is not None):
+            u = User.objects.get(id=user_id)
+            if u is None:
+                return JsonResponse({
+                    'status_code':400,
+                    'status':'User Does Not Exist'
+                })
+            else:
+                UserAccount.objects.filter(user=u).update(first_time_login=False)
+                return JsonResponse({
+                    'status_code':202,
+                    'status':'First Time Login State Updated to False'
+                })
     except User.DoesNotExist:
         return JsonResponse ({
             'status_code':400,
