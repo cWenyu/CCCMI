@@ -3,7 +3,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, JsonResponse
 from ..models import River, UserAccount
 from django.contrib.auth.models import User
-
+from django.db import IntegrityError
 
 @csrf_exempt
 def check_user(request):
@@ -67,13 +67,19 @@ def register_page(request):
     email = request.POST['email']
     password = request.POST['password']
     if username is not None and email is not None and password is not None:
-        user = User.objects.create_user(username, email, password)
-        entry = UserAccount.objects.create(user=user)
-        return JsonResponse({
-            'status': 'Register Success',
-            'Message': 'User Created',
-            'username': user.username
-        })
+        try:
+            user = User.objects.create_user(username, email, password)
+            entry = UserAccount.objects.create(user=user)
+            return JsonResponse({
+                'status': 'Register Success',
+                'Message': 'User Created',
+                'username': user.username
+            })
+        except IntegrityError:
+            return JsonResponse({
+                'status': 'Register Fail',
+                'Message' : 'Username or Email already Exist'
+            })
     else:
         return JsonResponse({
             'status': 'Register Fail',
