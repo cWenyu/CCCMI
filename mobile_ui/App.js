@@ -164,10 +164,10 @@ const App = () => {
       updateSetFirstTime: async () => {
         dispatch({ type: 'SET_FIRSTTIME' });
       },
-      // signUp: () => {},
-      // toggleTheme: () => {
-      //   setIsDarkTheme(isDarkTheme => !isDarkTheme);
-      // },
+      signUp: () => {},
+      toggleTheme: () => {
+        setIsDarkTheme(isDarkTheme => !isDarkTheme);
+      },
     }),
     [],
   );
