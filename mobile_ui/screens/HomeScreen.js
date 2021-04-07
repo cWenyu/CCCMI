@@ -87,6 +87,10 @@ const HomeScreen = ({navigation}) => {
       color: colors.text,
       fontWeight: '600',
     },
+    spinner: {
+      justifyContent: "space-around",
+      padding: 10
+    }
   });
 
   const weatherOptions = {
@@ -253,29 +257,36 @@ const HomeScreen = ({navigation}) => {
       throw new Error('Network response was not ok.');
     }
   };
-
+  
   const renderWeather = () => {
+
+
     const main = weather.main;
     const type = weatherOptions[main] ?? weatherOptions['Default'];
 
-    return (
-      <View style={styles.topContainer}>
-        <Text style={styles.icon}>{type.mainIcon}</Text>
-        <Text style={styles.temp}>{temp}℃</Text>
-        <Text style={styles.title}>{weather.main}</Text>
-        <Text style={styles.subtitle}>{weather.description}</Text>
-      </View>
-    );
+    if(location.latitude === undefined && location.longitude === undefined){
+      console.log('no location for weather');
+    }else{
+      console.log(location);
+      if (weather.id == 0) {
+        console.log("no weather");
+        return (
+          <View style={styles.spinner}>
+            <ActivityIndicator size="large" />
+          </View>
+        );
+      } else {
+        return (
+          <View style={styles.topContainer}>
+            <Text style={styles.icon}>{type.mainIcon}</Text>
+            <Text style={styles.temp}>{temp}℃</Text>
+            <Text style={styles.title}>{weather.main}</Text>
+            <Text style={styles.subtitle}>{weather.description}</Text>
+          </View>
+        );
+      }
+    }
   };
-
-  if (weather.id == 0) {
-    console.log('no weather');
-    return (
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <ActivityIndicator size="large" />
-      </View>
-    );
-  }
 
   return (
     <View
@@ -325,6 +336,8 @@ const HomeScreen = ({navigation}) => {
         titleProps={{}}
         titleStyle={{marginHorizontal: 22, fontSize: 18}}
       />
+
+      <Button title='change password' onPress={() => navigation.navigate('SetPassword')} />
       <Modal
         animationType="slide"
         visible={modalVisible}

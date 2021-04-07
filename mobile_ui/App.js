@@ -50,6 +50,8 @@ import store from './components/reduxStore';
 import ReportProblem from './screens/ReportProblem';
 import PolicyTermsScreen from './screens/PolicyTermsScreen';
 import HelpScreen from './screens/HelpScreen';
+import ChangePassword from './screens/ChangePassword';
+import SetPassword from './screens/SetPassword';
 import HelpScreenTakeSample from './screens/HelpScreenTakeSample';
 import HelpScreenViewSample from './screens/HelpScreenViewSample';
 
@@ -153,10 +155,10 @@ const App = () => {
         }
         dispatch({type: 'LOGOUT'});
       },
-      signUp: () => {},
-      toggleTheme: () => {
-        setIsDarkTheme(isDarkTheme => !isDarkTheme);
-      },
+      // signUp: () => {},
+      // toggleTheme: () => {
+      //   setIsDarkTheme(isDarkTheme => !isDarkTheme);
+      // },
     }),
     [],
   );
@@ -217,6 +219,14 @@ const App = () => {
       />
 
       {/* add screen here */}
+
+      <HomeStack.Screen
+        name="SetPassword"
+        component={SetPassword}
+        options={{
+          title: 'SetPassword',
+        }}
+      />
       <HomeStack.Screen
         name="SampleHistoryScreen"
         component={SampleHistoryScreen}
@@ -781,6 +791,7 @@ const App = () => {
 
   const HelpStack = createStackNavigator();
   const HelpStackScreen = ({navigation}) => (
+
     <HelpStack.Navigator screenOptions={{
       headerStyle: {
         backgroundColor: '#009387',
@@ -824,7 +835,45 @@ const App = () => {
       />
 
     </HelpStack.Navigator>
-  )
+  );
+
+  const SettingStack = createStackNavigator();
+  const SettingStackScreen = ({navigation}) => (
+    <SettingStack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: '#009387',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+      }}>
+      <SettingStack.Screen
+        name="SettingsScreen"
+        component={SettingsScreen}
+        options={{
+          title: 'Settings',
+          headerLeft: () => (
+            <Icon.Button
+              name="ios-menu"
+              size={25}
+              backgroundColor="#009387"
+              onPress={() => navigation.openDrawer()}
+            />
+          ),
+        }}
+      />
+
+      <SettingStack.Screen
+        name="ChangePassword"
+        component={ChangePassword}
+        options={{
+          title: 'ChangePassword',
+        }}
+      />
+    </SettingStack.Navigator>
+  );
 
   return (
     <Provider store={store}>
@@ -842,7 +891,7 @@ const App = () => {
 
                 <Drawer.Screen
                   name="SettingsScreen"
-                  component={SettingsScreen}
+                  component={SettingStackScreen}
                 />
 
                 <Drawer.Screen
@@ -853,9 +902,9 @@ const App = () => {
                   name="PolicyTermsScreen"
                   component={PolicyStackScreen}
                 />
-                <Drawer.Screen
-                  name="HelpScreen"
-                  component={HelpStackScreen}
+                <Drawer.Screen 
+                name="HelpScreen" 
+                component={HelpStackScreen} 
                 />
               </Drawer.Navigator>
             ) : (
