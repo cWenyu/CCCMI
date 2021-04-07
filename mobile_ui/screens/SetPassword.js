@@ -17,9 +17,12 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import axios from 'axios';
 import { useTheme } from '@react-navigation/native';
 import Feather from 'react-native-vector-icons/Feather';
+import { AuthContext } from '../components/context';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const SetPassword = ({ navigation }) => {
   const { colors } = useTheme();
+  const { updateSetFirstTime } = React.useContext(AuthContext);
 
   const styles = StyleSheet.create({
     container: {
@@ -83,7 +86,6 @@ const SetPassword = ({ navigation }) => {
     isValidNewPassword: true,
     isPassword: true,
     confirm_secureTextEntry: true,
-    oldSecureTextEntry: true,
     isValidInput: true,
     greenTickUser: false,
     greenTickEmail: false,
@@ -124,13 +126,6 @@ const SetPassword = ({ navigation }) => {
     }
   };
 
-  const updateOldSecureTextEntry = () => {
-    setData({
-      ...data,
-      oldSecureTextEntry: !data.oldSecureTextEntry,
-    });
-  };
-
   const updateSecureTextEntry = () => {
     setData({
       ...data,
@@ -143,6 +138,51 @@ const SetPassword = ({ navigation }) => {
       ...data,
       confirm_secureTextEntry: !data.confirm_secureTextEntry,
     });
+  };
+
+    const handleChangePassword = async () => {
+    if (
+      data.newPassword.length == 0 ||
+      data.confirm_newpassword.length == 0
+    ) {
+      setData({
+        ...data,
+        isValidInput: false,
+      });
+    } else {
+      if (
+        data.isValidNewPassword &&
+        data.isPassword
+      ) 
+      {
+        await AsyncStorage.setItem(
+          'isFirstTime',
+          "false",
+        );
+        updateSetFirstTime();
+        // navigation.navigate('HomeScreen');
+        // try {
+        //   var bodyFormData = new FormData();
+        //   bodyFormData.append('password', data.password);
+
+        //   let response = await axios({
+        //     method: 'post',
+        //     url:
+        //       'http://aquality-server.eba-rxqnbumy.eu-west-1.elasticbeanstalk.com/aquality_server/useraccount/register',
+        //     data: bodyFormData,
+        //     headers: {'Content-Type': 'multipart/form-data'},
+        //   });
+
+        //   if (response && response.data && response.data.status) {
+        //     if (response.data.status === 'Register Sucess') {
+        //       navigation.navigate('SignInScreen');
+        //     }
+        //   }
+        // } catch (e) {
+        //   console.error(e);
+        // }
+      }
+    }
   };
 
   return (
@@ -172,6 +212,7 @@ const SetPassword = ({ navigation }) => {
               handlePasswordChange(val.nativeEvent.text);
             }}
           />
+          
           <TouchableOpacity style={styles.eye} onPress={updateSecureTextEntry}>
             {data.secureTextEntry ? (
               <Feather name="eye-off" color="grey" size={20} />
@@ -222,12 +263,19 @@ const SetPassword = ({ navigation }) => {
           </Animatable.View>
         )}
 
+                   {data.isValidInput ? null : (
+             <Animatable.View animation="fadeInLeft" duration={500}>
+               <Text style={styles.errorMsg}>
+                 All fields ablove must be filled.
+               </Text>
+             </Animatable.View>
+           )}
 
         <View style={styles.button}>
           <TouchableOpacity
             style={styles.changePassword}
             onPress={() => {
-              handleSignUp();
+              handleChangePassword();
             }}>
             <LinearGradient
               colors={['#08d4c4', '#01ab9d']}
