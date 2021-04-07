@@ -2,7 +2,7 @@ name: Internal release
 
 on:
   push:
-    branch:
+    branches:
       - 'release_*'
 
 jobs:
