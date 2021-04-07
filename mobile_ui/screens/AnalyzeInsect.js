@@ -32,7 +32,7 @@ const AnalyzeScreen = ({navigation}) => {
   const fall = new Animated.Value(1);
   const [modalVisible, setModalVisible] = useState(false);
   // const [detectedInsect, setDetectedInsect] = useState('caenis');
-  const [count, setCount] = useState('6');
+  const [count, setCount] = useState(6);
   const [confidence, setConfidence] = useState('');
   const [loading, setLoading] = useState(false);
   const [insectList, setInsectList] = useState([]);
@@ -213,11 +213,36 @@ const AnalyzeScreen = ({navigation}) => {
   const handleConfirm = () => {
     const insect = {
       insect_name: AIR.class_label,
-      amount: count.toString(),
+      amount: count,
       insect_image: image,
     };
-    insectList.push(insect);
-    setModalVisible(!modalVisible);
+
+    var found = false;
+    for(var i = 0; i < insectList.length; i++) {
+      if (insectList[i].insect_name == insect.insect_name) {
+          found = true;
+          break;
+      }
+    }
+
+    if(found) {
+      Alert.alert(
+        "Duplicate insect found",
+        "Do you want to add up the count?",
+        [
+          {
+            text: "Cancel",
+            onPress: () => setModalVisible(!modalVisible),
+            style: "cancel"
+          },
+          { text: "OK", onPress: () => {let objIndex = insectList.findIndex((obj => obj.insect_name == insect.insect_name));insectList[objIndex].amount += parseInt(insect.amount); setModalVisible(!modalVisible)} }
+        ]
+      );
+    } else {
+      insectList.push(insect);
+      setModalVisible(!modalVisible);
+    }
+
     // navigation.navigate('Insect', {
     //   insect: insect
     // });
@@ -495,8 +520,6 @@ const AnalyzeScreen = ({navigation}) => {
         accessibilityLabel={testVariables.analysisInsectSaveButton}
         testID={testVariables.analysisInsectSaveButton}
       />
-
-      {/* <Button title="open modal" onPress={() => openModal()} /> */}
 
       <ScrollView>
         {renderModal()}

@@ -11,9 +11,7 @@ import {
 import {useTheme} from '@react-navigation/native';
 import {Text, Button, Badge} from 'react-native-elements';
 import testVariables from '../appium_automation_testing/test_variables';
-import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
-import FolderIcon from 'react-native-vector-icons/dist/AntDesign';
 import axios from 'axios';
 import {IconButton, Colors} from 'react-native-paper';
 import {
@@ -206,12 +204,6 @@ const InsectScreen = ({navigation, route}) => {
     }
   };
 
-  const renderGroupScore = () => {
-    if (groupScore.length > 0) {
-      return <Text>Group 1: {groupScore.group_1}</Text>;
-    }
-  };
-
   const renderAnalysedInsect = () => {
     if (analysedInsect.length > 0) {
       console.log('analysed insect list:' + analysedInsect);
@@ -254,24 +246,6 @@ const InsectScreen = ({navigation, route}) => {
       });
 
       return comp;
-    }
-  };
-
-  const renderGetScoreButton = () => {
-    if (analysedInsect.length > 0 || insectList.length > 0) {
-      return (
-        <View style={{alignSelf: 'center', paddingVertical: 10}}>
-          {/* <Button
-            title="Get Score"
-            onPress={() => {
-              getScore();
-              setModalVisible(true);
-            }}
-            titleStyle={{marginHorizontal: 22, fontSize: 18}}
-            buttonStyle={{width: 200, height: 50, backgroundColor: '#610D00'}}
-          /> */}
-        </View>
-      );
     }
   };
 
