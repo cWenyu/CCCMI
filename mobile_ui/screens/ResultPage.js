@@ -21,6 +21,7 @@ const resultPage = ({navigation, route}) => {
   const [insectList, setInsectList] = useState([]);
   const [username, setUsername] = useState('');
   const [insectScore, setInsectScore] = useState();
+  const [weather, setWeather] = useState({});
 
   const styles = StyleSheet.create({
     container: {
@@ -57,16 +58,6 @@ const resultPage = ({navigation, route}) => {
   });
 
   const postData = async ob => {
-    console.log('\n\n');
-    console.log(
-      JSON.stringify({
-        data_get: ob.sampleObj,
-        insect_list: ob.insectObj,
-        insectsImage: ob.insectsImage,
-        surrounding: ob.surrounding,
-      }),
-    );
-
     try {
       let response = await axios.post(
         'https://cccmi-aquality.tk/aquality_server/samplesave',
@@ -75,9 +66,22 @@ const resultPage = ({navigation, route}) => {
           insect_list: ob.insectObj,
           insectsImage: ob.insectsImage,
           surrounding: ob.surrounding,
+          currentLocation: ob.currentLocation,
+          weather: ob.weather
         },
       );
+      let obb = {
+        data_get: ob.sampleObj,
+        insect_list: ob.insectObj,
+        insectsImage: ob.insectsImage,
+        surrounding: ob.surrounding,
+        currentLocation: ob.currentLocation,
+        weather: ob.weatherData
+      };
+      console.log(obb)
       console.log(response);
+      console.log('\n\n');
+      console.log(response.data);
       console.log('data posted');
     } catch (e) {
       console.error(e);
@@ -87,7 +91,6 @@ const resultPage = ({navigation, route}) => {
   const setDataForPost = async () => {
     console.log('setting up data for upload');
 
-    let pph, ptmp;
     let sampleObj;
     if (typeof route.params.sensorData === 'undefined') {
       sampleObj = {
@@ -99,28 +102,40 @@ const resultPage = ({navigation, route}) => {
     } else {
       sampleObj = {
         sample_user: username,
-        sample_ph: pph,
-        sample_tmp: ptmp,
+        sample_ph: route.params.sensorData.ph,
+        sample_tmp: route.params.sensorData.temp,
         sample_river_id: route.params.riverData.river_id,
         sample_survey: route.params.surveyData,
         sample_score: route.params.sample_score,
       };
     }
 
-    console.log(JSON.stringify('sampleobj sending ', sampleObj));
+    // console.log(JSON.stringify('sampleobj sending ', sampleObj));
     // set insect (selected + analysed)
     let array3 = route.params.selectedInsect.concat(
       route.params.analyzedInsect,
     );
     setInsectList(array3);
 
+    if (typeof route.params.surrounding === 'undefined') {
+      console.log('undefined surrounding');
+      route.params.surrounding = {surveyPhotos: []};
+    }
+
+    if (typeof route.params.insectsImage === 'undefined') {
+      console.log('undefined insectsImage');
+      route.params.insectsImage = {insectPhoto: []};
+    }
+
     let dataObj = {
       sampleObj: sampleObj,
       insectObj: array3,
       insectsImage: route.params.insectsImage,
       surrounding: route.params.surrounding,
+      currentLocation: route.params.currentLocation,
+      weather: weather,
     };
-
+    console.log(dataObj);
     return dataObj;
   };
 
@@ -162,9 +177,11 @@ const resultPage = ({navigation, route}) => {
       <View
         accessibilityLabel={testVariables.resultPageContainer}
         testID={testVariables.resultPageContainer}>
-          <ListItem bottomDivider containerStyle={styles.listContainer}>
+        <ListItem bottomDivider containerStyle={styles.listContainer}>
           <ListItem.Content>
-            <ListItem.Subtitle style={styles.title}>Sample score (Insect)</ListItem.Subtitle>
+            <ListItem.Subtitle style={styles.title}>
+              Sample score (Insect)
+            </ListItem.Subtitle>
             <Text style={styles.title}>{route.params.sample_score}</Text>
           </ListItem.Content>
         </ListItem>
@@ -172,7 +189,7 @@ const resultPage = ({navigation, route}) => {
         {/* <Text>username: {username}</Text> */}
         <ListItem bottomDivider containerStyle={styles.listContainer}>
           <ListItem.Content>
-          <ListItem.Subtitle style={styles.title}>
+            <ListItem.Subtitle style={styles.title}>
               River Name
             </ListItem.Subtitle>
             <Text style={styles.title}>
@@ -180,7 +197,7 @@ const resultPage = ({navigation, route}) => {
             </Text>
           </ListItem.Content>
         </ListItem>
-        
+
         <ListItem bottomDivider containerStyle={styles.listContainer}>
           <ListItem.Content>
             <ListItem.Subtitle style={styles.title}>Latitude</ListItem.Subtitle>
@@ -291,7 +308,7 @@ const resultPage = ({navigation, route}) => {
           </ListItem>
         </View>
       );
-    } else return <Text>No sensor device connected.</Text>;
+    } else return <Text style={{color: colors.text}}>No sensor device connected.</Text>;
   };
 
   const renderSelectedInsect = () => {
@@ -331,7 +348,7 @@ const resultPage = ({navigation, route}) => {
       });
       return comp;
     } else {
-      return <Text>No selected insects.</Text>;
+      return <Text style={{color: colors.text}}>No selected insects.</Text>;
     }
   };
 
@@ -371,13 +388,20 @@ const resultPage = ({navigation, route}) => {
         );
       });
       return comp;
-    } else return <Text>No analyzed insect.</Text>;
+    } else return <Text style={{color: colors.text}}>No analyzed insect.</Text>;
   };
+
+  const getWeather = async () => {
+    let weather = await AsyncStorage.getItem('weatherData');
+    setWeather(JSON.parse(weather));
+  }
 
   useEffect(() => {
     getUsername();
+    getWeather();
     if (route.params) {
       console.log(JSON.stringify(route.params));
+      console.log()
     }
 
     BackHandler.addEventListener('hardwareBackPress', backAction);

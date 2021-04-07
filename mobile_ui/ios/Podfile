@@ -1,8 +1,8 @@
 platform :ios, '9.0'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
-target 'rnv5' do
-  # Pods for rnv5
+target 'Aqualityv2' do
+  # Pods for Aqualityv2
   pod 'FBLazyVector', :path => "../node_modules/react-native/Libraries/FBLazyVector"
   pod 'FBReactNativeSpec', :path => "../node_modules/react-native/Libraries/FBReactNativeSpec"
   pod 'RCTRequired', :path => "../node_modules/react-native/Libraries/RCTRequired"
@@ -37,7 +37,9 @@ target 'rnv5' do
   pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
   
 
-  target 'rnv5Tests' do
+  pod 'react-native-maps', :path => '../node_modules/react-native-maps'
+
+  target 'Aqualityv2Tests' do
     inherit! :search_paths
     # Pods for testing
   end
@@ -50,10 +52,10 @@ pod 'Google-Maps-iOS-Utils'
   use_native_modules!
 end
 
-target 'rnv5-tvOS' do
-  # Pods for rnv5-tvOS
+target 'Aqualityv2-tvOS' do
+  # Pods for Aqualityv2-tvOS
 
-  target 'rnv5-tvOSTests' do
+  target 'Aqualityv2-tvOSTests' do
     inherit! :search_paths
     # Pods for testing
   end

@@ -52,6 +52,8 @@ import PolicyTermsScreen from './screens/PolicyTermsScreen';
 import HelpScreen from './screens/HelpScreen';
 import ChangePassword from './screens/ChangePassword';
 import SetPassword from './screens/SetPassword';
+import HelpScreenTakeSample from './screens/HelpScreenTakeSample';
+import HelpScreenViewSample from './screens/HelpScreenViewSample';
 
 import {
   resetSurveyForm,
@@ -313,7 +315,7 @@ const App = () => {
         name="SearchRiverScreen2"
         component={SearchRiverScreen2}
         options={{
-          title: 'Confirm River',
+          title: 'Confirm Riverr',
           headerStyle: {
             backgroundColor: '#009387',
           },
@@ -331,12 +333,12 @@ const App = () => {
     const dispatch = useDispatch();
 
     return (
-      <TakeSampleStack.Navigator initialRouteName="OnboardingScreen2">
+      <TakeSampleStack.Navigator initialRouteName="SurveyPage">
         <TakeSampleStack.Screen
           name="ReportProblem"
           component={ReportProblem}
           options={{
-            // title: 'Introduction of Taking Sample',
+            title: 'Report Problem',
             headerStyle: {
               backgroundColor: '#009387',
             },
@@ -497,7 +499,7 @@ const App = () => {
           name="SearchRiverScreen2"
           component={SearchRiverScreen2}
           options={{
-            title: 'SearchRiverScreen2',
+            title: 'Confirm River',
             headerStyle: {
               backgroundColor: '#009387',
             },
@@ -540,7 +542,7 @@ const App = () => {
           name="ArduinoScreen"
           component={ArduinoScreen}
           options={{
-            title: 'ArduinoScreen',
+            title: 'Sensor Device',
             headerStyle: {
               backgroundColor: '#009387',
             },
@@ -583,7 +585,7 @@ const App = () => {
           name="ArduinoScreen2"
           component={ArduinoScreen2}
           options={{
-            title: 'ArduinoScreen2',
+            title: 'Connect Sensor Device',
             headerStyle: {
               backgroundColor: '#009387',
             },
@@ -626,7 +628,7 @@ const App = () => {
           name="InsectScreen"
           component={InsectScreen}
           options={{
-            title: 'InsectScreen',
+            title: 'Insects',
             headerStyle: {
               backgroundColor: '#009387',
             },
@@ -669,7 +671,7 @@ const App = () => {
           name="selectInsect1"
           component={selectInsect1}
           options={{
-            title: 'selectInsect1',
+            title: 'Select Insect',
             headerStyle: {
               backgroundColor: '#009387',
             },
@@ -684,7 +686,7 @@ const App = () => {
           name="AnalyzeInsect"
           component={AnalyzeInsect}
           options={{
-            title: 'AnalyzeInsect',
+            title: 'Analyze Insect',
             headerStyle: {
               backgroundColor: '#009387',
             },
@@ -789,17 +791,18 @@ const App = () => {
 
   const HelpStack = createStackNavigator();
   const HelpStackScreen = ({navigation}) => (
-    <HelpStack.Navigator
-      screenOptions={{
-        headerStyle: {
-          backgroundColor: '#009387',
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },
-      }}>
-      <HelpStack.Screen
+
+    <HelpStack.Navigator screenOptions={{
+      headerStyle: {
+        backgroundColor: '#009387',
+      },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+    }}>
+
+    <HelpStack.Screen
         name="HelpScreen"
         component={HelpScreen}
         options={{
@@ -814,6 +817,23 @@ const App = () => {
           ),
         }}
       />
+
+      <HelpStack.Screen
+        name="HelpScreenTakeSample"
+        component={HelpScreenTakeSample}
+        options={{
+          title: 'HelpScreenTakeSample',
+        }}
+      />
+
+      <HelpStack.Screen
+        name="HelpScreenViewSample"
+        component={HelpScreenViewSample}
+        options={{
+          title: 'HelpScreenViewSample',
+        }}
+      />
+
     </HelpStack.Navigator>
   );
 

@@ -39,7 +39,7 @@ const HistoryList = ({navigation, route}) => {
             onPress={() => {
               navigation.navigate('HistoryDetail', {item});
             }}>
-            <Icon name={item.icon} />
+            {/* <Icon name={item.icon} /> */}
             <ListItem.Content>
               <ListItem.Title style={styles.title}>
                 Sample ID: {item.sample_id}
