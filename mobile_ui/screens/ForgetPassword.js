@@ -23,7 +23,7 @@ const ForgetPassword = () => {
         <View style={styles.container}>
           <StatusBar backgroundColor="#009387" barStyle="light-content" />
           <View style={styles.header}>
-            <Text style={styles.text_header}>Change Password</Text>
+            <Text style={styles.text_header}>Forget Password</Text>
           </View>
           <Animatable.View animation="fadeInUpBig" style={styles.footer}>
             <ScrollView>

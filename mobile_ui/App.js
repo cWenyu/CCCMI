@@ -51,6 +51,7 @@ import ReportProblem from './screens/ReportProblem';
 import PolicyTermsScreen from './screens/PolicyTermsScreen';
 import HelpScreen from './screens/HelpScreen';
 import ChangePassword from './screens/ChangePassword';
+import SetPassword from './screens/SetPassword';
 
 import {
   resetSurveyForm,
@@ -216,6 +217,14 @@ const App = () => {
       />
 
       {/* add screen here */}
+
+      <HomeStack.Screen
+        name="SetPassword"
+        component={SetPassword}
+        options={{
+          title: 'SetPassword',
+        }}
+      />
       <HomeStack.Screen
         name="SampleHistoryScreen"
         component={SampleHistoryScreen}
