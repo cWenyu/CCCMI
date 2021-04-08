@@ -5,7 +5,18 @@ import thunk from 'redux-thunk';
 const InitialState = {
     currentQuestionIndex: 0,
     answers: [],
-    selectionHandlers: []
+    selectionHandlers: [],
+    sampleData: null,
+    // riverData: null,
+    // surveyData: null,
+    // currentLocation: null,
+    // surrounding: null,
+    // sensorData: null,
+    // selected_insect: null,
+    // analyzed_insect: null,
+    // sample_score: null
+
+
 }
 
 export const resetSurveyForm = () => ({
@@ -35,6 +46,16 @@ export const updateSelectionHandlers = (index, selection) => {
     }
 }
 
+export const saveSampleData = (data) => {
+    return dispatch =>{
+        console.log("hiiiii")
+        console.log(data);
+        dispatch({
+    type: 'SAVE_SAMPLE_DATA',
+    payload: data})
+}
+}
+
 function surveyForm(state = InitialState, action) {
     switch (action.type) {
         case 'RESET_SURVEY_FORM':
@@ -49,6 +70,8 @@ function surveyForm(state = InitialState, action) {
             return { ...state, selectionHandlers: action.payload }
         case 'UPDATE_INDEX':
             return { ...state, currentQuestionIndex: action.payload }
+        case 'SAVE_SAMPLE_DATA':
+            return { ...state, sampleData: action.payload}
         default:
             return state
     }
