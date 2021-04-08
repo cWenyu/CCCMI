@@ -20,15 +20,16 @@ import { color } from 'react-native-reanimated';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import {
   resetSurveyForm,
-  updateSelectionHandlers,
-  updateQIndex,
-  updateAnswers,
+  saveSampleData,
 } from '../components/reduxStore';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 const riverURL = 'https://cccmi-aquality.tk/aquality_server/rivers/';
 
 const SearchRiverScreen = ({ navigation, route }) => {
+  const dispatch = useDispatch()
+  const sampleData = useSelector(state => state.surveyForm.sampleData)
+
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => {
     !isEnabled && getOneTimeLocation();
@@ -42,7 +43,6 @@ const SearchRiverScreen = ({ navigation, route }) => {
     longitude: undefined,
   });
   const [data, setData] = useState([]);
-  const dispatch = useDispatch();
 
   useEffect(() => {
     //get Location Permission, get location and set location
@@ -149,7 +149,8 @@ const SearchRiverScreen = ({ navigation, route }) => {
             key={el.river_id}
             title={el.river_name.toString()}
             onPress={() =>
-              navigation.navigate('SearchRiverScreen2', { riverData: el, surveyData: route.params.surveyData[0], currentLocation:location, surrounding: route.params.surrounding })
+              {dispatch(saveSampleData({...sampleData, riverData: el, currentLocation: location }));
+              navigation.navigate('SearchRiverScreen2', { riverData: el, surveyData: route.params.surveyData[0], currentLocation:location, surrounding: route.params.surrounding })}
             }
             buttonStyle={{ width: 310, height: 55, backgroundColor: '#02ab9e', borderRadius: 5, }}
             containerStyle={{ margin: 5, alignItems: 'center', marginTop: 20 }}
