@@ -1,6 +1,7 @@
 {
   "name": "Aqualityv2",
-  "version": "0.0.1",
+  "version": "1.0.1",
+  "android_version_code": 3,
   "private": true,
   "scripts": {
     "android": "react-native run-android",
