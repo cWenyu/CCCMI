@@ -23,7 +23,6 @@ import {
 import {createStackNavigator} from '@react-navigation/stack';
 import {DrawerContent} from './screens/DrawerContent';
 import Icon from 'react-native-vector-icons/Ionicons';
-import MainTabScreen from './screens/MainTabScreen';
 import SafetyGuideScreen from './screens/SafetyGuideScreen';
 import SettingsScreen from './screens/SettingsScreen';
 import ArduinoScreen from './screens/ArduinoScreen';
@@ -36,12 +35,10 @@ import selectInsect1 from './screens/selectInsect1';
 import AnalyzeInsect from './screens/AnalyzeInsect';
 import ResultPage from './screens/ResultPage';
 import OnboardingScreen2 from './screens/OnboardingScreen2';
-import uploadImage from './screens/uploadImage';
 import {AuthContext} from './components/context';
 import RootStackScreen from './screens/RootStackScreen';
 import AsyncStorage from '@react-native-community/async-storage';
 import HomeScreen from './screens/HomeScreen';
-import testVariables from './appium_automation_testing/test_variables';
 import SampleHistoryScreen from './screens/SampleHistoryScreen';
 import HistoryDetail from './screens/HistoryDetail';
 import HistoryList from './screens/HistoryList';
@@ -56,17 +53,12 @@ import ReviewRiver from './screens/ReviewRiver';
 import ReviewSensor from './screens/ReviewSensor';
 import ReviewInsect from './screens/ReviewInsect';
 
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-
+import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 
 import {
   resetSurveyForm,
-  updateSelectionHandlers,
-  updateQIndex,
-  updateAnswers,
 } from './components/reduxStore';
 import {useDispatch} from 'react-redux';
-import {StackActions} from '@react-navigation/native';
 import SurroundingsPhotoScreen from './screens/SurroundingsPhotoScreen';
 import InsectsPhotoScreen from './screens/InsectsPhotoScreen';
 
@@ -197,23 +189,31 @@ const App = () => {
 
   const Tab = createMaterialTopTabNavigator();
 
-  
   const ReviewTabStackScreen = ({navigation, route}) => (
     <Tab.Navigator>
       <Tab.Screen
         name="ReviewRiver"
         component={ReviewRiver}
+        options={{
+          title: 'River',
+        }}
       />
       <Tab.Screen
         name="ReviewSensor"
         component={ReviewSensor}
+        options={{
+          title: 'Sensor',
+        }}
       />
       <Tab.Screen
         name="ReviewInsect"
         component={ReviewInsect}
+        options={{
+          title: 'Insect',
+        }}
       />
     </Tab.Navigator>
-  )
+  );
 
   const HomeStack = createStackNavigator();
   const HomeStackScreen = ({navigation}) => (
@@ -259,33 +259,6 @@ const App = () => {
           ),
         }}
       />
-      {/* <HomeStack.Screen
-        name="SurroundingsPhotoScreen"
-        component={SurroundingsPhotoScreen}
-        options={{
-          title: 'Sample Surroundings',
-          headerRight: () => (
-            <Icon.Button
-              name="information-circle-outline"
-              size={25}
-              backgroundColor="#009387"
-              onPress={() =>
-                Alert.alert(
-                  'What to do?',
-                  'Upload images of the surroundings of sample site here.',
-                )
-              }
-            />
-          ),
-          headerStyle: {
-            backgroundColor: '#009387',
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },
-        }}
-      /> */}
       <HomeStack.Screen
         name="HistoryDetail"
         component={HistoryDetail}
@@ -314,34 +287,6 @@ const App = () => {
           },
         }}
       />
-      {/* <HomeStack.Screen
-        name="SearchRiverScreen"
-        component={SearchRiverScreen}
-        options={{
-          title: 'Search River',
-          headerStyle: {
-            backgroundColor: '#009387',
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },
-        }}
-      />
-      <HomeStack.Screen
-        name="SearchRiverScreen2"
-        component={SearchRiverScreen2}
-        options={{
-          title: 'Confirm Riverr',
-          headerStyle: {
-            backgroundColor: '#009387',
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },
-        }}
-      /> */}
     </HomeStack.Navigator>
   );
 
@@ -744,7 +689,7 @@ const App = () => {
           }}
         />
 
-          <TakeSampleStack.Screen
+        <TakeSampleStack.Screen
           name="ReviewTab"
           component={ReviewTabStackScreen}
           options={{
@@ -823,17 +768,17 @@ const App = () => {
 
   const HelpStack = createStackNavigator();
   const HelpStackScreen = ({navigation}) => (
-    <HelpStack.Navigator screenOptions={{
-      headerStyle: {
-        backgroundColor: '#009387',
-      },
-      headerTintColor: '#fff',
-      headerTitleStyle: {
-        fontWeight: 'bold',
-      },
-    }}>
-
-    <HelpStack.Screen
+    <HelpStack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: '#009387',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+      }}>
+      <HelpStack.Screen
         name="HelpScreen"
         component={HelpScreen}
         options={{
@@ -864,9 +809,8 @@ const App = () => {
           title: 'HelpScreenViewSample',
         }}
       />
-
     </HelpStack.Navigator>
-  )
+  );
 
   return (
     <Provider store={store}>
@@ -895,10 +839,7 @@ const App = () => {
                   name="PolicyTermsScreen"
                   component={PolicyStackScreen}
                 />
-                <Drawer.Screen
-                  name="HelpScreen"
-                  component={HelpStackScreen}
-                />
+                <Drawer.Screen name="HelpScreen" component={HelpStackScreen} />
               </Drawer.Navigator>
             ) : (
               <RootStackScreen />
