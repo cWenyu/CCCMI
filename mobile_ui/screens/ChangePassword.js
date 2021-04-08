@@ -17,10 +17,11 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import axios from 'axios';
 import { useTheme } from '@react-navigation/native';
 import Feather from 'react-native-vector-icons/Feather';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 const ChangePassword = ({ navigation }) => {
   const { colors } = useTheme();
-
+  console.log(colors);
   const styles = StyleSheet.create({
     container: {
 
@@ -31,12 +32,12 @@ const ChangePassword = ({ navigation }) => {
 
     },
     text_header: {
-      color: '#fff',
+      color: colors.text,
       fontWeight: 'bold',
       fontSize: 30,
     },
     text_footer: {
-      color: '#05375a',
+      color: colors.text,
       fontSize: 18,
     },
     action: {
@@ -49,7 +50,7 @@ const ChangePassword = ({ navigation }) => {
     textInput: {
       marginTop: Platform.OS === 'ios' ? 0 : -12,
       paddingLeft: 10,
-      color: '#05375a',
+      color: colors.text,
     },
     button: {
       alignItems: 'center',
@@ -160,11 +161,12 @@ const ChangePassword = ({ navigation }) => {
           Old Password
            </Text>
         <View style={styles.action}>
-          <Feather name="lock" color="#05375a" size={20} />
+          <Feather name="lock" color={colors.text} size={20} />
           <TextInput
             placeholder="Your Old Password"
             secureTextEntry={data.oldSecureTextEntry ? true : false}
             style={styles.textInput}
+            placeholderTextColor= {colors.placeholder}
             autoCapitalize="none"
             onEndEditing={val => {
               setData({
@@ -194,11 +196,12 @@ const ChangePassword = ({ navigation }) => {
           New Password
            </Text>
         <View style={styles.action}>
-          <Feather name="lock" color="#05375a" size={20} />
+          <Feather name="lock" color={colors.text} size={20} />
           <TextInput
             placeholder="Your New Password"
             secureTextEntry={data.secureTextEntry ? true : false}
             style={styles.textInput}
+            placeholderTextColor= {colors.placeholder}
             autoCapitalize="none"
             onEndEditing={val => {
               setData({
@@ -236,11 +239,12 @@ const ChangePassword = ({ navigation }) => {
           Confirm New Password
            </Text>
         <View style={styles.action}>
-          <Feather name="lock" color="#05375a" size={20} />
+          <Feather name="lock" color={colors.text} size={20} />
           <TextInput
             placeholder="Confirm Your Password"
             secureTextEntry={data.confirm_secureTextEntry ? true : false}
             style={styles.textInput}
+            placeholderTextColor= {colors.placeholder}
             autoCapitalize="none"
             onChangeText={val => handleConfirmPasswordChange(val)}
           />
