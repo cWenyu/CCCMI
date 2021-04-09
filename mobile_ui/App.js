@@ -52,6 +52,8 @@ import PolicyTermsScreen from './screens/PolicyTermsScreen';
 import HelpScreen from './screens/HelpScreen';
 import ChangePassword from './screens/ChangePassword';
 import SetPassword from './screens/SetPassword';
+import HelpScreenTakeSample from './screens/HelpScreenTakeSample';
+import HelpScreenViewSample from './screens/HelpScreenViewSample';
 
 import {
   resetSurveyForm,
@@ -164,7 +166,7 @@ const App = () => {
       updateSetFirstTime: async () => {
         dispatch({ type: 'SET_FIRSTTIME' });
       },
-      signUp: () => {},
+      signUp: () => { },
       toggleTheme: () => {
         setIsDarkTheme(isDarkTheme => !isDarkTheme);
       },
@@ -851,6 +853,24 @@ const App = () => {
           ),
         }}
       />
+
+
+      <HelpStack.Screen
+        name="HelpScreenTakeSample"
+        component={HelpScreenTakeSample}
+        options={{
+          title: 'HelpScreenTakeSample',
+        }}
+      />
+
+      <HelpStack.Screen
+        name="HelpScreenViewSample"
+        component={HelpScreenViewSample}
+        options={{
+          title: 'HelpScreenViewSample',
+        }}
+      />
+
     </HelpStack.Navigator>
   );
 
