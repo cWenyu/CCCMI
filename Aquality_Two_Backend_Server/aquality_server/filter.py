@@ -1,7 +1,7 @@
 from decouple import config
 import requests
 from .models import River, Data
-
+from django.db.models.expressions import RawSQL
 
 def get_location_from_request(request):
     '''Extract longitude and latitude from request and return a point'''
@@ -68,6 +68,24 @@ aquality_server_river
 ORDER BY
 	distance ASC"""
     return River.objects.raw(query)[0:5]
+
+def get_nearby_river_distance(pnt):
+    """
+    Return objects sorted by distance to specified coordinates
+    which distance is less than max_distance given in kilometers
+    """
+    # Great circle distance formula
+    gcd_formula = "6371 * acos(least(greatest(\
+    cos(radians(%s)) * cos(radians(latitude)) \
+    * cos(radians(longitude) - radians(%s)) + \
+    sin(radians(%s)) * sin(radians(latitude)) \
+    , -1), 1))"
+    distance_raw_sql = RawSQL(
+        gcd_formula,
+        (pnt[0], pnt[1], pnt[0])
+    )
+    qs = River.objects.all().annotate(distance=distance_raw_sql).order_by('distance')[0:5]
+    return qs
 
 
 def get_nearby_list_hardware(pnt):
