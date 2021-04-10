@@ -1,3 +1,5 @@
+from json import JSONDecodeError
+
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.password_validation import validate_password, password_validators_help_texts
 from django.core.exceptions import ValidationError
@@ -11,19 +13,20 @@ from django.db import IntegrityError
 
 @csrf_exempt
 def change_password_view(request):
-    data = json.loads(request.body)
-    response = {}
-
-    old_password = data['old_password']
-    new_password = data['new_password']
-    confirm_password = data['confirm_password']
-    username = data['username']
-
-    user_get = authenticate(username=username, password=old_password)
-
-    check_equals = new_password == confirm_password
-    check_same_as_old = old_password == new_password
     try:
+
+        data = json.loads(request.body)
+        response = {}
+
+        old_password = data['old_password']
+        new_password = data['new_password']
+        confirm_password = data['confirm_password']
+        username = data['username']
+
+        user_get = authenticate(username=username, password=old_password)
+
+        check_equals = new_password == confirm_password
+        check_same_as_old = old_password == new_password
 
         if request.method == "POST":
 
@@ -61,7 +64,11 @@ def change_password_view(request):
                     'status_code': 400,
                     'status': 'Check Old Password'
                 }
-
+    except JSONDecodeError as j:
+        response = {
+            'status_code': 400,
+            'status': "POST method not found"
+        }
     except ValidationError as e:
         response = {
          'status_code': 400,
