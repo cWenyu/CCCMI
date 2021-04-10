@@ -79,7 +79,7 @@ class InsectViewSet(viewsets.ModelViewSet):
 
 
 class SampleRecordViewSet(viewsets.ModelViewSet):
-    queryset = SampleRecord.objects.all()
+    queryset = SampleRecord.objects.all().order_by('-sample_date')
     serializer_class = SampleRecordDataSerializer
 
     def get_queryset(self):
@@ -87,16 +87,16 @@ class SampleRecordViewSet(viewsets.ModelViewSet):
             username_get = self.request.GET['username']
             user_get = User.objects.get(username=username_get)
             if user_get.is_superuser:
-                return SampleRecord.objects.all()
+                return SampleRecord.objects.all().order_by('-sample_date')
             elif user_get.is_staff:
                 user_get_sub = UserAccount.objects.get(user=user_get)
-                return SampleRecord.objects.filter(sample_river__local_authority=user_get_sub.user_group)
+                return SampleRecord.objects.filter(sample_river__local_authority=user_get_sub.user_group).order_by('-sample_date')
             elif self.request.query_params.get('rivername'):
                 river_name = self.request.GET['rivername']
                 river_get = River.objects.get(river_name=river_name)
-                return SampleRecord.objects.filter(sample_user=user_get, sample_river=river_get)
+                return SampleRecord.objects.filter(sample_user=user_get, sample_river=river_get).order_by('-sample_date')
             else:
-                return SampleRecord.objects.filter(sample_user=user_get)
+                return SampleRecord.objects.filter(sample_user=user_get).order_by('-sample_date')
         else:
             return SampleRecord.objects.none()
 
