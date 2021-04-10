@@ -62,7 +62,7 @@ def change_password_view(request):
 
                 response = {
                     'status_code': 400,
-                    'status': 'Check Old Password'
+                    'status': 'Check Username and Password'
                 }
     except JSONDecodeError as j:
         response = {
