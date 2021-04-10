@@ -29,15 +29,7 @@ def change_password_view(request):
         if request.method == "POST":
 
             if user_get is not None:
-                if valid_password is not None:
-                    validation_text = password_validators_help_texts(password_validators=None)
-                    print(validation_text)
-                    response = {
-                        'status_code': 400,
-                        'status': [validation_text]
-                    }
-
-                elif not check_equals:
+                if not check_equals:
 
                     response = {
                         'status_code': 400,
