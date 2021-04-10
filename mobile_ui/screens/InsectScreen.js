@@ -19,11 +19,14 @@ import {
   updateSelectionHandlers,
   updateQIndex,
   updateAnswers,
+  saveSampleData
 } from '../components/reduxStore';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import ReviewSensor from './ReviewSensor';
 
 const InsectScreen = ({navigation, route}) => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
+  const sampleData = useSelector(state => state.surveyForm.sampleData)
   const [modalVisible, setModalVisible] = useState(false);
   const {colors} = useTheme();
   const [insectList, setInsectList] = useState([]);
@@ -414,31 +417,29 @@ const InsectScreen = ({navigation, route}) => {
         title="Finish"
         onPress={() => {
           getScore().then(score => {
-            navigation.navigate('ResultPage', {
+            dispatch(saveSampleData({...sampleData, analyzedInsect: analysedInsect,
+              selectedInsect: insectList, sample_score: score }));
+            navigation.navigate('ReviewTab', {
+              screen: 'ReviewRiver',
+              params: {
               analyzedInsect: analysedInsect,
               selectedInsect: insectList,
               riverData: route.params.riverData,
               surveyData: route.params.surveyData,
               currentLocation: route.params.currentLocation,
-              sensorData: route.params.sensorData,
               surrounding: route.params.surrounding,
               insectsImage: route.params.insectsImage,
               sample_score: score,
-            });
+              },
+            },
+            // {
+            //   screen: 'ReviewSensor',
+            //   params: {
+            //     sensorData: route.params.sensorData,
+            //   }
+            // }
+            );
           });
-
-          // getScore();
-          // navigation.navigate('ResultPage', {
-          //   analyzedInsect: analysedInsect,
-          //   selectedInsect: insectList,
-          //   riverData: route.params.riverData,
-          //   surveyData: route.params.surveyData,
-          //   currentLocation: route.params.currentLocation,
-          //   sensorData: route.params.sensorData,
-          //   surrounding: route.params.surrounding,
-          //   insectsImage: route.params.insectsImage,
-          //   sample_score: score,
-          // });
         }}
         accessibilityLabel={testVariables.insectScreenSelectInsectButton}
         testID={testVariables.insectScreenSelectInsectButton}

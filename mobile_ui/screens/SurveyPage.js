@@ -11,7 +11,7 @@ import {
 import SurveyComponent from '../components/SurveyComponent';
 import {COLORS} from '../components/validColors';
 import {connect} from 'react-redux';
-import {resetSurveyForm} from '../components/reduxStore';
+import {resetSurveyForm, saveSampleData} from '../components/reduxStore';
 import {useTheme} from '@react-navigation/native';
 
 const GREEN = 'rgba(141,196,63,1)';
@@ -878,6 +878,8 @@ class SurveyScreen extends Component {
     // this.props.navigation.navigate('SearchRiverScreen', {
     //   surveyData: surveyData,
     // });
+
+    this.props.saveSampleData({...this.props.sampleData, surveyData: surveyData});
     this.props.navigation.navigate('SurroundingsPhotoScreen', {
       surveyData: surveyData,
     });
@@ -1178,9 +1180,15 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapDispatchToProps = {resetSurveyForm};
+const mapDispatchToProps = {resetSurveyForm, saveSampleData};
+const mapStateToProps = (state) =>{
+  return {
+    samepleData: state.surveyForm.sampleData,
+  }
+}
+
 const ReduxSurveyForm = connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(SurveyScreen);
 
