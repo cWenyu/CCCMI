@@ -24,9 +24,10 @@ def change_password_view(request):
     check_equals = new_password == confirm_password
     check_same_as_old = old_password == new_password
     try:
-        valid_password = validate_password(new_password, user=None, password_validators=None)
 
         if request.method == "POST":
+
+            validate_password(new_password, user=None, password_validators=None)
 
             if user_get is not None:
                 if not check_equals:
