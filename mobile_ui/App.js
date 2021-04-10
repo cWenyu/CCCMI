@@ -6,22 +6,22 @@
  * @flow
  */
 // import Icon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
-import React, {useEffect} from 'react';
-import {View, ActivityIndicator, Button, Alert} from 'react-native';
+import React, { useEffect } from 'react';
+import { View, ActivityIndicator, Button, Alert } from 'react-native';
 import {
   NavigationContainer,
   DefaultTheme as NavigationDefaultTheme,
   DarkTheme as NavigationDarkTheme,
 } from '@react-navigation/native';
-import {createDrawerNavigator} from '@react-navigation/drawer';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import {
   Provider as PaperProvider,
   DefaultTheme as PaperDefaultTheme,
   DarkTheme as PaperDarkTheme,
 } from 'react-native-paper';
-import {createStackNavigator} from '@react-navigation/stack';
-import {DrawerContent} from './screens/DrawerContent';
+import { createStackNavigator } from '@react-navigation/stack';
+import { DrawerContent } from './screens/DrawerContent';
 import Icon from 'react-native-vector-icons/Ionicons';
 import SafetyGuideScreen from './screens/SafetyGuideScreen';
 import SettingsScreen from './screens/SettingsScreen';
@@ -35,18 +35,22 @@ import selectInsect1 from './screens/selectInsect1';
 import AnalyzeInsect from './screens/AnalyzeInsect';
 import ResultPage from './screens/ResultPage';
 import OnboardingScreen2 from './screens/OnboardingScreen2';
+
 import {AuthContext} from './components/context';
+
 import RootStackScreen from './screens/RootStackScreen';
 import AsyncStorage from '@react-native-community/async-storage';
 import HomeScreen from './screens/HomeScreen';
 import SampleHistoryScreen from './screens/SampleHistoryScreen';
 import HistoryDetail from './screens/HistoryDetail';
 import HistoryList from './screens/HistoryList';
-import {Provider} from 'react-redux';
+import { Provider } from 'react-redux';
 import store from './components/reduxStore';
 import ReportProblem from './screens/ReportProblem';
 import PolicyTermsScreen from './screens/PolicyTermsScreen';
 import HelpScreen from './screens/HelpScreen';
+import ChangePassword from './screens/ChangePassword';
+import SetPassword from './screens/SetPassword';
 import HelpScreenTakeSample from './screens/HelpScreenTakeSample';
 import HelpScreenViewSample from './screens/HelpScreenViewSample';
 import ReviewRiver from './screens/ReviewRiver';
@@ -58,7 +62,10 @@ import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs
 import {
   resetSurveyForm,
 } from './components/reduxStore';
-import {useDispatch} from 'react-redux';
+
+import { useDispatch } from 'react-redux';
+import { StackActions } from '@react-navigation/native';
+
 import SurroundingsPhotoScreen from './screens/SurroundingsPhotoScreen';
 import InsectsPhotoScreen from './screens/InsectsPhotoScreen';
 
@@ -73,6 +80,7 @@ const App = () => {
   const initialLoginState = {
     isLoading: true,
     username: null,
+    isFirstTime: "false"
   };
 
   const CustomDefaultTheme = {
@@ -112,6 +120,12 @@ const App = () => {
           ...prevState,
           username: action.username,
           isLoading: false,
+          isFirstTime: action.isFirstTime,
+        };
+      case 'SET_FIRSTTIME':
+        return {
+          ...prevState,
+          isFirstTime: "false",
         };
       case 'LOGOUT':
         return {
@@ -135,10 +149,11 @@ const App = () => {
 
   const authContext = React.useMemo(
     () => ({
-      signIn: async userName => {
+      signIn: async (userName, isFirst = false) => {
         try {
           await AsyncStorage.setItem('username', userName);
-          dispatch({type: 'LOGIN', userName: userName});
+          await AsyncStorage.setItem('isFirstTime', isFirst ? "true" : "false");
+          dispatch({ type: 'LOGIN', userName: userName, isFirstTime: isFirst });
         } catch (e) {
           console.log(e);
         }
@@ -149,9 +164,12 @@ const App = () => {
         } catch (e) {
           console.log(e);
         }
-        dispatch({type: 'LOGOUT'});
+        dispatch({ type: 'LOGOUT' });
       },
-      signUp: () => {},
+      updateSetFirstTime: async () => {
+        dispatch({ type: 'SET_FIRSTTIME' });
+      },
+      signUp: () => { },
       toggleTheme: () => {
         setIsDarkTheme(isDarkTheme => !isDarkTheme);
       },
@@ -161,19 +179,23 @@ const App = () => {
 
   useEffect(() => {
     const getData = async () => {
-      let username;
+      let username, isFirst;
       username = null;
+      isFirst = false;
       try {
         username = await AsyncStorage.getItem('username');
+        isFirst = await AsyncStorage.getItem('isFirstTime');
+
         if (username) {
-          authContext.signIn(username);
+          authContext.signIn(username, isFirst);
           //TODO: call the endpoint to get user data
         } else {
-          dispatch({type: 'LOGOUT'});
+          dispatch({ type: 'LOGOUT' });
         }
       } catch (e) {
+
         console.log(e);
-        dispatch({type: 'LOGOUT'});
+        dispatch({ type: 'LOGOUT' });
       }
     };
     getData();
@@ -181,11 +203,12 @@ const App = () => {
 
   if (loginState.isLoading) {
     return (
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <ActivityIndicator size="large" />
       </View>
     );
   }
+
 
   const Tab = createMaterialTopTabNavigator();
 
@@ -215,8 +238,35 @@ const App = () => {
     </Tab.Navigator>
   );
 
+
+
+  const loginSetPassword = createStackNavigator();
+  const LoginSetPasswordScreen = ({ navigation }) => (
+    <loginSetPassword.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: '#009387',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+      }}>
+      <loginSetPassword.Screen
+        name="SetPassword"
+        component={SetPassword}
+        options={{
+          title: 'SetPassword',
+        }}
+      />
+
+    </loginSetPassword.Navigator>
+  )
+
+
+
   const HomeStack = createStackNavigator();
-  const HomeStackScreen = ({navigation}) => (
+  const HomeStackScreen = ({ navigation }) => (
     <HomeStack.Navigator
       screenOptions={{
         headerStyle: {
@@ -227,6 +277,7 @@ const App = () => {
           fontWeight: 'bold',
         },
       }}>
+
       <HomeStack.Screen
         name="Home"
         component={HomeScreen}
@@ -244,6 +295,8 @@ const App = () => {
       />
 
       {/* add screen here */}
+
+
       <HomeStack.Screen
         name="SampleHistoryScreen"
         component={SampleHistoryScreen}
@@ -287,20 +340,50 @@ const App = () => {
           },
         }}
       />
+
+      <HomeStack.Screen
+        name="SearchRiverScreen"
+        component={SearchRiverScreen}
+        options={{
+          title: 'Search River',
+          headerStyle: {
+            backgroundColor: '#009387',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        }}
+      />
+      <HomeStack.Screen
+        name="SearchRiverScreen2"
+        component={SearchRiverScreen2}
+        options={{
+          title: 'Confirm River',
+          headerStyle: {
+            backgroundColor: '#009387',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        }}
+      />
+
     </HomeStack.Navigator>
   );
 
   const TakeSampleStack = createStackNavigator();
-  const TakeSampleStackScreen = ({navigation}) => {
+  const TakeSampleStackScreen = ({ navigation }) => {
     const dispatch = useDispatch();
 
     return (
-      <TakeSampleStack.Navigator initialRouteName="SurveyPage">
+      <TakeSampleStack.Navigator initialRouteName="OnboardingScreen2">
         <TakeSampleStack.Screen
           name="ReportProblem"
           component={ReportProblem}
           options={{
-            title: 'Report Problem',
+            // title: 'Introduction of Taking Sample',
             headerStyle: {
               backgroundColor: '#009387',
             },
@@ -461,7 +544,7 @@ const App = () => {
           name="SearchRiverScreen2"
           component={SearchRiverScreen2}
           options={{
-            title: 'Confirm River',
+            title: 'SearchRiverScreen2',
             headerStyle: {
               backgroundColor: '#009387',
             },
@@ -504,7 +587,7 @@ const App = () => {
           name="ArduinoScreen"
           component={ArduinoScreen}
           options={{
-            title: 'Sensor Device',
+            title: 'ArduinoScreen',
             headerStyle: {
               backgroundColor: '#009387',
             },
@@ -547,7 +630,7 @@ const App = () => {
           name="ArduinoScreen2"
           component={ArduinoScreen2}
           options={{
-            title: 'Connect Sensor Device',
+            title: 'ArduinoScreen2',
             headerStyle: {
               backgroundColor: '#009387',
             },
@@ -590,7 +673,7 @@ const App = () => {
           name="InsectScreen"
           component={InsectScreen}
           options={{
-            title: 'Insects',
+            title: 'InsectScreen',
             headerStyle: {
               backgroundColor: '#009387',
             },
@@ -633,7 +716,7 @@ const App = () => {
           name="selectInsect1"
           component={selectInsect1}
           options={{
-            title: 'Select Insect',
+            title: 'selectInsect1',
             headerStyle: {
               backgroundColor: '#009387',
             },
@@ -648,7 +731,7 @@ const App = () => {
           name="AnalyzeInsect"
           component={AnalyzeInsect}
           options={{
-            title: 'Analyze Insect',
+            title: 'AnalyzeInsect',
             headerStyle: {
               backgroundColor: '#009387',
             },
@@ -708,7 +791,7 @@ const App = () => {
   };
 
   const SafetyStack = createStackNavigator();
-  const SafetyStackScreen = ({navigation}) => (
+  const SafetyStackScreen = ({ navigation }) => (
     <SafetyStack.Navigator
       screenOptions={{
         headerStyle: {
@@ -737,7 +820,7 @@ const App = () => {
     </SafetyStack.Navigator>
   );
   const PolicyStack = createStackNavigator();
-  const PolicyStackScreen = ({navigation}) => (
+  const PolicyStackScreen = ({ navigation }) => (
     <PolicyStack.Navigator
       screenOptions={{
         headerStyle: {
@@ -767,7 +850,9 @@ const App = () => {
   );
 
   const HelpStack = createStackNavigator();
-  const HelpStackScreen = ({navigation}) => (
+
+  const HelpStackScreen = ({ navigation }) => (
+
     <HelpStack.Navigator
       screenOptions={{
         headerStyle: {
@@ -794,6 +879,7 @@ const App = () => {
         }}
       />
 
+
       <HelpStack.Screen
         name="HelpScreenTakeSample"
         component={HelpScreenTakeSample}
@@ -812,11 +898,52 @@ const App = () => {
     </HelpStack.Navigator>
   );
 
+
+  const SettingStack = createStackNavigator();
+  const SettingStackScreen = ({ navigation }) => (
+    <SettingStack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: '#009387',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+      }}>
+      <SettingStack.Screen
+        name="SettingsScreen"
+        component={SettingsScreen}
+        options={{
+          title: 'Settings',
+          headerLeft: () => (
+            <Icon.Button
+              name="ios-menu"
+              size={25}
+              backgroundColor="#009387"
+              onPress={() => navigation.openDrawer()}
+            />
+          ),
+        }}
+      />
+
+      <SettingStack.Screen
+        name="ChangePassword"
+        component={ChangePassword}
+        options={{
+          title: 'ChangePassword',
+        }}
+      />
+    </SettingStack.Navigator>
+  );
+
+
   return (
     <Provider store={store}>
       <PaperProvider theme={theme}>
         <AuthContext.Provider value={authContext}>
           <NavigationContainer theme={theme}>
+
             {loginState.username !== null ? (
               <Drawer.Navigator
                 drawerContent={props => <DrawerContent {...props} />}>
@@ -842,6 +969,7 @@ const App = () => {
                 <Drawer.Screen name="HelpScreen" component={HelpStackScreen} />
               </Drawer.Navigator>
             ) : (
+
               <RootStackScreen />
             )}
           </NavigationContainer>
