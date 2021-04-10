@@ -221,9 +221,7 @@ const ReviewRiver = ({navigation, route}) => {
           sample_score: sampleData.sample_score,
         };
       }
-  
-      // console.log(JSON.stringify('sampleobj sending ', sampleObj));
-      // set insect (selected + analysed)
+
       let array3 = sampleData.selectedInsect.concat(
         sampleData.analyzedInsect,
       );

@@ -14,8 +14,8 @@ const HistoryDetail = ({route}) => {
 
   useEffect(() => {
     fetch(url, {
-      method: 'POST', // or 'PUT'
-      body: bodyFormData, // data can be `string` or {object}!
+      method: 'POST', 
+      body: bodyFormData, 
       headers: new Headers({
         'Content-Type': 'multipart/form-data',
       }),

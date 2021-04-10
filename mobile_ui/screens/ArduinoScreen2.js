@@ -20,7 +20,6 @@ import { useTheme } from '@react-navigation/native';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  resetSurveyForm,
   saveSampleData,
 } from '../components/reduxStore';
 
@@ -86,7 +85,6 @@ const ArduinoScreen = ({ navigation, route }) => {
       paddingRight: width - CARD_WIDTH,
     },
     card: {
-      // padding: 10,
       elevation: 2,
       backgroundColor: theme.colors.background,
       borderTopLeftRadius: 5,
@@ -109,7 +107,6 @@ const ArduinoScreen = ({ navigation, route }) => {
       marginTop: 5,
       marginBottom: 5,
       fontWeight: "bold",
-      //textDecorationLine: 'underline',
       color: theme.colors.text,
     },
     cardDescription: {

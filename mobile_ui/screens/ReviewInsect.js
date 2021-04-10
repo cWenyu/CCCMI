@@ -223,8 +223,6 @@ const ReviewInsect = ({navigation, route}) => {
       };
     }
 
-    // console.log(JSON.stringify('sampleobj sending ', sampleObj));
-    // set insect (selected + analysed)
     let array3 = sampleData.selectedInsect.concat(sampleData.analyzedInsect);
     setInsectList(array3);
 

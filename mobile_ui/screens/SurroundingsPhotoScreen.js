@@ -1,4 +1,4 @@
-import React, {useRef, useEffect, useState} from 'react';
+import React, { useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -20,9 +20,6 @@ import ImagePicker from 'react-native-image-crop-picker';
 import AsyncStorage from '@react-native-community/async-storage';
 import {
   resetSurveyForm,
-  updateSelectionHandlers,
-  updateQIndex,
-  updateAnswers,
   saveSampleData,
 } from '../components/reduxStore';
 import {useDispatch, useSelector} from 'react-redux';
@@ -38,10 +35,8 @@ const SurroundingsPhotoScreen = ({navigation, route}) => {
   }, [route.params?.surveyData]);
   const {colors} = useTheme();
   const [dataSource, setDataSource] = useState([]);
-  const [imageBase64, setImageBase64] = useState([]);
   const [image, setImage] = useState({url: '', index: 0});
   const [modalVisibleStatus, setModalVisibleStatus] = useState(false);
-  const [surveyPhoto, setSurveyPhoto] = useState({surveyPhotos: []});
   const [buttonStyle, setButtonStyle] = useState({
     flex: 1,
     margin: null,
@@ -59,7 +54,6 @@ const SurroundingsPhotoScreen = ({navigation, route}) => {
     container: {
       flex: 1,
       backgroundColor: colors.background,
-      // backgroundColor: '#ffffff',
     },
     titleStyle: {
       padding: 16,

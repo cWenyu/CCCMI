@@ -72,21 +72,6 @@ export function DrawerContent(props) {
                 <Caption style={styles.caption}>{data.email}</Caption>
               </View>
             </View>
-
-            {/* <View style={styles.row}>
-              <View style={styles.section}>
-                <Paragraph style={[styles.paragraph, styles.caption]}>
-                  80
-                </Paragraph>
-                <Caption style={styles.caption}>Following</Caption>
-              </View>
-              <View style={styles.section}>
-                <Paragraph style={[styles.paragraph, styles.caption]}>
-                  100
-                </Paragraph>
-                <Caption style={styles.caption}>Followers</Caption>
-              </View>
-            </View> */}
           </View>
 
           <Drawer.Section style={styles.drawerSection}>
@@ -99,15 +84,7 @@ export function DrawerContent(props) {
                 props.navigation.navigate('Home');
               }}
             />
-            {/* <DrawerItem
-              icon={({color, size}) => (
-                <Icon name="account-outline" color={color} size={size} />
-              )}
-              label="Profile"
-              onPress={() => {
-                props.navigation.navigate('Profile');
-              }}
-            /> */}
+
             <DrawerItem
               icon={({color, size}) => (
                 <Icon name="cog-outline" color={color} size={size} />

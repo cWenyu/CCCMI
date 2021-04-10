@@ -31,9 +31,7 @@ const AnalyzeScreen = ({navigation}) => {
   const bs = React.createRef();
   const fall = new Animated.Value(1);
   const [modalVisible, setModalVisible] = useState(false);
-  // const [detectedInsect, setDetectedInsect] = useState('caenis');
   const [count, setCount] = useState(6);
-  const [confidence, setConfidence] = useState('');
   const [loading, setLoading] = useState(false);
   const [insectList, setInsectList] = useState([]);
   const [AIR, setAIR] = useState({
@@ -45,7 +43,6 @@ const AnalyzeScreen = ({navigation}) => {
     tail_count: 0,
   });
 
-  const [innerVisible, setInnerVisible] = useState(false);
 
   useEffect(() => {
     requestCameraPermission();
@@ -133,7 +130,6 @@ const AnalyzeScreen = ({navigation}) => {
       if (response.data.object.detected_image == false) {
         alert('No insect is detected.');
       } else {
-        // alert(response.data.object.class_label + ' ' + response.data.object.predicted_count)
         let res = {
           class_label: response.data.object.class_label,
           confidence: response.data.object.confidence,
@@ -242,10 +238,6 @@ const AnalyzeScreen = ({navigation}) => {
       insectList.push(insect);
       setModalVisible(!modalVisible);
     }
-
-    // navigation.navigate('Insect', {
-    //   insect: insect
-    // });
   };
 
   const renderAnalysedInsect = () => {
@@ -385,7 +377,6 @@ const AnalyzeScreen = ({navigation}) => {
                 borderBottomWidth={1}
               />
             </View>
-            {/* <Text style={{fontWeight: 'bold', alignSelf: 'flex-start'}}>Confidence: {confidence}</Text> */}
             <Button
               title="Confirm"
               onPress={() => handleConfirm()}
@@ -546,7 +537,6 @@ const styles = StyleSheet.create({
     shadowOffset: {width: -1, height: -3},
     shadowRadius: 2,
     shadowOpacity: 0.4,
-    // elevation: 5,
     paddingTop: 20,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
