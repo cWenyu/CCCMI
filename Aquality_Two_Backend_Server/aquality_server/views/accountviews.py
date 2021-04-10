@@ -1,16 +1,16 @@
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.password_validation import validate_password, password_validators_help_texts
+from django.core.exceptions import ValidationError
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, JsonResponse
 from rest_framework.utils import json
-
 from ..models import River, UserAccount
 from django.contrib.auth.models import User
 from django.db import IntegrityError
-from rest_framework import status
+
 
 @csrf_exempt
 def change_password_view(request):
-
     data = json.loads(request.body)
     response = {}
 
@@ -23,44 +23,61 @@ def change_password_view(request):
 
     check_equals = new_password == confirm_password
     check_same_as_old = old_password == new_password
+    try:
+        valid_password = validate_password(new_password, user=None, password_validators=None)
 
-    if request.method == "POST":
+        if request.method == "POST":
 
-        if user_get is not None:
+            if user_get is not None:
+                if valid_password is not None:
+                    validation_text = password_validators_help_texts(password_validators=None)
+                    print(validation_text)
+                    response = {
+                        'status_code': 400,
+                        'status': [validation_text]
+                    }
 
-            if not check_equals:
+                elif not check_equals:
 
-                response = {
-                    'status_code': 400,
-                    'status': 'Confirm Password and New Password do not match'
-                }
+                    response = {
+                        'status_code': 400,
+                        'status': 'Confirm Password and New Password do not match'
+                    }
 
-            elif check_same_as_old:
+                elif check_same_as_old:
 
-                response = {
-                    'status_code': 400,
-                    'status': 'Can not use old password'
-                }
+                    response = {
+                        'status_code': 400,
+                        'status': 'Can not use old password'
+                    }
 
+                else:
+                    # set_password also hashes the password that the user will get
+                    user = User.objects.get(username=username)
+                    user.set_password(new_password)
+                    user.save()
+
+                    response = {
+                        'status_code': 200,
+                        'status': 'success',
+                        'message': 'Password updated successfully'
+                    }
             else:
-                # set_password also hashes the password that the user will get
-                user = User.objects.get(username=username)
-                user.set_password(new_password)
-                user.save()
 
                 response = {
-                    'status_code': 200,
-                    'status': 'success',
-                    'message': 'Password updated successfully'
+                    'status_code': 400,
+                    'status': 'Check Old Password'
                 }
-        else:
 
-            response = {
-                'status_code': 400,
-                'status': 'Check Old Password'
-            }
+    except ValidationError as e:
+        response = {
+         'status_code': 400,
+         'status': list(e.messages)
+        }
 
     return JsonResponse(response)
+
+
 
 
 @csrf_exempt
