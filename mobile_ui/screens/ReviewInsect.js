@@ -254,6 +254,11 @@ const ReviewInsect = ({navigation, route}) => {
     <View style={{flex:1}}>
     <ScrollView contentContainerStyle={{flexGrow: 1, justifyContent: 'center'}}>
       <View style={styles.container}>
+      <Card>
+          <Card.Title>SAMPLE SCORE</Card.Title>
+          <Card.Divider />
+          <Text style={{textAlign: 'center'}}>{sampleData.sample_score}</Text>
+        </Card>
         <Card>
           <Card.Title>SELECTED INSECT</Card.Title>
           <Card.Divider />
