@@ -56,7 +56,7 @@ class RiverViewSet(viewsets.ModelViewSet):
         # return River.objects.all().order_by('river_id')
         pnt = get_location_point(self.request)
         # return River.objects.filter(location__distance_lt=(pnt,D(m=10000)))
-        return get_nearby_list(pnt)
+        return get_nearby_river_distance(pnt)
 
 
 class InsectGroupViewSet(viewsets.ModelViewSet):

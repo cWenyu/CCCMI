@@ -4,6 +4,7 @@ from .models import River, Data, UserAccount, Insect, InsectGroup, SampleRecord,
 
 
 class RiverSerializer(serializers.HyperlinkedModelSerializer):
+    distance = serializers.FloatField()
     class Meta:
         model = River
         fields = ("river_id",
@@ -17,7 +18,9 @@ class RiverSerializer(serializers.HyperlinkedModelSerializer):
                   "water_body_category",
                   "protected_area",
                   "transboundary",
-                  "canal")
+                  "canal",
+                  "distance"
+                  )
 
 
 class DataSerializer(serializers.HyperlinkedModelSerializer):
