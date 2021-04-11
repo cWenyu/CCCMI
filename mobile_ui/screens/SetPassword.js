@@ -10,6 +10,7 @@ import {
   StyleSheet,
   ScrollView,
   StatusBar,
+  Alert,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
@@ -17,13 +18,13 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import axios from 'axios';
 import { useTheme } from '@react-navigation/native';
 import Feather from 'react-native-vector-icons/Feather';
-import { AuthContext } from '../components/context';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 import AsyncStorage from '@react-native-community/async-storage';
+import { AuthContext } from '../components/context';
 
 const SetPassword = ({ navigation }) => {
   const { colors } = useTheme();
   const { updateSetFirstTime } = React.useContext(AuthContext);
-
   const styles = StyleSheet.create({
     container: {
 
@@ -34,12 +35,12 @@ const SetPassword = ({ navigation }) => {
 
     },
     text_header: {
-      color: '#fff',
+      color: colors.text,
       fontWeight: 'bold',
       fontSize: 30,
     },
     text_footer: {
-      color: '#05375a',
+      color: colors.text,
       fontSize: 18,
     },
     action: {
@@ -52,7 +53,7 @@ const SetPassword = ({ navigation }) => {
     textInput: {
       marginTop: Platform.OS === 'ios' ? 0 : -12,
       paddingLeft: 10,
-      color: '#05375a',
+      color: colors.text,
     },
     button: {
       alignItems: 'center',
@@ -80,12 +81,14 @@ const SetPassword = ({ navigation }) => {
   });
 
   const [data, setData] = React.useState({
+    oldPassword: '',
     newPassword: '',
     confirm_newpassword: '',
     secureTextEntry: true,
     isValidNewPassword: true,
     isPassword: true,
     confirm_secureTextEntry: true,
+    oldSecureTextEntry: true,
     isValidInput: true,
     greenTickUser: false,
     greenTickEmail: false,
@@ -126,6 +129,13 @@ const SetPassword = ({ navigation }) => {
     }
   };
 
+  const updateOldSecureTextEntry = () => {
+    setData({
+      ...data,
+      oldSecureTextEntry: !data.oldSecureTextEntry,
+    });
+  };
+
   const updateSecureTextEntry = () => {
     setData({
       ...data,
@@ -140,9 +150,10 @@ const SetPassword = ({ navigation }) => {
     });
   };
 
-    const handleChangePassword = async () => {
+  const handleChangePasswordDone = async () => {
     if (
-      data.newPassword.length == 0 ||
+      data.oldPassword.length == 0 &&
+      data.newPassword.length == 0 &&
       data.confirm_newpassword.length == 0
     ) {
       setData({
@@ -153,41 +164,127 @@ const SetPassword = ({ navigation }) => {
       if (
         data.isValidNewPassword &&
         data.isPassword
-      ) 
-      {
-        await AsyncStorage.setItem(
-          'isFirstTime',
-          "false",
-        );
-        updateSetFirstTime();
-        // navigation.navigate('HomeScreen');
-        // try {
-        //   var bodyFormData = new FormData();
-        //   bodyFormData.append('password', data.password);
+      ) {    
+        username = await AsyncStorage.getItem('username');
+        try {
+          var bodyFormData = new FormData();
+          bodyFormData.append('username', username);
+          bodyFormData.append('old_password', data.oldPassword);
+          bodyFormData.append('new_password', data.newPassword);
+          bodyFormData.append('confirm_password', data.confirm_newpassword);
+          let response = await axios({
+            method: 'post',
+            url:
+              'https://cccmi-aquality.tk/aquality_server/useraccount/change-password',
+            data: bodyFormData,
+            headers: { 'Content-Type': 'multipart/form-data' },
+          });
 
-        //   let response = await axios({
-        //     method: 'post',
-        //     url:
-        //       'http://aquality-server.eba-rxqnbumy.eu-west-1.elasticbeanstalk.com/aquality_server/useraccount/register',
-        //     data: bodyFormData,
-        //     headers: {'Content-Type': 'multipart/form-data'},
-        //   });
+          if (response && response.data && response.data.status) {
+            if (response.data.message === 'Password updated successfully') {
+              try {
+                var bodyFormData = new FormData();
+                userId = await AsyncStorage.getItem('userID');
+                bodyFormData.append('user_id', userId);
 
-        //   if (response && response.data && response.data.status) {
-        //     if (response.data.status === 'Register Sucess') {
-        //       navigation.navigate('SignInScreen');
-        //     }
-        //   }
-        // } catch (e) {
-        //   console.error(e);
-        // }
+                let response = await axios({
+                  method: 'post',
+                  url:
+                    'https://cccmi-aquality.tk/aquality_server/useraccount/firstlogin',
+                  data: bodyFormData,
+                  headers: { 'Content-Type': 'multipart/form-data' },
+                });
+
+                if (response && response.data && response.data.status) {
+                  if (response.data.status === 'First Time Login State Updated to False') {
+                    await AsyncStorage.setItem(
+                      'isFirstTime',
+                      "false",
+                    );
+                    updateSetFirstTime();
+                  }
+                }
+              } catch (e) {
+                console.error(e);
+              }
+
+            } else if (response.data.status === 'Check Username and Password') {
+              console.log(response.data.status)
+              Alert.alert(
+                "Incorrect Old Password",
+                "Please enter correct old password.",
+                [
+                  { text: "BACK", onPress: () => console.log("OK Pressed") }
+                ]
+              );
+            } else if (response.data.status === 'Can not use old password') {
+              console.log(response.data.status)
+              Alert.alert(
+                "Can Not Use Old Password",
+                "Please enter a new password.",
+                [
+                  { text: "BACK", onPress: () => console.log("OK Pressed") }
+                ]
+              );
+            } else if (response.data.status === 'This password is too common.') {
+              console.log(response.data.status)
+              Alert.alert(
+                "Password Too Common",
+                "Password must contain atleast 1 special character.",
+                [
+                  { text: "BACK", onPress: () => console.log("OK Pressed") }
+                ]
+              );
+            }
+          }
+        } catch (e) {
+          console.error(e);
+        }
       }
     }
   };
 
+
+
   return (
     <View style={styles.container}>
       <ScrollView>
+
+        <Text
+          style={[
+            styles.text_footer,
+            {
+              marginTop: 35,
+            },
+          ]}>
+          Old Password
+           </Text>
+        <View style={styles.action}>
+          <Feather name="lock" color={colors.text} size={20} />
+          <TextInput
+            placeholder="Your Old Password"
+            secureTextEntry={data.oldSecureTextEntry ? true : false}
+            style={styles.textInput}
+            placeholderTextColor={colors.placeholder}
+            autoCapitalize="none"
+            onEndEditing={val => {
+              setData({
+                ...data,
+                oldPassword: val.nativeEvent.text,
+              });
+            }}
+          />
+          <TouchableOpacity style={styles.eye} onPress={updateOldSecureTextEntry}>
+            {data.oldSecureTextEntry ? (
+              <Feather name="eye-off" color="grey" size={20} />
+            ) : (
+              <Feather name="eye" color="grey" size={20} />
+            )}
+          </TouchableOpacity>
+        </View>
+
+
+
         <Text
           style={[
             styles.text_footer,
@@ -198,11 +295,12 @@ const SetPassword = ({ navigation }) => {
           New Password
            </Text>
         <View style={styles.action}>
-          <Feather name="lock" color="#05375a" size={20} />
+          <Feather name="lock" color={colors.text} size={20} />
           <TextInput
             placeholder="Your New Password"
             secureTextEntry={data.secureTextEntry ? true : false}
             style={styles.textInput}
+            placeholderTextColor={colors.placeholder}
             autoCapitalize="none"
             onEndEditing={val => {
               setData({
@@ -212,7 +310,6 @@ const SetPassword = ({ navigation }) => {
               handlePasswordChange(val.nativeEvent.text);
             }}
           />
-          
           <TouchableOpacity style={styles.eye} onPress={updateSecureTextEntry}>
             {data.secureTextEntry ? (
               <Feather name="eye-off" color="grey" size={20} />
@@ -241,11 +338,12 @@ const SetPassword = ({ navigation }) => {
           Confirm New Password
            </Text>
         <View style={styles.action}>
-          <Feather name="lock" color="#05375a" size={20} />
+          <Feather name="lock" color={colors.text} size={20} />
           <TextInput
             placeholder="Confirm Your Password"
             secureTextEntry={data.confirm_secureTextEntry ? true : false}
             style={styles.textInput}
+            placeholderTextColor={colors.placeholder}
             autoCapitalize="none"
             onChangeText={val => handleConfirmPasswordChange(val)}
           />
@@ -262,20 +360,20 @@ const SetPassword = ({ navigation }) => {
             <Text style={styles.errorMsg}>Password not match.</Text>
           </Animatable.View>
         )}
-
-                   {data.isValidInput ? null : (
-             <Animatable.View animation="fadeInLeft" duration={500}>
-               <Text style={styles.errorMsg}>
-                 All fields ablove must be filled.
+        {data.isValidInput ? null : (
+          <Animatable.View animation="fadeInLeft" duration={500}>
+            <Text style={styles.errorMsg}>
+              All fields ablove must be filled.
                </Text>
-             </Animatable.View>
-           )}
+          </Animatable.View>
+        )}
+
 
         <View style={styles.button}>
           <TouchableOpacity
             style={styles.changePassword}
             onPress={() => {
-              handleChangePassword();
+              handleChangePasswordDone();
             }}>
             <LinearGradient
               colors={['#08d4c4', '#01ab9d']}
