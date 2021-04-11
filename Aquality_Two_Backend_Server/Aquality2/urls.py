@@ -27,9 +27,7 @@ urlpatterns = [
     path('aquality_admin/',include('aquality_admin.urls')),
     path('',include('aquality.urls')),
     path('admin/', admin.site.urls),
-    path('aquality_server/useraccount/password_reset_complete/done/',
-         auth_views.PasswordResetCompleteView.as_view(template_name='./password/password_reset_complete.html'),
-         name='password_reset_complete')
+
 ]
 
 handler403 = 'aquality_server.views.custom_permission_denied_view'

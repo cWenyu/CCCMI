@@ -33,7 +33,10 @@ useraccount = [
          name='password_reset_done'),
     path('useraccount/password_reset/<uidb64>/<token>/',
          auth_views.PasswordResetConfirmView.as_view(template_name="./password/password_reset_confirm.html"),
-         name='password_reset_confirm')
+         name='password_reset_confirm'),
+    path('useraccount/password_reset_complete/done/',
+         auth_views.PasswordResetCompleteView.as_view(template_name='./password/password_reset_complete.html'),
+         name='password_reset_complete')
 ]
 
 # Controlling The Path of Application
