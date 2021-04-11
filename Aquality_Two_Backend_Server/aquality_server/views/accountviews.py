@@ -15,13 +15,10 @@ from django.db import IntegrityError
 def change_password_view(request):
     try:
 
-        data = json.loads(request.body)
-        response = {}
-
-        old_password = data['old_password']
-        new_password = data['new_password']
-        confirm_password = data['confirm_password']
-        username = data['username']
+        old_password = request.POST.get('old_password')
+        new_password = request.POST.get('new_password')
+        confirm_password = request.POST.get('confirm_password')
+        username = request.POST.get('username')
 
         user_get = authenticate(username=username, password=old_password)
 
@@ -71,13 +68,11 @@ def change_password_view(request):
         }
     except ValidationError as e:
         response = {
-         'status_code': 400,
-         'status': list(e.messages)
+            'status_code': 400,
+            'status': list(e.messages)
         }
 
     return JsonResponse(response)
-
-
 
 
 @csrf_exempt
