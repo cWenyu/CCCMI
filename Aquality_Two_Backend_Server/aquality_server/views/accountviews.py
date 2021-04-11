@@ -5,11 +5,17 @@ from django.contrib.auth.password_validation import validate_password, password_
 from django.core.exceptions import ValidationError
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, JsonResponse
-from rest_framework.utils import json
 from ..models import River, UserAccount
-from django.contrib.auth.models import User
 from django.db import IntegrityError
-
+from django.shortcuts import redirect
+from django.core.mail import send_mail, BadHeaderError
+from django.http import HttpResponse
+from django.contrib.auth.models import User
+from django.template.loader import render_to_string
+from django.db.models.query_utils import Q
+from django.utils.http import urlsafe_base64_encode
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.encoding import force_bytes
 
 @csrf_exempt
 def change_password_view(request):
@@ -335,4 +341,48 @@ def turn_first_login_false(request):
             'status': 'User Does Not Exist'
         })
     except Exception as e:
+        return HttpResponse(e)
+
+
+@csrf_exempt
+def password_reset_request(request):
+    try:
+
+        email = request.POST.get("email")
+
+        if request.method == "POST":
+
+            associated_users = User.objects.filter(Q(email=email))
+
+            if associated_users.exists():
+                for user in associated_users:
+                    subject = "Password Reset Requested"
+                    email_template_name = "./password/password_reset_email.txt"
+                    context = {
+                        "email": user.email,
+                        'domain': 'cccmi-aquality.tk',
+                        'site_name': 'Aquality',
+                        "uid": urlsafe_base64_encode(force_bytes(user.pk)),
+                        "user": user,
+                        'token': default_token_generator.make_token(user),
+                        'protocol': 'https',
+                    }
+                    email_render = render_to_string(email_template_name, context)
+                    try:
+                        send_mail(subject, email_render, 'cccmi2020@gmail.com', [user.email], fail_silently=True)
+                    except BadHeaderError:
+                        return HttpResponse('Invalid header found.')
+                    return redirect("password_reset/done/")
+            else:
+                return JsonResponse({
+                    'status_code': 400,
+                    'status': "Something went wrong try again"
+                })
+        else:
+            return JsonResponse({
+                'status_code': 400,
+                'status': "POST method not found"
+            })
+
+    except ValueError as e:
         return HttpResponse(e)
