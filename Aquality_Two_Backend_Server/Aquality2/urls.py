@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import include, path
 from django.conf.urls.static import static
 from django.conf import settings
-import aquality_admin
+from django.contrib.auth import views as auth_views
 
 admin.site.site_title = 'Aquality'
 admin.site.site_header = 'Aquality Admin'
@@ -27,6 +27,9 @@ urlpatterns = [
     path('aquality_admin/',include('aquality_admin.urls')),
     path('',include('aquality.urls')),
     path('admin/', admin.site.urls),
+    path('aquality_server/useraccount/password_reset_complete/done/',
+         auth_views.PasswordResetCompleteView.as_view(template_name='./password/password_reset_complete.html'),
+         name='password_reset_complete')
 ]
 
 handler403 = 'aquality_server.views.custom_permission_denied_view'
