@@ -10,7 +10,7 @@ const OnboardingScreen = ({navigation}) => {
   pages={[
     {
       backgroundColor: '#fff',
-      image: <Image source={require('../assets/cccmi-logo.png')} style={{height:250, width: 250, marginTop: -100}}/>,
+      image: <Image source={require('../assets/swiper-logo.png')} style={{height:250, width: 250, marginTop: -100}}/>,
       title: 'Welcome to Aquality 2.0 !',
       subtitle: 'By CCCMI',
     },
