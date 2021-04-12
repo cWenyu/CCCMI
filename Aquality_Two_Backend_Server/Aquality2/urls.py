@@ -22,13 +22,19 @@ from django.contrib.auth import views as auth_views
 admin.site.site_title = 'Aquality'
 admin.site.site_header = 'Aquality Admin'
 
+changepasswordpattern = [
+    path('aquality_server/useraccount/password_reset_complete/done/',
+         auth_views.PasswordResetCompleteView.as_view(template_name='./password/password_reset_complete.html'),
+         name='password_reset_complete')
+    ]
+
 urlpatterns = [
     path('aquality_server/', include('aquality_server.urls')),
     path('aquality_admin/',include('aquality_admin.urls')),
     path('',include('aquality.urls')),
     path('admin/', admin.site.urls),
 
-]
+]+changepasswordpattern
 
 handler403 = 'aquality_server.views.custom_permission_denied_view'
 
