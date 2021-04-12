@@ -71,7 +71,7 @@ const SplashScreen = ({navigation}) => {
 export default SplashScreen;
 
 const {height} = Dimensions.get('screen');
-const height_logo = height ;
+const height_logo = height;
 
 const styles = StyleSheet.create({
   container: {
