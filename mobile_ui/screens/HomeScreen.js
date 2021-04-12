@@ -7,6 +7,7 @@ import {
   Modal,
   Text,
   ActivityIndicator,
+  Image
 } from 'react-native';
 import {Button, colors} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
@@ -281,7 +282,6 @@ const HomeScreen = ({navigation}) => {
             <Text style={styles.icon}>{type.mainIcon}</Text>
             <Text style={styles.temp}>{temp}℃</Text>
             <Text style={styles.title}>{weather.main}</Text>
-            <Text style={styles.subtitle}>{weather.description}</Text>
           </View>
         );
       }
@@ -293,8 +293,9 @@ const HomeScreen = ({navigation}) => {
       style={styles.container}
       accessibilityLabel={testVariables.homeScreenContainer}
       testID={testVariables.homeScreenContainer}>
-      <StatusBar barStyle={theme.dark ? 'light-content' : 'dark-content'} />
+      <StatusBar backgroundColor="#009387" barStyle="light-content" />
       {/* <Button title='weatherData' onPress={()=> console.log(weatherData)} /> */}
+      {/* <Image source={require('../assets/headerlogo.png')} style={{height: 100, width: 300 , position: 'absolute', top: 20}}/> */}
       {renderWeather()}
       <Button
         accessibilityLabel={testVariables.homeScreenTakeNewSampleButton}
