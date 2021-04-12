@@ -217,7 +217,7 @@ const ArduinoScreen = ({ navigation, route }) => {
         titleStyle={{ marginHorizontal: 22, fontSize: 18 }}
       />
       <Button
-        buttonStyle={{ width: 95, height: 35, backgroundColor: colors.backdrop }}
+        buttonStyle={{ width: 100, height: 35, backgroundColor: colors.backdrop }}
         containerStyle={{ margin: 5, alignItems: 'center', marginTop: 32 }}
         disabledStyle={{
           borderWidth: 2,
@@ -228,9 +228,9 @@ const ArduinoScreen = ({ navigation, route }) => {
         loadingProps={{ animating: true }}
         loadingStyle={{}}
         onPress={() => navigation.navigate('InsectScreen', route.params)}
-        title="no"
+        title="Skip"
         titleProps={{}}
-        titleStyle={{ marginHorizontal: 22, fontSize: 18 }}
+        titleStyle={{ marginHorizontal: 22, fontSize: 17 }}
       />
     </View>
   );

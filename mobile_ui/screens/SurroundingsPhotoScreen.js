@@ -28,8 +28,8 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 
 const SurroundingsPhotoScreen = ({navigation, route}) => {
-  const dispatch = useDispatch()
-  const sampleData = useSelector(state => state.surveyForm.sampleData)
+  const dispatch = useDispatch();
+  const sampleData = useSelector(state => state.surveyForm.sampleData);
 
   useEffect(() => {
     if (route.params?.surveyData) {
@@ -358,7 +358,9 @@ const SurroundingsPhotoScreen = ({navigation, route}) => {
           let surveyPhotosObj = {
             surveyPhotos: arr,
           };
-          dispatch(saveSampleData({...sampleData, surrounding: surveyPhotosObj}))
+          dispatch(
+            saveSampleData({...sampleData, surrounding: surveyPhotosObj}),
+          );
 
           navigation.navigate('SearchRiverScreen', {
             surveyData: route.params.surveyData,
@@ -372,7 +374,7 @@ const SurroundingsPhotoScreen = ({navigation, route}) => {
   const renderSkipButton = () => {
     return (
       <Button
-        buttonStyle={{width: 95, height: 35, backgroundColor: colors.backdrop}}
+        buttonStyle={{width: 100, height: 35, backgroundColor: colors.backdrop}}
         containerStyle={{
           margin: 5,
           alignItems: 'center',
@@ -393,9 +395,9 @@ const SurroundingsPhotoScreen = ({navigation, route}) => {
             surveyData: route.params.surveyData,
           })
         }
-        title="skip"
+        title="Skip"
         titleProps={{}}
-        titleStyle={{marginHorizontal: 22, fontSize: 18}}
+        titleStyle={{marginHorizontal: 22, fontSize: 17}}
       />
     );
   };
