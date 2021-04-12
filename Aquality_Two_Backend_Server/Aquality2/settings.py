@@ -216,3 +216,7 @@ SIMPLEUI_CONFIG = {
         'url' : '/aquality_admin/upload-csv'
     }]
 }
+
+EMAIL_BACKEND = config('EMAIL_BACKEND')
+AWS_SES_REGION_NAME = config('AWS_SES_REGION_NAME')
+AWS_SES_REGION_ENDPOINT = config('AWS_SES_REGION_ENDPOINT')

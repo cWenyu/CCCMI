@@ -1,6 +1,7 @@
 from django.urls import include, path
 from rest_framework import routers
 from . import views
+from django.contrib.auth import views as auth_views
 
 router = routers.DefaultRouter()
 router.register(r'rivers', views.RiverViewSet)
@@ -25,7 +26,17 @@ useraccount = [
     path('useraccount/safetyterm',views.turn_safety_term,name='safetyTerm'),
     path('useraccount/firstlogin',views.turn_first_login_false,name='first_login'),
     path('useraccount/firstlogintotrue',views.turn_first_login_true,name='first_login_true'),
-    path('useraccount/change-password', views.change_password_view, name='change-password')
+    path('useraccount/change-password', views.change_password_view, name='change-password'),
+    path("useraccount/password_reset", views.password_reset_request, name="password_reset"),
+    path('useraccount/password_reset/done/',
+         auth_views.PasswordResetDoneView.as_view(template_name='./password/password_reset_done.html'),
+         name='password_reset_done'),
+    path('useraccount/password_reset/<uidb64>/<token>/',
+         auth_views.PasswordResetConfirmView.as_view(template_name="./password/password_reset_confirm.html"),
+         name='password_reset_confirm'),
+    path('useraccount/password_reset_complete/done/',
+         auth_views.PasswordResetCompleteView.as_view(template_name='./password/password_reset_complete.html'),
+         name='password_reset_complete')
 ]
 
 # Controlling The Path of Application
