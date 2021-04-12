@@ -50,7 +50,7 @@ class AllDataViewset(viewsets.ModelViewSet):
 
 class RiverViewSet(viewsets.ModelViewSet):
     queryset = River.objects.all().order_by('river_id')
-    serializer_class = RiverSerializer
+    serializer_class = RiverSerializerWithDistance
 
     def get_queryset(self):
         # return River.objects.all().order_by('river_id')
