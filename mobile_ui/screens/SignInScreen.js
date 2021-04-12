@@ -12,13 +12,13 @@ import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
-import { useTheme } from 'react-native-paper';
-import { AuthContext } from '../components/context';
+import {useTheme} from 'react-native-paper';
+import {AuthContext} from '../components/context';
 import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
 import testVariables from '../appium_automation_testing/test_variables';
 
-const SignInScreen = ({ navigation }) => {
+const SignInScreen = ({navigation}) => {
   const [data, setData] = React.useState({
     username: '',
     password: '',
@@ -30,8 +30,8 @@ const SignInScreen = ({ navigation }) => {
     isValidInput: true,
   });
 
-  const { colors } = useTheme();
-  const { signIn } = React.useContext(AuthContext);
+  const {colors} = useTheme();
+  const {signIn} = React.useContext(AuthContext);
   const textInputChange = val => {
     setData({
       ...data,
@@ -66,15 +66,16 @@ const SignInScreen = ({ navigation }) => {
         var bodyFormData = new FormData();
         bodyFormData.append('username', userName);
         bodyFormData.append('password', password);
-
+        console.log(userName);
+        console.log(password);
         let response = await axios({
           method: 'post',
           url:
             'https://cccmi-aquality.tk/aquality_server/useraccount/loginauth',
           data: bodyFormData,
-          headers: { 'Content-Type': 'multipart/form-data' },
+          headers: {'Content-Type': 'multipart/form-data'},
         });
-
+        console.log(response);
         if (response && response.data && response.data.status) {
           // console.log(JSON.stringify(response.data));
           if (response.data.status === 'Login Success') {
@@ -87,14 +88,11 @@ const SignInScreen = ({ navigation }) => {
               'userID',
               response.data.user_id.toString(),
             );
-            await AsyncStorage.setItem(
-              'isFirstTime',
-              "true",
-            );
+            await AsyncStorage.setItem('isFirstTime', 'true');
             // signIn(response.data.user_username, response.data.isFirstTime.toString());
             // signIn(response.data.user_username, response.data.isFirstTime ? "true": "false");
 
-            signIn(response.data.user_username, "true");
+            signIn(response.data.user_username, 'true');
           } else {
             setData({
               ...data,
@@ -195,7 +193,7 @@ const SignInScreen = ({ navigation }) => {
         </View>
 
         <TouchableOpacity onPress={() => navigation.navigate('ForgetPassword')}>
-          <Text style={{ color: '#009387', marginTop: 15 }}>
+          <Text style={{color: '#009387', marginTop: 15}}>
             Forgot password?
           </Text>
         </TouchableOpacity>
