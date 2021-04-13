@@ -7,15 +7,20 @@ import {
   Platform,
   StyleSheet,
   ScrollView,
+
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
 import { useTheme } from '@react-navigation/native';
 import Feather from 'react-native-vector-icons/Feather';
 
+import { Colors } from 'react-native/Libraries/NewAppScreen';
+import AsyncStorage from '@react-native-community/async-storage';
+import { AuthContext } from '../components/context';
+
+
 const ChangePassword = ({ navigation }) => {
   const { colors } = useTheme();
-  console.log(colors);
   const styles = StyleSheet.create({
     container: {
 
@@ -141,6 +146,90 @@ const ChangePassword = ({ navigation }) => {
     });
   };
 
+  const handleChangePasswordDone = async () => {
+    if (
+      data.oldPassword.length == 0 &&
+      data.newPassword.length == 0 &&
+      data.confirm_newpassword.length == 0
+    ) {
+      setData({
+        ...data,
+        isValidInput: false,
+      });
+    } else {
+      if (
+        data.isValidNewPassword &&
+        data.isPassword
+      ) {
+        username = await AsyncStorage.getItem('username');
+        try {
+          var bodyFormData = new FormData();
+          bodyFormData.append('username', username);
+          bodyFormData.append('old_password', data.oldPassword);
+          bodyFormData.append('new_password', data.newPassword);
+          bodyFormData.append('confirm_password', data.confirm_newpassword);
+          let response = await axios({
+            method: 'post',
+            url:
+              'https://cccmi-aquality.tk/aquality_server/useraccount/change-password',
+            data: bodyFormData,
+            headers: { 'Content-Type': 'multipart/form-data' },
+          });
+
+          if (response && response.data && response.data.status) {
+            if (response.data.message === 'Password updated successfully') {
+              Alert.alert(
+                "Password updated successfully",
+                "Press BACK to home screen.",
+                [
+                  {
+                    text: "BACK", onPress: () => {
+                      navigation.navigate('SettingsScreen', {
+                        screen: 'SettingsScreen',
+                      });
+                      navigation.navigate('Home');
+                    }
+                  }
+                ]
+              );
+            } else if (response.data.status === 'Check Username and Password') {
+              console.log(response.data.status)
+              Alert.alert(
+                "Incorrect Old Password",
+                "Please enter correct old password.",
+                [
+                  { text: "BACK", onPress: () => console.log("BACK Pressed") }
+                ]
+              );
+            } else if (response.data.status === 'Can not use old password') {
+              console.log(response.data.status)
+              Alert.alert(
+                "Can Not Use Old Password",
+                "Please enter a new password.",
+                [
+                  { text: "BACK", onPress: () => console.log("BACK Pressed") }
+                ]
+              );
+            } else if (response.data.status === 'This password is too common.') {
+              console.log(response.data.status)
+              Alert.alert(
+                "Password Too Common",
+                "Password must contain atleast 1 special character.",
+                [
+                  { text: "BACK", onPress: () => console.log("BACK Pressed") }
+                ]
+              );
+            }
+          }
+        } catch (e) {
+          console.error(e);
+        }
+      }
+    }
+  };
+
+
+
   return (
     <View style={styles.container}>
       <ScrollView>
@@ -160,7 +249,7 @@ const ChangePassword = ({ navigation }) => {
             placeholder="Your Old Password"
             secureTextEntry={data.oldSecureTextEntry ? true : false}
             style={styles.textInput}
-            placeholderTextColor= {colors.placeholder}
+            placeholderTextColor={colors.placeholder}
             autoCapitalize="none"
             onEndEditing={val => {
               setData({
@@ -195,7 +284,7 @@ const ChangePassword = ({ navigation }) => {
             placeholder="Your New Password"
             secureTextEntry={data.secureTextEntry ? true : false}
             style={styles.textInput}
-            placeholderTextColor= {colors.placeholder}
+            placeholderTextColor={colors.placeholder}
             autoCapitalize="none"
             onEndEditing={val => {
               setData({
@@ -238,7 +327,7 @@ const ChangePassword = ({ navigation }) => {
             placeholder="Confirm Your Password"
             secureTextEntry={data.confirm_secureTextEntry ? true : false}
             style={styles.textInput}
-            placeholderTextColor= {colors.placeholder}
+            placeholderTextColor={colors.placeholder}
             autoCapitalize="none"
             onChangeText={val => handleConfirmPasswordChange(val)}
           />
@@ -255,13 +344,20 @@ const ChangePassword = ({ navigation }) => {
             <Text style={styles.errorMsg}>Password not match.</Text>
           </Animatable.View>
         )}
+        {data.isValidInput ? null : (
+          <Animatable.View animation="fadeInLeft" duration={500}>
+            <Text style={styles.errorMsg}>
+              All fields ablove must be filled.
+               </Text>
+          </Animatable.View>
+        )}
 
 
         <View style={styles.button}>
           <TouchableOpacity
             style={styles.changePassword}
             onPress={() => {
-              handleSignUp();
+              handleChangePasswordDone();
             }}>
             <LinearGradient
               colors={['#08d4c4', '#01ab9d']}

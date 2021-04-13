@@ -924,31 +924,38 @@ const App = () => {
       <PaperProvider theme={theme}>
         <AuthContext.Provider value={authContext}>
           <NavigationContainer theme={theme}>
-            {loginState.username !== null ? (
-              <Drawer.Navigator
-                drawerContent={props => <DrawerContent {...props} />}>
-                <Drawer.Screen name="HomeScreen" component={HomeStackScreen} />
-                <Drawer.Screen
-                  name="TakeSampleScreen"
-                  component={TakeSampleStackScreen}
-                />
 
-                <Drawer.Screen
-                  name="SettingsScreen"
-                  component={SettingsScreen}
-                />
+            {loginState.username !== null ? loginState.isFirstTime == "true" ?
+              (<LoginSetPasswordScreen />)
+              : (
+                <Drawer.Navigator
+                  drawerContent={props => <DrawerContent {...props} />}>
+                  <Drawer.Screen name="HomeScreen" component={HomeStackScreen} />
+                  <Drawer.Screen
+                    name="TakeSampleScreen"
+                    component={TakeSampleStackScreen}
+                  />
 
-                <Drawer.Screen
-                  name="SafetyGuideScreen"
-                  component={SafetyStackScreen}
-                />
-                <Drawer.Screen
-                  name="PolicyTermsScreen"
-                  component={PolicyStackScreen}
-                />
-                <Drawer.Screen name="HelpScreen" component={HelpStackScreen} />
-              </Drawer.Navigator>
-            ) : (
+                  <Drawer.Screen
+                    name="SettingsScreen"
+                    component={SettingStackScreen}
+                  />
+
+                  <Drawer.Screen
+                    name="SafetyGuideScreen"
+                    component={SafetyStackScreen}
+                  />
+                  <Drawer.Screen
+                    name="PolicyTermsScreen"
+                    component={PolicyStackScreen}
+                  />
+                  <Drawer.Screen
+                    name="HelpScreen"
+                    component={HelpStackScreen}
+                  />
+                </Drawer.Navigator>
+              ) : (
+
               <RootStackScreen />
             )}
           </NavigationContainer>

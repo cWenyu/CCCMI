@@ -9,70 +9,193 @@ import {
   StyleSheet,
   ScrollView,
   StatusBar,
+  Alert,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import {useTheme} from '@react-navigation/native';
 
-const ForgetPassword = () => {
-  const {colors} = useTheme();
+import axios from 'axios';
+import { useTheme } from '@react-navigation/native';
+import Feather from 'react-native-vector-icons/Feather';
+
+const ForgetPassword = ({ navigation }) => {
+  const { colors } = useTheme();
+
+  const [data, setData] = React.useState({
+    email: '',
+    isValidEmail: true,
+    isValidInput: true,
+    notExistEmail: true,
+    greenTickUser: false,
+    greenTickEmail: false,
+  });
+
+  const checkUserEmailExist = async val => {
+    try {
+      var bodyFormData = new FormData();
+      bodyFormData.append('email', val);
+
+      let response = await axios({
+        method: 'post',
+        url: 'https://cccmi-aquality.tk/aquality_server/useraccount/checkemail',
+        data: bodyFormData,
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+
+      const validEmail = /(?!.*\.{2})^([a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+(\.[a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+)*|"((([\t]*\r\n)?[\t]+)?([\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|\\[\x01-\x09\x0b\x0c\x0d-\x7f\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))*(([\t]*\r\n)?[\t]+)?")@(([a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.)+([a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.?$/i;
+      if (validEmail.test(val.trim())) {
+        if (response && response.data && response.data.status) {
+          if (response.data.status === 'Email Not Exist') {
+            setData({
+              ...data,
+              greenTickEmail: false,
+              isValidEmail: true,
+              notExistEmail: false,
+            });
+          } else {
+            setData({
+              ...data,
+              email: val,
+              greenTickEmail: true,
+              isValidEmail: true,
+              notExistEmail: true,
+            });
+          }
+        }
+      } else {
+        setData({
+          ...data,
+          greenTickEmail: true,
+          isValidEmail: false,
+          notExistEmail: false,
+        });
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const handleSendEmail = async () => {
+    if (
+      data.email.length == 0
+    ) {
+      setData({
+        ...data,
+        isValidInput: false,
+      });
+    } else {
+      if (
+        data.isValidEmail &&
+        data.notExistEmail
+      ) {
+        try {
+          var bodyFormData = new FormData();
+          bodyFormData.append('email', data.email);
+          let response = await axios({
+            method: 'post',
+            url:
+              'https://cccmi-aquality.tk/aquality_server/useraccount/password_reset',
+            data: bodyFormData,
+            headers: { 'Content-Type': 'multipart/form-data' },
+          });
+        } catch (e) {
+          console.error(e);
+        }
+        Alert.alert(
+          "Email Sent",
+          "Check you mailbox for password ressting URL",
+          [
+            { text: "OK", onPress: () => navigation.navigate('SignInScreen') }
+          ]
+        );
+      }
+    }
+  };
+
+
+
   return (
-        <View style={styles.container}>
-          <StatusBar backgroundColor="#009387" barStyle="light-content" />
-          <View style={styles.header}>
-            <Text style={styles.text_header}>Forget Password</Text>
-          </View>
-          <Animatable.View animation="fadeInUpBig" style={styles.footer}>
-            <ScrollView>
+    <View style={styles.container}>
+      <StatusBar backgroundColor="#009387" barStyle="light-content" />
+      <View style={styles.header}>
+        <Text style={styles.text_header}>Forget Password</Text>
+      </View>
+      <Animatable.View animation="fadeInUpBig" style={styles.footer}>
+        <ScrollView>
 
-              <Text
-                style={[
-                  styles.text_footer,
-                  {
-                    marginTop: 35,
-                  },
-                ]}>
-                Email Address
+          <Text
+            style={[
+              styles.text_footer,
+              {
+                marginTop: 35,
+              },
+            ]}>
+            Email Address
               </Text>
-              <View style={styles.action}>
-                <FontAwesome name="envelope-o" color="#05375a" size={20} />
-                <TextInput
-                  placeholder="Your Email Address"
-                  style={styles.textInput}
-                  autoCapitalize="none"
-                  onEndEditing={val => {
-                    checkUserEmailExist(val.nativeEvent.text);
-                  }}
-                />
-              </View>
-  
-            
-              <View style={styles.button}>
-                <TouchableOpacity
-                  style={styles.changePassword}
-                  onPress={() => {
-                    handleSignUp();
-                  }}>
-                  <LinearGradient
-                    colors={['#08d4c4', '#01ab9d']}
-                    style={styles.changePassword}>
-                    <Text
-                      style={[
-                        styles.textChangePassword,
-                        {
-                          color: '#fff',
-                        },
-                      ]}>
-                      Send password reset email
+          <View style={styles.action}>
+            <FontAwesome name="envelope-o" color="#05375a" size={20} />
+            <TextInput
+              placeholder="Your Email Address"
+              style={styles.textInput}
+              autoCapitalize="none"
+              onEndEditing={val => {
+                checkUserEmailExist(val.nativeEvent.text);
+              }}
+            />
+            {data.greenTickEmail ? (
+              <Animatable.View animation="bounceIn">
+                <Feather name="check-circle" color="green" size={20} />
+              </Animatable.View>
+            ) : null}
+          </View>
+
+          {data.isValidEmail ? null : (
+            <Animatable.View animation="fadeInLeft" duration={500}>
+              <Text style={styles.errorMsg}>
+                Please enter a valid email address.
+               </Text>
+            </Animatable.View>
+          )}
+          {data.notExistEmail ? null : (
+            <Animatable.View animation="fadeInLeft" duration={500}>
+              <Text style={styles.errorMsg}>Email not exist.</Text>
+            </Animatable.View>
+          )}
+          {data.isValidInput ? null : (
+            <Animatable.View animation="fadeInLeft" duration={500}>
+              <Text style={styles.errorMsg}>
+                Email Address field cannot be empty
+               </Text>
+            </Animatable.View>
+          )}
+
+
+          <View style={styles.button}>
+            <TouchableOpacity
+              style={styles.changePassword}
+              onPress={() => {
+                handleSendEmail();
+              }}>
+              <LinearGradient
+                colors={['#08d4c4', '#01ab9d']}
+                style={styles.changePassword}>
+                <Text
+                  style={[
+                    styles.textChangePassword,
+                    {
+                      color: '#fff',
+                    },
+                  ]}>
+                  Send password reset email
                     </Text>
-                  </LinearGradient>
-                </TouchableOpacity>
-              </View>
-            </ScrollView>
-          </Animatable.View>
-        </View>
-      );
+              </LinearGradient>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      </Animatable.View>
+    </View>
+  );
 };
 
 export default ForgetPassword;
@@ -132,6 +255,10 @@ const styles = StyleSheet.create({
   textChangePassword: {
     fontSize: 18,
     fontWeight: 'bold',
+  },
+  errorMsg: {
+    color: '#FF0000',
+    fontSize: 14,
   },
 
 });
