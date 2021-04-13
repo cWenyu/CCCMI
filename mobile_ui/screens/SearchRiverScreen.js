@@ -18,7 +18,7 @@ import GetLocation from 'react-native-get-location';
 import {FlatList} from 'react-native-gesture-handler';
 import {color} from 'react-native-reanimated';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-
+import {resetSurveyForm, saveSampleData} from '../components/reduxStore';
 import {useDispatch, useSelector} from 'react-redux';
 
 const riverURL = 'https://cccmi-aquality.tk/aquality_server/rivers/';
