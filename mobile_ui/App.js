@@ -280,7 +280,7 @@ const App = () => {
                 source={require('./assets/headerlogo2.png')}
                 style={{
                   height: 50,
-                  width: 500,
+                  width: 300,
                   resizeMode: 'contain',
                   alignSelf: 'center',
                 }}
