@@ -193,7 +193,11 @@ const SetPassword = ({ navigation }) => {
                 });
 
                 if (response && response.data && response.data.status) {
+                  console.log('outside')
+                  console.log(response.data)
+
                   if (response.data.status === 'First Time Login State Updated to False') {
+                    console.log('inside')
                     await AsyncStorage.setItem(
                       'isFirstTime',
                       "false",

@@ -179,13 +179,14 @@ const App = () => {
     const getData = async () => {
       let username, isFirst;
       username = null;
-      isFirst = false;
+      isFirst = "false";
       try {
         username = await AsyncStorage.getItem('username');
         isFirst = await AsyncStorage.getItem('isFirstTime');
 
+        console.log( isFirst == "true")
         if (username) {
-          authContext.signIn(username, isFirst);
+          authContext.signIn(username, isFirst == "true");
           //TODO: call the endpoint to get user data
         } else {
           dispatch({type: 'LOGOUT'});

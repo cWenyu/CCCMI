@@ -161,7 +161,7 @@ const ChangePassword = ({ navigation }) => {
         data.isValidNewPassword &&
         data.isPassword
       ) {
-        username = await AsyncStorage.getItem('username');
+        let username = await AsyncStorage.getItem('username');
         try {
           var bodyFormData = new FormData();
           bodyFormData.append('username', username);

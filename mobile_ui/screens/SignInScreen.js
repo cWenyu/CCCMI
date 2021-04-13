@@ -94,6 +94,9 @@ const SignInScreen = ({navigation}) => {
               'isFirstTime',
               response.data.user_first_time_login.toString(),
             );
+            console.log("response.data.user_first_time_login")
+              console.log(response.data);
+            console.log(response.data.user_first_time_login)
 
             // signIn(response.data.user_username, response.data.isFirstTime.toString());
             signIn(response.data.user_username, response.data.user_first_time_login ? "true": "false");
