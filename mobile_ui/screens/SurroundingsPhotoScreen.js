@@ -23,16 +23,19 @@ import {
   updateSelectionHandlers,
   updateQIndex,
   updateAnswers,
+  saveSampleData,
 } from '../components/reduxStore';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 const SurroundingsPhotoScreen = ({navigation, route}) => {
+  const dispatch = useDispatch()
+  const sampleData = useSelector(state => state.surveyForm.sampleData)
+
   useEffect(() => {
     if (route.params?.surveyData) {
       console.log(JSON.stringify(route.params));
     }
   }, [route.params?.surveyData]);
-  const dispatch = useDispatch();
   const {colors} = useTheme();
   const [dataSource, setDataSource] = useState([]);
   const [imageBase64, setImageBase64] = useState([]);
@@ -355,6 +358,8 @@ const SurroundingsPhotoScreen = ({navigation, route}) => {
           let surveyPhotosObj = {
             surveyPhotos: arr,
           };
+          dispatch(saveSampleData({...sampleData, surrounding: surveyPhotosObj}))
+
           navigation.navigate('SearchRiverScreen', {
             surveyData: route.params.surveyData,
             surrounding: surveyPhotosObj,

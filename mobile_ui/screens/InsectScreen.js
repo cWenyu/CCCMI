@@ -11,9 +11,7 @@ import {
 import {useTheme} from '@react-navigation/native';
 import {Text, Button, Badge} from 'react-native-elements';
 import testVariables from '../appium_automation_testing/test_variables';
-import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
-import FolderIcon from 'react-native-vector-icons/dist/AntDesign';
 import axios from 'axios';
 import {IconButton, Colors} from 'react-native-paper';
 import {
@@ -21,11 +19,14 @@ import {
   updateSelectionHandlers,
   updateQIndex,
   updateAnswers,
+  saveSampleData
 } from '../components/reduxStore';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import ReviewSensor from './ReviewSensor';
 
 const InsectScreen = ({navigation, route}) => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
+  const sampleData = useSelector(state => state.surveyForm.sampleData)
   const [modalVisible, setModalVisible] = useState(false);
   const {colors} = useTheme();
   const [insectList, setInsectList] = useState([]);
@@ -206,12 +207,6 @@ const InsectScreen = ({navigation, route}) => {
     }
   };
 
-  const renderGroupScore = () => {
-    if (groupScore.length > 0) {
-      return <Text>Group 1: {groupScore.group_1}</Text>;
-    }
-  };
-
   const renderAnalysedInsect = () => {
     if (analysedInsect.length > 0) {
       console.log('analysed insect list:' + analysedInsect);
@@ -254,24 +249,6 @@ const InsectScreen = ({navigation, route}) => {
       });
 
       return comp;
-    }
-  };
-
-  const renderGetScoreButton = () => {
-    if (analysedInsect.length > 0 || insectList.length > 0) {
-      return (
-        <View style={{alignSelf: 'center', paddingVertical: 10}}>
-          {/* <Button
-            title="Get Score"
-            onPress={() => {
-              getScore();
-              setModalVisible(true);
-            }}
-            titleStyle={{marginHorizontal: 22, fontSize: 18}}
-            buttonStyle={{width: 200, height: 50, backgroundColor: '#610D00'}}
-          /> */}
-        </View>
-      );
     }
   };
 
@@ -440,31 +417,29 @@ const InsectScreen = ({navigation, route}) => {
         title="Finish"
         onPress={() => {
           getScore().then(score => {
-            navigation.navigate('ResultPage', {
+            dispatch(saveSampleData({...sampleData, analyzedInsect: analysedInsect,
+              selectedInsect: insectList, sample_score: score }));
+            navigation.navigate('ReviewTab', {
+              screen: 'ReviewRiver',
+              params: {
               analyzedInsect: analysedInsect,
               selectedInsect: insectList,
               riverData: route.params.riverData,
               surveyData: route.params.surveyData,
               currentLocation: route.params.currentLocation,
-              sensorData: route.params.sensorData,
               surrounding: route.params.surrounding,
               insectsImage: route.params.insectsImage,
               sample_score: score,
-            });
+              },
+            },
+            // {
+            //   screen: 'ReviewSensor',
+            //   params: {
+            //     sensorData: route.params.sensorData,
+            //   }
+            // }
+            );
           });
-
-          // getScore();
-          // navigation.navigate('ResultPage', {
-          //   analyzedInsect: analysedInsect,
-          //   selectedInsect: insectList,
-          //   riverData: route.params.riverData,
-          //   surveyData: route.params.surveyData,
-          //   currentLocation: route.params.currentLocation,
-          //   sensorData: route.params.sensorData,
-          //   surrounding: route.params.surrounding,
-          //   insectsImage: route.params.insectsImage,
-          //   sample_score: score,
-          // });
         }}
         accessibilityLabel={testVariables.insectScreenSelectInsectButton}
         testID={testVariables.insectScreenSelectInsectButton}

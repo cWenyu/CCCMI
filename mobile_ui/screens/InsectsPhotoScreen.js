@@ -20,13 +20,12 @@ import ImagePicker from 'react-native-image-crop-picker';
 import AsyncStorage from '@react-native-community/async-storage';
 import {
   resetSurveyForm,
-  updateSelectionHandlers,
-  updateQIndex,
-  updateAnswers,
+  saveSampleData
 } from '../components/reduxStore';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 const InsectPhotoScreen = ({navigation, route}) => {
+  const sampleData = useSelector(state => state.surveyForm.sampleData)
   const dispatch = useDispatch();
   const {colors} = useTheme();
   const [dataSource, setDataSource] = useState([]);
@@ -368,8 +367,9 @@ const InsectPhotoScreen = ({navigation, route}) => {
           let insectsImageObj = {
             insectPhoto: arr,
           };
+          dispatch(saveSampleData({...sampleData, insectsImage: insectsImageObj}))
+
           navigation.navigate('InsectScreen', {
-            insectsImage: insectsImageObj,
             uploadInsectLength: dataSource.length,
           });
         }
