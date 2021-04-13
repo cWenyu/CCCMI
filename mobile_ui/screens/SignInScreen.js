@@ -78,7 +78,7 @@ const SignInScreen = ({navigation}) => {
         });
         console.log(response);
         if (response && response.data && response.data.status) {
-          // console.log(JSON.stringify(response.data));
+          console.log(JSON.stringify(response.data));
           if (response.data.status === 'Login Success') {
             await AsyncStorage.setItem('username', response.data.user_username);
             await AsyncStorage.setItem(
@@ -89,11 +89,18 @@ const SignInScreen = ({navigation}) => {
               'userID',
               response.data.user_id.toString(),
             );
-            await AsyncStorage.setItem('isFirstTime', 'true');
-            // signIn(response.data.user_username, response.data.isFirstTime.toString());
-            // signIn(response.data.user_username, response.data.isFirstTime ? "true": "false");
 
-            signIn(response.data.user_username, 'true');
+            await AsyncStorage.setItem(
+              'isFirstTime',
+              response.data.user_first_time_login.toString(),
+            );
+
+            // signIn(response.data.user_username, response.data.isFirstTime.toString());
+            signIn(response.data.user_username, response.data.user_first_time_login ? "true": "false");
+
+
+            // signIn(response.data.user_username, "true");
+
           } else {
             setData({
               ...data,
