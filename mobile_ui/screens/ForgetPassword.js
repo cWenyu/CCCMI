@@ -54,7 +54,6 @@ const ForgetPassword = ({ navigation }) => {
               notExistEmail: false,
             });
           } else {
-            console.log(val);
             setData({
               ...data,
               email: val,
@@ -81,9 +80,6 @@ const ForgetPassword = ({ navigation }) => {
     if (
       data.email.length == 0
     ) {
-
-      console.log(data.email);
-      console.log("here");
       setData({
         ...data,
         isValidInput: false,
@@ -94,7 +90,6 @@ const ForgetPassword = ({ navigation }) => {
         data.notExistEmail
       ) {
         try {
-          console.log(data.email);
           var bodyFormData = new FormData();
           bodyFormData.append('email', data.email);
           let response = await axios({
