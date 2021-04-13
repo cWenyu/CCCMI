@@ -92,7 +92,7 @@ const ChangePassword = ({ navigation }) => {
 
   const handlePasswordChange = val => {
     const strongPassword = new RegExp(
-      '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@_#$%^&*])(?=.{8,})',
+      '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@_#$%^&*?])(?=.{8,})',
     );
     if (strongPassword.test(val.trim())) {
       setData({
