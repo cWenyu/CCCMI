@@ -74,9 +74,6 @@ const HelpScreen = ({ navigation }) => {
             <ListItem.Title>
               <Text style={styles.title}>Take Sample</Text>
             </ListItem.Title>
-            {/* <ListItem.Subtitle>
-              <Text>React Native Elements</Text>
-            </ListItem.Subtitle> */}
           </ListItem.Content>
           <ListItem.Chevron />
         </ListItem>
@@ -96,9 +93,6 @@ const HelpScreen = ({ navigation }) => {
             <ListItem.Title>
               <Text style={styles.title}>View Sample</Text>
             </ListItem.Title>
-            {/* <ListItem.Subtitle>
-        <Text>React Native Elements</Text>
-      </ListItem.Subtitle> */}
           </ListItem.Content>
           <ListItem.Chevron />
         </ListItem>

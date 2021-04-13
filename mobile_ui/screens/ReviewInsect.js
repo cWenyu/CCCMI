@@ -223,8 +223,6 @@ const ReviewInsect = ({navigation, route}) => {
       };
     }
 
-    // console.log(JSON.stringify('sampleobj sending ', sampleObj));
-    // set insect (selected + analysed)
     let array3 = sampleData.selectedInsect.concat(sampleData.analyzedInsect);
     setInsectList(array3);
 
@@ -254,6 +252,11 @@ const ReviewInsect = ({navigation, route}) => {
     <View style={{flex:1}}>
     <ScrollView contentContainerStyle={{flexGrow: 1, justifyContent: 'center'}}>
       <View style={styles.container}>
+      <Card>
+          <Card.Title>SAMPLE SCORE</Card.Title>
+          <Card.Divider />
+          <Text style={{textAlign: 'center'}}>{sampleData.sample_score}</Text>
+        </Card>
         <Card>
           <Card.Title>SELECTED INSECT</Card.Title>
           <Card.Divider />

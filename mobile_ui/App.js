@@ -5,16 +5,10 @@
  * @format
  * @flow
  */
-// import Icon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
+
 import React, {useEffect} from 'react';
-import {
-  View,
-  ActivityIndicator,
-  Button,
-  Alert,
-  Image,
-  Dimensions,
-} from 'react-native';
+import {View, ActivityIndicator, Button, Alert} from 'react-native';
+
 import {
   NavigationContainer,
   DefaultTheme as NavigationDefaultTheme,
@@ -69,7 +63,6 @@ import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs
 import {resetSurveyForm} from './components/reduxStore';
 
 import {useDispatch} from 'react-redux';
-import {StackActions} from '@react-navigation/native';
 
 import SurroundingsPhotoScreen from './screens/SurroundingsPhotoScreen';
 import InsectsPhotoScreen from './screens/InsectsPhotoScreen';
@@ -390,23 +383,8 @@ const App = () => {
     const dispatch = useDispatch();
 
     return (
-      <TakeSampleStack.Navigator initialRouteName="OnboardingScreen2">
-        <TakeSampleStack.Screen
-          name="ReportProblem"
-          component={ReportProblem}
-          options={{
-            // title: 'Introduction of Taking Sample',
-            headerStyle: {
-              backgroundColor: '#009387',
-            },
-            headerTintColor: '#fff',
-            headerTitleStyle: {
-              fontWeight: 'bold',
-            },
-          }}
-        />
-
-        <TakeSampleStack.Screen
+      <TakeSampleStack.Navigator initialRouteName="SurveyPage">
+        {/* <TakeSampleStack.Screen
           name="OnboardingScreen2"
           component={OnboardingScreen2}
           options={{
@@ -419,7 +397,7 @@ const App = () => {
               fontWeight: 'bold',
             },
           }}
-        />
+        /> */}
 
         <TakeSampleStack.Screen
           name="SurveyPage"
@@ -753,7 +731,21 @@ const App = () => {
             },
           }}
         />
-
+        <TakeSampleStack.Screen
+          name="ReportProblem"
+          component={ReportProblem}
+          options={{
+            // title: 'Introduction of Taking Sample',
+            headerStyle: {
+              backgroundColor: '#009387',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}
+          
+        />
         <TakeSampleStack.Screen
           name="UploadInsectsPhoto"
           component={InsectsPhotoScreen}

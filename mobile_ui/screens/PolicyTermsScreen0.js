@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useState} from 'react';
 import {View, StyleSheet, ScrollView} from 'react-native';
 import {CheckBox} from 'react-native-elements';
 import {useTheme} from '@react-navigation/native';

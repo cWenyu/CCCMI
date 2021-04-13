@@ -16,13 +16,9 @@ import axios from 'axios';
 import {IconButton, Colors} from 'react-native-paper';
 import {
   resetSurveyForm,
-  updateSelectionHandlers,
-  updateQIndex,
-  updateAnswers,
   saveSampleData
 } from '../components/reduxStore';
 import {useDispatch, useSelector} from 'react-redux';
-import ReviewSensor from './ReviewSensor';
 
 const InsectScreen = ({navigation, route}) => {
   const dispatch = useDispatch()
@@ -30,13 +26,9 @@ const InsectScreen = ({navigation, route}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const {colors} = useTheme();
   const [insectList, setInsectList] = useState([]);
-  const [image, setImage] = useState('');
   const [analysedInsect, setAnalysedInsect] = useState([]);
   const [allInsect, setAllInsect] = useState([]);
-  const [insect, setInsect] = useState({
-    insect_name: '',
-    amount: 0,
-  });
+
   const [groupScore, setGroupScore] = useState({
     group_1: '0',
     group_2: '0',
@@ -262,7 +254,6 @@ const InsectScreen = ({navigation, route}) => {
     if (route.params) {
       console.log(JSON.stringify(route.params));
     }
-    // setallinsect();
     BackHandler.addEventListener('hardwareBackPress', backAction);
 
     return () =>
@@ -343,7 +334,6 @@ const InsectScreen = ({navigation, route}) => {
           margin: 5,
           alignItems: 'center',
           marginTop: 20,
-          // marginBottom: 33,
         }}
         disabledStyle={{
           borderWidth: 2,
@@ -432,12 +422,6 @@ const InsectScreen = ({navigation, route}) => {
               sample_score: score,
               },
             },
-            // {
-            //   screen: 'ReviewSensor',
-            //   params: {
-            //     sensorData: route.params.sensorData,
-            //   }
-            // }
             );
           });
         }}

@@ -2,20 +2,15 @@ import React from 'react';
 import {
   View,
   Text,
-  Button,
   TouchableOpacity,
-  Dimensions,
   TextInput,
   Platform,
   StyleSheet,
   ScrollView,
-  StatusBar,
-  Alert,
+
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import axios from 'axios';
 import { useTheme } from '@react-navigation/native';
 import Feather from 'react-native-vector-icons/Feather';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
@@ -164,6 +159,7 @@ const SetPassword = ({ navigation }) => {
       if (
         data.isValidNewPassword &&
         data.isPassword
+
       ) {    
         username = await AsyncStorage.getItem('username');
         try {
@@ -240,6 +236,7 @@ const SetPassword = ({ navigation }) => {
         } catch (e) {
           console.error(e);
         }
+
       }
     }
   };

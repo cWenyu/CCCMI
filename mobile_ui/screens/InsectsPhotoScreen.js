@@ -49,7 +49,6 @@ const InsectPhotoScreen = ({navigation, route}) => {
     container: {
       flex: 1,
       backgroundColor: colors.background,
-      // backgroundColor: '#ffffff',
     },
     titleStyle: {
       padding: 16,

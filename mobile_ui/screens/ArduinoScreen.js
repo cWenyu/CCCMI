@@ -1,34 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   StyleSheet,
-  TextInput,
   View,
-  ScrollView,
-  Animated,
-  Image,
-  TouchableOpacity,
-  Dimensions,
-  Platform,
   Alert,
   BackHandler,
 }
   from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Text } from 'react-native-elements';
 import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
-import * as Animatable from 'react-native-animatable';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
 import testVariables from '../appium_automation_testing/test_variables';
 import { Button } from 'react-native-elements';
-import { color } from 'react-native-reanimated';
-import MapView, { PROVIDER_GOOGLE, Marker, Callout } from 'react-native-maps';
 import { useTheme } from '@react-navigation/native';
 import {
   resetSurveyForm,
-  updateSelectionHandlers,
-  updateQIndex,
-  updateAnswers,
 } from '../components/reduxStore';
 import {useDispatch} from 'react-redux';
 
@@ -66,12 +51,7 @@ const ArduinoScreen = ({ navigation, route }) => {
     notValidDeviceId: true,
     notEmptyDeviceId: true,
   });
-  const textInputChange = val => {
-    setData({
-      ...data,
-      arduinoId: val,
-    });
-  };
+  
   const { colors } = useTheme();
   const styles = StyleSheet.create({
     container: {
@@ -84,7 +64,6 @@ const ArduinoScreen = ({ navigation, route }) => {
       color: colors.text,
     },
     searchSection: {
-      // flex: 1,
       flexDirection: 'row',
       justifyContent: 'center',
       alignItems: 'center',

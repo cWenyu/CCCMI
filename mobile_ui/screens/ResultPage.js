@@ -11,7 +11,7 @@ import {
   Alert,
   BackHandler,
 } from 'react-native';
-import {Button, colors, ListItem} from 'react-native-elements';
+import {Button, ListItem} from 'react-native-elements';
 import AsyncStorage from '@react-native-community/async-storage';
 import testVariables from '../appium_automation_testing/test_variables';
 import axios from 'axios';
@@ -20,7 +20,6 @@ const resultPage = ({navigation, route}) => {
   const {colors} = useTheme();
   const [insectList, setInsectList] = useState([]);
   const [username, setUsername] = useState('');
-  const [insectScore, setInsectScore] = useState();
   const [weather, setWeather] = useState({});
 
   const styles = StyleSheet.create({
@@ -53,7 +52,6 @@ const resultPage = ({navigation, route}) => {
       borderWidth: 2,
       borderColor: '#44ad55',
       backgroundColor: '#3fa24f',
-      // marginTop: 15,
     },
   });
 
@@ -110,8 +108,6 @@ const resultPage = ({navigation, route}) => {
       };
     }
 
-    // console.log(JSON.stringify('sampleobj sending ', sampleObj));
-    // set insect (selected + analysed)
     let array3 = route.params.selectedInsect.concat(
       route.params.analyzedInsect,
     );

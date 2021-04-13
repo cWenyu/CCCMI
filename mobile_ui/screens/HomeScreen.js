@@ -3,25 +3,21 @@ import {
   View,
   StyleSheet,
   StatusBar,
-  Alert,
   Modal,
   Text,
   ActivityIndicator,
   Image
 } from 'react-native';
-import {Button, colors} from 'react-native-elements';
+import {Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
 import {useTheme} from '@react-navigation/native';
 import testVariables from '../appium_automation_testing/test_variables';
 import GuideContent from '../components/safetyGuide';
-import {IconButton, Colors, Button as PaperBtn} from 'react-native-paper';
+import { Colors, Button as PaperBtn} from 'react-native-paper';
 import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
 import env from '../components/env.json';
 import GetLocation from 'react-native-get-location';
-
-// import { StyleSheet, View, Text, StatusBar } from 'react-native';
-import {LinearGradient} from 'react-native-linear-gradient';
 
 const API_KEY = env.api_key;
 
@@ -146,23 +142,6 @@ const HomeScreen = ({navigation}) => {
     checkUserSafetyState();
     getLocation();
   }, []);
-
-  // const getLocation = async () => {
-  // 	try {
-  // 		await Location.requestPermissionsAsync();
-  // 		const {
-  // 			coords: { latitude, longitude },
-  // 		} = await Location.getCurrentPositionAsync();
-
-  // 		getWeather(latitude, longitude);
-  // 		setIsLoading(false);
-  // 	} catch (e) {
-  // 		Alert.alert(
-  // 			'이런 🥲',
-  // 			'위치 사용에 동의하지 않으면 \n 날씨를 가져올 수 없습니다.',
-  // 		);
-  // 	}
-  // };
 
   /**
    * @function getOneTimeLocation
@@ -293,9 +272,11 @@ const HomeScreen = ({navigation}) => {
       style={styles.container}
       accessibilityLabel={testVariables.homeScreenContainer}
       testID={testVariables.homeScreenContainer}>
+
       <StatusBar backgroundColor="#009387" barStyle="light-content" />
       {/* <Button title='weatherData' onPress={()=> console.log(weatherData)} /> */}
       {/* <Image source={require('../assets/headerlogo.png')} style={{height: 100, width: 300 , position: 'absolute', top: 20}}/> */}
+
       {renderWeather()}
       <Button
         accessibilityLabel={testVariables.homeScreenTakeNewSampleButton}
@@ -361,9 +342,6 @@ const HomeScreen = ({navigation}) => {
             icon="check-circle"
             color={Colors.green500}
             size={20}
-            // onPress={() => {
-            //   setModalVisible(!modalVisible);
-            // }}>
             onPress={() => changeUserSafetyState()}>
             Accept
           </PaperBtn>
@@ -382,13 +360,3 @@ const HomeScreen = ({navigation}) => {
 };
 
 export default HomeScreen;
-const width_proportion = '100%';
-const height_proportion = '100%';
-const height = '100%';
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     height: '100%',
-//   },
-// });
