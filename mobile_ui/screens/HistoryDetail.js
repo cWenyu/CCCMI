@@ -345,9 +345,9 @@ const HistoryDetail = ({route}) => {
       <ScrollView>
         {renderDate()}
         {renderRiver()}
+        {renderSampleScore()}
         {renderArduino()}
         {renderWeather()}
-        {renderSampleScore()}
         {renderInsects()}
         {renderInsectImageUpload()}
         {renderSurroundingImage()}
