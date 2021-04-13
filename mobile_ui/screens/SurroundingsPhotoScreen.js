@@ -411,7 +411,7 @@ const SurroundingsPhotoScreen = ({navigation, route}) => {
         }}
         disabledTitleStyle={{color: '#00F'}}
         linearGradientProps={null}
-        icon={<Icon name="camera" size={19} color="#0FF" />}
+        icon={<Icon name="camera" size={19} color="#FFF" />}
         iconContainerStyle={{background: '#000'}}
         loadingProps={{animating: true}}
         loadingStyle={{}}

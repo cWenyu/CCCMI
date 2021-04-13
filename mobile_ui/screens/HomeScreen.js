@@ -289,7 +289,7 @@ const HomeScreen = ({navigation}) => {
         }}
         disabledTitleStyle={{color: '#00F'}}
         linearGradientProps={null}
-        icon={<Icon name="water" size={19} color="#0FF" />}
+        icon={<Icon name="water" size={19} color="#fff" />}
         iconContainerStyle={{background: '#000'}}
         loadingProps={{animating: true}}
         loadingStyle={{}}
@@ -309,7 +309,7 @@ const HomeScreen = ({navigation}) => {
         }}
         disabledTitleStyle={{color: '#00F'}}
         linearGradientProps={null}
-        icon={<Icon name="flask-outline" size={19} color="#0FF" />}
+        icon={<Icon name="flask-outline" size={19} color="#fff" />}
         iconContainerStyle={{background: '#000'}}
         loadingProps={{animating: true}}
         loadingStyle={{}}
