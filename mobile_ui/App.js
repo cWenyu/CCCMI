@@ -5,8 +5,10 @@
  * @format
  * @flow
  */
+
 import React, {useEffect} from 'react';
 import {View, ActivityIndicator, Button, Alert} from 'react-native';
+
 import {
   NavigationContainer,
   DefaultTheme as NavigationDefaultTheme,
@@ -72,6 +74,9 @@ const App = () => {
     console.disableYellowBox = true;
   }
   const [isDarkTheme, setIsDarkTheme] = React.useState(false);
+
+  const {height} = Dimensions.get('screen');
+  const height_logo = height * 0.15;
 
   const initialLoginState = {
     isLoading: true,
@@ -270,7 +275,20 @@ const App = () => {
         name="Home"
         component={HomeScreen}
         options={{
-          title: 'Home',
+          headerTitle: () => (
+            <View>
+              <Image
+                resizeMode="cover"
+                source={require('./assets/headerlogo2.png')}
+                style={{
+                  height: 50,
+                  width: 500,
+                  resizeMode: 'contain',
+                  alignSelf: 'center',
+                }}
+              />
+            </View>
+          ),
           headerLeft: () => (
             <Icon.Button
               name="ios-menu"
@@ -279,6 +297,7 @@ const App = () => {
               onPress={() => navigation.openDrawer()}
             />
           ),
+          headerRight: () => <View />,
         }}
       />
 
