@@ -7,7 +7,7 @@
  */
 
 import React, {useEffect} from 'react';
-import {View, ActivityIndicator, Button, Alert} from 'react-native';
+import {View, ActivityIndicator, Button, Alert, Image} from 'react-native';
 
 import {
   NavigationContainer,
@@ -74,9 +74,6 @@ const App = () => {
     console.disableYellowBox = true;
   }
   const [isDarkTheme, setIsDarkTheme] = React.useState(false);
-
-  const {height} = Dimensions.get('screen');
-  const height_logo = height * 0.15;
 
   const initialLoginState = {
     isLoading: true,
@@ -253,7 +250,7 @@ const App = () => {
         name="SetPassword"
         component={SetPassword}
         options={{
-          title: 'SetPassword',
+          title: 'Set Password',
         }}
       />
     </loginSetPassword.Navigator>
@@ -307,7 +304,7 @@ const App = () => {
         name="SampleHistoryScreen"
         component={SampleHistoryScreen}
         options={{
-          title: 'SampleHistoryScreen',
+          title: 'Sample History',
           headerLeft: () => (
             <Icon.Button
               name="ios-menu"
@@ -322,7 +319,7 @@ const App = () => {
         name="HistoryDetail"
         component={HistoryDetail}
         options={{
-          title: 'Sample History',
+          title: 'Sample Details',
           headerStyle: {
             backgroundColor: '#009387',
           },
@@ -336,7 +333,7 @@ const App = () => {
         name="HistoryList"
         component={HistoryList}
         options={{
-          title: 'History List',
+          title: 'Sample List',
           headerStyle: {
             backgroundColor: '#009387',
           },
@@ -534,7 +531,7 @@ const App = () => {
           name="SearchRiverScreen2"
           component={SearchRiverScreen2}
           options={{
-            title: 'SearchRiverScreen2',
+            title: 'Select River',
             headerStyle: {
               backgroundColor: '#009387',
             },
@@ -577,7 +574,7 @@ const App = () => {
           name="ArduinoScreen"
           component={ArduinoScreen}
           options={{
-            title: 'ArduinoScreen',
+            title: 'Connect Sensors',
             headerStyle: {
               backgroundColor: '#009387',
             },
@@ -620,7 +617,7 @@ const App = () => {
           name="ArduinoScreen2"
           component={ArduinoScreen2}
           options={{
-            title: 'ArduinoScreen2',
+            title: '',
             headerStyle: {
               backgroundColor: '#009387',
             },
@@ -663,7 +660,7 @@ const App = () => {
           name="InsectScreen"
           component={InsectScreen}
           options={{
-            title: 'InsectScreen',
+            title: 'Insects',
             headerStyle: {
               backgroundColor: '#009387',
             },
@@ -706,7 +703,7 @@ const App = () => {
           name="selectInsect1"
           component={selectInsect1}
           options={{
-            title: 'selectInsect1',
+            title: 'Select Insects',
             headerStyle: {
               backgroundColor: '#009387',
             },
@@ -721,7 +718,7 @@ const App = () => {
           name="AnalyzeInsect"
           component={AnalyzeInsect}
           options={{
-            title: 'AnalyzeInsect',
+            title: 'Analyze Insects',
             headerStyle: {
               backgroundColor: '#009387',
             },
@@ -732,7 +729,7 @@ const App = () => {
           }}
         />
         <TakeSampleStack.Screen
-          name="ReportProblem"
+          name="Report Problem"
           component={ReportProblem}
           options={{
             // title: 'Introduction of Taking Sample',
@@ -886,7 +883,7 @@ const App = () => {
         name="HelpScreenTakeSample"
         component={HelpScreenTakeSample}
         options={{
-          title: 'HelpScreenTakeSample',
+          title: ' ',
         }}
       />
 
@@ -894,7 +891,7 @@ const App = () => {
         name="HelpScreenViewSample"
         component={HelpScreenViewSample}
         options={{
-          title: 'HelpScreenViewSample',
+          title: ' ',
         }}
       />
     </HelpStack.Navigator>
@@ -932,7 +929,7 @@ const App = () => {
         name="ChangePassword"
         component={ChangePassword}
         options={{
-          title: 'ChangePassword',
+          title: 'Change Password',
         }}
       />
     </SettingStack.Navigator>
