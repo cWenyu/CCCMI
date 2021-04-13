@@ -13,12 +13,12 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Text} from 'react-native-elements';
 import {useTheme} from '@react-navigation/native';
 import testVariables from '../appium_automation_testing/test_variables';
-import LinearGradient from 'react-native-linear-gradient';
 import GetLocation from 'react-native-get-location';
+
 import {FlatList} from 'react-native-gesture-handler';
 import {color} from 'react-native-reanimated';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-import {resetSurveyForm, saveSampleData} from '../components/reduxStore';
+
 import {useDispatch, useSelector} from 'react-redux';
 
 const riverURL = 'https://cccmi-aquality.tk/aquality_server/rivers/';
@@ -94,10 +94,6 @@ const SearchRiverScreen = ({navigation, route}) => {
       try {
         const granted = await PermissionsAndroid.request(
           PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-          // {
-          //   title: 'Location Access Required',
-          //   message: 'This App needs to Access your location',
-          // },
         );
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
           //To Check, If Permission is granted

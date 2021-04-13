@@ -6,16 +6,12 @@ import testVariables from '../appium_automation_testing/test_variables';
 import AsyncStorage from '@react-native-community/async-storage';
 import {
   resetSurveyForm,
-  updateSelectionHandlers,
-  updateQIndex,
-  updateAnswers,
 } from '../components/reduxStore';
 import {useDispatch} from 'react-redux';
 
 const SearchRiverScreen2 = ({navigation, route}) => {
   const dispatch = useDispatch();
   const {colors} = useTheme();
-  const [sampleData, setSampleData] = useState([]);
 
   const styles = StyleSheet.create({
     container: {
@@ -57,16 +53,6 @@ const SearchRiverScreen2 = ({navigation, route}) => {
       }, }
     ]);
     return true;
-  };
-
-  const storeData = async value => {
-    try {
-      const jsonValue = JSON.stringify(value);
-      await AsyncStorage.setItem('river', jsonValue);
-      // console.log('stored data: ' + jsonValue);
-    } catch (e) {
-      // saving error
-    }
   };
 
   return (
@@ -150,9 +136,7 @@ const SearchRiverScreen2 = ({navigation, route}) => {
         testID={testVariables.riverDetailChooseRiverButton}
         title="Choose this river"
         onPress={() => {
-          // sampleData.push({"river": JSON.stringify(route.params.data)}) //here
           navigation.navigate('ArduinoScreen', route.params);
-          // storeData(route.params.data);
         }}
         buttonStyle={{ width: '100%', height: 50, backgroundColor: "#02ab9e", borderRadius: 10, }}
           containerStyle={{ margin: 5, alignItems: "center", marginTop: 35 }}

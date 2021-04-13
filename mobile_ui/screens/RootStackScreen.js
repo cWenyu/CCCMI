@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { BackHandler } from "react-native";
 
 import { createStackNavigator } from '@react-navigation/stack';
 

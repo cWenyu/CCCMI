@@ -69,8 +69,6 @@ const ReportProblem = ({navigation, route}) => {
     });
 
     navigation.navigate('AnalyzeInsect');
-
-    // setDataForPost().then(postData()).then(navigation.navigate('Home'));
   };
 
   return (
