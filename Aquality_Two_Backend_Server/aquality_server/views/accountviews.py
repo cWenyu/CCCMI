@@ -351,7 +351,7 @@ def turn_first_login_false(request):
 def password_reset_request(request):
     try:
         email = request.POST.get("email")
-        print("email:", email)
+        
         if request.method == "POST":
             if email is not "":
                 associated_users = User.objects.filter(Q(email=email))
