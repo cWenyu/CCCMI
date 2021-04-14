@@ -369,7 +369,7 @@ def password_reset_request(request):
                     }
                     email_render = render_to_string(email_template_name, context)
                     try:
-                        send_mail(subject, email_render, 'cccmi2020@gmail.com', [user.email], fail_silently=True)
+                        send_mail(subject, email_render, 'aquality.v2@gmail.com', [user.email], fail_silently=True)
                     except BadHeaderError:
                         return HttpResponse('Invalid header found.')
                     return redirect("password_reset/done/")
