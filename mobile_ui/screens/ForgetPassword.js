@@ -27,7 +27,6 @@ const ForgetPassword = ({ navigation }) => {
     isValidEmail: true,
     isValidInput: true,
     notExistEmail: true,
-    greenTickUser: false,
     greenTickEmail: false,
   });
 
@@ -66,9 +65,9 @@ const ForgetPassword = ({ navigation }) => {
       } else {
         setData({
           ...data,
-          greenTickEmail: true,
+          greenTickEmail: false,
           isValidEmail: false,
-          notExistEmail: false,
+          notExistEmail: true,
         });
       }
     } catch (e) {
@@ -82,7 +81,7 @@ const ForgetPassword = ({ navigation }) => {
     ) {
       setData({
         ...data,
-        isValidInput: false,
+        isValidEmail: false,
       });
     } else {
       if (
@@ -99,16 +98,27 @@ const ForgetPassword = ({ navigation }) => {
             data: bodyFormData,
             headers: { 'Content-Type': 'multipart/form-data' },
           });
+          console.log(response.data.status);
+          if (response.data.status === 'Contact admin to verify email') {
+            Alert.alert(
+              "Email Not Verified",
+              "Contact with the admin to verify your email.",
+              [
+                { text: "OK" }
+              ]
+            );
+          } else {
+            Alert.alert(
+              "Email Sent",
+              "Check you mailbox for password resetting URL",
+              [
+                { text: "OK", onPress: () => navigation.navigate('SignInScreen') }
+              ]
+            );
+          }
         } catch (e) {
           console.error(e);
         }
-        Alert.alert(
-          "Email Sent",
-          "Check you mailbox for password ressting URL",
-          [
-            { text: "OK", onPress: () => navigation.navigate('SignInScreen') }
-          ]
-        );
       }
     }
   };
@@ -160,13 +170,6 @@ const ForgetPassword = ({ navigation }) => {
           {data.notExistEmail ? null : (
             <Animatable.View animation="fadeInLeft" duration={500}>
               <Text style={styles.errorMsg}>Email not exist.</Text>
-            </Animatable.View>
-          )}
-          {data.isValidInput ? null : (
-            <Animatable.View animation="fadeInLeft" duration={500}>
-              <Text style={styles.errorMsg}>
-                Email Address field cannot be empty
-               </Text>
             </Animatable.View>
           )}
 
