@@ -13,7 +13,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {useTheme} from '@react-navigation/native';
 import testVariables from '../appium_automation_testing/test_variables';
-
+import {ListItem, Avatar, Card} from 'react-native-elements';
 const SplashScreen = ({navigation}) => {
   const {colors} = useTheme();
 
@@ -32,6 +32,7 @@ const SplashScreen = ({navigation}) => {
           resizeMode="center"
         />
       </View>
+
       <Animatable.View
         style={[
           styles.footer,
@@ -62,6 +63,20 @@ const SplashScreen = ({navigation}) => {
               <MaterialIcons name="navigate-next" color="#fff" size={20} />
             </LinearGradient>
           </TouchableOpacity>
+        </View>
+
+        <View
+          style={{
+            position: 'absolute',
+            justifyContent: 'center',
+            alignItems: 'center',
+            alignSelf: 'center',
+            bottom: 0,
+          }}>
+          <ListItem containerStyle={{backgroundColor: 'transparent'}}>
+            <Avatar source={{uri: 'https://i.ibb.co/YRSzzC7/cccmi-logo.png'}}/>
+            <Text style={{color: 'white', fontSize: 18}}>CCCMI</Text>
+          </ListItem>
         </View>
       </Animatable.View>
     </View>
