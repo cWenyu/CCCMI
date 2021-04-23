@@ -7,7 +7,7 @@ import {
   Platform,
   StyleSheet,
   ScrollView,
-
+  Alert
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
@@ -17,7 +17,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import AsyncStorage from '@react-native-community/async-storage';
 import { AuthContext } from '../components/context';
-
+import axios from 'axios';
 
 const ChangePassword = ({ navigation }) => {
   const { colors } = useTheme();
