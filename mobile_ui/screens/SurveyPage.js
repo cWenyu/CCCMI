@@ -53,721 +53,564 @@ const survey = [
       },
     ],
   },
-  // {
-  //   questionType: 'SelectionGroup',
-  //   questionText: '2/21\nPrincipal Type of Substratum Sampled:\n\nGravel?',
-  //   questionId: 'b',
-  //   questionSettings: {
-  //     maxMultiSelect: 1,
-  //     minMultiSelect: 1,
-  //     autoAdvance: true,
-  //   },
-  //   options: [
-  //     {
-  //       optionText: 'None',
-  //       value: 'none',
-  //     },
-  //     {
-  //       optionText: 'Present',
-  //       value: 'present',
-  //     },
-  //     {
-  //       optionText: 'Moderate',
-  //       value: 'moderate',
-  //     },
-  //     {
-  //       optionText: 'Dominant',
-  //       value: 'dominant',
-  //     },
-  //   ],
-  // },
-  // {
-  //   questionType: 'SelectionGroup',
-  //   questionText: '3/21\nPrincipal Type of Substratum Sampled:\n\nSand?',
-  //   questionId: 'c',
-  //   questionSettings: {
-  //     maxMultiSelect: 1,
-  //     minMultiSelect: 1,
-  //     autoAdvance: true,
-  //   },
-  //   options: [
-  //     {
-  //       optionText: 'None',
-  //       value: 'none',
-  //     },
-  //     {
-  //       optionText: 'Present',
-  //       value: 'present',
-  //     },
-  //     {
-  //       optionText: 'Moderate',
-  //       value: 'moderate',
-  //     },
-  //     {
-  //       optionText: 'Dominant',
-  //       value: 'dominant',
-  //     },
-  //   ],
-  // },
-  // {
-  //   questionType: 'SelectionGroup',
-  //   questionText:
-  //     '4/21\nPrincipal Type of Substratum Sampled:\n\nSilt or Mud?',
-  //   questionId: 'pt_silt_mud',
-  //   questionSettings: {
-  //     maxMultiSelect: 1,
-  //     minMultiSelect: 1,
-  //     autoAdvance: true,
-  //   },
-  //   options: [
-  //     {
-  //       optionText: 'None',
-  //       value: 'none'
-  //     },
-  //     {
-  //       optionText: 'Present',
-  //       value: 'present'
-  //     },
-  //     {
-  //       optionText: 'Moderate',
-  //       value: 'moderate'
-  //     },
-  //     {
-  //       optionText: 'Dominant',
-  //       value: 'dominant'
-  //     },
-  //   ]
-  // },
-  // {
-  //   questionType: 'SelectionGroup',
-  //   questionText:
-  //     '5/21\nDegree of Siltation:\n\n(Is silt released when you take a kick sample?)',
-  //   questionId: 'degree_silt',
-  //   questionSettings: {
-  //     maxMultiSelect: 1,
-  //     minMultiSelect: 1,
-  //     autoAdvance: true,
-  //   },
-  //   options: [
-  //     {
-  //       optionText: 'Clean',
-  //       value: 'clean'
-  //     },
-  //     {
-  //       optionText: 'Slight',
-  //       value: 'slight'
-  //     },
-  //     {
-  //       optionText: 'Moderate',
-  //       value: 'moderate'
-  //     },
-  //     {
-  //       optionText: 'Heavy',
-  //       value: 'heavy'
-  //     },
-  //   ]
-  // },
-  // {
-  //   questionType: 'SelectionGroup',
-  //   questionText:
-  //     '6/21\nDepth of Mud on Bottom:',
-  //   questionId: 'depth_mud',
-  //   questionSettings: {
-  //     maxMultiSelect: 1,
-  //     minMultiSelect: 1,
-  //     autoAdvance: true,
-  //   },
-  //   options: [
-  //     {
-  //       optionText: 'No Mud',
-  //       value: 'no mud'
-  //     },
-  //     {
-  //       optionText: '< 1 cm',
-  //       value: 'less than one'
-  //     },
-  //     {
-  //       optionText: '1–5 cm',
-  //       value: 'one to five'
-  //     },
-  //     {
-  //       optionText: '5–10 cm',
-  //       value: 'five to ten'
-  //     },
-  //     {
-  //       optionText: '> 10 cm',
-  //       value: 'greater than ten'
-  //     },
-  //   ]
-  // },
-  // {
-  //   questionType: 'SelectionGroup',
-  //   questionText:
-  //     '7/21\nDo Cattle or other Farm Animals have access to the stream?',
-  //   questionId: 'farm_animals_selection',
-  //   questionSettings: {
-  //     maxMultiSelect: 1,
-  //     minMultiSelect: 1,
-  //     autoAdvance: true,
-  //   },
-  //   options: [
-  //     {
-  //       optionText: 'Full Access',
-  //       value: 'full access'
-  //     },
-  //     {
-  //       optionText: 'Semi-Controlled Drinking Point',
-  //       value: 'semi-controlled drinking point'
-  //     },
-  //     {
-  //       optionText: 'No Animal Access',
-  //       value: 'no animal access'
-  //     }
-  //   ]
-  // },
-  // {
-  //   questionType: 'TextInput',
-  //   questionText: '8/21\nDo Cattle or other Farm Animals have access to the stream? \n\nComment',
-  //   questionId: 'farm_animals_text',
-  //   placeholderText: 'Please leave comment...',
-  // },
-  // {
-  //   questionType: 'SelectionGroup',
-  //   questionText:
-  //     '9/21\nWhich of these describe the land next to the stream bank?\n\nGrassland?',
-  //   questionId: 'describe_grassland',
-  //   questionSettings: {
-  //     maxMultiSelect: 1,
-  //     minMultiSelect: 1,
-  //     autoAdvance: true,
-  //   },
-  //   options: [
-  //     {
-  //       optionText: 'Present',
-  //       value: 'present'
-  //     },
-  //     {
-  //       optionText: 'Moderate',
-  //       value: 'moderate'
-  //     },
-  //     {
-  //       optionText: 'Abundant',
-  //       value: 'abundant'
-  //     },
-  //     {
-  //       optionText: 'Other',
-  //       value: 'other'
-  //     }
-  //   ]
-  // },
-  // {
-  //   questionType: 'SelectionGroup',
-  //   questionText:
-  //     '10/21\nWhich of these describe the land next to the stream bank?\n\nTillage Crops?',
-  //   questionId: 'describe_tillage_crops',
-  //   questionSettings: {
-  //     maxMultiSelect: 1,
-  //     minMultiSelect: 1,
-  //     autoAdvance: true,
-  //   },
-  //   options: [
-  //     {
-  //       optionText: 'Present',
-  //       value: 'present'
-  //     },
-  //     {
-  //       optionText: 'Moderate',
-  //       value: 'moderate'
-  //     },
-  //     {
-  //       optionText: 'Abundant',
-  //       value: 'abundant'
-  //     },
-  //     {
-  //       optionText: 'Other',
-  //       value: 'other'
-  //     }
-  //   ]
-  // },
-  // {
-  //   questionType: 'SelectionGroup',
-  //   questionText:
-  //     '11/21\nWhich of these describe the land next to the stream bank?\n\nUrban?',
-  //   questionId: 'describe_urban',
-  //   questionSettings: {
-  //     maxMultiSelect: 1,
-  //     minMultiSelect: 1,
-  //     autoAdvance: true,
-  //   },
-  //   options: [
-  //     {
-  //       optionText: 'Present',
-  //       value: 'present'
-  //     },
-  //     {
-  //       optionText: 'Moderate',
-  //       value: 'moderate'
-  //     },
-  //     {
-  //       optionText: 'Abundant',
-  //       value: 'abundant'
-  //     },
-  //     {
-  //       optionText: 'Other',
-  //       value: 'other'
-  //     }
-  //   ]
-  // },
-  // {
-  //   questionType: 'SelectionGroup',
-  //   questionText:
-  //     '12/21\nWhich of these describe the land next to the stream bank?\n\nForest?',
-  //   questionId: 'describe_forest',
-  //   questionSettings: {
-  //     maxMultiSelect: 1,
-  //     minMultiSelect: 1,
-  //     autoAdvance: true,
-  //   },
-  //   options: [
-  //     {
-  //       optionText: 'Present',
-  //       value: 'present'
-  //     },
-  //     {
-  //       optionText: 'Moderate',
-  //       value: 'moderate'
-  //     },
-  //     {
-  //       optionText: 'Abundant',
-  //       value: 'abundant'
-  //     },
-  //     {
-  //       optionText: 'Other',
-  //       value: 'other'
-  //     }
-  //   ]
-  // },
-  // {
-  //   questionType: 'SelectionGroup',
-  //   questionText:
-  //     '12/21\nWhich of these describe the land next to the stream bank?\n\nForest?',
-  //   questionId: 'k',
-  //   questionSettings: {
-  //     maxMultiSelect: 1,
-  //     minMultiSelect: 1,
-  //     autoAdvance: true,
-  //   },
-  //   options: [
-  //     {
-  //       optionText: 'Present',
-  //       value: 'present',
-  //     },
-  //     {
-  //       optionText: 'Moderate',
-  //       value: 'moderate',
-  //     },
-  //     {
-  //       optionText: 'Abundant',
-  //       value: 'abundant',
-  //     },
-  //     {
-  //       optionText: 'Other',
-  //       value: 'other',
-  //     },
-  //   ],
-  // },
-  // {
-  //   questionType: 'SelectionGroup',
-  //   questionText:
-  //     '13/21\nWhich of these describe the land next to the stream bank?\n\nBog/Heath/Moorland?',
-  //   questionId: 'describe_bog_heath_moorland',
-  //   questionSettings: {
-  //     maxMultiSelect: 1,
-  //     minMultiSelect: 1,
-  //     autoAdvance: true,
-  //   },
-  //   options: [
-  //     {
-  //       optionText: 'Present',
-  //       value: 'present'
-  //     },
-  //     {
-  //       optionText: 'Moderate',
-  //       value: 'moderate'
-  //     },
-  //     {
-  //       optionText: 'Abundant',
-  //       value: 'abundant'
-  //     },
-  //     {
-  //       optionText: 'Other',
-  //       value: 'other'
-  //     }
-  //   ]
-  // },
-  // {
-  //   questionType: 'SelectionGroup',
-  //   questionText:
-  //     '14/21\nWater Clarity',
-  //   questionId: 'water_clarity',
-  //   questionSettings: {
-  //     maxMultiSelect: 1,
-  //     minMultiSelect: 1,
-  //     autoAdvance: true,
-  //   },
-  //   options: [
-  //     {
-  //       optionText: 'Clear',
-  //       value: 'clear'
-  //     },
-  //     {
-  //       optionText: 'Slightly Turbid or Coloured',
-  //       value: 'slightly turbid or coloured'
-  //     },
-  //     {
-  //       optionText: 'Very Turbid or Coloured',
-  //       value: 'very turbid or coloured'
-  //     }
-  //   ]
-  // },
-  // {
-  //   questionType: 'SelectionGroup',
-  //   questionText:
-  //     '15/21\nCan you see any rubbish in the stream?',
-  //   questionId: 'rubish_in_stream',
-  //   questionSettings: {
-  //     maxMultiSelect: 1,
-  //     minMultiSelect: 1,
-  //     autoAdvance: true,
-  //   },
-  //   options: [
-  //     {
-  //       optionText: 'No',
-  //       value: 'no'
-  //     },
-  //     {
-  //       optionText: 'Present',
-  //       value: 'present'
-  //     },
-  //     {
-  //       optionText: 'Moderate',
-  //       value: 'moderate'
-  //     },
-  //     {
-  //       optionText: 'Abundant',
-  //       value: 'abundant'
-  //     }
-  //   ]
-  // },
-  // {
-  //   questionType: 'SelectionGroup',
-  //   questionText:
-  //     '16/21\nWater Velocity',
-  //   questionId: 'water_velocity',
-  //   questionSettings: {
-  //     maxMultiSelect: 1,
-  //     minMultiSelect: 1,
-  //     autoAdvance: true,
-  //   },
-  //   options: [
-  //     {
-  //       optionText: 'Present',
-  //       value: 'present'
-  //     },
-  //     {
-  //       optionText: 'Moderate',
-  //       value: 'moderate'
-  //     },
-  //     {
-  //       optionText: 'Abundant',
-  //       value: 'abundant'
-  //     }
-  //   ]
-  // },
-  // {
-  //   questionType: 'SelectionGroup',
-  //   questionText:
-  //     '17/21\nRiffle Glide Pool?',
-  //   questionId: 'riffle_glide_pool',
-  //   questionSettings: {
-  //     maxMultiSelect: 1,
-  //     minMultiSelect: 1,
-  //     autoAdvance: true,
-  //   },
-  //   options: [
-  //     {
-  //       optionText: 'Present',
-  //       value: 'present'
-  //     },
-  //     {
-  //       optionText: 'Moderate',
-  //       value: 'moderate'
-  //     },
-  //     {
-  //       optionText: 'Abundant',
-  //       value: 'abundant'
-  //     }
-  //   ]
-  // },
-  // {
-  //   questionType: 'SelectionGroup',
-  //   questionText:
-  //     '18/21\nSelect the Best Matches for Your Stream Site.\n\nUrban/Suburban:',
-  //   questionId: 'select_match_urban_suburban',
-  //   questionSettings: {
-  //     maxMultiSelect: 1,
-  //     minMultiSelect: 1,
-  //     autoAdvance: true,
-  //   },
-  //   options: [
-  //     {
-  //       optionText: 'Present',
-  //       value: 'present'
-  //     },
-  //     {
-  //       optionText: 'Moderate',
-  //       value: 'moderate'
-  //     },
-  //     {
-  //       optionText: 'Abundant',
-  //       value: 'abundant'
-  //     }
-  //   ]
-  // },
-  // {
-  //   questionType: 'SelectionGroup',
-  //   questionText:
-  //     '19/21\nSelect the Best Matches for Your Stream Site.\n\nNative Woodland or Moorland:',
-  //   questionId: 'select_match_nativewoodland_moorland',
-  //   questionSettings: {
-  //     maxMultiSelect: 1,
-  //     minMultiSelect: 1,
-  //     autoAdvance: true,
-  //   },
-  //   options: [
-  //     {
-  //       optionText: 'Present',
-  //       value: 'present'
-  //     },
-  //     {
-  //       optionText: 'Moderate',
-  //       value: 'moderate'
-  //     },
-  //     {
-  //       optionText: 'Abundant',
-  //       value: 'abundant'
-  //     }
-  //   ]
-  // },
-  // {
-  //   questionType: 'SelectionGroup',
-  //   questionText:
-  //     '20/21\nSelect the Best Matches for Your Stream Site.\n\nPresence of Trees:',
-  //   questionId: 'select_match_presence_trees',
-  //   questionSettings: {
-  //     maxMultiSelect: 1,
-  //     minMultiSelect: 1,
-  //     autoAdvance: true,
-  //   },
-  //   options: [
-  //     {
-  //       optionText: 'Present',
-  //       value: 'present'
-  //     },
-  //     {
-  //       optionText: 'Moderate',
-  //       value: 'moderate'
-  //     },
-  //     {
-  //       optionText: 'Abundant',
-  //       value: 'abundant'
-  //     }
-  //   ]
-  // },
-  // {
-  //   questionType: 'SelectionGroup',
-  //   questionText:
-  //     '21/21\nSelect the Best Matches for Your Stream Site.\n\nGrassland and Crops:',
-  //   questionId: 'select_match_grassland_crops',
-  //   questionSettings: {
-  //     maxMultiSelect: 1,
-  //     minMultiSelect: 1,
-  //     autoAdvance: true,
-  //   },
-  //   options: [
-  //     {
-  //       optionText: 'Present',
-  //       value: 'present'
-  //     },
-  //     {
-  //       optionText: 'Moderate',
-  //       value: 'moderate'
-  //     },
-  //     {
-  //       optionText: 'Abundant',
-  //       value: 'abundant'
-  //     }
-  //   ]
-  // },
+  {
+    questionType: 'SelectionGroup',
+    questionText: '2/21\nPrincipal Type of Substratum Sampled:\n\nGravel?',
+    questionId: 'b',
+    questionSettings: {
+      maxMultiSelect: 1,
+      minMultiSelect: 1,
+      autoAdvance: true,
+    },
+    options: [
+      {
+        optionText: 'None',
+        value: 'none',
+      },
+      {
+        optionText: 'Present',
+        value: 'present',
+      },
+      {
+        optionText: 'Moderate',
+        value: 'moderate',
+      },
+      {
+        optionText: 'Dominant',
+        value: 'dominant',
+      },
+    ],
+  },
+  {
+    questionType: 'SelectionGroup',
+    questionText: '3/21\nPrincipal Type of Substratum Sampled:\n\nSand?',
+    questionId: 'c',
+    questionSettings: {
+      maxMultiSelect: 1,
+      minMultiSelect: 1,
+      autoAdvance: true,
+    },
+    options: [
+      {
+        optionText: 'None',
+        value: 'none',
+      },
+      {
+        optionText: 'Present',
+        value: 'present',
+      },
+      {
+        optionText: 'Moderate',
+        value: 'moderate',
+      },
+      {
+        optionText: 'Dominant',
+        value: 'dominant',
+      },
+    ],
+  },
+  {
+    questionType: 'SelectionGroup',
+    questionText:
+      '4/21\nPrincipal Type of Substratum Sampled:\n\nSilt or Mud?',
+    questionId: 'pt_silt_mud',
+    questionSettings: {
+      maxMultiSelect: 1,
+      minMultiSelect: 1,
+      autoAdvance: true,
+    },
+    options: [
+      {
+        optionText: 'None',
+        value: 'none'
+      },
+      {
+        optionText: 'Present',
+        value: 'present'
+      },
+      {
+        optionText: 'Moderate',
+        value: 'moderate'
+      },
+      {
+        optionText: 'Dominant',
+        value: 'dominant'
+      },
+    ]
+  },
+  {
+    questionType: 'SelectionGroup',
+    questionText:
+      '5/21\nDegree of Siltation:\n\n(Is silt released when you take a kick sample?)',
+    questionId: 'degree_silt',
+    questionSettings: {
+      maxMultiSelect: 1,
+      minMultiSelect: 1,
+      autoAdvance: true,
+    },
+    options: [
+      {
+        optionText: 'Clean',
+        value: 'clean'
+      },
+      {
+        optionText: 'Slight',
+        value: 'slight'
+      },
+      {
+        optionText: 'Moderate',
+        value: 'moderate'
+      },
+      {
+        optionText: 'Heavy',
+        value: 'heavy'
+      },
+    ]
+  },
+  {
+    questionType: 'SelectionGroup',
+    questionText:
+      '6/21\nDepth of Mud on Bottom:',
+    questionId: 'depth_mud',
+    questionSettings: {
+      maxMultiSelect: 1,
+      minMultiSelect: 1,
+      autoAdvance: true,
+    },
+    options: [
+      {
+        optionText: 'No Mud',
+        value: 'no mud'
+      },
+      {
+        optionText: '< 1 cm',
+        value: 'less than one'
+      },
+      {
+        optionText: '1–5 cm',
+        value: 'one to five'
+      },
+      {
+        optionText: '5–10 cm',
+        value: 'five to ten'
+      },
+      {
+        optionText: '> 10 cm',
+        value: 'greater than ten'
+      },
+    ]
+  },
+  {
+    questionType: 'SelectionGroup',
+    questionText:
+      '7/21\nDo Cattle or other Farm Animals have access to the stream?',
+    questionId: 'farm_animals_selection',
+    questionSettings: {
+      maxMultiSelect: 1,
+      minMultiSelect: 1,
+      autoAdvance: true,
+    },
+    options: [
+      {
+        optionText: 'Full Access',
+        value: 'full access'
+      },
+      {
+        optionText: 'Semi-Controlled Drinking Point',
+        value: 'semi-controlled drinking point'
+      },
+      {
+        optionText: 'No Animal Access',
+        value: 'no animal access'
+      }
+    ]
+  },
+  {
+    questionType: 'TextInput',
+    questionText: '8/21\nDo Cattle or other Farm Animals have access to the stream? \n\nComment',
+    questionId: 'farm_animals_text',
+    placeholderText: 'Please leave comment...',
+  },
+  {
+    questionType: 'SelectionGroup',
+    questionText:
+      '9/21\nWhich of these describe the land next to the stream bank?\n\nGrassland?',
+    questionId: 'describe_grassland',
+    questionSettings: {
+      maxMultiSelect: 1,
+      minMultiSelect: 1,
+      autoAdvance: true,
+    },
+    options: [
+      {
+        optionText: 'Present',
+        value: 'present'
+      },
+      {
+        optionText: 'Moderate',
+        value: 'moderate'
+      },
+      {
+        optionText: 'Abundant',
+        value: 'abundant'
+      },
+      {
+        optionText: 'Other',
+        value: 'other'
+      }
+    ]
+  },
+  {
+    questionType: 'SelectionGroup',
+    questionText:
+      '10/21\nWhich of these describe the land next to the stream bank?\n\nTillage Crops?',
+    questionId: 'describe_tillage_crops',
+    questionSettings: {
+      maxMultiSelect: 1,
+      minMultiSelect: 1,
+      autoAdvance: true,
+    },
+    options: [
+      {
+        optionText: 'Present',
+        value: 'present'
+      },
+      {
+        optionText: 'Moderate',
+        value: 'moderate'
+      },
+      {
+        optionText: 'Abundant',
+        value: 'abundant'
+      },
+      {
+        optionText: 'Other',
+        value: 'other'
+      }
+    ]
+  },
+  {
+    questionType: 'SelectionGroup',
+    questionText:
+      '11/21\nWhich of these describe the land next to the stream bank?\n\nUrban?',
+    questionId: 'describe_urban',
+    questionSettings: {
+      maxMultiSelect: 1,
+      minMultiSelect: 1,
+      autoAdvance: true,
+    },
+    options: [
+      {
+        optionText: 'Present',
+        value: 'present'
+      },
+      {
+        optionText: 'Moderate',
+        value: 'moderate'
+      },
+      {
+        optionText: 'Abundant',
+        value: 'abundant'
+      },
+      {
+        optionText: 'Other',
+        value: 'other'
+      }
+    ]
+  },
+  {
+    questionType: 'SelectionGroup',
+    questionText:
+      '12/21\nWhich of these describe the land next to the stream bank?\n\nForest?',
+    questionId: 'describe_forest',
+    questionSettings: {
+      maxMultiSelect: 1,
+      minMultiSelect: 1,
+      autoAdvance: true,
+    },
+    options: [
+      {
+        optionText: 'Present',
+        value: 'present'
+      },
+      {
+        optionText: 'Moderate',
+        value: 'moderate'
+      },
+      {
+        optionText: 'Abundant',
+        value: 'abundant'
+      },
+      {
+        optionText: 'Other',
+        value: 'other'
+      }
+    ]
+  },
+  {
+    questionType: 'SelectionGroup',
+    questionText:
+      '12/21\nWhich of these describe the land next to the stream bank?\n\nForest?',
+    questionId: 'k',
+    questionSettings: {
+      maxMultiSelect: 1,
+      minMultiSelect: 1,
+      autoAdvance: true,
+    },
+    options: [
+      {
+        optionText: 'Present',
+        value: 'present',
+      },
+      {
+        optionText: 'Moderate',
+        value: 'moderate',
+      },
+      {
+        optionText: 'Abundant',
+        value: 'abundant',
+      },
+      {
+        optionText: 'Other',
+        value: 'other',
+      },
+    ],
+  },
+  {
+    questionType: 'SelectionGroup',
+    questionText:
+      '13/21\nWhich of these describe the land next to the stream bank?\n\nBog/Heath/Moorland?',
+    questionId: 'describe_bog_heath_moorland',
+    questionSettings: {
+      maxMultiSelect: 1,
+      minMultiSelect: 1,
+      autoAdvance: true,
+    },
+    options: [
+      {
+        optionText: 'Present',
+        value: 'present'
+      },
+      {
+        optionText: 'Moderate',
+        value: 'moderate'
+      },
+      {
+        optionText: 'Abundant',
+        value: 'abundant'
+      },
+      {
+        optionText: 'Other',
+        value: 'other'
+      }
+    ]
+  },
+  {
+    questionType: 'SelectionGroup',
+    questionText:
+      '14/21\nWater Clarity',
+    questionId: 'water_clarity',
+    questionSettings: {
+      maxMultiSelect: 1,
+      minMultiSelect: 1,
+      autoAdvance: true,
+    },
+    options: [
+      {
+        optionText: 'Clear',
+        value: 'clear'
+      },
+      {
+        optionText: 'Slightly Turbid or Coloured',
+        value: 'slightly turbid or coloured'
+      },
+      {
+        optionText: 'Very Turbid or Coloured',
+        value: 'very turbid or coloured'
+      }
+    ]
+  },
+  {
+    questionType: 'SelectionGroup',
+    questionText:
+      '15/21\nCan you see any rubbish in the stream?',
+    questionId: 'rubish_in_stream',
+    questionSettings: {
+      maxMultiSelect: 1,
+      minMultiSelect: 1,
+      autoAdvance: true,
+    },
+    options: [
+      {
+        optionText: 'No',
+        value: 'no'
+      },
+      {
+        optionText: 'Present',
+        value: 'present'
+      },
+      {
+        optionText: 'Moderate',
+        value: 'moderate'
+      },
+      {
+        optionText: 'Abundant',
+        value: 'abundant'
+      }
+    ]
+  },
+  {
+    questionType: 'SelectionGroup',
+    questionText:
+      '16/21\nWater Velocity',
+    questionId: 'water_velocity',
+    questionSettings: {
+      maxMultiSelect: 1,
+      minMultiSelect: 1,
+      autoAdvance: true,
+    },
+    options: [
+      {
+        optionText: 'Present',
+        value: 'present'
+      },
+      {
+        optionText: 'Moderate',
+        value: 'moderate'
+      },
+      {
+        optionText: 'Abundant',
+        value: 'abundant'
+      }
+    ]
+  },
+  {
+    questionType: 'SelectionGroup',
+    questionText:
+      '17/21\nRiffle Glide Pool?',
+    questionId: 'riffle_glide_pool',
+    questionSettings: {
+      maxMultiSelect: 1,
+      minMultiSelect: 1,
+      autoAdvance: true,
+    },
+    options: [
+      {
+        optionText: 'Present',
+        value: 'present'
+      },
+      {
+        optionText: 'Moderate',
+        value: 'moderate'
+      },
+      {
+        optionText: 'Abundant',
+        value: 'abundant'
+      }
+    ]
+  },
+  {
+    questionType: 'SelectionGroup',
+    questionText:
+      '18/21\nSelect the Best Matches for Your Stream Site.\n\nUrban/Suburban:',
+    questionId: 'select_match_urban_suburban',
+    questionSettings: {
+      maxMultiSelect: 1,
+      minMultiSelect: 1,
+      autoAdvance: true,
+    },
+    options: [
+      {
+        optionText: 'Present',
+        value: 'present'
+      },
+      {
+        optionText: 'Moderate',
+        value: 'moderate'
+      },
+      {
+        optionText: 'Abundant',
+        value: 'abundant'
+      }
+    ]
+  },
+  {
+    questionType: 'SelectionGroup',
+    questionText:
+      '19/21\nSelect the Best Matches for Your Stream Site.\n\nNative Woodland or Moorland:',
+    questionId: 'select_match_nativewoodland_moorland',
+    questionSettings: {
+      maxMultiSelect: 1,
+      minMultiSelect: 1,
+      autoAdvance: true,
+    },
+    options: [
+      {
+        optionText: 'Present',
+        value: 'present'
+      },
+      {
+        optionText: 'Moderate',
+        value: 'moderate'
+      },
+      {
+        optionText: 'Abundant',
+        value: 'abundant'
+      }
+    ]
+  },
+  {
+    questionType: 'SelectionGroup',
+    questionText:
+      '20/21\nSelect the Best Matches for Your Stream Site.\n\nPresence of Trees:',
+    questionId: 'select_match_presence_trees',
+    questionSettings: {
+      maxMultiSelect: 1,
+      minMultiSelect: 1,
+      autoAdvance: true,
+    },
+    options: [
+      {
+        optionText: 'Present',
+        value: 'present'
+      },
+      {
+        optionText: 'Moderate',
+        value: 'moderate'
+      },
+      {
+        optionText: 'Abundant',
+        value: 'abundant'
+      }
+    ]
+  },
+  {
+    questionType: 'SelectionGroup',
+    questionText:
+      '21/21\nSelect the Best Matches for Your Stream Site.\n\nGrassland and Crops:',
+    questionId: 'select_match_grassland_crops',
+    questionSettings: {
+      maxMultiSelect: 1,
+      minMultiSelect: 1,
+      autoAdvance: true,
+    },
+    options: [
+      {
+        optionText: 'Present',
+        value: 'present'
+      },
+      {
+        optionText: 'Moderate',
+        value: 'moderate'
+      },
+      {
+        optionText: 'Abundant',
+        value: 'abundant'
+      }
+    ]
+  },
 
-  // __________________
-
-  // {
-  //   questionType: 'NumericInput',
-  //   questionText: 'It also supports numeric input. Enter your favorite number here!',
-  //   questionId: 'favoriteNumber',
-  //   placeholderText: '42',
-  // },
-  // {
-  //   questionType: 'NumericInput',
-  //   questionText: 'New to 3.0, default values!\n\nHow many balls can you juggle at once?',
-  //   questionId: 'jugglingBalls',
-  //   defaultValue: '0'
-  // },
-  // {
-  //   questionType: 'MultipleSelectionGroup',
-  //   questionText:
-  //     'Select two or three of your favorite foods!',
-  //   questionId: 'favoriteFoods',
-  //   questionSettings: {
-  //     maxMultiSelect: 3,
-  //     minMultiSelect: 2,
-  //   },
-  //   options: [
-  //     {
-  //       optionText: 'Sticky rice dumplings',
-  //       value: 'sticky rice dumplings'
-  //     },
-  //     {
-  //       optionText: 'Pad Thai',
-  //       value: 'pad thai'
-  //     },
-  //     {
-  //       optionText: 'Steak and Eggs',
-  //       value: 'steak and eggs'
-  //     },
-  //     {
-  //       optionText: 'Tofu',
-  //       value: 'tofu'
-  //     },
-  //     {
-  //       optionText: 'Ice cream!',
-  //       value: 'ice cream'
-  //     },
-  //     {
-  //       optionText: 'Injera',
-  //       value: 'injera'
-  //     },
-  //     {
-  //       optionText: 'Biryani',
-  //       value: 'biryani'
-  //     },
-  //     {
-  //       optionText: 'Tamales',
-  //       value: 'tamales'
-  //     },
-  //   ]
-  // },
-  // {
-  //   questionType: 'MultipleSelectionGroup',
-  //   questionText:
-  //     'Simple Survey can auto advance after a question has been answered. Select two things you do to relax:',
-  //   questionId: 'relax',
-  //   questionSettings: {
-  //     maxMultiSelect: 2,
-  //     minMultiSelect: 2,
-  //     autoAdvance: true,
-  //   },
-  //   options: [
-  //     {
-  //       optionText: 'Reading a good book',
-  //       value: 'reading'
-  //     },
-  //     {
-  //       optionText: 'Going on vacation',
-  //       value: 'vacations'
-  //     },
-  //     {
-  //       optionText: 'Eating meals with family',
-  //       value: 'meals'
-  //     },
-  //     {
-  //       optionText: 'Heading to the ocean',
-  //       value: 'ocean'
-  //     }
-  //   ]
-  // },
-  // {
-  //   questionType: 'SelectionGroup',
-  //   questionText:
-  //     'Simple Survey can also simulate radio button behavior. Pick from below: ',
-  //   questionId: 'radio',
-  //   questionSettings: {
-  //     allowDeselect: false,
-  //   },
-  //   options: [
-  //     {
-  //       optionText: 'I was forced to pick option 1',
-  //       value: 'option 1'
-  //     },
-  //     {
-  //       optionText: 'I have to pick option 2',
-  //       value: 'option 2'
-  //     },
-  //     {
-  //       optionText: 'I guess option 3',
-  //       value: 'option 3'
-  //     }
-  //   ]
-  // },
-  // {
-  //   questionType: 'SelectionGroup',
-  //   questionText:
-  //     'Simple Survey also supports default selections: ',
-  //   questionId: 'singleDefault',
-  //   questionSettings: {
-  //     defaultSelection: 0
-  //   },
-  //   options: [
-  //     {
-  //       optionText: 'This is the default option',
-  //       value: 'default'
-  //     },
-  //     {
-  //       optionText: 'This is the alternative option',
-  //       value: 'alternative'
-  //     },
-  //   ]
-  // },
-  // {
-  //   questionType: 'MultipleSelectionGroup',
-  //   questionText:
-  //     'And of course it supports multiple defaults: ',
-  //   questionId: 'multipleDefaults',
-  //   questionSettings: {
-  //     defaultSelection: [0, 2],
-  //     maxMultiSelect: 2,
-  //     minMultiSelect: 2,
-  //   },
-  //   options: [
-  //     {
-  //       optionText: 'This is the first default option',
-  //       value: 'first default'
-  //     },
-  //     {
-  //       optionText: 'This is the first alternate option',
-  //       value: 'first alternative'
-  //     },
-  //     {
-  //       optionText: 'This is the second default option',
-  //       value: 'second default'
-  //     },
-  //     {
-  //       optionText: 'This is the second alternate option',
-  //       value: 'second alternative'
-  //     },
-  //   ]
-  // },
+  
   {
     questionType: 'Info',
     questionText: 'Finish survey?',
