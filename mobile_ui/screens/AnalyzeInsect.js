@@ -119,7 +119,7 @@ const AnalyzeScreen = ({navigation}) => {
 
       let response = await axios({
         method: 'post',
-        url: 'https://aquality2-306820.nw.r.appspot.com/ai_model/detect_image/',
+        url: 'https://aqualityv2.ew.r.appspot.com/ai_model/detect_image/',
         data: form,
         headers: {'Content-Type': 'multipart/form-data'},
       });
