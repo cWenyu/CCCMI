@@ -43,7 +43,6 @@ const AnalyzeScreen = ({navigation}) => {
     tail_count: 0,
   });
 
-
   useEffect(() => {
     requestCameraPermission();
     BackHandler.addEventListener('hardwareBackPress', backAction);
@@ -119,7 +118,7 @@ const AnalyzeScreen = ({navigation}) => {
 
       let response = await axios({
         method: 'post',
-        url: 'https://aquality2-306820.nw.r.appspot.com/ai_model/detect_image/',
+        url: 'https://aqualityv2.ew.r.appspot.com/ai_model/detect_image/',
         data: form,
         headers: {'Content-Type': 'multipart/form-data'},
       });
@@ -214,25 +213,34 @@ const AnalyzeScreen = ({navigation}) => {
     };
 
     var found = false;
-    for(var i = 0; i < insectList.length; i++) {
+    for (var i = 0; i < insectList.length; i++) {
       if (insectList[i].insect_name == insect.insect_name) {
-          found = true;
-          break;
+        found = true;
+        break;
       }
     }
 
-    if(found) {
+    if (found) {
       Alert.alert(
-        "Duplicate insect found",
-        "Do you want to add up the count?",
+        'Duplicate insect found',
+        'Do you want to add up the count?',
         [
           {
-            text: "Cancel",
+            text: 'Cancel',
             onPress: () => setModalVisible(!modalVisible),
-            style: "cancel"
+            style: 'cancel',
           },
-          { text: "OK", onPress: () => {let objIndex = insectList.findIndex((obj => obj.insect_name == insect.insect_name));insectList[objIndex].amount += parseInt(insect.amount); setModalVisible(!modalVisible)} }
-        ]
+          {
+            text: 'OK',
+            onPress: () => {
+              let objIndex = insectList.findIndex(
+                obj => obj.insect_name == insect.insect_name,
+              );
+              insectList[objIndex].amount += parseInt(insect.amount);
+              setModalVisible(!modalVisible);
+            },
+          },
+        ],
       );
     } else {
       insectList.push(insect);
