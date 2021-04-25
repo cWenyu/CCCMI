@@ -13,17 +13,26 @@
 
 # Aquality 2.0
 
-Aquality 2.0 is a **Mobile Application** , it helps Citizen Scientists to get more accurate water quality via **AI model** to analysis insects and uses **IOT** technology to talk with 2 sensors (**PH, Temperature**) to get accurate extra information of water body.
+Aquality 2.0 is a **Mobile Application** , it helps Citizen Scientists to get more accurate water quality via **AI model** to analysis insects and uses **IOT** technology to talk with 2 sensors (**PH, Temperature**) to get accurate extra information of water body. Further information please check [CCCMI DKIT Mahara Page](https://mahara.dkit.ie/view/view.php?t=YyRMElgz5pfnFu394amh).
 
 Technologies: 
 
-- **Hardware:** Arduino
+- **Hardware:** 
+  *   ​	PH Sensor (H-101 pH Electrode)
+
+  *   ​	Temperature Sensor (DS18B20)
+
+  *   ​	Microcontroller (ESP32)
+
+  *   ​	GSM/GPRS Module (SIM 800L)
+
+  *   ​	GPS Module (Neo-6M)
 
 - **App:** React Native
 
 - **Cloud:** AWS, PubNub 
 
-- **AI:** Yolov3+LabelImg
+- **AI:** Yolov3+LabelImg+Google Cloud Platform
 
 - **Backend**: Django + PostgreSQL
 
@@ -35,7 +44,7 @@ Technologies:
 
 ## Folder Description
 
-**.github/workflows**: GitHub action workflows used in CI pipeline
+**.github/workflows**: GitHub action workflows used in CI/CD pipeline
 
 **Aquality_2_AI_Model_Server**: AI model build using Yolov3 and LabelImg helps to recognize insects
 
@@ -48,6 +57,9 @@ Technologies:
 ## Installation
 
 Installation setps please chekc each foder.
+Auality V2 Mobile App is avaliable on Google Play Store,and scan the QR code to download the app: 
+
+![image](https://i.ibb.co/56wpsgv/Aquality-V2-QR-code-small-size.png)
 
 ## Screen Cuts
 
