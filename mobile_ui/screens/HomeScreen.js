@@ -3,24 +3,21 @@ import {
   View,
   StyleSheet,
   StatusBar,
-  Alert,
   Modal,
   Text,
   ActivityIndicator,
+  Image
 } from 'react-native';
-import {Button, colors} from 'react-native-elements';
+import {Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
 import {useTheme} from '@react-navigation/native';
 import testVariables from '../appium_automation_testing/test_variables';
 import GuideContent from '../components/safetyGuide';
-import {IconButton, Colors, Button as PaperBtn} from 'react-native-paper';
+import { Colors, Button as PaperBtn} from 'react-native-paper';
 import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
 import env from '../components/env.json';
 import GetLocation from 'react-native-get-location';
-
-// import { StyleSheet, View, Text, StatusBar } from 'react-native';
-import {LinearGradient} from 'react-native-linear-gradient';
 
 const API_KEY = env.api_key;
 
@@ -87,6 +84,10 @@ const HomeScreen = ({navigation}) => {
       color: colors.text,
       fontWeight: '600',
     },
+    spinner: {
+      justifyContent: "space-around",
+      padding: 10
+    }
   });
 
   const weatherOptions = {
@@ -141,23 +142,6 @@ const HomeScreen = ({navigation}) => {
     checkUserSafetyState();
     getLocation();
   }, []);
-
-  // const getLocation = async () => {
-  // 	try {
-  // 		await Location.requestPermissionsAsync();
-  // 		const {
-  // 			coords: { latitude, longitude },
-  // 		} = await Location.getCurrentPositionAsync();
-
-  // 		getWeather(latitude, longitude);
-  // 		setIsLoading(false);
-  // 	} catch (e) {
-  // 		Alert.alert(
-  // 			'이런 🥲',
-  // 			'위치 사용에 동의하지 않으면 \n 날씨를 가져올 수 없습니다.',
-  // 		);
-  // 	}
-  // };
 
   /**
    * @function getOneTimeLocation
@@ -253,37 +237,46 @@ const HomeScreen = ({navigation}) => {
       throw new Error('Network response was not ok.');
     }
   };
-
+  
   const renderWeather = () => {
+
+
     const main = weather.main;
     const type = weatherOptions[main] ?? weatherOptions['Default'];
 
-    return (
-      <View style={styles.topContainer}>
-        <Text style={styles.icon}>{type.mainIcon}</Text>
-        <Text style={styles.temp}>{temp}℃</Text>
-        <Text style={styles.title}>{weather.main}</Text>
-        <Text style={styles.subtitle}>{weather.description}</Text>
-      </View>
-    );
+    if(location.latitude === undefined && location.longitude === undefined){
+      console.log('no location for weather');
+    }else{
+      console.log(location);
+      if (weather.id == 0) {
+        console.log("no weather");
+        return (
+          <View style={styles.spinner}>
+            <ActivityIndicator size="large" />
+          </View>
+        );
+      } else {
+        return (
+          <View style={styles.topContainer}>
+            <Text style={styles.icon}>{type.mainIcon}</Text>
+            <Text style={styles.temp}>{temp}℃</Text>
+            <Text style={styles.title}>{weather.main}</Text>
+          </View>
+        );
+      }
+    }
   };
-
-  if (weather.id == 0) {
-    console.log('no weather');
-    return (
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <ActivityIndicator size="large" />
-      </View>
-    );
-  }
 
   return (
     <View
       style={styles.container}
       accessibilityLabel={testVariables.homeScreenContainer}
       testID={testVariables.homeScreenContainer}>
-      <StatusBar barStyle={theme.dark ? 'light-content' : 'dark-content'} />
+
+      <StatusBar backgroundColor="#009387" barStyle="light-content" />
       {/* <Button title='weatherData' onPress={()=> console.log(weatherData)} /> */}
+      {/* <Image source={require('../assets/headerlogo.png')} style={{height: 100, width: 300 , position: 'absolute', top: 20}}/> */}
+
       {renderWeather()}
       <Button
         accessibilityLabel={testVariables.homeScreenTakeNewSampleButton}
@@ -296,7 +289,7 @@ const HomeScreen = ({navigation}) => {
         }}
         disabledTitleStyle={{color: '#00F'}}
         linearGradientProps={null}
-        icon={<Icon name="water" size={19} color="#0FF" />}
+        icon={<Icon name="water" size={19} color="#fff" />}
         iconContainerStyle={{background: '#000'}}
         loadingProps={{animating: true}}
         loadingStyle={{}}
@@ -316,7 +309,7 @@ const HomeScreen = ({navigation}) => {
         }}
         disabledTitleStyle={{color: '#00F'}}
         linearGradientProps={null}
-        icon={<Icon name="flask-outline" size={19} color="#0FF" />}
+        icon={<Icon name="flask-outline" size={19} color="#fff" />}
         iconContainerStyle={{background: '#000'}}
         loadingProps={{animating: true}}
         loadingStyle={{}}
@@ -325,6 +318,7 @@ const HomeScreen = ({navigation}) => {
         titleProps={{}}
         titleStyle={{marginHorizontal: 22, fontSize: 18}}
       />
+
       <Modal
         animationType="slide"
         visible={modalVisible}
@@ -348,9 +342,6 @@ const HomeScreen = ({navigation}) => {
             icon="check-circle"
             color={Colors.green500}
             size={20}
-            // onPress={() => {
-            //   setModalVisible(!modalVisible);
-            // }}>
             onPress={() => changeUserSafetyState()}>
             Accept
           </PaperBtn>
@@ -369,13 +360,3 @@ const HomeScreen = ({navigation}) => {
 };
 
 export default HomeScreen;
-const width_proportion = '100%';
-const height_proportion = '100%';
-const height = '100%';
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     height: '100%',
-//   },
-// });

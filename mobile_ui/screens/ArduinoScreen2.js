@@ -18,6 +18,10 @@ import Fontisto from 'react-native-vector-icons/Fontisto';
 import { mapDarkStyle, mapStandardStyle } from '../model/mapData';
 import { useTheme } from '@react-navigation/native';
 import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  saveSampleData,
+} from '../components/reduxStore';
 
 const { width, height } = Dimensions.get("window");
 const CARD_HEIGHT = 240;
@@ -25,6 +29,8 @@ const CARD_WIDTH = width * 0.8;
 const SPACING_FOR_CARD_INSET = width * 0.1 - 10;
 
 const ArduinoScreen = ({ navigation, route }) => {
+  const dispatch = useDispatch()
+  const sampleData = useSelector(state => state.surveyForm.sampleData)
   const theme = useTheme();
   let markers = [];
   const styles = StyleSheet.create({
@@ -79,7 +85,6 @@ const ArduinoScreen = ({ navigation, route }) => {
       paddingRight: width - CARD_WIDTH,
     },
     card: {
-      // padding: 10,
       elevation: 2,
       backgroundColor: theme.colors.background,
       borderTopLeftRadius: 5,
@@ -102,7 +107,6 @@ const ArduinoScreen = ({ navigation, route }) => {
       marginTop: 5,
       marginBottom: 5,
       fontWeight: "bold",
-      //textDecorationLine: 'underline',
       color: theme.colors.text,
     },
     cardDescription: {
@@ -288,6 +292,7 @@ const ArduinoScreen = ({ navigation, route }) => {
         }
       };
     }
+    
     setState({
       ...state,
       markers: tempArr,
@@ -403,7 +408,7 @@ const ArduinoScreen = ({ navigation, route }) => {
 
               <View style={styles.button}>
                 <TouchableOpacity
-                  onPress={() => { navigation.navigate('InsectScreen',{riverData: route.params.riverData, surveyData: route.params.surveyData, currentLocation: route.params.currentLocation, sensorData: marker.data, surrounding: route.params.surrounding}) }}
+                  onPress={() => { dispatch(saveSampleData({...sampleData, sensorData: marker.data }));navigation.navigate('InsectScreen',{riverData: route.params.riverData, surveyData: route.params.surveyData, currentLocation: route.params.currentLocation, sensorData: marker.data, surrounding: route.params.surrounding}) }}
                   style={[styles.signIn, {
                     backgroundColor: '#009387',
                   }]}

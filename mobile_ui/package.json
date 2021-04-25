@@ -1,6 +1,7 @@
 {
-  "name": "rnv5",
-  "version": "0.0.1",
+  "name": "Aqualityv2",
+  "version": "1.0.1",
+  "android_version_code": 3,
   "private": true,
   "scripts": {
     "android": "react-native run-android",
@@ -18,6 +19,7 @@
     "@react-native-picker/picker": "^1.9.8",
     "@react-navigation/drawer": "^5.1.1",
     "@react-navigation/material-bottom-tabs": "^5.1.6",
+    "@react-navigation/material-top-tabs": "^5.3.15",
     "@react-navigation/native": "^5.0.6",
     "@react-navigation/stack": "^5.0.6",
     "moment": "^2.29.1",
@@ -44,6 +46,7 @@
     "react-native-screens": "^2.0.0-beta.8",
     "react-native-selection-group": "^2.0.0",
     "react-native-simple-survey": "^3.1.2",
+    "react-native-tab-view": "^2.16.0",
     "react-native-vector-icons": "^7.1.0",
     "react-redux": "^7.2.2",
     "reanimated-bottom-sheet": "^1.0.0-alpha.22",

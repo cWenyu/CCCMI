@@ -352,7 +352,7 @@ class SurveyComponent extends Component {
     renderNumeric() {
         const { survey, renderNumericInput, containerStyle } = this.props;
         const currentQuestionIndex = this.props.surveyForm.currentQuestionIndex;
-        const answers = this.props.surveyForm.answers;action
+        const answers = this.props.surveyForm.answers;
         const { questionText, questionId, placeholderText = null, defaultValue = '' } = survey[currentQuestionIndex];
 
         if (answers[currentQuestionIndex] === undefined && (defaultValue || defaultValue === 0) && Number.isInteger(parseInt(`${defaultValue}`, 10))) {

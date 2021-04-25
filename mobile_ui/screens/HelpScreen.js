@@ -12,20 +12,21 @@ const HelpScreen = ({ navigation }) => {
       alignItems: 'center',
     },
     header: {
-      backgroundColor: '#ededed',
+      backgroundColor: colors.background,
       height: 160,
       width: '100%',
+
     },
     headerText: {
       paddingTop: 50,
       paddingLeft: 20,
       fontSize: 30,
-      color: '#424242',
+      color: colors.text,
     },
     headerTextSub:{
       paddingLeft: 23,
       fontSize: 13,
-      color: '#424242',
+      color: colors.text,
     },
     headerTitle: {
       height: 60,
@@ -35,11 +36,11 @@ const HelpScreen = ({ navigation }) => {
       paddingTop: 20,
       paddingLeft: 20,
       fontSize: 14,
-      color: '#424242',
+      color: colors.text,
       fontWeight: 'bold',
     },
     title: {
-      color: 'black',
+      color: colors.text,
     },
     listContainer: {
       backgroundColor: colors.background,
@@ -62,7 +63,7 @@ const HelpScreen = ({ navigation }) => {
 
         <ListItem
           Component={TouchableHighlight}
-          containerStyle={{}}
+          containerStyle={styles.listContainer}
           disabledStyle={{ opacity: 0.5 }}
           bottomDivider
           topDivider
@@ -71,11 +72,8 @@ const HelpScreen = ({ navigation }) => {
         >
           <ListItem.Content>
             <ListItem.Title>
-              <Text>Take Sample</Text>
+              <Text style={styles.title}>Take Sample</Text>
             </ListItem.Title>
-            {/* <ListItem.Subtitle>
-              <Text>React Native Elements</Text>
-            </ListItem.Subtitle> */}
           </ListItem.Content>
           <ListItem.Chevron />
         </ListItem>
@@ -84,7 +82,7 @@ const HelpScreen = ({ navigation }) => {
       <View style={styles.listContainer}>
         <ListItem
           Component={TouchableHighlight}
-          containerStyle={{}}
+          containerStyle={styles.listContainer}
           disabledStyle={{ opacity: 0.5 }}
           bottomDivider
           topDivider
@@ -93,11 +91,8 @@ const HelpScreen = ({ navigation }) => {
         >
           <ListItem.Content>
             <ListItem.Title>
-              <Text>View Sample</Text>
+              <Text style={styles.title}>View Sample</Text>
             </ListItem.Title>
-            {/* <ListItem.Subtitle>
-        <Text>React Native Elements</Text>
-      </ListItem.Subtitle> */}
           </ListItem.Content>
           <ListItem.Chevron />
         </ListItem>

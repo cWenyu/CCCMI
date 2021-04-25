@@ -13,7 +13,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {useTheme} from '@react-navigation/native';
 import testVariables from '../appium_automation_testing/test_variables';
-
+import {ListItem, Avatar, Card} from 'react-native-elements';
 const SplashScreen = ({navigation}) => {
   const {colors} = useTheme();
 
@@ -27,16 +27,17 @@ const SplashScreen = ({navigation}) => {
         <Animatable.Image
           animation="bounceIn"
           duraton="1500"
-          source={require('../assets/2.0.png')}
+          source={require('../assets/splashscreen.png')}
           style={styles.logo}
           resizeMode="center"
         />
       </View>
+
       <Animatable.View
         style={[
           styles.footer,
           {
-            backgroundColor: colors.background,
+            backgroundColor: '#009387',
           },
         ]}
         animation="fadeInUpBig">
@@ -44,7 +45,7 @@ const SplashScreen = ({navigation}) => {
           style={[
             styles.title,
             {
-              color: colors.text,
+              color: 'white',
             },
           ]}>
           Search. Connect. Sample.
@@ -63,6 +64,20 @@ const SplashScreen = ({navigation}) => {
             </LinearGradient>
           </TouchableOpacity>
         </View>
+
+        <View
+          style={{
+            position: 'absolute',
+            justifyContent: 'center',
+            alignItems: 'center',
+            alignSelf: 'center',
+            bottom: 0,
+          }}>
+          <ListItem containerStyle={{backgroundColor: 'transparent'}}>
+            <Avatar source={{uri: 'https://i.ibb.co/YRSzzC7/cccmi-logo.png'}}/>
+            <Text style={{color: 'white', fontSize: 18}}>CCCMI</Text>
+          </ListItem>
+        </View>
       </Animatable.View>
     </View>
   );
@@ -71,12 +86,12 @@ const SplashScreen = ({navigation}) => {
 export default SplashScreen;
 
 const {height} = Dimensions.get('screen');
-const height_logo = height * 0.4;
+const height_logo = height;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#009387',
+    backgroundColor: '#fff',
   },
   header: {
     flex: 2,
@@ -85,7 +100,7 @@ const styles = StyleSheet.create({
   },
   footer: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#009387',
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     paddingVertical: 50,
@@ -101,7 +116,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   text: {
-    color: 'grey',
+    color: 'white',
     marginTop: 5,
   },
   button: {

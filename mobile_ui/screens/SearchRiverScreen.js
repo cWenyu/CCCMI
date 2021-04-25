@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   StyleSheet,
@@ -8,27 +8,25 @@ import {
   BackHandler,
   Alert,
 } from 'react-native';
-import { Button } from 'react-native-elements';
+import {Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { Text } from 'react-native-elements';
-import { useTheme } from '@react-navigation/native';
+import {Text} from 'react-native-elements';
+import {useTheme} from '@react-navigation/native';
 import testVariables from '../appium_automation_testing/test_variables';
-import LinearGradient from 'react-native-linear-gradient';
 import GetLocation from 'react-native-get-location';
-import { FlatList } from 'react-native-gesture-handler';
-import { color } from 'react-native-reanimated';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
-import {
-  resetSurveyForm,
-  updateSelectionHandlers,
-  updateQIndex,
-  updateAnswers,
-} from '../components/reduxStore';
-import {useDispatch} from 'react-redux';
+
+import {FlatList} from 'react-native-gesture-handler';
+import {color} from 'react-native-reanimated';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
+import {resetSurveyForm, saveSampleData} from '../components/reduxStore';
+import {useDispatch, useSelector} from 'react-redux';
 
 const riverURL = 'https://cccmi-aquality.tk/aquality_server/rivers/';
 
-const SearchRiverScreen = ({ navigation, route }) => {
+const SearchRiverScreen = ({navigation, route}) => {
+  const dispatch = useDispatch();
+  const sampleData = useSelector(state => state.surveyForm.sampleData);
+
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => {
     !isEnabled && getOneTimeLocation();
@@ -42,7 +40,6 @@ const SearchRiverScreen = ({ navigation, route }) => {
     longitude: undefined,
   });
   const [data, setData] = useState([]);
-  const dispatch = useDispatch();
 
   useEffect(() => {
     //get Location Permission, get location and set location
@@ -51,30 +48,36 @@ const SearchRiverScreen = ({ navigation, route }) => {
       setSearchInput(searchInput);
     }
     if (route.params?.surveyData) {
-
       console.log(JSON.stringify(route.params));
     }
     requestLocationPermission();
 
-    BackHandler.addEventListener("hardwareBackPress", backAction);
+    BackHandler.addEventListener('hardwareBackPress', backAction);
 
     return () =>
-      BackHandler.removeEventListener("hardwareBackPress", backAction);
+      BackHandler.removeEventListener('hardwareBackPress', backAction);
   }, [route.params?.surveyData]);
 
   const backAction = () => {
-    Alert.alert("Hold on!", "Go back to Home will not save your proccess of taking sample.", [
-      {
-        text: "Cancel",
-        onPress: () => null,
-        style: "cancel"
-      },
-      { text: "BACK", onPress: () => {
-        dispatch(resetSurveyForm());
-        navigation.navigate('SurveyPage');
-        navigation.navigate('HomeScreen');
-      }, }
-    ]);
+    Alert.alert(
+      'Hold on!',
+      'Go back to Home will not save your proccess of taking sample.',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => null,
+          style: 'cancel',
+        },
+        {
+          text: 'BACK',
+          onPress: () => {
+            dispatch(resetSurveyForm());
+            navigation.navigate('SurveyPage');
+            navigation.navigate('HomeScreen');
+          },
+        },
+      ],
+    );
     return true;
   };
 
@@ -91,10 +94,6 @@ const SearchRiverScreen = ({ navigation, route }) => {
       try {
         const granted = await PermissionsAndroid.request(
           PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-          // {
-          //   title: 'Location Access Required',
-          //   message: 'This App needs to Access your location',
-          // },
         );
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
           //To Check, If Permission is granted
@@ -129,11 +128,11 @@ const SearchRiverScreen = ({ navigation, route }) => {
         const currentLatitude = JSON.stringify(position.latitude);
 
         //Setting Longitude state
-        setLocation({ latitude: currentLatitude, longitude: currentLongitude });
+        setLocation({latitude: currentLatitude, longitude: currentLongitude});
         setSearchInput(currentLatitude + ',' + currentLongitude);
       })
       .catch(error => {
-        setLocationStatus({ locationStatus: error.message });
+        setLocationStatus({locationStatus: error.message});
       });
   };
 
@@ -147,22 +146,41 @@ const SearchRiverScreen = ({ navigation, route }) => {
             accessibilityLabel={testVariables.flatlistItem}
             testID={testVariables.flatlistItem}
             key={el.river_id}
-            title={el.river_name.toString()}
-            onPress={() =>
-              navigation.navigate('SearchRiverScreen2', { riverData: el, surveyData: route.params.surveyData[0], currentLocation:location, surrounding: route.params.surrounding })
+            title={
+              el.river_name.toString() + '\n' + el.distance.toFixed(2) + 'km'
             }
-            buttonStyle={{ width: 310, height: 55, backgroundColor: '#02ab9e', borderRadius: 5, }}
-            containerStyle={{ margin: 5, alignItems: 'center', marginTop: 20 }}
+            onPress={() => {
+              dispatch(
+                saveSampleData({
+                  ...sampleData,
+                  riverData: el,
+                  currentLocation: location,
+                }),
+              );
+              navigation.navigate('SearchRiverScreen2', {
+                riverData: el,
+                surveyData: route.params.surveyData[0],
+                currentLocation: location,
+                surrounding: route.params.surrounding,
+              });
+            }}
+            buttonStyle={{
+              width: 310,
+              height: 55,
+              backgroundColor: '#02ab9e',
+              borderRadius: 5,
+            }}
+            containerStyle={{margin: 5, alignItems: 'center', marginTop: 20}}
             disabledStyle={{
               borderWidth: 2,
               borderColor: '#00F',
             }}
-            disabledTitleStyle={{ color: '#00F' }}
+            disabledTitleStyle={{color: '#00F'}}
             linearGradientProps={null}
-            loadingProps={{ animating: true }}
+            loadingProps={{animating: true}}
             loadingStyle={{}}
             titleProps={{}}
-            titleStyle={{ marginHorizontal: 22, fontSize: 18 }}
+            titleStyle={{marginHorizontal: 22, fontSize: 18}}
           />,
         );
       });
@@ -189,7 +207,7 @@ const SearchRiverScreen = ({ navigation, route }) => {
   /**
    *Styles
    */
-  const { colors } = useTheme();
+  const {colors} = useTheme();
   const styles = StyleSheet.create({
     container: {
       flex: 1,
@@ -232,8 +250,8 @@ const SearchRiverScreen = ({ navigation, route }) => {
     },
     locateIcon: {
       marginLeft: 3,
-      paddingRight:0,
-    }
+      paddingRight: 0,
+    },
   });
 
   return (

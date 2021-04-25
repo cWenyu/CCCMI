@@ -3,8 +3,6 @@ import {View, Text, Button, StyleSheet, BackHandler,} from 'react-native';
 
 import {useTheme} from '@react-navigation/native';
 import GuideContent from '../components/safetyGuide';
-import {ScrollView} from 'react-native-gesture-handler';
-import { useDispatch } from 'react-redux';
 
 const SafetyGuideScreen = ({ navigation }) => {
   const {colors} = useTheme();

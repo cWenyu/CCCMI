@@ -31,9 +31,7 @@ const AnalyzeScreen = ({navigation}) => {
   const bs = React.createRef();
   const fall = new Animated.Value(1);
   const [modalVisible, setModalVisible] = useState(false);
-  // const [detectedInsect, setDetectedInsect] = useState('caenis');
-  const [count, setCount] = useState('6');
-  const [confidence, setConfidence] = useState('');
+  const [count, setCount] = useState(6);
   const [loading, setLoading] = useState(false);
   const [insectList, setInsectList] = useState([]);
   const [AIR, setAIR] = useState({
@@ -45,7 +43,6 @@ const AnalyzeScreen = ({navigation}) => {
     tail_count: 0,
   });
 
-  const [innerVisible, setInnerVisible] = useState(false);
 
   useEffect(() => {
     requestCameraPermission();
@@ -122,7 +119,7 @@ const AnalyzeScreen = ({navigation}) => {
 
       let response = await axios({
         method: 'post',
-        url: 'https://aquality2-306820.nw.r.appspot.com/ai_model/detect_image/',
+        url: 'https://aqualityv2.ew.r.appspot.com/ai_model/detect_image/',
         data: form,
         headers: {'Content-Type': 'multipart/form-data'},
       });
@@ -133,7 +130,6 @@ const AnalyzeScreen = ({navigation}) => {
       if (response.data.object.detected_image == false) {
         alert('No insect is detected.');
       } else {
-        // alert(response.data.object.class_label + ' ' + response.data.object.predicted_count)
         let res = {
           class_label: response.data.object.class_label,
           confidence: response.data.object.confidence,
@@ -213,14 +209,35 @@ const AnalyzeScreen = ({navigation}) => {
   const handleConfirm = () => {
     const insect = {
       insect_name: AIR.class_label,
-      amount: count.toString(),
+      amount: count,
       insect_image: image,
     };
-    insectList.push(insect);
-    setModalVisible(!modalVisible);
-    // navigation.navigate('Insect', {
-    //   insect: insect
-    // });
+
+    var found = false;
+    for(var i = 0; i < insectList.length; i++) {
+      if (insectList[i].insect_name == insect.insect_name) {
+          found = true;
+          break;
+      }
+    }
+
+    if(found) {
+      Alert.alert(
+        "Duplicate insect found",
+        "Do you want to add up the count?",
+        [
+          {
+            text: "Cancel",
+            onPress: () => setModalVisible(!modalVisible),
+            style: "cancel"
+          },
+          { text: "OK", onPress: () => {let objIndex = insectList.findIndex((obj => obj.insect_name == insect.insect_name));insectList[objIndex].amount += parseInt(insect.amount); setModalVisible(!modalVisible)} }
+        ]
+      );
+    } else {
+      insectList.push(insect);
+      setModalVisible(!modalVisible);
+    }
   };
 
   const renderAnalysedInsect = () => {
@@ -360,7 +377,6 @@ const AnalyzeScreen = ({navigation}) => {
                 borderBottomWidth={1}
               />
             </View>
-            {/* <Text style={{fontWeight: 'bold', alignSelf: 'flex-start'}}>Confidence: {confidence}</Text> */}
             <Button
               title="Confirm"
               onPress={() => handleConfirm()}
@@ -496,8 +512,6 @@ const AnalyzeScreen = ({navigation}) => {
         testID={testVariables.analysisInsectSaveButton}
       />
 
-      {/* <Button title="open modal" onPress={() => openModal()} /> */}
-
       <ScrollView>
         {renderModal()}
         {renderAnalysedInsect()}
@@ -523,7 +537,6 @@ const styles = StyleSheet.create({
     shadowOffset: {width: -1, height: -3},
     shadowRadius: 2,
     shadowOpacity: 0.4,
-    // elevation: 5,
     paddingTop: 20,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,

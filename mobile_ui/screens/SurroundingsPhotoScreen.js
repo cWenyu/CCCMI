@@ -1,4 +1,4 @@
-import React, {useRef, useEffect, useState} from 'react';
+import React, { useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -20,25 +20,23 @@ import ImagePicker from 'react-native-image-crop-picker';
 import AsyncStorage from '@react-native-community/async-storage';
 import {
   resetSurveyForm,
-  updateSelectionHandlers,
-  updateQIndex,
-  updateAnswers,
+  saveSampleData,
 } from '../components/reduxStore';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 const SurroundingsPhotoScreen = ({navigation, route}) => {
+  const dispatch = useDispatch();
+  const sampleData = useSelector(state => state.surveyForm.sampleData);
+
   useEffect(() => {
     if (route.params?.surveyData) {
       console.log(JSON.stringify(route.params));
     }
   }, [route.params?.surveyData]);
-  const dispatch = useDispatch();
   const {colors} = useTheme();
   const [dataSource, setDataSource] = useState([]);
-  const [imageBase64, setImageBase64] = useState([]);
   const [image, setImage] = useState({url: '', index: 0});
   const [modalVisibleStatus, setModalVisibleStatus] = useState(false);
-  const [surveyPhoto, setSurveyPhoto] = useState({surveyPhotos: []});
   const [buttonStyle, setButtonStyle] = useState({
     flex: 1,
     margin: null,
@@ -56,7 +54,6 @@ const SurroundingsPhotoScreen = ({navigation, route}) => {
     container: {
       flex: 1,
       backgroundColor: colors.background,
-      // backgroundColor: '#ffffff',
     },
     titleStyle: {
       padding: 16,
@@ -355,6 +352,10 @@ const SurroundingsPhotoScreen = ({navigation, route}) => {
           let surveyPhotosObj = {
             surveyPhotos: arr,
           };
+          dispatch(
+            saveSampleData({...sampleData, surrounding: surveyPhotosObj}),
+          );
+
           navigation.navigate('SearchRiverScreen', {
             surveyData: route.params.surveyData,
             surrounding: surveyPhotosObj,
@@ -367,7 +368,7 @@ const SurroundingsPhotoScreen = ({navigation, route}) => {
   const renderSkipButton = () => {
     return (
       <Button
-        buttonStyle={{width: 95, height: 35, backgroundColor: colors.backdrop}}
+        buttonStyle={{width: 100, height: 35, backgroundColor: colors.backdrop}}
         containerStyle={{
           margin: 5,
           alignItems: 'center',
@@ -388,9 +389,9 @@ const SurroundingsPhotoScreen = ({navigation, route}) => {
             surveyData: route.params.surveyData,
           })
         }
-        title="skip"
+        title="Skip"
         titleProps={{}}
-        titleStyle={{marginHorizontal: 22, fontSize: 18}}
+        titleStyle={{marginHorizontal: 22, fontSize: 17}}
       />
     );
   };
@@ -410,7 +411,7 @@ const SurroundingsPhotoScreen = ({navigation, route}) => {
         }}
         disabledTitleStyle={{color: '#00F'}}
         linearGradientProps={null}
-        icon={<Icon name="camera" size={19} color="#0FF" />}
+        icon={<Icon name="camera" size={19} color="#FFF" />}
         iconContainerStyle={{background: '#000'}}
         loadingProps={{animating: true}}
         loadingStyle={{}}

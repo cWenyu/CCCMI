@@ -7,6 +7,7 @@ import {
   Platform,
   StyleSheet,
   StatusBar,
+  Dimensions
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
@@ -66,7 +67,8 @@ const SignInScreen = ({navigation}) => {
         var bodyFormData = new FormData();
         bodyFormData.append('username', userName);
         bodyFormData.append('password', password);
-
+        console.log(userName);
+        console.log(password);
         let response = await axios({
           method: 'post',
           url:
@@ -74,9 +76,9 @@ const SignInScreen = ({navigation}) => {
           data: bodyFormData,
           headers: {'Content-Type': 'multipart/form-data'},
         });
-
+        console.log(response);
         if (response && response.data && response.data.status) {
-          // console.log(JSON.stringify(response.data));
+          console.log(JSON.stringify(response.data));
           if (response.data.status === 'Login Success') {
             await AsyncStorage.setItem('username', response.data.user_username);
             await AsyncStorage.setItem(
@@ -87,7 +89,21 @@ const SignInScreen = ({navigation}) => {
               'userID',
               response.data.user_id.toString(),
             );
-            signIn(response.data.user_username);
+
+            await AsyncStorage.setItem(
+              'isFirstTime',
+              response.data.user_first_time_login.toString(),
+            );
+            console.log("response.data.user_first_time_login")
+              console.log(response.data);
+            console.log(response.data.user_first_time_login)
+
+            // signIn(response.data.user_username, response.data.isFirstTime.toString());
+            signIn(response.data.user_username, response.data.user_first_time_login ? "true": "false");
+
+
+            // signIn(response.data.user_username, "true");
+
           } else {
             setData({
               ...data,
@@ -187,7 +203,7 @@ const SignInScreen = ({navigation}) => {
           </TouchableOpacity>
         </View>
 
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('ForgetPassword')}>
           <Text style={{color: '#009387', marginTop: 15}}>
             Forgot password?
           </Text>
@@ -226,27 +242,6 @@ const SignInScreen = ({navigation}) => {
               </Text>
             </LinearGradient>
           </TouchableOpacity>
-
-          {/* <TouchableOpacity
-            onPress={() => navigation.navigate('SignUpScreen')}
-            style={[
-              styles.signIn,
-              {
-                borderColor: '#009387',
-                borderWidth: 1,
-                marginTop: 15,
-              },
-            ]}>
-            <Text
-              style={[
-                styles.textSign,
-                {
-                  color: '#009387',
-                },
-              ]}>
-              Sign Up
-            </Text>
-          </TouchableOpacity> */}
         </View>
       </Animatable.View>
     </View>

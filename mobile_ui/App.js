@@ -5,9 +5,10 @@
  * @format
  * @flow
  */
-// import Icon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
+
 import React, {useEffect} from 'react';
-import {View, ActivityIndicator, Button, Alert} from 'react-native';
+import {View, ActivityIndicator, Button, Alert, Image} from 'react-native';
+
 import {
   NavigationContainer,
   DefaultTheme as NavigationDefaultTheme,
@@ -23,7 +24,6 @@ import {
 import {createStackNavigator} from '@react-navigation/stack';
 import {DrawerContent} from './screens/DrawerContent';
 import Icon from 'react-native-vector-icons/Ionicons';
-import MainTabScreen from './screens/MainTabScreen';
 import SafetyGuideScreen from './screens/SafetyGuideScreen';
 import SettingsScreen from './screens/SettingsScreen';
 import ArduinoScreen from './screens/ArduinoScreen';
@@ -36,12 +36,12 @@ import selectInsect1 from './screens/selectInsect1';
 import AnalyzeInsect from './screens/AnalyzeInsect';
 import ResultPage from './screens/ResultPage';
 import OnboardingScreen2 from './screens/OnboardingScreen2';
-import uploadImage from './screens/uploadImage';
+
 import {AuthContext} from './components/context';
+
 import RootStackScreen from './screens/RootStackScreen';
 import AsyncStorage from '@react-native-community/async-storage';
 import HomeScreen from './screens/HomeScreen';
-import testVariables from './appium_automation_testing/test_variables';
 import SampleHistoryScreen from './screens/SampleHistoryScreen';
 import HistoryDetail from './screens/HistoryDetail';
 import HistoryList from './screens/HistoryList';
@@ -50,17 +50,20 @@ import store from './components/reduxStore';
 import ReportProblem from './screens/ReportProblem';
 import PolicyTermsScreen from './screens/PolicyTermsScreen';
 import HelpScreen from './screens/HelpScreen';
+import ChangePassword from './screens/ChangePassword';
+import SetPassword from './screens/SetPassword';
 import HelpScreenTakeSample from './screens/HelpScreenTakeSample';
 import HelpScreenViewSample from './screens/HelpScreenViewSample';
+import ReviewRiver from './screens/ReviewRiver';
+import ReviewSensor from './screens/ReviewSensor';
+import ReviewInsect from './screens/ReviewInsect';
 
-import {
-  resetSurveyForm,
-  updateSelectionHandlers,
-  updateQIndex,
-  updateAnswers,
-} from './components/reduxStore';
+import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+
+import {resetSurveyForm} from './components/reduxStore';
+
 import {useDispatch} from 'react-redux';
-import {StackActions} from '@react-navigation/native';
+
 import SurroundingsPhotoScreen from './screens/SurroundingsPhotoScreen';
 import InsectsPhotoScreen from './screens/InsectsPhotoScreen';
 
@@ -75,6 +78,7 @@ const App = () => {
   const initialLoginState = {
     isLoading: true,
     username: null,
+    isFirstTime: 'false',
   };
 
   const CustomDefaultTheme = {
@@ -114,6 +118,12 @@ const App = () => {
           ...prevState,
           username: action.username,
           isLoading: false,
+          isFirstTime: action.isFirstTime,
+        };
+      case 'SET_FIRSTTIME':
+        return {
+          ...prevState,
+          isFirstTime: 'false',
         };
       case 'LOGOUT':
         return {
@@ -137,10 +147,11 @@ const App = () => {
 
   const authContext = React.useMemo(
     () => ({
-      signIn: async userName => {
+      signIn: async (userName, isFirst = false) => {
         try {
           await AsyncStorage.setItem('username', userName);
-          dispatch({type: 'LOGIN', userName: userName});
+          await AsyncStorage.setItem('isFirstTime', isFirst ? 'true' : 'false');
+          dispatch({type: 'LOGIN', userName: userName, isFirstTime: isFirst});
         } catch (e) {
           console.log(e);
         }
@@ -153,6 +164,9 @@ const App = () => {
         }
         dispatch({type: 'LOGOUT'});
       },
+      updateSetFirstTime: async () => {
+        dispatch({type: 'SET_FIRSTTIME'});
+      },
       signUp: () => {},
       toggleTheme: () => {
         setIsDarkTheme(isDarkTheme => !isDarkTheme);
@@ -163,12 +177,16 @@ const App = () => {
 
   useEffect(() => {
     const getData = async () => {
-      let username;
+      let username, isFirst;
       username = null;
+      isFirst = "false";
       try {
         username = await AsyncStorage.getItem('username');
+        isFirst = await AsyncStorage.getItem('isFirstTime');
+
+        console.log( isFirst == "true")
         if (username) {
-          authContext.signIn(username);
+          authContext.signIn(username, isFirst == "true");
           //TODO: call the endpoint to get user data
         } else {
           dispatch({type: 'LOGOUT'});
@@ -188,6 +206,57 @@ const App = () => {
       </View>
     );
   }
+
+  const Tab = createMaterialTopTabNavigator();
+
+  const ReviewTabStackScreen = ({navigation, route}) => (
+    <Tab.Navigator>
+      <Tab.Screen
+        name="ReviewRiver"
+        component={ReviewRiver}
+        options={{
+          title: 'River',
+        }}
+      />
+      <Tab.Screen
+        name="ReviewSensor"
+        component={ReviewSensor}
+        options={{
+          title: 'Sensor',
+        }}
+      />
+      <Tab.Screen
+        name="ReviewInsect"
+        component={ReviewInsect}
+        options={{
+          title: 'Insect',
+        }}
+      />
+    </Tab.Navigator>
+  );
+
+  const loginSetPassword = createStackNavigator();
+  const LoginSetPasswordScreen = ({navigation}) => (
+    <loginSetPassword.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: '#009387',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+      }}>
+      <loginSetPassword.Screen
+        name="SetPassword"
+        component={SetPassword}
+        options={{
+          title: 'Set Password',
+        }}
+      />
+    </loginSetPassword.Navigator>
+  );
+
   const HomeStack = createStackNavigator();
   const HomeStackScreen = ({navigation}) => (
     <HomeStack.Navigator
@@ -204,7 +273,20 @@ const App = () => {
         name="Home"
         component={HomeScreen}
         options={{
-          title: 'Home',
+          headerTitle: () => (
+            <View>
+              <Image
+                resizeMode="cover"
+                source={require('./assets/headerlogo2.png')}
+                style={{
+                  height: 50,
+                  width: 300,
+                  resizeMode: 'contain',
+                  alignSelf: 'center',
+                }}
+              />
+            </View>
+          ),
           headerLeft: () => (
             <Icon.Button
               name="ios-menu"
@@ -213,15 +295,17 @@ const App = () => {
               onPress={() => navigation.openDrawer()}
             />
           ),
+          headerRight: () => <View />,
         }}
       />
 
       {/* add screen here */}
+
       <HomeStack.Screen
         name="SampleHistoryScreen"
         component={SampleHistoryScreen}
         options={{
-          title: 'SampleHistoryScreen',
+          title: 'Sample History',
           headerLeft: () => (
             <Icon.Button
               name="ios-menu"
@@ -232,38 +316,11 @@ const App = () => {
           ),
         }}
       />
-      {/* <HomeStack.Screen
-        name="SurroundingsPhotoScreen"
-        component={SurroundingsPhotoScreen}
-        options={{
-          title: 'Sample Surroundings',
-          headerRight: () => (
-            <Icon.Button
-              name="information-circle-outline"
-              size={25}
-              backgroundColor="#009387"
-              onPress={() =>
-                Alert.alert(
-                  'What to do?',
-                  'Upload images of the surroundings of sample site here.',
-                )
-              }
-            />
-          ),
-          headerStyle: {
-            backgroundColor: '#009387',
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },
-        }}
-      /> */}
       <HomeStack.Screen
         name="HistoryDetail"
         component={HistoryDetail}
         options={{
-          title: 'Sample History',
+          title: 'Sample Details',
           headerStyle: {
             backgroundColor: '#009387',
           },
@@ -277,7 +334,7 @@ const App = () => {
         name="HistoryList"
         component={HistoryList}
         options={{
-          title: 'History List',
+          title: 'Sample List',
           headerStyle: {
             backgroundColor: '#009387',
           },
@@ -287,6 +344,7 @@ const App = () => {
           },
         }}
       />
+
       <HomeStack.Screen
         name="SearchRiverScreen"
         component={SearchRiverScreen}
@@ -305,7 +363,7 @@ const App = () => {
         name="SearchRiverScreen2"
         component={SearchRiverScreen2}
         options={{
-          title: 'Confirm Riverr',
+          title: 'Confirm River',
           headerStyle: {
             backgroundColor: '#009387',
           },
@@ -324,22 +382,7 @@ const App = () => {
 
     return (
       <TakeSampleStack.Navigator initialRouteName="SurveyPage">
-        <TakeSampleStack.Screen
-          name="ReportProblem"
-          component={ReportProblem}
-          options={{
-            title: 'Report Problem',
-            headerStyle: {
-              backgroundColor: '#009387',
-            },
-            headerTintColor: '#fff',
-            headerTitleStyle: {
-              fontWeight: 'bold',
-            },
-          }}
-        />
-
-        <TakeSampleStack.Screen
+        {/* <TakeSampleStack.Screen
           name="OnboardingScreen2"
           component={OnboardingScreen2}
           options={{
@@ -352,7 +395,7 @@ const App = () => {
               fontWeight: 'bold',
             },
           }}
-        />
+        /> */}
 
         <TakeSampleStack.Screen
           name="SurveyPage"
@@ -489,7 +532,7 @@ const App = () => {
           name="SearchRiverScreen2"
           component={SearchRiverScreen2}
           options={{
-            title: 'Confirm River',
+            title: 'Select River',
             headerStyle: {
               backgroundColor: '#009387',
             },
@@ -532,7 +575,7 @@ const App = () => {
           name="ArduinoScreen"
           component={ArduinoScreen}
           options={{
-            title: 'Sensor Device',
+            title: 'Connect Sensors',
             headerStyle: {
               backgroundColor: '#009387',
             },
@@ -575,7 +618,7 @@ const App = () => {
           name="ArduinoScreen2"
           component={ArduinoScreen2}
           options={{
-            title: 'Connect Sensor Device',
+            title: '',
             headerStyle: {
               backgroundColor: '#009387',
             },
@@ -661,7 +704,7 @@ const App = () => {
           name="selectInsect1"
           component={selectInsect1}
           options={{
-            title: 'Select Insect',
+            title: 'Select Insects',
             headerStyle: {
               backgroundColor: '#009387',
             },
@@ -676,7 +719,7 @@ const App = () => {
           name="AnalyzeInsect"
           component={AnalyzeInsect}
           options={{
-            title: 'Analyze Insect',
+            title: 'Analyze Insects',
             headerStyle: {
               backgroundColor: '#009387',
             },
@@ -686,7 +729,21 @@ const App = () => {
             },
           }}
         />
-
+        <TakeSampleStack.Screen
+          name="Report Problem"
+          component={ReportProblem}
+          options={{
+            // title: 'Introduction of Taking Sample',
+            headerStyle: {
+              backgroundColor: '#009387',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}
+          
+        />
         <TakeSampleStack.Screen
           name="UploadInsectsPhoto"
           component={InsectsPhotoScreen}
@@ -705,6 +762,21 @@ const App = () => {
         <TakeSampleStack.Screen
           name="ResultPage"
           component={ResultPage}
+          options={{
+            title: 'Review',
+            headerStyle: {
+              backgroundColor: '#009387',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}
+        />
+
+        <TakeSampleStack.Screen
+          name="ReviewTab"
+          component={ReviewTabStackScreen}
           options={{
             title: 'Review',
             headerStyle: {
@@ -780,18 +852,19 @@ const App = () => {
   );
 
   const HelpStack = createStackNavigator();
-  const HelpStackScreen = ({navigation}) => (
-    <HelpStack.Navigator screenOptions={{
-      headerStyle: {
-        backgroundColor: '#009387',
-      },
-      headerTintColor: '#fff',
-      headerTitleStyle: {
-        fontWeight: 'bold',
-      },
-    }}>
 
-    <HelpStack.Screen
+  const HelpStackScreen = ({navigation}) => (
+    <HelpStack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: '#009387',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+      }}>
+      <HelpStack.Screen
         name="HelpScreen"
         component={HelpScreen}
         options={{
@@ -811,7 +884,7 @@ const App = () => {
         name="HelpScreenTakeSample"
         component={HelpScreenTakeSample}
         options={{
-          title: 'HelpScreenTakeSample',
+          title: ' ',
         }}
       />
 
@@ -819,46 +892,87 @@ const App = () => {
         name="HelpScreenViewSample"
         component={HelpScreenViewSample}
         options={{
-          title: 'HelpScreenViewSample',
+          title: ' ',
+        }}
+      />
+    </HelpStack.Navigator>
+  );
+
+  const SettingStack = createStackNavigator();
+  const SettingStackScreen = ({navigation}) => (
+    <SettingStack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: '#009387',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+      }}>
+      <SettingStack.Screen
+        name="SettingsScreen"
+        component={SettingsScreen}
+        options={{
+          title: 'Settings',
+          headerLeft: () => (
+            <Icon.Button
+              name="ios-menu"
+              size={25}
+              backgroundColor="#009387"
+              onPress={() => navigation.openDrawer()}
+            />
+          ),
         }}
       />
 
-    </HelpStack.Navigator>
-  )
+      <SettingStack.Screen
+        name="ChangePassword"
+        component={ChangePassword}
+        options={{
+          title: 'Change Password',
+        }}
+      />
+    </SettingStack.Navigator>
+  );
 
   return (
     <Provider store={store}>
       <PaperProvider theme={theme}>
         <AuthContext.Provider value={authContext}>
           <NavigationContainer theme={theme}>
-            {loginState.username !== null ? (
-              <Drawer.Navigator
-                drawerContent={props => <DrawerContent {...props} />}>
-                <Drawer.Screen name="HomeScreen" component={HomeStackScreen} />
-                <Drawer.Screen
-                  name="TakeSampleScreen"
-                  component={TakeSampleStackScreen}
-                />
 
-                <Drawer.Screen
-                  name="SettingsScreen"
-                  component={SettingsScreen}
-                />
+            {loginState.username !== null ? loginState.isFirstTime == "true" ?
+              (<LoginSetPasswordScreen />)
+              : (
+                <Drawer.Navigator
+                  drawerContent={props => <DrawerContent {...props} />}>
+                  <Drawer.Screen name="HomeScreen" component={HomeStackScreen} />
+                  <Drawer.Screen
+                    name="TakeSampleScreen"
+                    component={TakeSampleStackScreen}
+                  />
 
-                <Drawer.Screen
-                  name="SafetyGuideScreen"
-                  component={SafetyStackScreen}
-                />
-                <Drawer.Screen
-                  name="PolicyTermsScreen"
-                  component={PolicyStackScreen}
-                />
-                <Drawer.Screen
-                  name="HelpScreen"
-                  component={HelpStackScreen}
-                />
-              </Drawer.Navigator>
-            ) : (
+                  <Drawer.Screen
+                    name="SettingsScreen"
+                    component={SettingStackScreen}
+                  />
+
+                  <Drawer.Screen
+                    name="SafetyGuideScreen"
+                    component={SafetyStackScreen}
+                  />
+                  <Drawer.Screen
+                    name="PolicyTermsScreen"
+                    component={PolicyStackScreen}
+                  />
+                  <Drawer.Screen
+                    name="HelpScreen"
+                    component={HelpStackScreen}
+                  />
+                </Drawer.Navigator>
+              ) : (
+
               <RootStackScreen />
             )}
           </NavigationContainer>

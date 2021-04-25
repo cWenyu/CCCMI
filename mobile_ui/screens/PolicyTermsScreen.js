@@ -1,10 +1,9 @@
 import React, {useEffect} from 'react';
-import {View, Text, Button, StyleSheet, BackHandler} from 'react-native';
+import {View, StyleSheet, BackHandler} from 'react-native';
 
 import {useTheme} from '@react-navigation/native';
 import PolicyTerms from '../components/PolicyTerms';
 import {ScrollView} from 'react-native-gesture-handler';
-import {useDispatch} from 'react-redux';
 
 const PolicyTermsScreen = ({navigation}) => {
   const {colors} = useTheme();
